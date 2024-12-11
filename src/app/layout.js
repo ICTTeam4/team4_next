@@ -6,7 +6,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body  style={{ textAlign: "center" }}>
       <header>
-        헤더를 넣어주세요!
+      <Link href={"/Register"}>회원가입</Link>
       </header>
         {children}
       <footer>
