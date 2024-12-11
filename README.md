@@ -1,29 +1,29 @@
-# team4_next
+깃허브 홈페이지 들어가기 -> repository -> team4_next
 
+(맨 처음 진행)
 
-## Issue 먼저 만들기 
-먼저 Issue에서 만드려는 기능을 제목으로 설정 하고 project 주소 등을 설정하고 확인을 누르면 브랜치를 만들 수 있습니다.
-브랜치를 만들고 나오는 코드를 git에다 복사해서 실행합니다. 그리고 코드를 작성하시면 됩니다.
+####1. Issue : New issue 만들기 -> 개발예정 (기능이나 업데이트, 버그 수정)
+####1_1. create a branch -> Repository destination 폴더 변경 드랍다운, change branch source : develop -> Create Branch
+####1_2. 복사하기 : git fetch origin 
+      복사하기 : git checkout 6-푸터-텍스트-변경하겠습다-연습 
+####1_3. 저장소 주소 복사하기 : https://github.com/ICTTeam4/team4_next.git
 
-## 브랜치 만들기
-- git checkout -b 브랜치 이름
-- 브랜치 만든거를 반영하기위해서
-- git push --set-upstream origin 브랜치 이름
+####2. 내가 D드라이브에 생성한 폴더안에서 git bash를 키고 -> git init -> git remote add origin https://github.com/ICTTeam4/team4_next.git(저장소 주소) 
+-> git fetch origin -> git checkout 6-푸터-텍스트-변경하겠습다-연습(브렌치 이름)
 
-## 브래치 바꾸기
-- git switch 브랜치 이름
+####3. 내가 생성한 폴더 안에서 VS코드를 열고 새 터미널에서 -> npm install
 
-## 브랜치를 파고 해당 브랜치로 코드를 넣고 싶을때
-- (필수)git pull origin 가져오고 싶은 브랜치 이름
-- git add . 혹은 git add 특정 파일 이름
-- git commit -m "메시지"
-- git push origin 도착지 브랜치 이름
+####(깃허브에 올리기)
 
-## develop 브랜치에 넣을땐 push를 하지 마세요!
-반드시 pull request로 요청을 해주셔야 합니다!
-검토를 받고 다시 merge를 하게 됩니다.
+####[VS코드에서]
 
-### 만약 pull 했을때 코드가 겹치거나 수정사항이 같은 곳에서 발생하면 어떻게 되나요?
-- 일단 pull 하시면 vscode에 충돌 나는 부분들이 있습니다 vscode 에서 해당 지역을 자세히 알려주는데 거기서
-   현재 수정사항으로 바꿀지, 가져오려는 브랜치의 사항으로 덮어씌울지 선택하는 버튼들이 vscode에 뜨게 됩니다. 거기서 선택을 하시고
-   git add . 후에 git commit -m "" git push origin 넣고싶은 브랜치 이름 하시면 정상 복구 됩니다!  
+####0. read.me 삭제하기 (겹쳐서 오류 남)
+
+####1. 수정 다 마치고 터미널에서 -> git add . -> git commit -m "푸터변경"
+   -> git push origin 6-푸터-텍스트-변경하겠습다-연습(브렌치이름)
+
+####[깃허브 웹사이트에서]
+
+####레포지토리 카테고리에서 -> Pull request -> New pull Request - base를 디벨롭(최종 전 단계 브렌치)으로 변경하기 
+-> compare (내 브렌치이름) 변경하기 -> create pull request 누르기-> Write 안에 내용은 상세하게 설명해야 한다. 
+-> create pull request 누르기 -> Merge pull request 누르기 -> Confirm merge (최종확인하고 누르기)
