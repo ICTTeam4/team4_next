@@ -10,7 +10,7 @@ export default function RootLayout({ children }) {
       </header>
         {children}
       <footer>
-        이용약관
+        이용약관 : 생겼습니다. 동의 하십니까?
       </footer>
       </body>
     </html>
