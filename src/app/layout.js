@@ -10,7 +10,7 @@ export default function RootLayout({ children }) {
       </header>
         {children}
       <footer>
-        푸터를 넣어주세요!
+        이용약관
       </footer>
       </body>
     </html>
