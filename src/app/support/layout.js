@@ -65,7 +65,7 @@ const SupportLayout = ({ children }) => {
           },
         }}
       >
-       <Typography variant="h4">고객센터</Typography>
+       <Typography variant="h4" style={{marginBottom:"10px"}}>고객센터</Typography>
         <Tab label="공지사항" />
         <Tab label="자주 묻는 질문" />
         <Tab label="1:1 문의하기" />

@@ -21,7 +21,7 @@ function HeaderTop(props) {
         </h1>
         <ul className="top_list">
           <li className="top_item">
-            <Link href="/notice" className="top_link">
+            <Link href="/support" className="top_link">
               고객센터
             </Link>
           </li>
