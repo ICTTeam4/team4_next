@@ -1,4 +1,3 @@
-
 깃허브 홈페이지 들어가기 -> repository -> team4_next
 
 (맨 처음 진행)
@@ -28,4 +27,3 @@
 #### 레포지토리 카테고리에서 -> Pull request -> New pull Request - base를 디벨롭(최종 전 단계 브렌치)으로 변경하기 
 -> compare (내 브렌치이름) 변경하기 -> create pull request 누르기-> Write 안에 내용은 상세하게 설명해야 한다. 
 -> create pull request 누르기 -> Merge pull request 누르기 -> Confirm merge (최종확인하고 누르기)
-
