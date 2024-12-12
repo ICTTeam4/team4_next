@@ -64,7 +64,7 @@ const Page = ({ isActive, toggleSidebar }) => {
             <p>카테고리</p>
             <a onClick={toggleCollapse}>
               <img
-                src={isCollapsed ? '/images/HJ_minus.png' : '/images/plus.png'}
+                src={isCollapsed ? '/images/HJ_minus.png' : '/images/HJ_plus.png'}
                 className={isCollapsed ? 'minus_button' : 'plus_button'}
                 alt={isCollapsed ? '접기' : '펼치기'}
               />
