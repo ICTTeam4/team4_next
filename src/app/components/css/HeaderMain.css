@@ -1,0 +1,64 @@
+
+
+.header_main {
+  display: flex;
+  justify-content: space-between; /* 왼쪽-중앙-오른쪽 정렬 */
+  align-items: center; /* 수직 가운데 정렬 */
+  padding: 10px 20px; /* 상단 여백과 좌우 여백 추가 */
+  box-sizing: border-box; /* 패딩 포함한 박스 모델 적용 */
+  background-color: #fff; /* 배경색 */
+}
+
+.main_inner {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  justify-content: flex-end;
+  margin-top: -30px;
+}
+
+.logo {
+  font-size: 24px; /* 로고 크기 */
+  font-weight: bold;
+  text-decoration: none;
+  color: black;
+}
+
+.center {
+  flex-grow: 1; /* 중앙 영역 확장 */
+  text-align: center;
+  display: none; /* 기본적으로 숨김 */
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* HeaderTop과 동일한 간격 */
+}
+
+.gnb_list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.gnb_item {
+  margin: 0 10px; /* 항목 간 간격 */
+}
+
+.gnb_link {
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+}
+
+.gnb_link:hover {
+  color: gray; /* 마우스 올릴 때 회색 */
+}
+
+.btn_search {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
