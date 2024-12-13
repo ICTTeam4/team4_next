@@ -18,7 +18,7 @@ export default function Home() {
       {/* <p><Image src={img01} alt="" width={350} height={200}/></p> */}
       {/* <MyPage/> */}
       <ItemList/>
-
+      <MyPage></MyPage>
     </>
   );
 }
