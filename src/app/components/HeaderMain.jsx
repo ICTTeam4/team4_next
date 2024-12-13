@@ -28,7 +28,7 @@ const HeaderMain = () => {
               <ul id="pcGnbList" className="gnb_list">
                 <li className="gnb_item">
                   {/* 판매 아이콘 */}
-                  <Link href="/saleDetail" className="gnb_link">
+                  <Link href="/sale" className="gnb_link">
                     <img
                       src="/images/HJ_saleImg.png"
                       alt="판매 아이콘"
