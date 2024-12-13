@@ -5,6 +5,7 @@ import './itemCard.css';
 const Page = ({ product }) => {
   return (
     <>
+    <Link href="/saleDetail">
     <div className="product_card_container">
       <div className='product_img'>
         <img
@@ -24,6 +25,7 @@ const Page = ({ product }) => {
         </div>
       </div>
     </div>
+    </Link>
     </>
 
 
