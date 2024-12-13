@@ -4,6 +4,7 @@ import "./saleDetail.css"
 import Image from 'next/image';
 import { Button } from '@mui/material';
 import SalesImgSlider from '@/app/salesImgSlider/page'
+import SalesRelatedSlider from '@/app/saleRelatedSlider/page'
 function page(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [isMapOpen, setIsMapOpen] = useState(false);
@@ -103,7 +104,7 @@ function page(props) {
 
         </div>
         <div className="relatedGoods">
-          <div className="relatedGoodsOne">
+          {/* <div className="relatedGoodsOne">
             <div className="relatedGoodsImg"></div>
             <div className="relatedGoodsTitle">제목</div>
             <div className="relatedGoodsPrice">가격</div>
@@ -127,7 +128,8 @@ function page(props) {
             <div className="relatedGoodsImg"></div>
             <div className="relatedGoodsTitle">제목</div>
             <div className="relatedGoodsPrice">가격</div>
-          </div>
+          </div> */}
+          <SalesRelatedSlider/>
 
         </div>
         {
