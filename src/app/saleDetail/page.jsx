@@ -42,7 +42,7 @@ function page(props) {
             <div>안전거래</div>
           </div>
           <div id="interaction-area">
-            <Image src="/bookmark-white.png" width={30} height={30} className="bookmark" id="bookmark"/>
+            <Image src="/images/David_bookmark-white.png" width={30} height={30} className="bookmark" id="bookmark"/>
             <Button className="purchase" onClick={openPanel}>구매하기</Button>
             <Button className="chatting" onClick={openPanel}>채팅하기</Button>
 
