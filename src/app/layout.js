@@ -17,8 +17,7 @@ export default function RootLayout({ children }) {
         {/* 헤더 */}
         <Header/>
         <hr/>
-        {/* 비디오 베너 (임시 위치입니다) */}
-        <VideoBanner/>
+        
         
         {children}
         <hr/>

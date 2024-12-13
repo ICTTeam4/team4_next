@@ -10,7 +10,7 @@ function HeaderTop(props) {
       <div className="top_inner">
         {/* 로고 */}
         <h1>
-          <Link href="/" aria-label="홈" className="logo">
+          <Link href="/" aria-label="홈" className="logo" scroll={true}>
             <img
             src='/images/HJ_SAINT_KREAM_logo.png'
             alt='메인로고'
