@@ -74,7 +74,7 @@ const HeaderMain = () => {
                 {/* 장바구니 버튼 => 마이페이지로 변경*/}
                 <li className="gnb_item">
                   {/* 채팅 아이콘 */}
-                  <Link href="/chat" className="gnb_link">
+                  <Link href="/myPage" className="gnb_link" scroll={true}>
                     <img
                       src="/images/HJ_mypage_icon.png"
                       alt="myPage 아이콘"

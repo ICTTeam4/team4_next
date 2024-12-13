@@ -1,9 +1,13 @@
-body, button, dd, div, dl, dt, fieldset, figcaption, figure, form, h1, h2, h3, h4, h5, h6, input, legend, li, ol, p, select, table, td, textarea, th, ul {
+.myPage body, .myPage button, .myPage dd, .myPage div, .myPage dl, .myPage dt, .myPage fieldset, .myPage figcaption, .myPage figure, .myPage form, .myPage h1, .myPage h2, .myPage h3, .myPage h4, .myPage h5, .myPage h6, .myPage input, .myPage legend, .myPage li, .myPage ol, .myPage p, .myPage select, .myPage table, .myPage td, .myPage textarea, .myPage th, .myPage ul {
     margin: 0;
     padding: 0;
 }
 
-.container.my{
+.myPage body{
+    text-align: initial !important;
+}
+
+.myPage .container.my{
     display: flex;
     margin-left: auto;
     margin-right: auto;
@@ -11,12 +15,12 @@ body, button, dd, div, dl, dt, fieldset, figcaption, figure, form, h1, h2, h3, h
     padding: 40px 40px 160px
 }
 
-.snb_area{
+.myPage .snb_area{
     margin-right: 20px;
     width: 180px;
 }
 
-.snb_main_title{
+.myPage .snb_main_title{
     font-size: 24px;
     font-weight: 700;
     letter-spacing: -.15px;
@@ -24,17 +28,17 @@ body, button, dd, div, dl, dt, fieldset, figcaption, figure, form, h1, h2, h3, h
     padding-bottom: 30px;
 }
 
-a {
+.myPage a {
     -webkit-tap-highlight-color: rgba(0,0,0,.1);
     color: inherit
 }
 
-a,a:active,a:focus,a:hover {
+.myPage a,.myPage a:active, .myPage a:focus, .myPage a:hover {
     -webkit-text-decoration: none;
     text-decoration: none
 }
 
-p {
+.myPage p {
     display: block;
     margin-block-start: 0;
     margin-block-end: 0;
@@ -43,27 +47,27 @@ p {
     unicode-bidi: isolate;
 }
 
-*,:after,:before {
+.myPage *, .myPage :after, .myPage :before {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     box-sizing: border-box
 }
 
-nav {
+.myPage nav {
     display: block;
 }
 
-body,button,input,select,table,textarea {
+.myPage body, .myPage button, .myPage input, .myPage select, .myPage table, .myPage textarea {
     font-feature-settings: "frac" 0,"numr" 0;
     color: #222;
     font-family: Pretendard Variable,Pretendard,-apple-system,BlinkMacSystemFont,system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,Helvetica Neue,Apple SD Gothic Neo,Noto Sans KR,Malgun Gothic,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol
 }
 
-div {
+.myPage div {
     display: block;
     unicode-bidi: isolate;
 }
 
-.snb_title{
+.myPage .snb_title{
     display: inline-block;
     font-size: 18px;
     font-weight: 700;
@@ -73,11 +77,11 @@ div {
     vertical-align: top;
 }
 
-li, ol, ul {
+.myPage li, .myPage ol, .myPage ul {
     list-style: none;
 }
 
-ul {
+.myPage ul {
     display: block;
     list-style-type: disc;
     margin-block-start: 0px;
@@ -88,37 +92,37 @@ ul {
     unicode-bidi: isolate;
 }
 
-li {
+.myPage li {
     display: list-item;
     text-align: inherit;
     unicode-bidi: isolate;
 }
 
-.menu_link{
+.myPage .menu_link{
     color: rgba(34, 34, 34, .5);
     font-size: 15px;
     letter-spacing: -.15px;
     line-height: 18px;
 }
 
-.menu_item+.menu_item{
+.myPage .menu_item + .menu_item{
     margin-top: 12px;
 }
 
-.container.my .snb_area+div{
+.myPage .container.my .snb_area + div{
     flex: 1;
 }
 
-.my-page-content{
+.myPage .my-page-content{
     flex: 1;
 }
 
-.lg .user_membership, .md .user_membership{
+.myPage .lg .user_membership, .myPage .md .user_membership{
     flex-direction: row;
     padding: 24px;
 }
 
-.user_membership{
+.myPage .user_membership{
     background-color: #fff;
     border: 1px solid #ebebeb;
     border-radius: 10px;
@@ -126,24 +130,24 @@ li {
     flex-direction: column;
 }
 
-.lg .user_detail, .md .user_detail{
+.myPage .lg .user_detail, .myPage .md .user_detail{
     border-bottom: none;
     padding: 0;
 }
 
-.user_detail{
+.myPage .user_detail{
     border-bottom: 8px solid #f0f0f0;
     display: flex;
     flex: 1;
     padding: 16px 24px;
 }
 
-.lg .user_thumb, .md .user_thumb{
+.myPage .lg .user_thumb, .myPage .md .user_thumb{
     height: 60px;
     width: 60px;
 }
 
-.user_thumb{
+.myPage .user_thumb{
     border-radius: 50%;
     flex-shrink: 0;
     height: 90px;
@@ -152,7 +156,7 @@ li {
     width: 90px;
 }
 
-.user_thumb:after {
+.myPage .user_thumb:after {
     border: 1px solid rgba(34, 34, 34, .05);
     border-radius: 50%;
     bottom: 0;
@@ -163,7 +167,7 @@ li {
     top: 0;
 }
 
-.user_thumb .thumb_img{
+.myPage .user_thumb .thumb_img{
     border-radius: 100%;
     height: 100%;
     -o-object-fit: cover;
@@ -171,7 +175,7 @@ li {
     width: 100%;
 }
 
-img, video {
+.myPage img, .myPage video {
     -webkit-user-drag: none;
     -webkit-touch-callout: none;
     border: 0;
@@ -181,28 +185,28 @@ img, video {
     vertical-align: top;
 }
 
-img {
+.myPage img {
     overflow-clip-margin: content-box;
     overflow: clip;
 }
 
-.lg .user_info, .md .user_info{
+.myPage .lg .user_info, .myPage .md .user_info{
     align-items: center;
     flex-direction: row;
 }
 
-.user_info{
+.myPage .user_info{
     display: flex;
     flex: 1;
     flex-direction: column;
     justify-content: center;
 }
 
-.info_box{
+.myPage .info_box{
     flex: 1;
 }
 
-.user_info .email, .user_info .name{
+.myPage .user_info .email, .myPage .user_info .name{
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -210,7 +214,7 @@ img {
     text-overflow: ellipsis;
 }
 
-.user_info .name{
+.myPage .user_info .name{
     color: #000;
     display: flex;
     font-size: 18px;
@@ -219,7 +223,7 @@ img {
     line-height: 21px;
 }
 
-.user_info .email{
+.myPage .user_info .email{
     color: rgba(34, 34, 34, .5);
     font-size: 14px;
     letter-spacing: -.21px;
@@ -227,26 +231,26 @@ img {
     line-height: 18px;
 }
 
-.lg .info-buttons, .md .info-buttons{
+.myPage .lg .info-buttons, .myPage .md .info-buttons{
     padding-top: 0;
 }
 
-.info-buttons[data-v-85545f4e] {
+.myPage .info-buttons{
     padding-top: 12px;
 }
 
-.btn{
+.myPage .btn{
     align-self: flex-start;
     height: 36px;
     line-height: 34px;
 }
 
-.outlinegrey{
+.myPage .outlinegrey{
     border: 1px solid #d3d3d3;
     color: rgba(34, 34, 34, .8);
 }
 
-.small{
+.myPage .small{
     border-radius: 10px;
     font-size: 12px;
     height: 34px;
@@ -254,7 +258,7 @@ img {
     padding: 0 14px;
 }
 
-.btn{
+.myPage .btn{
     align-items: center;
     background-color: #fff;
     color: rgba(34, 34, 34, .8);
@@ -265,7 +269,7 @@ img {
     vertical-align: middle;
 }
 
-.lg .shortcut-grid, .md .shortcut-grid{
+.myPage .lg .shortcut-grid, .myPage .md .shortcut-grid{
     border: 1px solid #ebebeb;
     border-radius: 10px;
     padding-bottom: 24px;
@@ -273,27 +277,27 @@ img {
     row-gap: 20px;
 }
 
-.lg .shortcut-grid{
+.myPage .lg .shortcut-grid{
     grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
-.shortcut-grid{
+.myPage .shortcut-grid{
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.my_home_title{
+.myPage .my_home_title{
     display: flex;
     max-width: 100%;
     padding-bottom: 0px;
 }
 
-.my_home_title .title{
+.myPage .my_home_title .title{
     font-size: 18px;
     letter-spacing: -.27px;
 }
 
-h3 {
+.myPage h3 {
     display: block;
     font-size: 1.17em;
     margin-block-start: 1em;
@@ -304,20 +308,20 @@ h3 {
     unicode-bidi: isolate;
 }
 
-.purchase_list_tab{
+.myPage .purchase_list_tab{
     background-color: #fafafa;
     border-radius: 12px;
     display: flex;
     width: 100%;
 }
 
-.tab_item{
+.myPage .tab_item{
     display: flex;
     flex: 1;
     text-align: center;
 }
 
-.tab_link{
+.myPage .tab_link{
     display: block;
     flex: 1;
     padding-bottom: 14px;
@@ -326,13 +330,13 @@ h3 {
 }
 
 @media (min-width: 961px) {
-    .tab_link{
+    .myPage .tab_link{
         padding-bottom: 18px;
         padding-top: 18px;
     }
 }
 
-dl {
+.myPage dl {
     display: block;
     margin-block-start: 1em;
     margin-block-end: 1em;
@@ -342,32 +346,32 @@ dl {
 }
 
 @media (min-width: 961px) {
-    .tab_link .title{
+    .myPage .tab_link .title{
         font-size: 13px;
     }
 }
 
-.tab_link .title{
+.myPage .tab_link .title{
     color: rgba(34, 34, 34, .8);
     font-size: 12px;
 }
 
-dt {
+.myPage dt {
     display: block;
     unicode-bidi: isolate;
 }
 
-.tab_item.total .count{
+.myPage .tab_item.total .count{
     color: #f15746;
 }
 
 @media (min-width: 961px) {
-    .tab_link .count{
+    .myPage .tab_link .count{
         font-size: 18px;
     }
 }
 
-.tab_link .count{
+.myPage .tab_link .count{
     font-size: 15px;
     font-weight: 700;
     letter-spacing: -.09px;
@@ -375,7 +379,7 @@ dt {
     margin-top: 2px;
 }
 
-.tab_item:first-of-type .tab_link:before {
+.myPage .tab_item:first-of-type .tab_link:before {
     background-color: #ebebeb;
     bottom: 18px;
     content: "";
@@ -385,14 +389,14 @@ dt {
     width: 1px;
 }
 
-.tab_link .hold{
+.myPage .tab_link .hold{
     color: #ff7500;
     font-size: 12px;
     letter-spacing: -.06px;
     line-height: 19px;
 }
 
-.purchase_list_display_item{
+.myPage .purchase_list_display_item{
     align-items: center;
     border-bottom: 1px solid #ebebeb;
     cursor: pointer;
@@ -400,15 +404,15 @@ dt {
     padding: 12px;
 }
 
-.purchase_list_product{
+.myPage .purchase_list_product{
     display: flex;
 }
 
-.purchase_list_product .list_item_img_wrap{
+.myPage .purchase_list_product .list_item_img_wrap{
     position: relative;
 }
 
-.purchase_list_product .list_item_img_wrap .list_item_img{
+.myPage .purchase_list_product .list_item_img_wrap .list_item_img{
     border-radius: 12px;
     height: 80px;
     -o-object-fit: cover;
@@ -416,7 +420,7 @@ dt {
     width: 80px;
 }
 
-.purchase_list_product .list_item_title_wrap{
+.myPage .purchase_list_product .list_item_title_wrap{
     align-self: center;
     display: flex;
     flex-direction: column;
@@ -426,18 +430,18 @@ dt {
     row-gap: 13px;
 }
 
-.purchase_list_product .list_item_title_wrap .list_item_price{
+.myPage .purchase_list_product .list_item_title_wrap .list_item_price{
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     display: -webkit-box;
     font-size: 18px;
     font-weight: 600;
-    line-height: 17px;
+    line-height: 20px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.purchase_list_product .list_item_title_wrap .list_item_title{
+.myPage .purchase_list_product .list_item_title_wrap .list_item_title{
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -448,7 +452,7 @@ dt {
     text-overflow: ellipsis;
 }
 
-.purchase_list_product .list_item_title_wrap .list_item_description{
+.myPage .purchase_list_product .list_item_title_wrap .list_item_description{
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     color: rgba(34, 34, 34, .5);
@@ -463,56 +467,56 @@ dt {
     text-overflow: ellipsis;
 }
 
-.list_item_status{
+.myPage .list_item_status{
     align-items: center;
     display: flex;
     margin-left: auto;
     text-align: right;
 }
 
-.list_item_status .column_secondary{
+.myPage .list_item_status .column_secondary{
     font-size: 13px;
     letter-spacing: -.07px;
 }
 
-.list_item_status .list_item_column{
+.myPage .list_item_status .list_item_column{
     margin-left: 10px;
     width: 134px;
 }
 
-.list_item_status .column_last{
+.myPage .list_item_status .column_last{
     align-self: center;
     display: flex;
     flex-direction: column;
 }
 
-.list_item_status .list_item_column{
+.myPage .list_item_status .list_item_column{
     margin-left: 10px;
     width: 134px;
 }
 
-.list_item_status .column_last .last_title{
+.myPage .list_item_status .column_last .last_title{
     font-size: 14px;
     letter-spacing: -.21px;
 }
 
-.list_item_status .column_last .last_description.action_named_action{
+.myPage .list_item_status .column_last .last_description.action_named_action{
     -webkit-text-decoration: underline;
     text-decoration: underline;
 }
 
-.list_item_status .column_last .last_description{
+.myPage .list_item_status .column_last .last_description{
     font-size: 12px;
     letter-spacing: -.06px;
     overflow: hidden;
     word-break: keep-all;
 }
 
-.purchase_list_tab.inventory .tab_item.total .count, .purchase_list_tab.sell .tab_item.total .count{
+.myPage .purchase_list_tab.inventory .tab_item.total .count, .myPage .purchase_list_tab.sell .tab_item.total .count{
     color: #31b46e;
 }
 
-.my_home_title .btn_more{
+.myPage .my_home_title .btn_more{
     align-items: center;
     display: inline-flex;
     flex-shrink: 0;
@@ -520,11 +524,11 @@ dt {
     padding-left: 5px;
 }
 
-.interest_product{
+.myPage .interest_product{
     margin: 0 -10px;
 }
 
-.product_item{
+.myPage .product_item{
     display: inline-block;
     margin: 20px 0;
     padding: 0 12px;
@@ -533,48 +537,48 @@ dt {
     width: 25%;
 }
 
-.product_item .item_inner{
+.myPage .product_item .item_inner{
     background-color: #fff;
     border-radius: 12px;
     display: block;
 }
 
-.product{
+.myPage .product{
     border-radius: 8px;
     overflow: hidden;
     padding-top: 100%;
     position: relative;
 }
 
-.detail_stock .product_img, .is_exclusive .product_img, .lucky_draw_column .product_img, .other_stock .product_img, .product_img, .stock .product_img{
+.myPage .detail_stock .product_img, .myPage .is_exclusive .product_img, .myPage .lucky_draw_column .product_img, .myPage .other_stock .product_img, .myPage .product_img, .myPage .stock .product_img{
     height: auto;
     width: 100%;
 }
 
-.product_img{
+.myPage .product_img{
     left: 50%;
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
 }
 
-.picture{
+.myPage .picture{
     border: none;
     display: flex;
 }
 
-.image.full_width{
+.myPage .image.full_width{
     height: 100%;
     width: 100%;
 }
 
-.image{
+.myPage .image{
     image-rendering: auto;
     -o-object-fit: cover;
     object-fit: cover;
 }
 
-.product_item .btn_wish{
+.myPage .product_item .btn_wish{
     bottom: 3px;
     display: inline-flex;
     padding: 5px;
@@ -583,7 +587,7 @@ dt {
     z-index: 1;
 }
 
-.btn_wish{
+.myPage .btn_wish{
     display: flex;
     height: inherit;
 }
@@ -597,22 +601,22 @@ dt {
     width: 24px;
 }
 
-.product_item .info_box{
+.myPage .product_item .info_box{
     padding: 9px 4px 0;
 }
 
-.brand-text {
+.myPage .brand-text {
     align-items: center;
     color: #222;
     display: inline-flex;
     font-size: 18px;
     font-weight: 700;
     height: 17px;
-    line-height: 17px;
+    line-height: 20px;
     margin-bottom: 2px;
 }
 
-.brand-text>.brand-name {
+.myPage .brand-text > .brand-name {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -621,16 +625,16 @@ dt {
     text-overflow: ellipsis;
 }
 
-.product_item .price{
+.myPage .product_item .price{
     padding-top: 12px;
 }
 
-.product_item .amount{
+.myPage .product_item .amount{
     font-size: 0;
     line-height: 0;
 }
 
-.product_item .discount_rate, .product_item .num, .product_item .won{
+.myPage .product_item .discount_rate, .myPage .product_item .num, .myPage .product_item .won{
     display: inline-block;
     font-size: 14px;
     font-weight: 700;
@@ -639,7 +643,7 @@ dt {
     vertical-align: top;
 }
 
-.display_paragraph.line_break_by_truncating_tail {
+.myPage .display_paragraph.line_break_by_truncating_tail {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -647,15 +651,15 @@ dt {
     text-overflow: ellipsis;
 }
 
-.text-lookup.bold{
+.myPage .text-lookup.bold{
     font-weight: 700;
 }
 
-address, em {
+.myPage address, .myPage em {
     font-style: normal;
 }
 
-.product_item .desc{
+.myPage .product_item .desc{
     color: rgba(34, 34, 34, .5);
     font-size: 11px;
     line-height: 13px;

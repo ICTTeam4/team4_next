@@ -1,11 +1,9 @@
-import { Avatar, Box, Button, Card, CardContent, Divider, Grid, Grid2, Typography } from '@mui/material';
-import React from 'react';
-import './myPage.css';
+import './mypage.css';
 
 function Page(props) {
-
+    
     return (
-        <>
+        <div className='myPage'>
             <div className='container my lg'>
                 <div className='snb_area'>
                     <a href='#' aria-current="page">
@@ -321,7 +319,7 @@ function Page(props) {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 

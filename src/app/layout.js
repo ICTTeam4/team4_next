@@ -13,12 +13,11 @@ import Header from "./components/Header";
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body style={{textAlign:"center"}}>
+      <body>
         {/* 헤더 */}
         <Header/>
         <hr/>
-        {/* 비디오 베너 (임시 위치입니다) */}
-        <VideoBanner/>
+        
         
         {children}
         <hr/>

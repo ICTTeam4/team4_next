@@ -37,7 +37,7 @@ const Page = () => {
   };
 
   return (
-    <div className='video-container'>
+    <div className='video-container' style={{textAlign: "center"}}>
     <div className={styles.videoBanner}>
       {/* 비디오 슬라이드 */}
       <div className={styles.videoSlides} style={{backgroundColor:'#000000', height:'414px'}}>
