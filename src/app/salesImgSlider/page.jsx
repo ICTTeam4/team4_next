@@ -3,7 +3,8 @@ import './salesImgSlider.css'
 
 function page(props) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const images = ["/images/David_cloth1.jpg", "/images/David_cloth1.jpg", "/images/David_cloth1.jpg"];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const images = ["/images/David_cloth1.jpg", "/images/David_img_girl.jpg", "/images/David_cloth1.jpg"];
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -16,7 +17,14 @@ function page(props) {
   const goToSlide = (index) => {
     setCurrentIndex(index);
   };
+  const openModal = (index) => {
+    setCurrentIndex(index);
+    setIsModalOpen(true);
+  };
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   return (
     <div className="slider-container">
       <div
@@ -24,7 +32,9 @@ function page(props) {
         style={{ transform: `translateX(-${currentIndex * 400}px)` }}
       >
         {images.map((src, index) => (
-          <img key={index} src={src} alt={`Slide ${index + 1}`} />
+          <img key={index} src={src} alt={`Slide ${index + 1}`}
+          onClick={() => openModal(index)}
+          />
         ))}
       </div>
       <div className="arrows">
@@ -44,6 +54,21 @@ function page(props) {
           ></div>
         ))}
       </div>
+      {isModalOpen && (
+        <div className="modal" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="close-btn" onClick={closeModal}>X</button>
+            <button className="prev-btn" onClick={handlePrev}>&lt;</button>
+            <img
+              src={images[currentIndex]}
+              alt={`Expanded Slide ${currentIndex + 1}`}
+              className="expanded-image"
+            />
+            <button className="next-btn" onClick={handleNext}>&gt;</button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

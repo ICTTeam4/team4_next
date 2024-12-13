@@ -6,6 +6,7 @@ import { Button } from '@mui/material';
 import SalesImgSlider from '@/app/salesImgSlider/page'
 function page(props) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isMapOpen, setIsMapOpen] = useState(false);
 
   const openPanel = () => {
     setIsOpen(true);
@@ -13,6 +14,13 @@ function page(props) {
 
   const closePanel = () => {
     setIsOpen(false);
+  }
+
+  const openMap = () => {
+    setIsMapOpen(true);
+  }
+  const closeMap = () => {
+    setIsMapOpen(false);
   }
 
 
@@ -48,7 +56,7 @@ function page(props) {
             <div className="purchase" onClick={openPanel}>구매하기</div>
             <div className="chatting" onClick={openPanel}>채팅하기</div>
           </div>
-          <div className="tradeArea">⊙ 마장동 직거래 위치 제안하기</div>
+          <div className="tradeArea" onClick={openMap}>⊙ 마장동 직거래 위치 제안하기</div>
         </div>
         <div className="salesDescription">
           <div className="sellerInfo">
@@ -122,6 +130,13 @@ function page(props) {
           </div>
 
         </div>
+        {
+          isMapOpen && (
+            <div className='mapModal' onClick={closeMap}>
+              <div className='mapWindow' onClick={(e) => e.stopPropagation()}>지도</div>
+            </div>
+          )
+        }
 
         {/* 어두운 오버레이 */}
         {isOpen && <div id="overlay" className="active" onClick={closePanel}></div>}

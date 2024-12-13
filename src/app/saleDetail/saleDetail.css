@@ -292,3 +292,24 @@ button:hover{
 .relatedGoodsPrice{
   color: rgb(184, 184, 184);
 }
+.mapModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mapWindow{
+  position: relative;
+  width: 50vw;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  z-index: 1000;
+}
