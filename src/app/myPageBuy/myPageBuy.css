@@ -663,3 +663,53 @@
     line-height: 13px;
     margin-top: 2px;
 }
+
+.myPage .content_title{
+    display: flex;
+}
+
+.myPage .title{
+    font-size: 24px;
+    letter-spacing: -.36px;
+}
+
+.myPage .purchase_list_tab.detail_tab{
+    background-color: #fff;
+    border-radius: 0;
+    margin-top: 20px;
+}
+
+.myPage .purchase_list_tab.detail_tab .tab_on .tab_link{
+    border-bottom: 2px solid #222;
+}
+
+.myPage .purchase_list_tab.detail_tab .tab_link{
+    border-bottom: 1px solid #ebebeb;
+    height: 68px;
+    padding-top: 12px;
+}
+
+.myPage .purchase_list_tab.detail_tab .tab_box{
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.myPage .purchase_list_tab.detail_tab .tab_on .title{
+    color: #222;
+    font-weight: 700;
+}
+
+.myPage .purchase_list_tab.detail_tab .title{
+    color: rgba(34, 34, 34, .5);
+}
+
+.myPage .purchase_list_tab.detail_tab .tab_on .count{
+    color: #f15746;
+}
+
+.myPage .purchase_list_tab.detail_tab .count{
+    font-size: 20px;
+    letter-spacing: -.1px;
+    line-height: 24px;
+    margin-top: 0;
+}

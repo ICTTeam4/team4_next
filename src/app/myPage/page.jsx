@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import './mypage.css';
 
 function Page(props) {
@@ -14,7 +15,7 @@ function Page(props) {
                             <strong className='snb_title'>쇼핑 정보</strong>
                             <ul className='snb_menu'>
                                 <li className='menu_item'>
-                                    <a href='#' className='menu_link'> 구매 내역 </a>
+                                    <Link href="/myPageBuy" className='menu_link'>구매 내역</Link>
                                 </li>
                                 <li className='menu_item'>
                                     <a href='#' className='menu_link'> 판매 내역 </a>
