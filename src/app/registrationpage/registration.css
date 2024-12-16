@@ -1,0 +1,285 @@
+/* ProductPage.css */
+
+/* 이미지 넘기는 css */
+.image-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.gallery-item {
+  position: relative;
+}
+
+.gallery-thumbnail {
+  width: 80px;
+  height: 80px;
+  border-radius: 5px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.image-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* 모달이 항상 위로 올라오도록 설정 */
+}
+
+.modal-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  cursor: pointer;
+  z-index: 1001;
+}
+.modal-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+}
+
+.modal-image {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+}
+.prev-button,
+.next-button {
+  background: white;
+  border: none;
+  padding: 10px 15px;
+  margin: 0 10px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 5px;
+  z-index: 1002; /* 버튼도 모달 위에 보이도록 설정 */
+  pointer-events: auto;
+}
+.prev-button:hover,
+.next-button:hover {
+  background: lightgray;
+}
+
+
+.delete-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: rgba(255, 0, 0, 0.7);
+  border: none;
+  color: white;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background: red;
+}
+
+
+/*이미지 넘어가는 곳  */
+
+
+
+.product-page {
+  font-family: Arial, sans-serif;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.image-upload {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.uploaded-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.upload-button {
+  width: 150px;
+  height: 150px;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-left: 0; /* 이동 위치 조정 */
+}
+
+.camera-icon {
+  font-size: 24px;
+}
+
+.add-icon {
+  font-size: 18px;
+}
+
+.category-drop button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.product-name,
+.price {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.category-drop {
+  position: relative;
+  margin-bottom: 15px;
+  width: 100px;
+}
+
+.category-drop ul {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  z-index: 1000;
+}
+
+.category-drop ul.active {
+  display: block;
+}
+
+.category-drop li {
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.category-drop li:hover {
+  background-color: #f0f0f0;
+}
+
+.product-explain {
+  width: 680px;
+  height: 100px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none;
+}
+
+.location {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.location input {
+  width: 70%;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.postal-info {
+  width: 11%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  text-align: center;
+  margin-right: 130px;
+}
+
+.trade-check label {
+  display: block;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.trade-check input[type="checkbox"] {
+  display: none;
+}
+
+.trade-check input[type="checkbox"] + span {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  position: relative;
+  vertical-align: middle;
+  margin-right: 10px;
+  cursor: pointer;
+  background-color: white;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.trade-check input[type="checkbox"]:checked + span {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.trade-check input[type="checkbox"]:checked + span::after {
+  content: "";
+  width: 6px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.register-button {
+  width: 100%;
+  padding: 15px;
+  background-color: lightgray;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.register-button:hover {
+  background-color: black;
+}
