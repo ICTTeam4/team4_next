@@ -46,7 +46,7 @@ function Page() {
           </div>
         </div>
         <div className="profile-image">
-          <img src="/images/human.jpg" alt="프로필 이미지" />
+          <img src="/images/YB_human.jpg" alt="프로필 이미지" />
           <p>프로필 사진</p>
         </div>
       </div>
