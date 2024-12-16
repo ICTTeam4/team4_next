@@ -95,7 +95,7 @@ function page(props) {
             <div>안전거래 <br /> <span className='tradeTitle'>사용</span></div>
           </div>
           <div id="interaction-area">
-            { isBookMarkOpen ? <Image src="/images/David_bookmark-black.png" onClick={closeBookMark} width={30} height={30} className="bookmark" id="bookmark" /> :
+            { isBookMarkOpen ? <Image src="/images/David_bookmark-black.png" onClick={closeBookMark} width={33} height={30} className="bookmark" id="bookmark" /> :
             <Image src="/images/David_bookmark-white.png" onClick={openBookMark} width={30} height={30} className="bookmark" id="bookmark" /> }
             <div className="purchase" onClick={openAlert}>구매하기</div>
             <div className="chatting" onClick={openChatPanel}>채팅하기</div>
@@ -112,14 +112,14 @@ function page(props) {
         <div className="sellerInfo">
 
           <div className='sellerHeader'>
-          <span className='infoTitle'>판매자 정보</span>  <Link href="/salepage"> <Image src="/images/David_arrow.png" className='navigation' width="30" height="30"/></Link>
+          <span className='infoTitle'><Link href="/salepage">판매자 정보</Link></span>  <Link href="/salepage"> <Image src="/images/David_arrow.png" className='navigation' width="30" height="30"/></Link>
           </div>
           <hr />
           <div className="sellerContainer">
 
             <div className="sellerProfile">
               
-              <div className="sellerNickname"><Link href="/salepage">판매자 닉네임</Link></div> <div className="sellerImg"></div>
+              <div className="sellerNickname"><Link href="/salepage">판매자 닉네임</Link></div> <Link href="/salepage"><div className="sellerImg"></div></Link>
               
             </div>
             <div className="sellerData">
@@ -128,21 +128,21 @@ function page(props) {
             </div>
             <div className="sellerRecent">
               <div className="sellerGoods">
-              <Link href="/salepage">
+              <Link href="/saleDetail">
                 <div className="sellerGoodsImg"></div>
                 <div className="sellerGoodsTitle">제목</div>
                 <div className="sellerGoodsPrice">가격</div>
                 </Link>
               </div>
               <div className="sellerGoods">
-              <Link href="/salepage">
+              <Link href="/saleDetail">
                 <div className="sellerGoodsImg"></div>
                 <div className="sellerGoodsTitle">제목</div>
                 <div className="sellerGoodsPrice">가격</div>
                 </Link>
               </div>
               <div className="sellerGoods">
-              <Link href="/salepage">
+              <Link href="/saleDetail">
                 <div className="sellerGoodsImg"></div>
                 <div className="sellerGoodsTitle">제목</div>
                 <div className="sellerGoodsPrice">가격</div>
@@ -187,8 +187,6 @@ function page(props) {
               <div className='chatThenTrade' onClick={chatThenTrade}>채팅하고 거래</div>
               <div className='noChatTrade' onClick={noChatTrade}>채팅없이 거래</div>
               </div>
-              
-              
             </div>
           )
         }
@@ -199,11 +197,18 @@ function page(props) {
 
         {/* 슬라이드 패널 */}
         <div id="slidePanel" className={isPayOpen ? 'active' : ''}>
+          <table>
           <div className="content">
-            <h2>결제</h2>
-            <p>여기에 내용을 추가하세요.</p>
+            <div>원하시는 거래방법을 <br/>선택해 주세요</div>
+            <div className='DeliveryTransaction'>택배거레</div>
+            <div className='directTransaction'>직거래</div>
+            <div className='next1'>다음</div>
           </div>
+          </table>
         </div>
+
+
+
         <div id="slidePanel" className={isChatOpen ? 'active' : ''}>
           <div className="content">
             <h2>채팅</h2>

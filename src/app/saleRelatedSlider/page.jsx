@@ -30,7 +30,7 @@ function page(props) {
       >
         {items.map((item) => (
           <div key={item.id} className='item'>
-                <Link href="/salepage">
+                <Link href="/saleDetail">
             <img src={item.image} alt={item.title} className='image' />
             <div className='info'>
               <h3>{item.title}</h3>
