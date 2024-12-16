@@ -1,9 +1,9 @@
-.myPage body, .myPage button, .myPage dd, .myPage div, .myPage dl, .myPage dt, .myPage fieldset, .myPage figcaption, .myPage figure, .myPage form, .myPage h1, .myPage h2, .myPage h3, .myPage h4, .myPage h5, .myPage h6, .myPage input, .myPage legend, .myPage li, .myPage ol, .myPage p, .myPage select, .myPage table, .myPage td, .myPage textarea, .myPage th, .myPage ul {
+.myPageWishList body, .myPageWishList button, .myPageWishList dd, .myPageWishList div, .myPageWishList dl, .myPageWishList dt, .myPageWishList fieldset, .myPageWishList figcaption, .myPageWishList figure, .myPageWishList form, .myPageWishList h1, .myPageWishList h2, .myPageWishList h3, .myPageWishList h4, .myPageWishList h5, .myPageWishList h6, .myPageWishList input, .myPageWishList legend, .myPageWishList li, .myPageWishList ol, .myPageWishList p, .myPageWishList select, .myPageWishList table, .myPageWishList td, .myPageWishList textarea, .myPageWishList th, .myPageWishList ul {
     margin: 0;
     padding: 0;
 }
 
-.myPage .container.my{
+.myPageWishList .container.my{
     display: flex;
     margin-left: auto;
     margin-right: auto;
@@ -11,12 +11,12 @@
     padding: 40px 40px 160px
 }
 
-.myPage .snb_area{
+.myPageWishList .snb_area{
     margin-right: 20px;
     width: 180px;
 }
 
-.myPage .snb_main_title{
+.myPageWishList .snb_main_title{
     font-size: 24px;
     font-weight: 700;
     letter-spacing: -.15px;
@@ -24,17 +24,17 @@
     padding-bottom: 30px;
 }
 
-.myPage a {
+.myPageWishList a {
     -webkit-tap-highlight-color: rgba(0,0,0,.1);
     color: inherit
 }
 
-.myPage a,.myPage a:active, .myPage a:focus, .myPage a:hover {
+.myPageWishList a,.myPageWishList a:active, .myPageWishList a:focus, .myPageWishList a:hover {
     -webkit-text-decoration: none;
     text-decoration: none
 }
 
-.myPage p {
+.myPageWishList p {
     display: block;
     margin-block-start: 0;
     margin-block-end: 0;
@@ -43,16 +43,16 @@
     unicode-bidi: isolate;
 }
 
-.myPage *, .myPage :after, .myPage :before {
+.myPageWishList *, .myPageWishList :after, .myPageWishList :before {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     box-sizing: border-box
 }
 
-.myPage nav {
+.myPageWishList nav {
     display: block;
 }
 
-.myPage body, .myPage button, .myPage input, .myPage select, .myPage table, .myPage textarea {
+.myPageWishList body, .myPageWishList button, .myPageWishList input, .myPageWishList select, .myPageWishList table, .myPageWishList textarea {
     font-feature-settings: "frac" 0,"numr" 0;
     color: #222;
     font-family: Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 
@@ -60,12 +60,12 @@
     Noto Sans KR, Malgun Gothic, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 }
 
-.myPage div {
+.myPageWishList div {
     display: block;
     unicode-bidi: isolate;
 }
 
-.myPage .snb_title{
+.myPageWishList .snb_title{
     display: inline-block;
     font-size: 18px;
     font-weight: 700;
@@ -75,11 +75,11 @@
     vertical-align: top;
 }
 
-.myPage li, .myPage ol, .myPage ul {
+.myPageWishList li, .myPageWishList ol, .myPageWishList ul {
     list-style: none;
 }
 
-.myPage ul {
+.myPageWishList ul {
     display: block;
     list-style-type: disc;
     margin-block-start: 0px;
@@ -90,37 +90,43 @@
     unicode-bidi: isolate;
 }
 
-.myPage li {
+.myPageWishList li {
     display: list-item;
     text-align: inherit;
     unicode-bidi: isolate;
 }
 
-.myPage .menu_link{
+.myPageWishList .menu_link{
     color: rgba(34, 34, 34, .5);
     font-size: 15px;
     letter-spacing: -.15px;
     line-height: 18px;
 }
 
-.myPage .menu_item + .menu_item{
+.myPageWishList .menu_item + .menu_item{
     margin-top: 12px;
 }
 
-.myPage .container.my .snb_area + div{
+.myPageWishList .container.my .snb_area + div{
     flex: 1;
 }
 
-.myPage .my-page-content{
+.myPageWishList .content_area{
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1280px;
+}
+
+.myPageWishList .my-page-content{
     flex: 1;
 }
 
-.myPage .lg .user_membership, .myPage .md .user_membership{
+.myPageWishList .lg .user_membership, .myPageWishList .md .user_membership{
     flex-direction: row;
     padding: 24px;
 }
 
-.myPage .user_membership{
+.myPageWishList .user_membership{
     background-color: #fff;
     border: 1px solid #ebebeb;
     border-radius: 10px;
@@ -128,24 +134,24 @@
     flex-direction: column;
 }
 
-.myPage .lg .user_detail, .myPage .md .user_detail{
+.myPageWishList .lg .user_detail, .myPageWishList .md .user_detail{
     border-bottom: none;
     padding: 0;
 }
 
-.myPage .user_detail{
+.myPageWishList .user_detail{
     border-bottom: 8px solid #f0f0f0;
     display: flex;
     flex: 1;
     padding: 16px 24px;
 }
 
-.myPage .lg .user_thumb, .myPage .md .user_thumb{
+.myPageWishList .lg .user_thumb, .myPageWishList .md .user_thumb{
     height: 60px;
     width: 60px;
 }
 
-.myPage .user_thumb{
+.myPageWishList .user_thumb{
     border-radius: 50%;
     flex-shrink: 0;
     height: 90px;
@@ -154,7 +160,7 @@
     width: 90px;
 }
 
-.myPage .user_thumb:after {
+.myPageWishList .user_thumb:after {
     border: 1px solid rgba(34, 34, 34, .05);
     border-radius: 50%;
     bottom: 0;
@@ -165,7 +171,7 @@
     top: 0;
 }
 
-.myPage .user_thumb .thumb_img{
+.myPageWishList .user_thumb .thumb_img{
     border-radius: 100%;
     height: 100%;
     -o-object-fit: cover;
@@ -173,7 +179,7 @@
     width: 100%;
 }
 
-.myPage img, .myPage video {
+.myPageWishList img, .myPageWishList video {
     -webkit-user-drag: none;
     -webkit-touch-callout: none;
     border: 0;
@@ -183,28 +189,28 @@
     vertical-align: top;
 }
 
-.myPage img {
+.myPageWishList img {
     overflow-clip-margin: content-box;
     overflow: clip;
 }
 
-.myPage .lg .user_info, .myPage .md .user_info{
+.myPageWishList .lg .user_info, .myPageWishList .md .user_info{
     align-items: center;
     flex-direction: row;
 }
 
-.myPage .user_info{
+.myPageWishList .user_info{
     display: flex;
     flex: 1;
     flex-direction: column;
     justify-content: center;
 }
 
-.myPage .info_box{
+.myPageWishList .info_box{
     flex: 1;
 }
 
-.myPage .user_info .email, .myPage .user_info .name{
+.myPageWishList .user_info .email, .myPageWishList .user_info .name{
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -212,7 +218,7 @@
     text-overflow: ellipsis;
 }
 
-.myPage .user_info .name{
+.myPageWishList .user_info .name{
     color: #000;
     display: flex;
     font-size: 18px;
@@ -221,7 +227,7 @@
     line-height: 21px;
 }
 
-.myPage .user_info .email{
+.myPageWishList .user_info .email{
     color: rgba(34, 34, 34, .5);
     font-size: 14px;
     letter-spacing: -.21px;
@@ -229,26 +235,26 @@
     line-height: 18px;
 }
 
-.myPage .lg .info-buttons, .myPage .md .info-buttons{
+.myPageWishList .lg .info-buttons, .myPageWishList .md .info-buttons{
     padding-top: 0;
 }
 
-.myPage .info-buttons{
+.myPageWishList .info-buttons{
     padding-top: 12px;
 }
 
-.myPage .btn{
+.myPageWishList .btn{
     align-self: flex-start;
     height: 36px;
     line-height: 34px;
 }
 
-.myPage .outlinegrey{
+.myPageWishList .outlinegrey{
     border: 1px solid #d3d3d3;
     color: rgba(34, 34, 34, .8);
 }
 
-.myPage .small{
+.myPageWishList .small{
     border-radius: 10px;
     font-size: 12px;
     height: 34px;
@@ -256,7 +262,7 @@
     padding: 0 14px;
 }
 
-.myPage .btn{
+.myPageWishList .btn{
     align-items: center;
     background-color: #fff;
     color: rgba(34, 34, 34, .8);
@@ -267,7 +273,7 @@
     vertical-align: middle;
 }
 
-.myPage .lg .shortcut-grid, .myPage .md .shortcut-grid{
+.myPageWishList .lg .shortcut-grid, .myPageWishList .md .shortcut-grid{
     border: 1px solid #ebebeb;
     border-radius: 10px;
     padding-bottom: 24px;
@@ -275,40 +281,45 @@
     row-gap: 20px;
 }
 
-.myPage .lg .shortcut-grid{
+.myPageWishList .lg .shortcut-grid{
     grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
-.myPage .shortcut-grid{
+.myPageWishList .shortcut-grid{
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.myPage .my_home_title{
+.myPageWishList .my_home_title{
     display: flex;
     max-width: 100%;
     padding-bottom: 0px;
 }
 
-.myPage .my_home_title .title{
+.myPageWishList .my_home_title .title{
     font-size: 18px;
     letter-spacing: -.27px;
 }
 
-.myPage .purchase_list_tab{
+.myPageWishList .purchase_list_tab{
     background-color: #fafafa;
     border-radius: 12px;
     display: flex;
     width: 100%;
 }
 
-.myPage .tab_item{
+.myPageWishList .tab_item{
     display: flex;
     flex: 1;
     text-align: center;
 }
 
-.myPage .tab_link{
+.myPageWishList .tab_item.tab_on {
+    border-bottom: 2px solid #000; /* 활성화된 탭 */
+    font-weight: bold;
+}
+
+.myPageWishList .tab_link{
     display: block;
     flex: 1;
     padding-bottom: 14px;
@@ -317,13 +328,13 @@
 }
 
 @media (min-width: 961px) {
-    .myPage .tab_link{
+    .myPageWishList .tab_link{
         padding-bottom: 18px;
         padding-top: 18px;
     }
 }
 
-.myPage dl {
+.myPageWishList dl {
     display: block;
     margin-block-start: 1em;
     margin-block-end: 1em;
@@ -333,32 +344,32 @@
 }
 
 @media (min-width: 961px) {
-    .myPage .tab_link .title{
+    .myPageWishList .tab_link .title{
         font-size: 13px;
     }
 }
 
-.myPage .tab_link .title{
+.myPageWishList .tab_link .title{
     color: rgba(34, 34, 34, .8);
     font-size: 12px;
 }
 
-.myPage dt {
+.myPageWishList dt {
     display: block;
     unicode-bidi: isolate;
 }
 
-.myPage .tab_item.total .count{
+.myPageWishList .tab_item.total .count{
     color: #f15746;
 }
 
 @media (min-width: 961px) {
-    .myPage .tab_link .count{
+    .myPageWishList .tab_link .count{
         font-size: 18px;
     }
 }
 
-.myPage .tab_link .count{
+.myPageWishList .tab_link .count{
     font-size: 15px;
     font-weight: 700;
     letter-spacing: -.09px;
@@ -366,7 +377,7 @@
     margin-top: 2px;
 }
 
-.myPage .tab_item:first-of-type .tab_link:before {
+.myPageWishList .tab_item:first-of-type .tab_link:before {
     background-color: #ebebeb;
     bottom: 18px;
     content: "";
@@ -376,30 +387,42 @@
     width: 1px;
 }
 
-.myPage .tab_link .hold{
+.myPageWishList .tab_link .hold{
     color: #ff7500;
     font-size: 12px;
     letter-spacing: -.06px;
     line-height: 19px;
 }
 
-.myPage .purchase_list_display_item{
+.myPageWishList .purchase_list_display_item{
     align-items: center;
     border-bottom: 1px solid #ebebeb;
     cursor: pointer;
     display: flex;
-    padding: 12px;
-}
-
-.myPage .purchase_list_product{
-    display: flex;
-}
-
-.myPage .purchase_list_product .list_item_img_wrap{
+    padding: 25px 25px 25px 0px;
     position: relative;
 }
 
-.myPage .purchase_list_product .list_item_img_wrap .list_item_img{
+.myPageWishList .purchase_list_display_item .wish_delete{
+    position: absolute; /* 부모의 왼쪽 아래에 고정 */
+    right: 0; /* 왼쪽으로 정렬 */
+    bottom: 20px; /* 아래쪽으로 정렬 */
+    font-size: 12px; /* 적절한 크기로 조정 */
+    color: rgba(34, 34, 34, .8); /* 텍스트 색상 (선택 사항) */
+    padding: 0 3px; /* 텍스트 주위에 약간의 여백 추가 */
+    text-decoration: underline;
+    letter-spacing: -.06px;
+}
+
+.myPageWishList .purchase_list_product{
+    display: flex;
+}
+
+.myPageWishList .purchase_list_product .list_item_img_wrap{
+    position: relative;
+}
+
+.myPageWishList .purchase_list_product .list_item_img_wrap .list_item_img{
     border-radius: 12px;
     height: 80px;
     -o-object-fit: cover;
@@ -407,7 +430,7 @@
     width: 80px;
 }
 
-.myPage .purchase_list_product .list_item_title_wrap{
+.myPageWishList .purchase_list_product .list_item_title_wrap{
     align-self: center;
     display: flex;
     flex-direction: column;
@@ -417,7 +440,7 @@
     row-gap: 13px;
 }
 
-.myPage .purchase_list_product .list_item_title_wrap .list_item_price{
+.myPageWishList .purchase_list_product .list_item_title_wrap .list_item_price{
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -428,7 +451,7 @@
     text-overflow: ellipsis;
 }
 
-.myPage .purchase_list_product .list_item_title_wrap .list_item_title{
+.myPageWishList .purchase_list_product .list_item_title_wrap .list_item_title{
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -439,7 +462,7 @@
     text-overflow: ellipsis;
 }
 
-.myPage .purchase_list_product .list_item_title_wrap .list_item_description{
+.myPageWishList .purchase_list_product .list_item_title_wrap .list_item_description{
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     color: rgba(34, 34, 34, .5);
@@ -454,56 +477,60 @@
     text-overflow: ellipsis;
 }
 
-.myPage .list_item_status{
+.myPageWishList .list_item_status{
     align-items: center;
     display: flex;
     margin-left: auto;
     text-align: right;
 }
 
-.myPage .list_item_status .column_secondary{
+.list_item_column p {
+    margin: 2.5px 0;
+}
+
+.myPageWishList .list_item_status .column_secondary{
     font-size: 13px;
     letter-spacing: -.07px;
 }
 
-.myPage .list_item_status .list_item_column{
+.myPageWishList .list_item_status .list_item_column{
     margin-left: 10px;
     width: 134px;
 }
 
-.myPage .list_item_status .column_last{
+.myPageWishList .list_item_status .column_last{
     align-self: center;
     display: flex;
     flex-direction: column;
 }
 
-.myPage .list_item_status .list_item_column{
+.myPageWishList .list_item_status .list_item_column{
     margin-left: 10px;
     width: 134px;
 }
 
-.myPage .list_item_status .column_last .last_title{
+.myPageWishList .list_item_status .column_last .last_title{
     font-size: 14px;
     letter-spacing: -.21px;
 }
 
-.myPage .list_item_status .column_last .last_description.action_named_action{
+.myPageWishList .list_item_status .column_last .last_description.action_named_action{
     -webkit-text-decoration: underline;
     text-decoration: underline;
 }
 
-.myPage .list_item_status .column_last .last_description{
-    font-size: 12px;
+.myPageWishList .list_item_status .column_last .last_description{
+    font-size: 14px;
     letter-spacing: -.06px;
     overflow: hidden;
     word-break: keep-all;
 }
 
-.myPage .purchase_list_tab.inventory .tab_item.total .count, .myPage .purchase_list_tab.sell .tab_item.total .count{
+.myPageWishList .purchase_list_tab.inventory .tab_item.total .count, .myPageWishList .purchase_list_tab.sell .tab_item.total .count{
     color: #31b46e;
 }
 
-.myPage .my_home_title .btn_more{
+.myPageWishList .my_home_title .btn_more{
     align-items: center;
     display: inline-flex;
     flex-shrink: 0;
@@ -511,11 +538,11 @@
     padding-left: 5px;
 }
 
-.myPage .interest_product{
+.myPageWishList .interest_product{
     margin: 0 -10px;
 }
 
-.myPage .product_item{
+.myPageWishList .product_item{
     display: inline-block;
     margin: 20px 0;
     padding: 0 12px;
@@ -524,48 +551,48 @@
     width: 25%;
 }
 
-.myPage .product_item .item_inner{
+.myPageWishList .product_item .item_inner{
     background-color: #fff;
     border-radius: 12px;
     display: block;
 }
 
-.myPage .product{
+.myPageWishList .product{
     border-radius: 8px;
     overflow: hidden;
     padding-top: 100%;
     position: relative;
 }
 
-.myPage .detail_stock .product_img, .myPage .is_exclusive .product_img, .myPage .lucky_draw_column .product_img, .myPage .other_stock .product_img, .myPage .product_img, .myPage .stock .product_img{
+.myPageWishList .detail_stock .product_img, .myPageWishList .is_exclusive .product_img, .myPageWishList .lucky_draw_column .product_img, .myPageWishList .other_stock .product_img, .myPageWishList .product_img, .myPageWishList .stock .product_img{
     height: auto;
     width: 100%;
 }
 
-.myPage .product_img{
+.myPageWishList .product_img{
     left: 50%;
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
 }
 
-.myPage .picture{
+.myPageWishList .picture{
     border: none;
     display: flex;
 }
 
-.myPage .image.full_width{
+.myPageWishList .image.full_width{
     height: 100%;
     width: 100%;
 }
 
-.myPage .image{
+.myPageWishList .image{
     image-rendering: auto;
     -o-object-fit: cover;
     object-fit: cover;
 }
 
-.myPage .product_item .btn_wish{
+.myPageWishList .product_item .btn_wish{
     bottom: 3px;
     display: inline-flex;
     padding: 5px;
@@ -574,7 +601,7 @@
     z-index: 1;
 }
 
-.myPage .btn_wish{
+.myPageWishList .btn_wish{
     display: flex;
     height: inherit;
 }
@@ -588,11 +615,11 @@
     width: 24px;
 }
 
-.myPage .product_item .info_box{
+.myPageWishList .product_item .info_box{
     padding: 9px 4px 0;
 }
 
-.myPage .brand-text {
+.myPageWishList .brand-text {
     align-items: center;
     color: #222;
     display: inline-flex;
@@ -603,7 +630,7 @@
     margin-bottom: 2px;
 }
 
-.myPage .brand-text > .brand-name {
+.myPageWishList .brand-text > .brand-name {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -612,16 +639,16 @@
     text-overflow: ellipsis;
 }
 
-.myPage .product_item .price{
+.myPageWishList .product_item .price{
     padding-top: 12px;
 }
 
-.myPage .product_item .amount{
+.myPageWishList .product_item .amount{
     font-size: 0;
     line-height: 0;
 }
 
-.myPage .product_item .discount_rate, .myPage .product_item .num, .myPage .product_item .won{
+.myPageWishList .product_item .discount_rate, .myPageWishList .product_item .num, .myPageWishList .product_item .won{
     display: inline-block;
     font-size: 14px;
     font-weight: 700;
@@ -630,7 +657,7 @@
     vertical-align: top;
 }
 
-.myPage .display_paragraph.line_break_by_truncating_tail {
+.myPageWishList .display_paragraph.line_break_by_truncating_tail {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -638,17 +665,169 @@
     text-overflow: ellipsis;
 }
 
-.myPage .text-lookup.bold{
+.myPageWishList .text-lookup.bold{
     font-weight: 700;
 }
 
-.myPage address, .myPage em {
+.myPageWishList address, .myPageWishList em {
     font-style: normal;
 }
 
-.myPage .product_item .desc{
+.myPageWishList .product_item .desc{
     color: rgba(34, 34, 34, .5);
     font-size: 11px;
     line-height: 13px;
     margin-top: 2px;
+}
+
+.myPageWishList .content_title{
+    display: flex;
+}
+
+.myPageWishList .purchase_list_tab.detail_tab{
+    background-color: #fff;
+    border-radius: 0;
+    margin-top: 20px;
+}
+
+.myPageWishList .purchase_list_tab.detail_tab .tab_link{
+    border-bottom: 1px solid #ebebeb;
+    height: 80px;
+    padding-top: 12px;
+}
+
+.myPageWishList .purchase_list_tab.detail_tab .tab_box{
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.myPageWishList .purchase_list_tab.detail_tab .tab_on .title{
+    color: #222;
+    font-weight: 700;
+}
+
+.myPageWishList .purchase_list_tab.detail_tab .title{
+    color: rgba(34, 34, 34, .5);
+}
+
+.myPageWishList .purchase_list_tab.detail_tab .tab_on .count{
+    color: #31b46e;
+}
+
+.myPageWishList .purchase_list_tab.detail_tab .count{
+    font-size: 20px;
+    letter-spacing: -.1px;
+    line-height: 24px;
+    margin-top: 0;
+}
+
+.myPageWishList .title>h3{
+    font-size: 24px;
+    line-height: 29px;
+}
+
+.myPageWishList .before_purchase_confirmation{
+    font-size: 12px;
+    color: #BFBFBF;
+
+}
+
+.myPageWishList .after_purchase_confirmation{
+    font-size: 12px;
+    color: #BFBFBF;
+}
+
+.myPageWishList .content_title.border{
+    border-bottom: 3px solid #222;
+    padding-bottom: 16px;
+}
+
+.myPageWishList .saved-chips-container{
+    padding: 12px 0;
+}
+
+.myPageWishList .filter_chip_group.bubble{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 8px;
+    position: relative;
+}
+
+.myPageWishList .blind, .u_skip {
+    clip: rect(0, 0, 0, 0) !important;
+    height: 1px !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    width: 1px !important;
+}
+
+.myPageWishList input, textarea {
+    -webkit-appearance: none;
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    outline: 0;
+    padding: 0;
+    resize: none;
+}
+
+.myPageWishList .filter_button.line{
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: 30px;
+    color: #4e4e4e;
+    display: flex;
+    flex-direction: row;
+    font-size: 13px;
+    font-weight: 600;
+    height: 30px;
+    padding: 0 8px;
+}
+
+.myPageWishList .filter_button.line.active{
+    background-color: #222;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: none;
+}
+
+.myPageWishList .filter_button{
+    cursor: pointer;
+    position: relative;
+}
+
+.myPageWishList button{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: none;
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    outline: none;
+    padding: 0;
+}
+
+.myPageWishList .filter_button .text-group{
+    padding: 0 4px;
+}
+
+.myPageWishList .filter_button .num{
+    display: none;
+}
+
+.myPageWishList .content-header{
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 20px;
+}
+
+.myPageWishList .total-rows{
+    color: rgba(34, 34, 34, .8);
+    font-size: 13px;
+    letter-spacing: -.07px;
 }

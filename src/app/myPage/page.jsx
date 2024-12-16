@@ -1,56 +1,17 @@
+"use client";
 import Link from 'next/link';
 import './mypage.css';
+import MyPageSideNav from '../components/MyPageSideNav';
+import { usePathname } from 'next/navigation';
 
 function Page(props) {
     
+    const pathname = usePathname();
+
     return (
         <div className='myPage'>
             <div className='container my lg'>
-                <div className='snb_area'>
-                    <a href='#' aria-current="page">
-                        <h2 className='snb_main_title'>마이 페이지</h2>
-                    </a>
-                    <nav className='snb'>
-                        <div className='snb_list'>
-                            <strong className='snb_title'>쇼핑 정보</strong>
-                            <ul className='snb_menu'>
-                                <li className='menu_item'>
-                                    <Link href="/myPageBuy" className='menu_link'>구매 내역</Link>
-                                </li>
-                                <li className='menu_item'>
-                                    <a href='#' className='menu_link'> 판매 내역 </a>
-                                </li>
-                                <li className='menu_item'>
-                                    <a href='#' className='menu_link'> 관심 </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className='snb_list'>
-                            <strong className='snb_title'>내 정보</strong>
-                            <ul className='snb_menu'>
-                                <li className='menu_item'>
-                                    <a href='#' className='menu_link'> 로그인 정보 </a>
-                                </li>
-                                <li className='menu_item'>
-                                    <a href='#' className='menu_link'> 프로필 관리 </a>
-                                </li>
-                                <li className='menu_item'>
-                                    <a href='#' className='menu_link'> 주소록 </a>
-                                </li>
-                                <li className='menu_item'>
-                                    <a href='#' className='menu_link'> 판매 정산 계좌 </a>
-                                </li>
-                                <li className='menu_item'>
-                                    <a href='#' className='menu_link'> 정산 내역 </a>
-                                </li>
-                                <li className='menu_item'>
-                                    <a href='#' className='menu_link'> 거래 후기 </a>
-                                </li>
-                            </ul>
-                        </div>
-
-                    </nav>
-                </div>
+            <MyPageSideNav currentPath={pathname} />
                 <div className='content_area my-page-content'>
                     <div className='v_portal' style={{ display: "none" }}></div>
                     <div className='my_home'>
@@ -83,6 +44,7 @@ function Page(props) {
                                         <div className='tab_item total'>
                                             <a href="#" className='tab_link'>
                                                 <dl className='tab_box'>
+
                                                     <dt className='title'>전체</dt>
                                                     <dd className='count'>0</dd>
                                                 </dl>

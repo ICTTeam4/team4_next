@@ -8,7 +8,7 @@ const MyPageSideNav = ({ currentPath }) => {
     console.log(currentPath)
     return (
         <div className='myPageSideNav'>
-            <div className='container my lg'>
+            
                 <div className='snb_area'>
                     <Link href="/myPage" aria-current="page">
                         <h2 className='snb_main_title'>마이 페이지</h2>
@@ -21,10 +21,10 @@ const MyPageSideNav = ({ currentPath }) => {
                                     <Link href='/myPageBuy' className={`menu_link ${isActive('/myPageBuy') ? 'active' : ''}`}> 구매 내역 </Link>
                                 </li>
                                 <li className='menu_item'>
-                                    <a href='#' className='menu_link'> 판매 내역 </a>
+                                    <Link href='/myPageSell' className={`menu_link ${isActive('/myPageSell') ? 'active' : ''}`}> 판매 내역 </Link>
                                 </li>
                                 <li className='menu_item'>
-                                    <a href='#' className='menu_link'> 관심 </a>
+                                    <Link href='/myPageWishList' className={`menu_link ${isActive('/myPageWishList') ? 'active' : ''}`}> 관심 </Link>
                                 </li>
                             </ul>
                         </div>
@@ -53,7 +53,6 @@ const MyPageSideNav = ({ currentPath }) => {
                         </div>
                     </nav>
                 </div>
-            </div>
         </div>
     );
 };

@@ -1,7 +1,7 @@
 "use client";
 import { usePathname } from 'next/navigation';
 import MyPageSideNav from '../components/MyPageSideNav';
-import './myPageBuy.css';
+import './myPageSell.css';
 import { useState } from 'react';
 
 function Page(props) {
@@ -14,26 +14,35 @@ function Page(props) {
 
     return (
 
-        <div className='myPageBuy'>
+        <div className='myPageSell'>
             <div className='container my lg'>
                 <MyPageSideNav currentPath={pathname} />
                 <div className='content_area my-page-content'>
                     <div className='my_purchase'>
                         <div className='content_title'>
                             <div className='title'>
-                                <h3>구매 내역</h3>
+                                <h3>판매 내역</h3>
                             </div>
                         </div>
                         {/* 타이틀 끝 */}
-                        <div className='purchase_list history'>
+                        <div className='purchase_list sell history'>
                             <div>
-                                <div className='history'>
-                                    <div className='purchase_list_tab divider detail_tab'>
-                                        <div className={`tab_item ${activeTab === '전체' ? 'tab_on' : ''}`}
+                                <div className='sell history'>
+                                    <div className='purchase_list_tab sell divider detail_tab'>
+                                    <div className={`tab_item ${activeTab === '전체' ? 'tab_on' : ''}`}
                                              onClick={()=> handleTabClick('전체')}>
                                             <a href="#" className='tab_link'>
                                                 <dl className='tab_box'>
                                                     <dt className='title'>전체</dt>
+                                                    <dd className='count'>0</dd>
+                                                </dl>
+                                            </a>
+                                        </div>
+                                        <div className={`tab_item ${activeTab === '판매 중' ? 'tab_on' : ''}`}
+                                             onClick={()=> handleTabClick('판매 중')}>
+                                            <a href="#" className='tab_link'>
+                                                <dl className='tab_box'>
+                                                    <dt className='title'>판매 중</dt>
                                                     <dd className='count'>0</dd>
                                                 </dl>
                                             </a>
@@ -47,11 +56,11 @@ function Page(props) {
                                                 </dl>
                                             </a>
                                         </div>
-                                        <div className={`tab_item ${activeTab === '구매 완료' ? 'tab_on' : ''}`}
-                                             onClick={()=> handleTabClick('구매 완료')}>
+                                        <div className={`tab_item ${activeTab === '판매 완료' ? 'tab_on' : ''}`}
+                                             onClick={()=> handleTabClick('판매 완료')}>
                                             <a href="#" className='tab_link'>
                                                 <dl className='tab_box'>
-                                                    <dt className='title'>구매 완료</dt>
+                                                    <dt className='title'>판매 완료</dt>
                                                     <dd className='count'>0</dd>
                                                 </dl>
                                             </a>
@@ -73,7 +82,7 @@ function Page(props) {
                                                     <p className='list_item_price'>80,000원</p>
                                                     <p className='list_item_title'>상품 이름</p>
                                                     <p className='list_item_description'>
-                                                        <span>판매자이름 / 택배거래</span>
+                                                        <span>구매자이름 / 택배거래</span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -83,8 +92,9 @@ function Page(props) {
                                                         style={{ color: "rgba(34, 34, 34, 0.5" }}>YY/MM/DD</p>
                                                 </div>
                                                 <div className='list_item_column column_last'>
-                                                    <p className='text-lookup last_title display_paragraph' style={{ color: "rgb(34, 34, 34)" }}>진행 중</p>
-                                                    <p className='text-lookup last_description display_paragraph action_named_action' style={{ color: "red" }}>구매 확정</p>
+                                                    <p className='before_purchase_confirmation'>구매 확정 전</p>
+                                                    <p className='text-lookup last_title display_paragraph'
+                                                        style={{ color: "rgb(34, 34, 34)" }}>판매 완료</p>
                                                 </div>
                                             </div>
                                         </a>
@@ -101,7 +111,7 @@ function Page(props) {
                                                     <p className='list_item_price'>80,000원</p>
                                                     <p className='list_item_title'>상품 이름</p>
                                                     <p className='list_item_description'>
-                                                        <span>판매자이름 / 택배거래</span>
+                                                        <span>구매자이름 / 택배거래</span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -111,8 +121,10 @@ function Page(props) {
                                                         style={{ color: "rgba(34, 34, 34, 0.5" }}>YY/MM/DD</p>
                                                 </div>
                                                 <div className='list_item_column column_last'>
+                                                    <p className='after_purchase_confirmation'>MM.DD 구매 확정</p>
                                                     <p className='text-lookup last_title display_paragraph'
-                                                        style={{ color: "rgb(34, 34, 34)" }}>구매 완료</p>
+                                                        style={{ color: "rgb(34, 34, 34)" }}>판매 완료</p>
+                                                    <p className='text-lookup last_description display_paragraph action_named_action'>후기 남기기</p>
                                                 </div>
                                             </div>
                                         </a>

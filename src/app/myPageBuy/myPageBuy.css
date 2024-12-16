@@ -1,9 +1,9 @@
-.myPage body, .myPage button, .myPage dd, .myPage div, .myPage dl, .myPage dt, .myPage fieldset, .myPage figcaption, .myPage figure, .myPage form, .myPage h1, .myPage h2, .myPage h3, .myPage h4, .myPage h5, .myPage h6, .myPage input, .myPage legend, .myPage li, .myPage ol, .myPage p, .myPage select, .myPage table, .myPage td, .myPage textarea, .myPage th, .myPage ul {
+.myPageBuy body, .myPageBuy button, .myPageBuy dd, .myPageBuy div, .myPageBuy dl, .myPageBuy dt, .myPageBuy fieldset, .myPageBuy figcaption, .myPageBuy figure, .myPageBuy form, .myPageBuy h1, .myPageBuy h2, .myPageBuy h3, .myPageBuy h4, .myPageBuy h5, .myPageBuy h6, .myPageBuy input, .myPageBuy legend, .myPageBuy li, .myPageBuy ol, .myPageBuy p, .myPageBuy select, .myPageBuy table, .myPageBuy td, .myPageBuy textarea, .myPageBuy th, .myPageBuy ul {
     margin: 0;
     padding: 0;
 }
 
-.myPage .container.my{
+.myPageBuy .container.my{
     display: flex;
     margin-left: auto;
     margin-right: auto;
@@ -11,12 +11,12 @@
     padding: 40px 40px 160px
 }
 
-.myPage .snb_area{
+.myPageBuy .snb_area{
     margin-right: 20px;
     width: 180px;
 }
 
-.myPage .snb_main_title{
+.myPageBuy .snb_main_title{
     font-size: 24px;
     font-weight: 700;
     letter-spacing: -.15px;
@@ -24,17 +24,17 @@
     padding-bottom: 30px;
 }
 
-.myPage a {
+.myPageBuy a {
     -webkit-tap-highlight-color: rgba(0,0,0,.1);
     color: inherit
 }
 
-.myPage a,.myPage a:active, .myPage a:focus, .myPage a:hover {
+.myPageBuy a,.myPageBuy a:active, .myPageBuy a:focus, .myPageBuy a:hover {
     -webkit-text-decoration: none;
     text-decoration: none
 }
 
-.myPage p {
+.myPageBuy p {
     display: block;
     margin-block-start: 0;
     margin-block-end: 0;
@@ -43,29 +43,29 @@
     unicode-bidi: isolate;
 }
 
-.myPage *, .myPage :after, .myPage :before {
+.myPageBuy *, .myPageBuy :after, .myPageBuy :before {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     box-sizing: border-box
 }
 
-.myPage nav {
+.myPageBuy nav {
     display: block;
 }
 
-.myPage body, .myPage button, .myPage input, .myPage select, .myPage table, .myPage textarea {
-    font-feature-settings: "frac" 0,"numr" 0 !important;
-    color: #222 !important;
+.myPageBuy body, .myPageBuy button, .myPageBuy input, .myPageBuy select, .myPageBuy table, .myPageBuy textarea {
+    font-feature-settings: "frac" 0,"numr" 0;
+    color: #222;
     font-family: Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 
     Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, Helvetica Neue, Apple SD Gothic Neo, 
     Noto Sans KR, Malgun Gothic, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 }
 
-.myPage div {
+.myPageBuy div {
     display: block;
     unicode-bidi: isolate;
 }
 
-.myPage .snb_title{
+.myPageBuy .snb_title{
     display: inline-block;
     font-size: 18px;
     font-weight: 700;
@@ -75,11 +75,11 @@
     vertical-align: top;
 }
 
-.myPage li, .myPage ol, .myPage ul {
+.myPageBuy li, .myPageBuy ol, .myPageBuy ul {
     list-style: none;
 }
 
-.myPage ul {
+.myPageBuy ul {
     display: block;
     list-style-type: disc;
     margin-block-start: 0px;
@@ -90,37 +90,37 @@
     unicode-bidi: isolate;
 }
 
-.myPage li {
+.myPageBuy li {
     display: list-item;
     text-align: inherit;
     unicode-bidi: isolate;
 }
 
-.myPage .menu_link{
+.myPageBuy .menu_link{
     color: rgba(34, 34, 34, .5);
     font-size: 15px;
     letter-spacing: -.15px;
     line-height: 18px;
 }
 
-.myPage .menu_item + .menu_item{
+.myPageBuy .menu_item + .menu_item{
     margin-top: 12px;
 }
 
-.myPage .container.my .snb_area + div{
+.myPageBuy .container.my .snb_area + div{
     flex: 1;
 }
 
-.myPage .my-page-content{
+.myPageBuy .my-page-content{
     flex: 1;
 }
 
-.myPage .lg .user_membership, .myPage .md .user_membership{
+.myPageBuy .lg .user_membership, .myPageBuy .md .user_membership{
     flex-direction: row;
     padding: 24px;
 }
 
-.myPage .user_membership{
+.myPageBuy .user_membership{
     background-color: #fff;
     border: 1px solid #ebebeb;
     border-radius: 10px;
@@ -128,24 +128,24 @@
     flex-direction: column;
 }
 
-.myPage .lg .user_detail, .myPage .md .user_detail{
+.myPageBuy .lg .user_detail, .myPageBuy .md .user_detail{
     border-bottom: none;
     padding: 0;
 }
 
-.myPage .user_detail{
+.myPageBuy .user_detail{
     border-bottom: 8px solid #f0f0f0;
     display: flex;
     flex: 1;
     padding: 16px 24px;
 }
 
-.myPage .lg .user_thumb, .myPage .md .user_thumb{
+.myPageBuy .lg .user_thumb, .myPageBuy .md .user_thumb{
     height: 60px;
     width: 60px;
 }
 
-.myPage .user_thumb{
+.myPageBuy .user_thumb{
     border-radius: 50%;
     flex-shrink: 0;
     height: 90px;
@@ -154,7 +154,7 @@
     width: 90px;
 }
 
-.myPage .user_thumb:after {
+.myPageBuy .user_thumb:after {
     border: 1px solid rgba(34, 34, 34, .05);
     border-radius: 50%;
     bottom: 0;
@@ -165,7 +165,7 @@
     top: 0;
 }
 
-.myPage .user_thumb .thumb_img{
+.myPageBuy .user_thumb .thumb_img{
     border-radius: 100%;
     height: 100%;
     -o-object-fit: cover;
@@ -173,7 +173,7 @@
     width: 100%;
 }
 
-.myPage img, .myPage video {
+.myPageBuy img, .myPageBuy video {
     -webkit-user-drag: none;
     -webkit-touch-callout: none;
     border: 0;
@@ -183,28 +183,28 @@
     vertical-align: top;
 }
 
-.myPage img {
+.myPageBuy img {
     overflow-clip-margin: content-box;
     overflow: clip;
 }
 
-.myPage .lg .user_info, .myPage .md .user_info{
+.myPageBuy .lg .user_info, .myPageBuy .md .user_info{
     align-items: center;
     flex-direction: row;
 }
 
-.myPage .user_info{
+.myPageBuy .user_info{
     display: flex;
     flex: 1;
     flex-direction: column;
     justify-content: center;
 }
 
-.myPage .info_box{
+.myPageBuy .info_box{
     flex: 1;
 }
 
-.myPage .user_info .email, .myPage .user_info .name{
+.myPageBuy .user_info .email, .myPageBuy .user_info .name{
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -212,7 +212,7 @@
     text-overflow: ellipsis;
 }
 
-.myPage .user_info .name{
+.myPageBuy .user_info .name{
     color: #000;
     display: flex;
     font-size: 18px;
@@ -221,7 +221,7 @@
     line-height: 21px;
 }
 
-.myPage .user_info .email{
+.myPageBuy .user_info .email{
     color: rgba(34, 34, 34, .5);
     font-size: 14px;
     letter-spacing: -.21px;
@@ -229,26 +229,26 @@
     line-height: 18px;
 }
 
-.myPage .lg .info-buttons, .myPage .md .info-buttons{
+.myPageBuy .lg .info-buttons, .myPageBuy .md .info-buttons{
     padding-top: 0;
 }
 
-.myPage .info-buttons{
+.myPageBuy .info-buttons{
     padding-top: 12px;
 }
 
-.myPage .btn{
+.myPageBuy .btn{
     align-self: flex-start;
     height: 36px;
     line-height: 34px;
 }
 
-.myPage .outlinegrey{
+.myPageBuy .outlinegrey{
     border: 1px solid #d3d3d3;
     color: rgba(34, 34, 34, .8);
 }
 
-.myPage .small{
+.myPageBuy .small{
     border-radius: 10px;
     font-size: 12px;
     height: 34px;
@@ -256,7 +256,7 @@
     padding: 0 14px;
 }
 
-.myPage .btn{
+.myPageBuy .btn{
     align-items: center;
     background-color: #fff;
     color: rgba(34, 34, 34, .8);
@@ -267,7 +267,7 @@
     vertical-align: middle;
 }
 
-.myPage .lg .shortcut-grid, .myPage .md .shortcut-grid{
+.myPageBuy .lg .shortcut-grid, .myPageBuy .md .shortcut-grid{
     border: 1px solid #ebebeb;
     border-radius: 10px;
     padding-bottom: 24px;
@@ -275,66 +275,60 @@
     row-gap: 20px;
 }
 
-.myPage .lg .shortcut-grid{
+.myPageBuy .lg .shortcut-grid{
     grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
-.myPage .shortcut-grid{
+.myPageBuy .shortcut-grid{
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.myPage .my_home_title{
+.myPageBuy .my_home_title{
     display: flex;
     max-width: 100%;
     padding-bottom: 0px;
 }
 
-.myPage .my_home_title .title{
+.myPageBuy .my_home_title .title{
     font-size: 18px;
     letter-spacing: -.27px;
 }
 
-.myPage h3 {
-    display: block;
-    font-size: 1.17em;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
-    unicode-bidi: isolate;
-}
-
-.myPage .purchase_list_tab{
+.myPageBuy .purchase_list_tab{
     background-color: #fafafa;
     border-radius: 12px;
     display: flex;
     width: 100%;
 }
 
-.myPage .tab_item{
+.myPageBuy .tab_item{
     display: flex;
     flex: 1;
     text-align: center;
 }
 
-.myPage .tab_link{
+.myPageBuy .tab_item.tab_on {
+    border-bottom: 2px solid #000; /* 활성화된 탭 */
+    font-weight: bold;
+}
+
+.myPageBuy .tab_link{
     display: block;
     flex: 1;
-    padding-bottom: 14px;
-    padding-top: 14px;
+    padding-bottom: 10px;
+    padding-top: 10px;
     position: relative;
 }
 
 @media (min-width: 961px) {
-    .myPage .tab_link{
+    .myPageBuy .tab_link{
         padding-bottom: 18px;
         padding-top: 18px;
     }
 }
 
-.myPage dl {
+.myPageBuy dl {
     display: block;
     margin-block-start: 1em;
     margin-block-end: 1em;
@@ -344,32 +338,32 @@
 }
 
 @media (min-width: 961px) {
-    .myPage .tab_link .title{
+    .myPageBuy .tab_link .title{
         font-size: 13px;
     }
 }
 
-.myPage .tab_link .title{
+.myPageBuy .tab_link .title{
     color: rgba(34, 34, 34, .8);
     font-size: 12px;
 }
 
-.myPage dt {
+.myPageBuy dt {
     display: block;
     unicode-bidi: isolate;
 }
 
-.myPage .tab_item.total .count{
+.myPageBuy .tab_item.total .count{
     color: #f15746;
 }
 
 @media (min-width: 961px) {
-    .myPage .tab_link .count{
+    .myPageBuy .tab_link .count{
         font-size: 18px;
     }
 }
 
-.myPage .tab_link .count{
+.myPageBuy .tab_link .count{
     font-size: 15px;
     font-weight: 700;
     letter-spacing: -.09px;
@@ -377,7 +371,7 @@
     margin-top: 2px;
 }
 
-.myPage .tab_item:first-of-type .tab_link:before {
+.myPageBuy .tab_item:first-of-type .tab_link:before {
     background-color: #ebebeb;
     bottom: 18px;
     content: "";
@@ -387,30 +381,30 @@
     width: 1px;
 }
 
-.myPage .tab_link .hold{
+.myPageBuy .tab_link .hold{
     color: #ff7500;
     font-size: 12px;
     letter-spacing: -.06px;
     line-height: 19px;
 }
 
-.myPage .purchase_list_display_item{
+.myPageBuy .purchase_list_display_item{
     align-items: center;
     border-bottom: 1px solid #ebebeb;
     cursor: pointer;
     display: flex;
-    padding: 12px;
+    padding: 25px;
 }
 
-.myPage .purchase_list_product{
+.myPageBuy .purchase_list_product{
     display: flex;
 }
 
-.myPage .purchase_list_product .list_item_img_wrap{
+.myPageBuy .purchase_list_product .list_item_img_wrap{
     position: relative;
 }
 
-.myPage .purchase_list_product .list_item_img_wrap .list_item_img{
+.myPageBuy .purchase_list_product .list_item_img_wrap .list_item_img{
     border-radius: 12px;
     height: 80px;
     -o-object-fit: cover;
@@ -418,7 +412,7 @@
     width: 80px;
 }
 
-.myPage .purchase_list_product .list_item_title_wrap{
+.myPageBuy .purchase_list_product .list_item_title_wrap{
     align-self: center;
     display: flex;
     flex-direction: column;
@@ -428,7 +422,7 @@
     row-gap: 13px;
 }
 
-.myPage .purchase_list_product .list_item_title_wrap .list_item_price{
+.myPageBuy .purchase_list_product .list_item_title_wrap .list_item_price{
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -439,7 +433,7 @@
     text-overflow: ellipsis;
 }
 
-.myPage .purchase_list_product .list_item_title_wrap .list_item_title{
+.myPageBuy .purchase_list_product .list_item_title_wrap .list_item_title{
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -450,7 +444,7 @@
     text-overflow: ellipsis;
 }
 
-.myPage .purchase_list_product .list_item_title_wrap .list_item_description{
+.myPageBuy .purchase_list_product .list_item_title_wrap .list_item_description{
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     color: rgba(34, 34, 34, .5);
@@ -465,56 +459,56 @@
     text-overflow: ellipsis;
 }
 
-.myPage .list_item_status{
+.myPageBuy .list_item_status{
     align-items: center;
     display: flex;
     margin-left: auto;
     text-align: right;
 }
 
-.myPage .list_item_status .column_secondary{
+.myPageBuy .list_item_status .column_secondary{
     font-size: 13px;
     letter-spacing: -.07px;
 }
 
-.myPage .list_item_status .list_item_column{
+.myPageBuy .list_item_status .list_item_column{
     margin-left: 10px;
     width: 134px;
 }
 
-.myPage .list_item_status .column_last{
+.myPageBuy .list_item_status .column_last{
     align-self: center;
     display: flex;
     flex-direction: column;
 }
 
-.myPage .list_item_status .list_item_column{
+.myPageBuy .list_item_status .list_item_column{
     margin-left: 10px;
     width: 134px;
 }
 
-.myPage .list_item_status .column_last .last_title{
+.myPageBuy .list_item_status .column_last .last_title{
     font-size: 14px;
     letter-spacing: -.21px;
 }
 
-.myPage .list_item_status .column_last .last_description.action_named_action{
+.myPageBuy .list_item_status .column_last .last_description.action_named_action{
     -webkit-text-decoration: underline;
     text-decoration: underline;
 }
 
-.myPage .list_item_status .column_last .last_description{
+.myPageBuy .list_item_status .column_last .last_description{
     font-size: 12px;
     letter-spacing: -.06px;
     overflow: hidden;
     word-break: keep-all;
 }
 
-.myPage .purchase_list_tab.inventory .tab_item.total .count, .myPage .purchase_list_tab.sell .tab_item.total .count{
+.myPageBuy .purchase_list_tab.inventory .tab_item.total .count, .myPageBuy .purchase_list_tab.sell .tab_item.total .count{
     color: #31b46e;
 }
 
-.myPage .my_home_title .btn_more{
+.myPageBuy .my_home_title .btn_more{
     align-items: center;
     display: inline-flex;
     flex-shrink: 0;
@@ -522,11 +516,11 @@
     padding-left: 5px;
 }
 
-.myPage .interest_product{
+.myPageBuy .interest_product{
     margin: 0 -10px;
 }
 
-.myPage .product_item{
+.myPageBuy .product_item{
     display: inline-block;
     margin: 20px 0;
     padding: 0 12px;
@@ -535,48 +529,48 @@
     width: 25%;
 }
 
-.myPage .product_item .item_inner{
+.myPageBuy .product_item .item_inner{
     background-color: #fff;
     border-radius: 12px;
     display: block;
 }
 
-.myPage .product{
+.myPageBuy .product{
     border-radius: 8px;
     overflow: hidden;
     padding-top: 100%;
     position: relative;
 }
 
-.myPage .detail_stock .product_img, .myPage .is_exclusive .product_img, .myPage .lucky_draw_column .product_img, .myPage .other_stock .product_img, .myPage .product_img, .myPage .stock .product_img{
+.myPageBuy .detail_stock .product_img, .myPageBuy .is_exclusive .product_img, .myPageBuy .lucky_draw_column .product_img, .myPageBuy .other_stock .product_img, .myPageBuy .product_img, .myPageBuy .stock .product_img{
     height: auto;
     width: 100%;
 }
 
-.myPage .product_img{
+.myPageBuy .product_img{
     left: 50%;
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
 }
 
-.myPage .picture{
+.myPageBuy .picture{
     border: none;
     display: flex;
 }
 
-.myPage .image.full_width{
+.myPageBuy .image.full_width{
     height: 100%;
     width: 100%;
 }
 
-.myPage .image{
+.myPageBuy .image{
     image-rendering: auto;
     -o-object-fit: cover;
     object-fit: cover;
 }
 
-.myPage .product_item .btn_wish{
+.myPageBuy .product_item .btn_wish{
     bottom: 3px;
     display: inline-flex;
     padding: 5px;
@@ -585,7 +579,7 @@
     z-index: 1;
 }
 
-.myPage .btn_wish{
+.myPageBuy .btn_wish{
     display: flex;
     height: inherit;
 }
@@ -599,11 +593,11 @@
     width: 24px;
 }
 
-.myPage .product_item .info_box{
+.myPageBuy .product_item .info_box{
     padding: 9px 4px 0;
 }
 
-.myPage .brand-text {
+.myPageBuy .brand-text {
     align-items: center;
     color: #222;
     display: inline-flex;
@@ -614,7 +608,7 @@
     margin-bottom: 2px;
 }
 
-.myPage .brand-text > .brand-name {
+.myPageBuy .brand-text > .brand-name {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -623,16 +617,16 @@
     text-overflow: ellipsis;
 }
 
-.myPage .product_item .price{
+.myPageBuy .product_item .price{
     padding-top: 12px;
 }
 
-.myPage .product_item .amount{
+.myPageBuy .product_item .amount{
     font-size: 0;
     line-height: 0;
 }
 
-.myPage .product_item .discount_rate, .myPage .product_item .num, .myPage .product_item .won{
+.myPageBuy .product_item .discount_rate, .myPageBuy .product_item .num, .myPageBuy .product_item .won{
     display: inline-block;
     font-size: 14px;
     font-weight: 700;
@@ -641,7 +635,7 @@
     vertical-align: top;
 }
 
-.myPage .display_paragraph.line_break_by_truncating_tail {
+.myPageBuy .display_paragraph.line_break_by_truncating_tail {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -649,67 +643,68 @@
     text-overflow: ellipsis;
 }
 
-.myPage .text-lookup.bold{
+.myPageBuy .text-lookup.bold{
     font-weight: 700;
 }
 
-.myPage address, .myPage em {
+.myPageBuy address, .myPageBuy em {
     font-style: normal;
 }
 
-.myPage .product_item .desc{
+.myPageBuy .product_item .desc{
     color: rgba(34, 34, 34, .5);
     font-size: 11px;
     line-height: 13px;
     margin-top: 2px;
 }
 
-.myPage .content_title{
+.myPageBuy .content_title{
     display: flex;
 }
 
-.myPage .title{
+.myPageBuy .title{
     font-size: 24px;
     letter-spacing: -.36px;
 }
 
-.myPage .purchase_list_tab.detail_tab{
+.myPageBuy .purchase_list_tab.detail_tab{
     background-color: #fff;
     border-radius: 0;
     margin-top: 20px;
 }
 
-.myPage .purchase_list_tab.detail_tab .tab_on .tab_link{
-    border-bottom: 2px solid #222;
-}
-
-.myPage .purchase_list_tab.detail_tab .tab_link{
+.myPageBuy .purchase_list_tab.detail_tab .tab_link{
     border-bottom: 1px solid #ebebeb;
-    height: 68px;
-    padding-top: 12px;
+    height: 80px;
+    padding-top: 10px;
 }
 
-.myPage .purchase_list_tab.detail_tab .tab_box{
+.myPageBuy .purchase_list_tab.detail_tab .tab_box{
     display: flex;
     flex-direction: column-reverse;
 }
 
-.myPage .purchase_list_tab.detail_tab .tab_on .title{
+.myPageBuy .purchase_list_tab.detail_tab .tab_on .title{
     color: #222;
     font-weight: 700;
 }
 
-.myPage .purchase_list_tab.detail_tab .title{
+.myPageBuy .purchase_list_tab.detail_tab .title{
     color: rgba(34, 34, 34, .5);
 }
 
-.myPage .purchase_list_tab.detail_tab .tab_on .count{
+.myPageBuy .purchase_list_tab.detail_tab .tab_on .count{
     color: #f15746;
 }
 
-.myPage .purchase_list_tab.detail_tab .count{
+.myPageBuy .purchase_list_tab.detail_tab .count{
     font-size: 20px;
     letter-spacing: -.1px;
     line-height: 24px;
     margin-top: 0;
+}
+
+.myPageBuy .title>h3{
+    font-size: inherit;
+    line-height: 29px;
 }
