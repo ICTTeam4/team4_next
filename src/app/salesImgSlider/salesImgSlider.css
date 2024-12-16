@@ -19,9 +19,9 @@
 
 .slider-images img {
   position: relative;
-  left: 400px;
-  width: 400px;
-  height: 400px;
+  left: 600px;
+  width: 600px;
+  height: 600px;
   object-fit: cover;
   cursor: pointer;
 }

@@ -17,6 +17,7 @@ function page(props) {
   const goToSlide = (index) => {
     setCurrentIndex(index);
   };
+  
   const openModal = (index) => {
     setCurrentIndex(index);
     setIsModalOpen(true);
@@ -29,7 +30,7 @@ function page(props) {
     <div className="slider-container">
       <div
         className="slider-images"
-        style={{ transform: `translateX(-${currentIndex * 400}px)` }}
+        style={{ transform: `translateX(-${currentIndex * 600}px)` }}
       >
         {images.map((src, index) => (
           <img key={index} src={src} alt={`Slide ${index + 1}`}

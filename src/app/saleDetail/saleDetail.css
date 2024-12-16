@@ -50,7 +50,7 @@
   padding: 10px;
   display: grid;
   grid-template-columns: repeat(2, 600px);
-  grid-template-rows: 500px 600px 350px;
+  grid-template-rows: 700px 600px 350px;
   justify-content: center;
   grid-template-areas: 
   "img trademenu"
@@ -79,8 +79,8 @@
 }
 .images {
   justify-self: center;
-  width: 400px;
-  height: 400px;
+  width: 600px;
+  height: 600px;
   border-radius: 5px;
 
 }
