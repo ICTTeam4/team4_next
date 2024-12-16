@@ -4,7 +4,7 @@ import './salesImgSlider.css'
 function page(props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const images = ["/images/David_cloth1.jpg", "/images/David_img_girl.jpg", "/images/David_cloth1.jpg"];
+  const images = ["/images/David_cloth1.jpg", "/images/David_img_girl.jpg", "/images/David_cloth2.jpeg"];
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
