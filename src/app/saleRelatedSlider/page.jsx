@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './saleRelatedSlider.css'
+import Link from 'next/link';
 
 function page(props) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -29,11 +30,13 @@ function page(props) {
       >
         {items.map((item) => (
           <div key={item.id} className='item'>
+                <Link href="/salepage">
             <img src={item.image} alt={item.title} className='image' />
             <div className='info'>
               <h3>{item.title}</h3>
               <p>{item.price}</p>
             </div>
+            </Link>
           </div>
         ))}
       </div>
