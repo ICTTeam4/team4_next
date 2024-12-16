@@ -3,10 +3,11 @@ import React, { useState } from 'react';
 import "./saleDetail.css"
 import Image from 'next/image';
 import { Button } from '@mui/material';
-
+import SalesImgSlider from '@/app/salesImgSlider/page'
+import SalesRelatedSlider from '@/app/saleRelatedSlider/page'
 function page(props) {
-
   const [isOpen, setIsOpen] = useState(false);
+  const [isMapOpen, setIsMapOpen] = useState(false);
 
   const openPanel = () => {
     setIsOpen(true);
@@ -15,49 +16,61 @@ function page(props) {
   const closePanel = () => {
     setIsOpen(false);
   }
+
+  const openMap = () => {
+    setIsMapOpen(true);
+  }
+  const closeMap = () => {
+    setIsMapOpen(false);
+  }
+
+
   return (
     <>
       <div className="container">
         <div className="imgBox">
-          <div className="images"> <div className="navleft"> &#10092;</div> <div className="navright">&#10093;</div></div>
+          <div className="images" > <SalesImgSlider/> </div>
         </div>
         <div className="tradeInfoMenu">
           <div className="category">홈▶카테고리1▶카테고리2</div>
           <div className="salesInfo">
             <div className="itemName">
-              <div className="item">물품이름</div>
+              <div className="item"> <span className='infoTitle'>물품이름</span> </div>
 
 
-              <div className="share">공유하기 버튼</div>
+              <Image src="/images/David_share.png"  width={50} height={50}  className="share"/>
+              
 
             </div>
-            <div className="itemPrice">가격</div>
+            <div className="itemPrice"><span className='infoTitle priceInfo'>가격</span></div>
             <div className="detailData">게시일 조회수 채팅 수 찜수</div>
 
           </div>
           <div className="tradeInfo">
-            <div>제품상태</div>
-            <div>거래방식</div>
-            <div>배송비</div>
-            <div>안전거래</div>
+            <div> 제품상태 <br /> <span className='tradeTitle'>중고</span></div>
+            <div>거래방식 <br /> <span className='tradeTitle'>직거래</span></div>
+            <div>배송비 <br /> <span className='tradeTitle'>포함</span></div>
+            <div>안전거래 <br /> <span className='tradeTitle'>사용</span></div>
           </div>
           <div id="interaction-area">
-            <Image src="/images/David_bookmark-white.png" width={30} height={30} className="bookmark" id="bookmark"/>
-            <Button className="purchase" onClick={openPanel}>구매하기</Button>
-            <Button className="chatting" onClick={openPanel}>채팅하기</Button>
-
+            <Image src="/images/David_bookmark-white.png" width={30} height={30} className="bookmark" id="bookmark" />
+            <div className="purchase" onClick={openPanel}>구매하기</div>
+            <div className="chatting" onClick={openPanel}>채팅하기</div>
           </div>
-          <div className="tradeArea">⊙ 마장동 직거래 위치 제안하기</div>
+          <div className="tradeArea" onClick={openMap}>⊙ 마장동 직거래 위치 제안하기</div>
         </div>
         <div className="salesDescription">
-          상품 정보
+          <div className="sellerInfo">
+          <span className='infoTitle'>상품 정보</span>
+          </div>
+          
           <hr />
           <div></div>
         </div>
         <div className="sellerInfo">
-
-          <span>판매자 정보</span>   <span className="sellernavright"> ▶ </span>
-
+          <div className='sellerHeader'>
+          <span className='infoTitle'>판매자 정보</span>   <Image src="/images/David_arrow.png" className='navigation' width="30" height="30"/>
+          </div>
           <hr />
           <div className="sellerContainer">
 
@@ -66,8 +79,8 @@ function page(props) {
               <div className="sellerNickname">판매자 닉네임</div> <div className="sellerImg"></div>
             </div>
             <div className="sellerData">
-              <div>안전거래 수</div>
-              <div>거래 후기 수</div>
+              <div>안전거래 수 <br /> <span className='tradeTitle'>2</span></div>
+              <div>거래 후기 수 <br /> <span className='tradeTitle'>10</span></div>
             </div>
             <div className="sellerRecent">
               <div className="sellerGoods">
@@ -91,7 +104,7 @@ function page(props) {
 
         </div>
         <div className="relatedGoods">
-          <div className="relatedGoodsOne">
+          {/* <div className="relatedGoodsOne">
             <div className="relatedGoodsImg"></div>
             <div className="relatedGoodsTitle">제목</div>
             <div className="relatedGoodsPrice">가격</div>
@@ -115,9 +128,17 @@ function page(props) {
             <div className="relatedGoodsImg"></div>
             <div className="relatedGoodsTitle">제목</div>
             <div className="relatedGoodsPrice">가격</div>
-          </div>
-          
+          </div> */}
+          <SalesRelatedSlider/>
+
         </div>
+        {
+          isMapOpen && (
+            <div className='mapModal' onClick={closeMap}>
+              <div className='mapWindow' onClick={(e) => e.stopPropagation()}>지도</div>
+            </div>
+          )
+        }
 
         {/* 어두운 오버레이 */}
         {isOpen && <div id="overlay" className="active" onClick={closePanel}></div>}
