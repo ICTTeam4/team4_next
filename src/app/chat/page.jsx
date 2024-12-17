@@ -1,13 +1,22 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './styles.css'; // 스타일 파일을 import합니다.
 import Page from '../chatDetail/page';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/navigation';
 
-const Chat = ({ isOpen, setChatOpen }) => {
+const Chat = ({ isOpen, setChatOpen,initialRoomId,initialhostId  }) => {
   const [isChatDetailOpen, setChatDetailOpen] = useState(false); // 채팅디테일 사이드바 상태관리 
   const [selectedChat, setSelectedChat] = useState(null);
+
+   // 초기 room_id가 있을 경우 바로 채팅 디테일 열기
+   useEffect(() => {
+    if (initialRoomId) {
+      setSelectedChat({ room_id: initialRoomId, host_id : initialhostId });
+      setChatDetailOpen(true);
+    }
+  }, [initialRoomId,initialhostId]);
+
 
   // 채팅 디테일 열기
   const toggleChatDetail = (chat) => {
@@ -98,7 +107,7 @@ const Chat = ({ isOpen, setChatOpen }) => {
             }} className="close-button" onClick={closeChatDetail} style={{ margin: '0px' }}>
               ←
             </Button>
-            <Page room_id={selectedChat.room_id} />
+            <Page room_id={selectedChat.room_id} host_id={selectedChat.host_id} />
           </div>
         </div>
       )}

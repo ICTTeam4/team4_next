@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Videocam from '@mui/icons-material/Videocam';
-const Page = ({ room_id }) => {
+const Page = ({ room_id, host_id }) => {
   const [message, setMessage] = useState('');
 
   const sendMessage = () => {
@@ -35,6 +35,7 @@ const Page = ({ room_id }) => {
           <p>카카오맵: <a href="#">http://kakaomap.sdsdf.csad</a></p>
           <p>fsafasfasdfasdfasdfasdf.com</p>
           <p>room_id : {room_id}</p>
+          <p>host_id : {host_id}</p>
           <span className="chat-timestamp">오후 5:27</span>
         </div>
       </main>

@@ -8,7 +8,7 @@ import ChatReport from './chatReport/page';
 import ChatCheck from './chatCheck/page';
 import { useRouter } from 'next/navigation';
 
-const Page = ({ room_id }) => {
+const Page = ({ room_id,host_id }) => {
   const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfilePopupOpen, setIsProfilePopupOpen] = useState(false);
@@ -98,10 +98,10 @@ const Page = ({ room_id }) => {
      )}
      
       {/* 조건부 렌더링 */}
-      {activePage === 'chatRoom' && <ChatRoom room_id={room_id} />}
-      {activePage === 'chatBlock' && <ChatBlock room_id={room_id} />}
-      {activePage === 'chatReport' && <ChatReport room_id={room_id} />}
-      {activePage === 'chatCheck' && <ChatCheck room_id={room_id} />}
+      {activePage === 'chatRoom' && <ChatRoom room_id={room_id} host_id={host_id} />}
+      {activePage === 'chatBlock' && <ChatBlock room_id={room_id} host_id={host_id} />}
+      {activePage === 'chatReport' && <ChatReport room_id={room_id} host_id={host_id} />}
+      {activePage === 'chatCheck' && <ChatCheck room_id={room_id} host_id={host_id} />}
 
     </div>
   );
