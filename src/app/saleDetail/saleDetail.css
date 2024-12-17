@@ -172,11 +172,15 @@
   font-size: small;
 }
 .purchase{
+  
   text-align: center;
   padding: 10px 20px;
   border-radius: 25px;
   border : 1px solid black ;
   color: black;
+}
+.purchase:hover{
+  cursor: pointer;
 }
 .chatting {
   text-align: center;
@@ -187,11 +191,23 @@
   color: white;
 
 }
+.chatting:hover{
+  cursor: pointer;
+}
 .bookmark {
  border: 1px solid white;
  justify-self: center;
  align-items: center;
 
+}
+.bookmark:hover{
+  cursor: pointer;
+}
+.tradeArea:hover{
+  cursor: pointer;
+}
+.share:hover{
+  cursor: pointer;
 }
 button:hover{
   background-color: rgb(231, 229, 229);
@@ -337,9 +353,10 @@ button:hover{
 }
 .shareIcons{
   display: grid;
-  grid-template-columns: 100px 100px 100px;
-  grid-template-rows:  100px;
+  grid-template-columns: 80px 80px 80px;
+  grid-template-rows:  80px;
   justify-content: center;
+  gap: 20px;
   /* width: 50px;
   height: 50px; */
 }
@@ -349,10 +366,10 @@ button:hover{
 }
 .urlCopy{
   text-align: center;
-  line-height: 50px;
+  line-height: 38px;
   background-color: burlywood;
   color: aliceblue;
-  font-size: x-large;
+  font-size: large;
   font-weight: bold;
 }
 .closeShare{
@@ -365,6 +382,7 @@ button:hover{
   font-weight: bold;
   font-size: larger;
 }
+
 .alertModal {
   position: fixed;
   top: 0;
@@ -376,6 +394,7 @@ button:hover{
   justify-content: center;
   align-items: center;
 }
+
 .alertWindow{
   padding-top: 50px;
   position: relative;
@@ -399,6 +418,14 @@ button:hover{
   padding: 20px 70px;
   border-radius: 5px;
 }
+
+.chatThenTrade:hover{
+  cursor: pointer;
+}
+
+.closeShare{
+  cursor: pointer;
+}
 .noChatTrade{
   width: 400px;
   justify-self: center;
@@ -407,4 +434,7 @@ button:hover{
   color: white;
   padding: 20px 70px;
   border-radius: 5px;
+}
+.noChatTrade{
+  cursor: pointer;
 }
