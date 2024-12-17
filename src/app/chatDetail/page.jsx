@@ -90,7 +90,7 @@ const Page = ({ room_id }) => {
         marginBottom:'10px',
         ":hover": { background: '#eee' }
       }}
-      className="back-button"
+      className="chatback-button"
       onClick={() => setActivePage('chatRoom')} // chatRoom으로 이동
     >
       채팅방으로 이동

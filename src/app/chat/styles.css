@@ -104,6 +104,15 @@
   z-index: 20 !important;
   transition: right 0.3s ease-in-out !important; /* 부드러운 애니메이션 */
 }
+.chat-list:hover {
+  background: rgba(0, 0, 0, 0.02) !important; /* 전체 chat-list에 적용 */
+}
+
+.chat-item:hover, .chat-item:hover * {
+  background: transparent !important; /* 내부 요소와 그 자식 요소에 대해 배경 투명 처리 */
+}
+
+
 .chatDetail_sidebar.open {
   right: 0 !important; /* 화면 안으로 이동 */
   background: #ffffff !important;
