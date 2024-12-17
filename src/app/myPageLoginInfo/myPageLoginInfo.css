@@ -1,9 +1,9 @@
-.myPageWishList body, .myPageWishList button, .myPageWishList dd, .myPageWishList div, .myPageWishList dl, .myPageWishList dt, .myPageWishList fieldset, .myPageWishList figcaption, .myPageWishList figure, .myPageWishList form, .myPageWishList h1, .myPageWishList h2, .myPageWishList h3, .myPageWishList h4, .myPageWishList h5, .myPageWishList h6, .myPageWishList input, .myPageWishList legend, .myPageWishList li, .myPageWishList ol, .myPageWishList p, .myPageWishList select, .myPageWishList table, .myPageWishList td, .myPageWishList textarea, .myPageWishList th, .myPageWishList ul {
+.myPageLoginInfo body, .myPageLoginInfo button, .myPageLoginInfo dd, .myPageLoginInfo div, .myPageLoginInfo dl, .myPageLoginInfo dt, .myPageLoginInfo fieldset, .myPageLoginInfo figcaption, .myPageLoginInfo figure, .myPageLoginInfo form, .myPageLoginInfo h1, .myPageLoginInfo h2, .myPageLoginInfo h3, .myPageLoginInfo h4, .myPageLoginInfo h5, .myPageLoginInfo h6, .myPageLoginInfo input, .myPageLoginInfo legend, .myPageLoginInfo li, .myPageLoginInfo ol, .myPageLoginInfo p, .myPageLoginInfo select, .myPageLoginInfo table, .myPageLoginInfo td, .myPageLoginInfo textarea, .myPageLoginInfo th, .myPageLoginInfo ul {
     margin: 0;
     padding: 0;
 }
 
-.myPageWishList .container.my{
+.myPageLoginInfo .container.my{
     display: flex;
     margin-left: auto;
     margin-right: auto;
@@ -11,12 +11,12 @@
     padding: 40px 40px 160px
 }
 
-.myPageWishList .snb_area{
+.myPageLoginInfo .snb_area{
     margin-right: 20px;
     width: 180px;
 }
 
-.myPageWishList .snb_main_title{
+.myPageLoginInfo .snb_main_title{
     font-size: 24px;
     font-weight: 700;
     letter-spacing: -.15px;
@@ -24,17 +24,17 @@
     padding-bottom: 30px;
 }
 
-.myPageWishList a {
+.myPageLoginInfo a {
     -webkit-tap-highlight-color: rgba(0,0,0,.1);
     color: inherit
 }
 
-.myPageWishList a,.myPageWishList a:active, .myPageWishList a:focus, .myPageWishList a:hover {
+.myPageLoginInfo a,.myPageLoginInfo a:active, .myPageLoginInfo a:focus, .myPageLoginInfo a:hover {
     -webkit-text-decoration: none;
     text-decoration: none
 }
 
-.myPageWishList p {
+.myPageLoginInfo p {
     display: block;
     margin-block-start: 0;
     margin-block-end: 0;
@@ -43,16 +43,16 @@
     unicode-bidi: isolate;
 }
 
-.myPageWishList *, .myPageWishList :after, .myPageWishList :before {
+.myPageLoginInfo *, .myPageLoginInfo :after, .myPageLoginInfo :before {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     box-sizing: border-box
 }
 
-.myPageWishList nav {
+.myPageLoginInfo nav {
     display: block;
 }
 
-.myPageWishList body, .myPageWishList button, .myPageWishList input, .myPageWishList select, .myPageWishList table, .myPageWishList textarea {
+.myPageLoginInfo body, .myPageLoginInfo button, .myPageLoginInfo input, .myPageLoginInfo select, .myPageLoginInfo table, .myPageLoginInfo textarea {
     font-feature-settings: "frac" 0,"numr" 0;
     color: #222;
     font-family: Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 
@@ -60,12 +60,12 @@
     Noto Sans KR, Malgun Gothic, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 }
 
-.myPageWishList div {
+.myPageLoginInfo div {
     display: block;
     unicode-bidi: isolate;
 }
 
-.myPageWishList .snb_title{
+.myPageLoginInfo .snb_title{
     display: inline-block;
     font-size: 18px;
     font-weight: 700;
@@ -75,11 +75,11 @@
     vertical-align: top;
 }
 
-.myPageWishList li, .myPageWishList ol, .myPageWishList ul {
+.myPageLoginInfo li, .myPageLoginInfo ol, .myPageLoginInfo ul {
     list-style: none;
 }
 
-.myPageWishList ul {
+.myPageLoginInfo ul {
     display: block;
     list-style-type: disc;
     margin-block-start: 0px;
@@ -90,43 +90,43 @@
     unicode-bidi: isolate;
 }
 
-.myPageWishList li {
+.myPageLoginInfo li {
     display: list-item;
     text-align: inherit;
     unicode-bidi: isolate;
 }
 
-.myPageWishList .menu_link{
+.myPageLoginInfo .menu_link{
     color: rgba(34, 34, 34, .5);
     font-size: 15px;
     letter-spacing: -.15px;
     line-height: 18px;
 }
 
-.myPageWishList .menu_item + .menu_item{
+.myPageLoginInfo .menu_item + .menu_item{
     margin-top: 12px;
 }
 
-.myPageWishList .container.my .snb_area + div{
+.myPageLoginInfo .container.my .snb_area + div{
     flex: 1;
 }
 
-.myPageWishList .content_area{
+.myPageLoginInfo .content_area{
     margin-left: auto;
     margin-right: auto;
     max-width: 1280px;
 }
 
-.myPageWishList .my-page-content{
+.myPageLoginInfo .my-page-content{
     flex: 1;
 }
 
-.myPageWishList .lg .user_membership, .myPageWishList .md .user_membership{
+.myPageLoginInfo .lg .user_membership, .myPageLoginInfo .md .user_membership{
     flex-direction: row;
     padding: 24px;
 }
 
-.myPageWishList .user_membership{
+.myPageLoginInfo .user_membership{
     background-color: #fff;
     border: 1px solid #ebebeb;
     border-radius: 10px;
@@ -134,24 +134,24 @@
     flex-direction: column;
 }
 
-.myPageWishList .lg .user_detail, .myPageWishList .md .user_detail{
+.myPageLoginInfo .lg .user_detail, .myPageLoginInfo .md .user_detail{
     border-bottom: none;
     padding: 0;
 }
 
-.myPageWishList .user_detail{
+.myPageLoginInfo .user_detail{
     border-bottom: 8px solid #f0f0f0;
     display: flex;
     flex: 1;
     padding: 16px 24px;
 }
 
-.myPageWishList .lg .user_thumb, .myPageWishList .md .user_thumb{
+.myPageLoginInfo .lg .user_thumb, .myPageLoginInfo .md .user_thumb{
     height: 60px;
     width: 60px;
 }
 
-.myPageWishList .user_thumb{
+.myPageLoginInfo .user_thumb{
     border-radius: 50%;
     flex-shrink: 0;
     height: 90px;
@@ -160,7 +160,7 @@
     width: 90px;
 }
 
-.myPageWishList .user_thumb:after {
+.myPageLoginInfo .user_thumb:after {
     border: 1px solid rgba(34, 34, 34, .05);
     border-radius: 50%;
     bottom: 0;
@@ -171,7 +171,7 @@
     top: 0;
 }
 
-.myPageWishList .user_thumb .thumb_img{
+.myPageLoginInfo .user_thumb .thumb_img{
     border-radius: 100%;
     height: 100%;
     -o-object-fit: cover;
@@ -179,7 +179,7 @@
     width: 100%;
 }
 
-.myPageWishList img, .myPageWishList video {
+.myPageLoginInfo img, .myPageLoginInfo video {
     -webkit-user-drag: none;
     -webkit-touch-callout: none;
     border: 0;
@@ -189,28 +189,28 @@
     vertical-align: top;
 }
 
-.myPageWishList img {
+.myPageLoginInfo img {
     overflow-clip-margin: content-box;
     overflow: clip;
 }
 
-.myPageWishList .lg .user_info, .myPageWishList .md .user_info{
+.myPageLoginInfo .lg .user_info, .myPageLoginInfo .md .user_info{
     align-items: center;
     flex-direction: row;
 }
 
-.myPageWishList .user_info{
+.myPageLoginInfo .user_info{
     display: flex;
     flex: 1;
     flex-direction: column;
     justify-content: center;
 }
 
-.myPageWishList .info_box{
+.myPageLoginInfo .info_box{
     flex: 1;
 }
 
-.myPageWishList .user_info .email, .myPageWishList .user_info .name{
+.myPageLoginInfo .user_info .email, .myPageLoginInfo .user_info .name{
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -218,7 +218,7 @@
     text-overflow: ellipsis;
 }
 
-.myPageWishList .user_info .name{
+.myPageLoginInfo .user_info .name{
     color: #000;
     display: flex;
     font-size: 18px;
@@ -227,7 +227,7 @@
     line-height: 21px;
 }
 
-.myPageWishList .user_info .email{
+.myPageLoginInfo .user_info .email{
     color: rgba(34, 34, 34, .5);
     font-size: 14px;
     letter-spacing: -.21px;
@@ -235,34 +235,15 @@
     line-height: 18px;
 }
 
-.myPageWishList .lg .info-buttons, .myPageWishList .md .info-buttons{
+.myPageLoginInfo .lg .info-buttons, .myPageLoginInfo .md .info-buttons{
     padding-top: 0;
 }
 
-.myPageWishList .info-buttons{
+.myPageLoginInfo .info-buttons{
     padding-top: 12px;
 }
 
-.myPageWishList .btn{
-    align-self: flex-start;
-    height: 36px;
-    line-height: 34px;
-}
-
-.myPageWishList .outlinegrey{
-    border: 1px solid #d3d3d3;
-    color: rgba(34, 34, 34, .8);
-}
-
-.myPageWishList .small{
-    border-radius: 10px;
-    font-size: 12px;
-    height: 34px;
-    letter-spacing: -.06px;
-    padding: 0 14px;
-}
-
-.myPageWishList .btn{
+.myPageLoginInfo .btn{
     align-items: center;
     background-color: #fff;
     color: rgba(34, 34, 34, .8);
@@ -273,7 +254,31 @@
     vertical-align: middle;
 }
 
-.myPageWishList .lg .shortcut-grid, .myPageWishList .md .shortcut-grid{
+.myPageLoginInfo .outlinegrey{
+    border: 1px solid #d3d3d3;
+    color: rgba(34, 34, 34, .8);
+}
+
+.myPageLoginInfo .small{
+    border-radius: 10px;
+    font-size: 12px;
+    height: 34px;
+    letter-spacing: -.06px;
+    padding: 0 14px;
+}
+
+.myPageLoginInfo .btn{
+    align-items: center;
+    background-color: #fff;
+    color: rgba(34, 34, 34, .8);
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.myPageLoginInfo .lg .shortcut-grid, .myPageLoginInfo .md .shortcut-grid{
     border: 1px solid #ebebeb;
     border-radius: 10px;
     padding-bottom: 24px;
@@ -281,45 +286,57 @@
     row-gap: 20px;
 }
 
-.myPageWishList .lg .shortcut-grid{
+.myPageLoginInfo .lg .shortcut-grid{
     grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
-.myPageWishList .shortcut-grid{
+.myPageLoginInfo .shortcut-grid{
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.myPageWishList .my_home_title{
+.myPageLoginInfo .my_home_title{
     display: flex;
     max-width: 100%;
     padding-bottom: 0px;
 }
 
-.myPageWishList .my_home_title .title{
+.myPageLoginInfo .my_home_title .title{
     font-size: 18px;
     letter-spacing: -.27px;
 }
 
-.myPageWishList .purchase_list_tab{
+.myPageLoginInfo .title{
+    font-size: 24px;
+    letter-spacing: -.36px;
+}
+
+.myPageLoginInfo .title{
+    color: rgba(34, 34, 34, .5);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: -.07px;
+}
+
+.myPageLoginInfo .purchase_list_tab{
     background-color: #fafafa;
     border-radius: 12px;
     display: flex;
     width: 100%;
 }
 
-.myPageWishList .tab_item{
+.myPageLoginInfo .tab_item{
     display: flex;
     flex: 1;
     text-align: center;
 }
 
-.myPageWishList .tab_item.tab_on {
+.myPageLoginInfo .tab_item.tab_on {
     border-bottom: 2px solid #000; /* 활성화된 탭 */
     font-weight: bold;
 }
 
-.myPageWishList .tab_link{
+.myPageLoginInfo .tab_link{
     display: block;
     flex: 1;
     padding-bottom: 14px;
@@ -328,13 +345,13 @@
 }
 
 @media (min-width: 961px) {
-    .myPageWishList .tab_link{
+    .myPageLoginInfo .tab_link{
         padding-bottom: 18px;
         padding-top: 18px;
     }
 }
 
-.myPageWishList dl {
+.myPageLoginInfo dl {
     display: block;
     margin-block-start: 1em;
     margin-block-end: 1em;
@@ -344,32 +361,32 @@
 }
 
 @media (min-width: 961px) {
-    .myPageWishList .tab_link .title{
+    .myPageLoginInfo .tab_link .title{
         font-size: 13px;
     }
 }
 
-.myPageWishList .tab_link .title{
+.myPageLoginInfo .tab_link .title{
     color: rgba(34, 34, 34, .8);
     font-size: 12px;
 }
 
-.myPageWishList dt {
+.myPageLoginInfo dt {
     display: block;
     unicode-bidi: isolate;
 }
 
-.myPageWishList .tab_item.total .count{
+.myPageLoginInfo .tab_item.total .count{
     color: #f15746;
 }
 
 @media (min-width: 961px) {
-    .myPageWishList .tab_link .count{
+    .myPageLoginInfo .tab_link .count{
         font-size: 18px;
     }
 }
 
-.myPageWishList .tab_link .count{
+.myPageLoginInfo .tab_link .count{
     font-size: 15px;
     font-weight: 700;
     letter-spacing: -.09px;
@@ -377,7 +394,7 @@
     margin-top: 2px;
 }
 
-.myPageWishList .tab_item:first-of-type .tab_link:before {
+.myPageLoginInfo .tab_item:first-of-type .tab_link:before {
     background-color: #ebebeb;
     bottom: 18px;
     content: "";
@@ -387,14 +404,14 @@
     width: 1px;
 }
 
-.myPageWishList .tab_link .hold{
+.myPageLoginInfo .tab_link .hold{
     color: #ff7500;
     font-size: 12px;
     letter-spacing: -.06px;
     line-height: 19px;
 }
 
-.myPageWishList .purchase_list_display_item{
+.myPageLoginInfo .purchase_list_display_item{
     align-items: center;
     border-bottom: 1px solid #ebebeb;
     cursor: pointer;
@@ -403,7 +420,7 @@
     position: relative;
 }
 
-.myPageWishList .purchase_list_display_item .wish_delete{
+.myPageLoginInfo .purchase_list_display_item .wish_delete{
     position: absolute; /* 부모의 왼쪽 아래에 고정 */
     right: 0; /* 왼쪽으로 정렬 */
     bottom: 20px; /* 아래쪽으로 정렬 */
@@ -414,15 +431,15 @@
     letter-spacing: -.06px;
 }
 
-.myPageWishList .purchase_list_product{
+.myPageLoginInfo .purchase_list_product{
     display: flex;
 }
 
-.myPageWishList .purchase_list_product .list_item_img_wrap{
+.myPageLoginInfo .purchase_list_product .list_item_img_wrap{
     position: relative;
 }
 
-.myPageWishList .purchase_list_product .list_item_img_wrap .list_item_img{
+.myPageLoginInfo .purchase_list_product .list_item_img_wrap .list_item_img{
     border-radius: 12px;
     height: 80px;
     -o-object-fit: cover;
@@ -430,7 +447,7 @@
     width: 80px;
 }
 
-.myPageWishList .purchase_list_product .list_item_title_wrap{
+.myPageLoginInfo .purchase_list_product .list_item_title_wrap{
     align-self: center;
     display: flex;
     flex-direction: column;
@@ -440,7 +457,7 @@
     row-gap: 13px;
 }
 
-.myPageWishList .purchase_list_product .list_item_title_wrap .list_item_price{
+.myPageLoginInfo .purchase_list_product .list_item_title_wrap .list_item_price{
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -451,7 +468,7 @@
     text-overflow: ellipsis;
 }
 
-.myPageWishList .purchase_list_product .list_item_title_wrap .list_item_title{
+.myPageLoginInfo .purchase_list_product .list_item_title_wrap .list_item_title{
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -462,7 +479,7 @@
     text-overflow: ellipsis;
 }
 
-.myPageWishList .purchase_list_product .list_item_title_wrap .list_item_description{
+.myPageLoginInfo .purchase_list_product .list_item_title_wrap .list_item_description{
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     color: rgba(34, 34, 34, .5);
@@ -477,60 +494,60 @@
     text-overflow: ellipsis;
 }
 
-.myPageWishList .list_item_status{
+.myPageLoginInfo .list_item_status{
     align-items: center;
     display: flex;
     margin-left: auto;
     text-align: right;
 }
 
-.myPageWishList .list_item_column p {
+.myPageLoginInfo .list_item_column p {
     margin: 2.5px 0;
 }
 
-.myPageWishList .list_item_status .column_secondary{
+.myPageLoginInfo .list_item_status .column_secondary{
     font-size: 13px;
     letter-spacing: -.07px;
 }
 
-.myPageWishList .list_item_status .list_item_column{
+.myPageLoginInfo .list_item_status .list_item_column{
     margin-left: 10px;
     width: 134px;
 }
 
-.myPageWishList .list_item_status .column_last{
+.myPageLoginInfo .list_item_status .column_last{
     align-self: center;
     display: flex;
     flex-direction: column;
 }
 
-.myPageWishList .list_item_status .list_item_column{
+.myPageLoginInfo .list_item_status .list_item_column{
     margin-left: 10px;
     width: 134px;
 }
 
-.myPageWishList .list_item_status .column_last .last_title{
+.myPageLoginInfo .list_item_status .column_last .last_title{
     font-size: 14px;
     letter-spacing: -.21px;
 }
 
-.myPageWishList .list_item_status .column_last .last_description.action_named_action{
+.myPageLoginInfo .list_item_status .column_last .last_description.action_named_action{
     -webkit-text-decoration: underline;
     text-decoration: underline;
 }
 
-.myPageWishList .list_item_status .column_last .last_description{
+.myPageLoginInfo .list_item_status .column_last .last_description{
     font-size: 14px;
     letter-spacing: -.06px;
     overflow: hidden;
     word-break: keep-all;
 }
 
-.myPageWishList .purchase_list_tab.inventory .tab_item.total .count, .myPageWishList .purchase_list_tab.sell .tab_item.total .count{
+.myPageLoginInfo .purchase_list_tab.inventory .tab_item.total .count, .myPageLoginInfo .purchase_list_tab.sell .tab_item.total .count{
     color: #31b46e;
 }
 
-.myPageWishList .my_home_title .btn_more{
+.myPageLoginInfo .my_home_title .btn_more{
     align-items: center;
     display: inline-flex;
     flex-shrink: 0;
@@ -538,11 +555,11 @@
     padding-left: 5px;
 }
 
-.myPageWishList .interest_product{
+.myPageLoginInfo .interest_product{
     margin: 0 -10px;
 }
 
-.myPageWishList .product_item{
+.myPageLoginInfo .product_item{
     display: inline-block;
     margin: 20px 0;
     padding: 0 12px;
@@ -551,48 +568,48 @@
     width: 25%;
 }
 
-.myPageWishList .product_item .item_inner{
+.myPageLoginInfo .product_item .item_inner{
     background-color: #fff;
     border-radius: 12px;
     display: block;
 }
 
-.myPageWishList .product{
+.myPageLoginInfo .product{
     border-radius: 8px;
     overflow: hidden;
     padding-top: 100%;
     position: relative;
 }
 
-.myPageWishList .detail_stock .product_img, .myPageWishList .is_exclusive .product_img, .myPageWishList .lucky_draw_column .product_img, .myPageWishList .other_stock .product_img, .myPageWishList .product_img, .myPageWishList .stock .product_img{
+.myPageLoginInfo .detail_stock .product_img, .myPageLoginInfo .is_exclusive .product_img, .myPageLoginInfo .lucky_draw_column .product_img, .myPageLoginInfo .other_stock .product_img, .myPageLoginInfo .product_img, .myPageLoginInfo .stock .product_img{
     height: auto;
     width: 100%;
 }
 
-.myPageWishList .product_img{
+.myPageLoginInfo .product_img{
     left: 50%;
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
 }
 
-.myPageWishList .picture{
+.myPageLoginInfo .picture{
     border: none;
     display: flex;
 }
 
-.myPageWishList .image.full_width{
+.myPageLoginInfo .image.full_width{
     height: 100%;
     width: 100%;
 }
 
-.myPageWishList .image{
+.myPageLoginInfo .image{
     image-rendering: auto;
     -o-object-fit: cover;
     object-fit: cover;
 }
 
-.myPageWishList .product_item .btn_wish{
+.myPageLoginInfo .product_item .btn_wish{
     bottom: 3px;
     display: inline-flex;
     padding: 5px;
@@ -601,7 +618,7 @@
     z-index: 1;
 }
 
-.myPageWishList .btn_wish{
+.myPageLoginInfo .btn_wish{
     display: flex;
     height: inherit;
 }
@@ -615,11 +632,11 @@
     width: 24px;
 }
 
-.myPageWishList .product_item .info_box{
+.myPageLoginInfo .product_item .info_box{
     padding: 9px 4px 0;
 }
 
-.myPageWishList .brand-text {
+.myPageLoginInfo .brand-text {
     align-items: center;
     color: #222;
     display: inline-flex;
@@ -630,7 +647,7 @@
     margin-bottom: 2px;
 }
 
-.myPageWishList .brand-text > .brand-name {
+.myPageLoginInfo .brand-text > .brand-name {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -639,16 +656,16 @@
     text-overflow: ellipsis;
 }
 
-.myPageWishList .product_item .price{
+.myPageLoginInfo .product_item .price{
     padding-top: 12px;
 }
 
-.myPageWishList .product_item .amount{
+.myPageLoginInfo .product_item .amount{
     font-size: 0;
     line-height: 0;
 }
 
-.myPageWishList .product_item .discount_rate, .myPageWishList .product_item .num, .myPageWishList .product_item .won{
+.myPageLoginInfo .product_item .discount_rate, .myPageLoginInfo .product_item .num, .myPageLoginInfo .product_item .won{
     display: inline-block;
     font-size: 14px;
     font-weight: 700;
@@ -657,7 +674,7 @@
     vertical-align: top;
 }
 
-.myPageWishList .display_paragraph.line_break_by_truncating_tail {
+.myPageLoginInfo .display_paragraph.line_break_by_truncating_tail {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -665,95 +682,100 @@
     text-overflow: ellipsis;
 }
 
-.myPageWishList .text-lookup.bold{
+.myPageLoginInfo .text-lookup.bold{
     font-weight: 700;
 }
 
-.myPageWishList address, .myPageWishList em {
+.myPageLoginInfo address, .myPageLoginInfo em {
     font-style: normal;
 }
 
-.myPageWishList .product_item .desc{
+.myPageLoginInfo .product_item .desc{
     color: rgba(34, 34, 34, .5);
     font-size: 11px;
     line-height: 13px;
     margin-top: 2px;
 }
 
-.myPageWishList .content_title{
+.myPageLoginInfo .content_title{
     display: flex;
 }
 
-.myPageWishList .purchase_list_tab.detail_tab{
+.myPageLoginInfo .purchase_list_tab.detail_tab{
     background-color: #fff;
     border-radius: 0;
     margin-top: 20px;
 }
 
-.myPageWishList .purchase_list_tab.detail_tab .tab_link{
+.myPageLoginInfo .purchase_list_tab.detail_tab .tab_link{
     border-bottom: 1px solid #ebebeb;
     height: 80px;
     padding-top: 12px;
 }
 
-.myPageWishList .purchase_list_tab.detail_tab .tab_box{
+.myPageLoginInfo .purchase_list_tab.detail_tab .tab_box{
     display: flex;
     flex-direction: column-reverse;
 }
 
-.myPageWishList .purchase_list_tab.detail_tab .tab_on .title{
+.myPageLoginInfo .purchase_list_tab.detail_tab .tab_on .title{
     color: #222;
     font-weight: 700;
 }
 
-.myPageWishList .purchase_list_tab.detail_tab .title{
+.myPageLoginInfo .purchase_list_tab.detail_tab .title{
     color: rgba(34, 34, 34, .5);
 }
 
-.myPageWishList .purchase_list_tab.detail_tab .tab_on .count{
+.myPageLoginInfo .purchase_list_tab.detail_tab .tab_on .count{
     color: #31b46e;
 }
 
-.myPageWishList .purchase_list_tab.detail_tab .count{
+.myPageLoginInfo .purchase_list_tab.detail_tab .count{
     font-size: 20px;
     letter-spacing: -.1px;
     line-height: 24px;
     margin-top: 0;
 }
 
-.myPageWishList .title>h3{
+.myPageLoginInfo .title>h3{
     font-size: 24px;
     line-height: 29px;
 }
 
-.myPageWishList .before_purchase_confirmation{
+.myPageLoginInfo .main_title>h3{
+    font-size: 24px;
+    line-height: 29px;
+}
+
+.myPageLoginInfo .before_purchase_confirmation{
     font-size: 12px;
     color: #BFBFBF;
 
 }
 
-.myPageWishList .after_purchase_confirmation{
+.myPageLoginInfo .after_purchase_confirmation{
     font-size: 12px;
     color: #BFBFBF;
 }
 
-.myPageWishList .content_title.border{
+.myPageLoginInfo .content_title.border{
     border-bottom: 3px solid #222;
     padding-bottom: 16px;
 }
 
-.myPageWishList .saved-chips-container{
+.myPageLoginInfo .saved-chips-container{
     padding: 12px 0;
 }
 
-.myPageWishList .filter_chip_group.bubble{
+.myPageLoginInfo .filter_chip_group.bubble{
     display: flex;
     flex-wrap: wrap;
     gap: 12px 8px;
     position: relative;
 }
 
-.myPageWishList .blind, .u_skip {
+.myPageLoginInfo .blind, .u_skip {
     clip: rect(0, 0, 0, 0) !important;
     height: 1px !important;
     margin: -1px !important;
@@ -762,7 +784,7 @@
     width: 1px !important;
 }
 
-.myPageWishList input, textarea {
+.myPageLoginInfo input, textarea {
     -webkit-appearance: none;
     background-color: transparent;
     border: 0;
@@ -772,7 +794,7 @@
     resize: none;
 }
 
-.myPageWishList .filter_button.line{
+.myPageLoginInfo .filter_button.line{
     align-items: center;
     background-color: #fff;
     border: 1px solid #f0f0f0;
@@ -786,7 +808,7 @@
     padding: 0 8px;
 }
 
-.myPageWishList .filter_button.line.active{
+.myPageLoginInfo .filter_button.line.active{
     background-color: #222;
     border: none;
     color: #fff;
@@ -794,12 +816,12 @@
     box-shadow: none;
 }
 
-.myPageWishList .filter_button{
+.myPageLoginInfo .filter_button{
     cursor: pointer;
     position: relative;
 }
 
-.myPageWishList button{
+.myPageLoginInfo button{
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -811,23 +833,77 @@
     padding: 0;
 }
 
-.myPageWishList .filter_button .text-group{
+.myPageLoginInfo .filter_button .text-group{
     padding: 0 4px;
 }
 
-.myPageWishList .filter_button .num{
+.myPageLoginInfo .filter_button .num{
     display: none;
 }
 
-.myPageWishList .content-header{
+.myPageLoginInfo .content-header{
     align-items: center;
     display: flex;
     justify-content: space-between;
     padding-top: 20px;
 }
 
-.myPageWishList .total-rows{
+.myPageLoginInfo .total-rows{
     color: rgba(34, 34, 34, .8);
     font-size: 13px;
     letter-spacing: -.07px;
+}
+
+.myPageLoginInfo .profile_group.first{
+    padding-top: 0 !important;
+}
+
+.myPageLoginInfo .profile_info{
+    max-width: 480px;
+    padding-top: 38px;
+}
+
+.myPageLoginInfo .profile_group{
+    padding-top: 48px;
+}
+
+
+.myPageLoginInfo .lg .profile_group, .md .profile_group{
+    padding-top: 58px;
+}
+
+.myPageLoginInfo .group_title{
+    font-size: 18px;
+    letter-spacing: -.27px;
+}
+
+.myPageLoginInfo .unit{
+    border-bottom: 1px solid #ebebeb;
+    display: flex;
+    flex-direction: column;
+    padding: 25px 0 12px;
+    position: relative;
+}
+
+.myPageLoginInfo .unit_content{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.myPageLoginInfo .desc{
+    flex: 1;
+    font-size: 16px;
+    letter-spacing: -.16px;
+    overflow: hidden;
+    padding-bottom: 8px;
+    padding-top: 8px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.myPageLoginInfo .btn_modify{
+    position: absolute;
+    right: 0;
 }
