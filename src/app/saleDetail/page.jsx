@@ -173,8 +173,8 @@ function page(props) {
             <div className='shareModal' onClick={closeShare}>
               <div className='shareWindow' onClick={(e) => e.stopPropagation()}>
                 <div className='shareIcons'>
-                <Image className='shareIcon' src="/images/David_facebook.png" alt='facebook' width="100" height="100"></Image>
-                <Image className='shareIcon' src="/images/David_kakaotalk.png" alt='kakaotalk' width="100" height="100"></Image>
+                <Image className='shareIcon' src="/images/David_instagram.jpeg" alt='instagram' width="80" height="80"></Image>
+                <Image className='shareIcon' src="/images/David_kakaotalk.png" alt='kakaotalk' width="80" height="80"></Image>
                 <div className='shareIcon urlCopy'>URL<br/> 복사</div>
                 </div>
             
