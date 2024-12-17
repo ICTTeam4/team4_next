@@ -1,9 +1,9 @@
-.myPageWishList body, .myPageWishList button, .myPageWishList dd, .myPageWishList div, .myPageWishList dl, .myPageWishList dt, .myPageWishList fieldset, .myPageWishList figcaption, .myPageWishList figure, .myPageWishList form, .myPageWishList h1, .myPageWishList h2, .myPageWishList h3, .myPageWishList h4, .myPageWishList h5, .myPageWishList h6, .myPageWishList input, .myPageWishList legend, .myPageWishList li, .myPageWishList ol, .myPageWishList p, .myPageWishList select, .myPageWishList table, .myPageWishList td, .myPageWishList textarea, .myPageWishList th, .myPageWishList ul {
+.myPageProfileInfo body, .myPageProfileInfo button, .myPageProfileInfo dd, .myPageProfileInfo div, .myPageProfileInfo dl, .myPageProfileInfo dt, .myPageProfileInfo fieldset, .myPageProfileInfo figcaption, .myPageProfileInfo figure, .myPageProfileInfo form, .myPageProfileInfo h1, .myPageProfileInfo h2, .myPageProfileInfo h3, .myPageProfileInfo h4, .myPageProfileInfo h5, .myPageProfileInfo h6, .myPageProfileInfo input, .myPageProfileInfo legend, .myPageProfileInfo li, .myPageProfileInfo ol, .myPageProfileInfo p, .myPageProfileInfo select, .myPageProfileInfo table, .myPageProfileInfo td, .myPageProfileInfo textarea, .myPageProfileInfo th, .myPageProfileInfo ul {
     margin: 0;
     padding: 0;
 }
 
-.myPageWishList .container.my{
+.myPageProfileInfo .container.my{
     display: flex;
     margin-left: auto;
     margin-right: auto;
@@ -11,12 +11,12 @@
     padding: 40px 40px 160px
 }
 
-.myPageWishList .snb_area{
+.myPageProfileInfo .snb_area{
     margin-right: 20px;
     width: 180px;
 }
 
-.myPageWishList .snb_main_title{
+.myPageProfileInfo .snb_main_title{
     font-size: 24px;
     font-weight: 700;
     letter-spacing: -.15px;
@@ -24,17 +24,17 @@
     padding-bottom: 30px;
 }
 
-.myPageWishList a {
+.myPageProfileInfo a {
     -webkit-tap-highlight-color: rgba(0,0,0,.1);
     color: inherit
 }
 
-.myPageWishList a,.myPageWishList a:active, .myPageWishList a:focus, .myPageWishList a:hover {
+.myPageProfileInfo a,.myPageProfileInfo a:active, .myPageProfileInfo a:focus, .myPageProfileInfo a:hover {
     -webkit-text-decoration: none;
     text-decoration: none
 }
 
-.myPageWishList p {
+.myPageProfileInfo p {
     display: block;
     margin-block-start: 0;
     margin-block-end: 0;
@@ -43,16 +43,16 @@
     unicode-bidi: isolate;
 }
 
-.myPageWishList *, .myPageWishList :after, .myPageWishList :before {
+.myPageProfileInfo *, .myPageProfileInfo :after, .myPageProfileInfo :before {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     box-sizing: border-box
 }
 
-.myPageWishList nav {
+.myPageProfileInfo nav {
     display: block;
 }
 
-.myPageWishList body, .myPageWishList button, .myPageWishList input, .myPageWishList select, .myPageWishList table, .myPageWishList textarea {
+.myPageProfileInfo body, .myPageProfileInfo button, .myPageProfileInfo input, .myPageProfileInfo select, .myPageProfileInfo table, .myPageProfileInfo textarea {
     font-feature-settings: "frac" 0,"numr" 0;
     color: #222;
     font-family: Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 
@@ -60,12 +60,12 @@
     Noto Sans KR, Malgun Gothic, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 }
 
-.myPageWishList div {
+.myPageProfileInfo div {
     display: block;
     unicode-bidi: isolate;
 }
 
-.myPageWishList .snb_title{
+.myPageProfileInfo .snb_title{
     display: inline-block;
     font-size: 18px;
     font-weight: 700;
@@ -75,11 +75,11 @@
     vertical-align: top;
 }
 
-.myPageWishList li, .myPageWishList ol, .myPageWishList ul {
+.myPageProfileInfo li, .myPageProfileInfo ol, .myPageProfileInfo ul {
     list-style: none;
 }
 
-.myPageWishList ul {
+.myPageProfileInfo ul {
     display: block;
     list-style-type: disc;
     margin-block-start: 0px;
@@ -90,43 +90,43 @@
     unicode-bidi: isolate;
 }
 
-.myPageWishList li {
+.myPageProfileInfo li {
     display: list-item;
     text-align: inherit;
     unicode-bidi: isolate;
 }
 
-.myPageWishList .menu_link{
+.myPageProfileInfo .menu_link{
     color: rgba(34, 34, 34, .5);
     font-size: 15px;
     letter-spacing: -.15px;
     line-height: 18px;
 }
 
-.myPageWishList .menu_item + .menu_item{
+.myPageProfileInfo .menu_item + .menu_item{
     margin-top: 12px;
 }
 
-.myPageWishList .container.my .snb_area + div{
+.myPageProfileInfo .container.my .snb_area + div{
     flex: 1;
 }
 
-.myPageWishList .content_area{
+.myPageProfileInfo .content_area{
     margin-left: auto;
     margin-right: auto;
     max-width: 1280px;
 }
 
-.myPageWishList .my-page-content{
+.myPageProfileInfo .my-page-content{
     flex: 1;
 }
 
-.myPageWishList .lg .user_membership, .myPageWishList .md .user_membership{
+.myPageProfileInfo .lg .user_membership, .myPageProfileInfo .md .user_membership{
     flex-direction: row;
     padding: 24px;
 }
 
-.myPageWishList .user_membership{
+.myPageProfileInfo .user_membership{
     background-color: #fff;
     border: 1px solid #ebebeb;
     border-radius: 10px;
@@ -134,24 +134,24 @@
     flex-direction: column;
 }
 
-.myPageWishList .lg .user_detail, .myPageWishList .md .user_detail{
+.myPageProfileInfo .lg .user_detail, .myPageProfileInfo .md .user_detail{
     border-bottom: none;
     padding: 0;
 }
 
-.myPageWishList .user_detail{
+.myPageProfileInfo .user_detail{
     border-bottom: 8px solid #f0f0f0;
     display: flex;
     flex: 1;
     padding: 16px 24px;
 }
 
-.myPageWishList .lg .user_thumb, .myPageWishList .md .user_thumb{
+.myPageProfileInfo .lg .user_thumb, .myPageProfileInfo .md .user_thumb{
     height: 60px;
     width: 60px;
 }
 
-.myPageWishList .user_thumb{
+.myPageProfileInfo .user_thumb{
     border-radius: 50%;
     flex-shrink: 0;
     height: 90px;
@@ -160,7 +160,7 @@
     width: 90px;
 }
 
-.myPageWishList .user_thumb:after {
+.myPageProfileInfo .user_thumb:after {
     border: 1px solid rgba(34, 34, 34, .05);
     border-radius: 50%;
     bottom: 0;
@@ -171,7 +171,7 @@
     top: 0;
 }
 
-.myPageWishList .user_thumb .thumb_img{
+.myPageProfileInfo .user_thumb .thumb_img{
     border-radius: 100%;
     height: 100%;
     -o-object-fit: cover;
@@ -179,7 +179,7 @@
     width: 100%;
 }
 
-.myPageWishList img, .myPageWishList video {
+.myPageProfileInfo img, .myPageProfileInfo video {
     -webkit-user-drag: none;
     -webkit-touch-callout: none;
     border: 0;
@@ -189,28 +189,28 @@
     vertical-align: top;
 }
 
-.myPageWishList img {
+.myPageProfileInfo img {
     overflow-clip-margin: content-box;
     overflow: clip;
 }
 
-.myPageWishList .lg .user_info, .myPageWishList .md .user_info{
+.myPageProfileInfo .lg .user_info, .myPageProfileInfo .md .user_info{
     align-items: center;
     flex-direction: row;
 }
 
-.myPageWishList .user_info{
+.myPageProfileInfo .user_info{
     display: flex;
     flex: 1;
     flex-direction: column;
     justify-content: center;
 }
 
-.myPageWishList .info_box{
+.myPageProfileInfo .info_box{
     flex: 1;
 }
 
-.myPageWishList .user_info .email, .myPageWishList .user_info .name{
+.myPageProfileInfo .user_info .email, .myPageProfileInfo .user_info .name{
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -218,7 +218,7 @@
     text-overflow: ellipsis;
 }
 
-.myPageWishList .user_info .name{
+.myPageProfileInfo .user_info .name{
     color: #000;
     display: flex;
     font-size: 18px;
@@ -227,7 +227,7 @@
     line-height: 21px;
 }
 
-.myPageWishList .user_info .email{
+.myPageProfileInfo .user_info .email{
     color: rgba(34, 34, 34, .5);
     font-size: 14px;
     letter-spacing: -.21px;
@@ -235,34 +235,15 @@
     line-height: 18px;
 }
 
-.myPageWishList .lg .info-buttons, .myPageWishList .md .info-buttons{
+.myPageProfileInfo .lg .info-buttons, .myPageProfileInfo .md .info-buttons{
     padding-top: 0;
 }
 
-.myPageWishList .info-buttons{
+.myPageProfileInfo .info-buttons{
     padding-top: 12px;
 }
 
-.myPageWishList .btn{
-    align-self: flex-start;
-    height: 36px;
-    line-height: 34px;
-}
-
-.myPageWishList .outlinegrey{
-    border: 1px solid #d3d3d3;
-    color: rgba(34, 34, 34, .8);
-}
-
-.myPageWishList .small{
-    border-radius: 10px;
-    font-size: 12px;
-    height: 34px;
-    letter-spacing: -.06px;
-    padding: 0 14px;
-}
-
-.myPageWishList .btn{
+.myPageProfileInfo .btn{
     align-items: center;
     background-color: #fff;
     color: rgba(34, 34, 34, .8);
@@ -273,7 +254,31 @@
     vertical-align: middle;
 }
 
-.myPageWishList .lg .shortcut-grid, .myPageWishList .md .shortcut-grid{
+.myPageProfileInfo .outlinegrey{
+    border: 1px solid #d3d3d3;
+    color: rgba(34, 34, 34, .8);
+}
+
+.myPageProfileInfo .small{
+    border-radius: 10px;
+    font-size: 12px;
+    height: 34px;
+    letter-spacing: -.06px;
+    padding: 0 14px;
+}
+
+.myPageProfileInfo .btn{
+    align-items: center;
+    background-color: #fff;
+    color: rgba(34, 34, 34, .8);
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.myPageProfileInfo .lg .shortcut-grid, .myPageProfileInfo .md .shortcut-grid{
     border: 1px solid #ebebeb;
     border-radius: 10px;
     padding-bottom: 24px;
@@ -281,45 +286,57 @@
     row-gap: 20px;
 }
 
-.myPageWishList .lg .shortcut-grid{
+.myPageProfileInfo .lg .shortcut-grid{
     grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
-.myPageWishList .shortcut-grid{
+.myPageProfileInfo .shortcut-grid{
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.myPageWishList .my_home_title{
+.myPageProfileInfo .my_home_title{
     display: flex;
     max-width: 100%;
     padding-bottom: 0px;
 }
 
-.myPageWishList .my_home_title .title{
+.myPageProfileInfo .my_home_title .title{
     font-size: 18px;
     letter-spacing: -.27px;
 }
 
-.myPageWishList .purchase_list_tab{
+.myPageProfileInfo .title{
+    font-size: 24px;
+    letter-spacing: -.36px;
+}
+
+.myPageProfileInfo .title{
+    color: rgba(34, 34, 34, .5);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: -.07px;
+}
+
+.myPageProfileInfo .purchase_list_tab{
     background-color: #fafafa;
     border-radius: 12px;
     display: flex;
     width: 100%;
 }
 
-.myPageWishList .tab_item{
+.myPageProfileInfo .tab_item{
     display: flex;
     flex: 1;
     text-align: center;
 }
 
-.myPageWishList .tab_item.tab_on {
+.myPageProfileInfo .tab_item.tab_on {
     border-bottom: 2px solid #000; /* 활성화된 탭 */
     font-weight: bold;
 }
 
-.myPageWishList .tab_link{
+.myPageProfileInfo .tab_link{
     display: block;
     flex: 1;
     padding-bottom: 14px;
@@ -328,13 +345,13 @@
 }
 
 @media (min-width: 961px) {
-    .myPageWishList .tab_link{
+    .myPageProfileInfo .tab_link{
         padding-bottom: 18px;
         padding-top: 18px;
     }
 }
 
-.myPageWishList dl {
+.myPageProfileInfo dl {
     display: block;
     margin-block-start: 1em;
     margin-block-end: 1em;
@@ -344,32 +361,32 @@
 }
 
 @media (min-width: 961px) {
-    .myPageWishList .tab_link .title{
+    .myPageProfileInfo .tab_link .title{
         font-size: 13px;
     }
 }
 
-.myPageWishList .tab_link .title{
+.myPageProfileInfo .tab_link .title{
     color: rgba(34, 34, 34, .8);
     font-size: 12px;
 }
 
-.myPageWishList dt {
+.myPageProfileInfo dt {
     display: block;
     unicode-bidi: isolate;
 }
 
-.myPageWishList .tab_item.total .count{
+.myPageProfileInfo .tab_item.total .count{
     color: #f15746;
 }
 
 @media (min-width: 961px) {
-    .myPageWishList .tab_link .count{
+    .myPageProfileInfo .tab_link .count{
         font-size: 18px;
     }
 }
 
-.myPageWishList .tab_link .count{
+.myPageProfileInfo .tab_link .count{
     font-size: 15px;
     font-weight: 700;
     letter-spacing: -.09px;
@@ -377,7 +394,7 @@
     margin-top: 2px;
 }
 
-.myPageWishList .tab_item:first-of-type .tab_link:before {
+.myPageProfileInfo .tab_item:first-of-type .tab_link:before {
     background-color: #ebebeb;
     bottom: 18px;
     content: "";
@@ -387,14 +404,14 @@
     width: 1px;
 }
 
-.myPageWishList .tab_link .hold{
+.myPageProfileInfo .tab_link .hold{
     color: #ff7500;
     font-size: 12px;
     letter-spacing: -.06px;
     line-height: 19px;
 }
 
-.myPageWishList .purchase_list_display_item{
+.myPageProfileInfo .purchase_list_display_item{
     align-items: center;
     border-bottom: 1px solid #ebebeb;
     cursor: pointer;
@@ -403,7 +420,7 @@
     position: relative;
 }
 
-.myPageWishList .purchase_list_display_item .wish_delete{
+.myPageProfileInfo .purchase_list_display_item .wish_delete{
     position: absolute; /* 부모의 왼쪽 아래에 고정 */
     right: 0; /* 왼쪽으로 정렬 */
     bottom: 20px; /* 아래쪽으로 정렬 */
@@ -414,15 +431,15 @@
     letter-spacing: -.06px;
 }
 
-.myPageWishList .purchase_list_product{
+.myPageProfileInfo .purchase_list_product{
     display: flex;
 }
 
-.myPageWishList .purchase_list_product .list_item_img_wrap{
+.myPageProfileInfo .purchase_list_product .list_item_img_wrap{
     position: relative;
 }
 
-.myPageWishList .purchase_list_product .list_item_img_wrap .list_item_img{
+.myPageProfileInfo .purchase_list_product .list_item_img_wrap .list_item_img{
     border-radius: 12px;
     height: 80px;
     -o-object-fit: cover;
@@ -430,7 +447,7 @@
     width: 80px;
 }
 
-.myPageWishList .purchase_list_product .list_item_title_wrap{
+.myPageProfileInfo .purchase_list_product .list_item_title_wrap{
     align-self: center;
     display: flex;
     flex-direction: column;
@@ -440,7 +457,7 @@
     row-gap: 13px;
 }
 
-.myPageWishList .purchase_list_product .list_item_title_wrap .list_item_price{
+.myPageProfileInfo .purchase_list_product .list_item_title_wrap .list_item_price{
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -451,7 +468,7 @@
     text-overflow: ellipsis;
 }
 
-.myPageWishList .purchase_list_product .list_item_title_wrap .list_item_title{
+.myPageProfileInfo .purchase_list_product .list_item_title_wrap .list_item_title{
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -462,7 +479,7 @@
     text-overflow: ellipsis;
 }
 
-.myPageWishList .purchase_list_product .list_item_title_wrap .list_item_description{
+.myPageProfileInfo .purchase_list_product .list_item_title_wrap .list_item_description{
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     color: rgba(34, 34, 34, .5);
@@ -477,60 +494,60 @@
     text-overflow: ellipsis;
 }
 
-.myPageWishList .list_item_status{
+.myPageProfileInfo .list_item_status{
     align-items: center;
     display: flex;
     margin-left: auto;
     text-align: right;
 }
 
-.myPageWishList .list_item_column p {
+.myPageProfileInfo .list_item_column p {
     margin: 2.5px 0;
 }
 
-.myPageWishList .list_item_status .column_secondary{
+.myPageProfileInfo .list_item_status .column_secondary{
     font-size: 13px;
     letter-spacing: -.07px;
 }
 
-.myPageWishList .list_item_status .list_item_column{
+.myPageProfileInfo .list_item_status .list_item_column{
     margin-left: 10px;
     width: 134px;
 }
 
-.myPageWishList .list_item_status .column_last{
+.myPageProfileInfo .list_item_status .column_last{
     align-self: center;
     display: flex;
     flex-direction: column;
 }
 
-.myPageWishList .list_item_status .list_item_column{
+.myPageProfileInfo .list_item_status .list_item_column{
     margin-left: 10px;
     width: 134px;
 }
 
-.myPageWishList .list_item_status .column_last .last_title{
+.myPageProfileInfo .list_item_status .column_last .last_title{
     font-size: 14px;
     letter-spacing: -.21px;
 }
 
-.myPageWishList .list_item_status .column_last .last_description.action_named_action{
+.myPageProfileInfo .list_item_status .column_last .last_description.action_named_action{
     -webkit-text-decoration: underline;
     text-decoration: underline;
 }
 
-.myPageWishList .list_item_status .column_last .last_description{
+.myPageProfileInfo .list_item_status .column_last .last_description{
     font-size: 14px;
     letter-spacing: -.06px;
     overflow: hidden;
     word-break: keep-all;
 }
 
-.myPageWishList .purchase_list_tab.inventory .tab_item.total .count, .myPageWishList .purchase_list_tab.sell .tab_item.total .count{
+.myPageProfileInfo .purchase_list_tab.inventory .tab_item.total .count, .myPageProfileInfo .purchase_list_tab.sell .tab_item.total .count{
     color: #31b46e;
 }
 
-.myPageWishList .my_home_title .btn_more{
+.myPageProfileInfo .my_home_title .btn_more{
     align-items: center;
     display: inline-flex;
     flex-shrink: 0;
@@ -538,11 +555,11 @@
     padding-left: 5px;
 }
 
-.myPageWishList .interest_product{
+.myPageProfileInfo .interest_product{
     margin: 0 -10px;
 }
 
-.myPageWishList .product_item{
+.myPageProfileInfo .product_item{
     display: inline-block;
     margin: 20px 0;
     padding: 0 12px;
@@ -551,48 +568,48 @@
     width: 25%;
 }
 
-.myPageWishList .product_item .item_inner{
+.myPageProfileInfo .product_item .item_inner{
     background-color: #fff;
     border-radius: 12px;
     display: block;
 }
 
-.myPageWishList .product{
+.myPageProfileInfo .product{
     border-radius: 8px;
     overflow: hidden;
     padding-top: 100%;
     position: relative;
 }
 
-.myPageWishList .detail_stock .product_img, .myPageWishList .is_exclusive .product_img, .myPageWishList .lucky_draw_column .product_img, .myPageWishList .other_stock .product_img, .myPageWishList .product_img, .myPageWishList .stock .product_img{
+.myPageProfileInfo .detail_stock .product_img, .myPageProfileInfo .is_exclusive .product_img, .myPageProfileInfo .lucky_draw_column .product_img, .myPageProfileInfo .other_stock .product_img, .myPageProfileInfo .product_img, .myPageProfileInfo .stock .product_img{
     height: auto;
     width: 100%;
 }
 
-.myPageWishList .product_img{
+.myPageProfileInfo .product_img{
     left: 50%;
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
 }
 
-.myPageWishList .picture{
+.myPageProfileInfo .picture{
     border: none;
     display: flex;
 }
 
-.myPageWishList .image.full_width{
+.myPageProfileInfo .image.full_width{
     height: 100%;
     width: 100%;
 }
 
-.myPageWishList .image{
+.myPageProfileInfo .image{
     image-rendering: auto;
     -o-object-fit: cover;
     object-fit: cover;
 }
 
-.myPageWishList .product_item .btn_wish{
+.myPageProfileInfo .product_item .btn_wish{
     bottom: 3px;
     display: inline-flex;
     padding: 5px;
@@ -601,7 +618,7 @@
     z-index: 1;
 }
 
-.myPageWishList .btn_wish{
+.myPageProfileInfo .btn_wish{
     display: flex;
     height: inherit;
 }
@@ -615,11 +632,11 @@
     width: 24px;
 }
 
-.myPageWishList .product_item .info_box{
+.myPageProfileInfo .product_item .info_box{
     padding: 9px 4px 0;
 }
 
-.myPageWishList .brand-text {
+.myPageProfileInfo .brand-text {
     align-items: center;
     color: #222;
     display: inline-flex;
@@ -630,7 +647,7 @@
     margin-bottom: 2px;
 }
 
-.myPageWishList .brand-text > .brand-name {
+.myPageProfileInfo .brand-text > .brand-name {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -639,16 +656,16 @@
     text-overflow: ellipsis;
 }
 
-.myPageWishList .product_item .price{
+.myPageProfileInfo .product_item .price{
     padding-top: 12px;
 }
 
-.myPageWishList .product_item .amount{
+.myPageProfileInfo .product_item .amount{
     font-size: 0;
     line-height: 0;
 }
 
-.myPageWishList .product_item .discount_rate, .myPageWishList .product_item .num, .myPageWishList .product_item .won{
+.myPageProfileInfo .product_item .discount_rate, .myPageProfileInfo .product_item .num, .myPageProfileInfo .product_item .won{
     display: inline-block;
     font-size: 14px;
     font-weight: 700;
@@ -657,7 +674,7 @@
     vertical-align: top;
 }
 
-.myPageWishList .display_paragraph.line_break_by_truncating_tail {
+.myPageProfileInfo .display_paragraph.line_break_by_truncating_tail {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -665,95 +682,100 @@
     text-overflow: ellipsis;
 }
 
-.myPageWishList .text-lookup.bold{
+.myPageProfileInfo .text-lookup.bold{
     font-weight: 700;
 }
 
-.myPageWishList address, .myPageWishList em {
+.myPageProfileInfo address, .myPageProfileInfo em {
     font-style: normal;
 }
 
-.myPageWishList .product_item .desc{
+.myPageProfileInfo .product_item .desc{
     color: rgba(34, 34, 34, .5);
     font-size: 11px;
     line-height: 13px;
     margin-top: 2px;
 }
 
-.myPageWishList .content_title{
+.myPageProfileInfo .content_title{
     display: flex;
 }
 
-.myPageWishList .purchase_list_tab.detail_tab{
+.myPageProfileInfo .purchase_list_tab.detail_tab{
     background-color: #fff;
     border-radius: 0;
     margin-top: 20px;
 }
 
-.myPageWishList .purchase_list_tab.detail_tab .tab_link{
+.myPageProfileInfo .purchase_list_tab.detail_tab .tab_link{
     border-bottom: 1px solid #ebebeb;
     height: 80px;
     padding-top: 12px;
 }
 
-.myPageWishList .purchase_list_tab.detail_tab .tab_box{
+.myPageProfileInfo .purchase_list_tab.detail_tab .tab_box{
     display: flex;
     flex-direction: column-reverse;
 }
 
-.myPageWishList .purchase_list_tab.detail_tab .tab_on .title{
+.myPageProfileInfo .purchase_list_tab.detail_tab .tab_on .title{
     color: #222;
     font-weight: 700;
 }
 
-.myPageWishList .purchase_list_tab.detail_tab .title{
+.myPageProfileInfo .purchase_list_tab.detail_tab .title{
     color: rgba(34, 34, 34, .5);
 }
 
-.myPageWishList .purchase_list_tab.detail_tab .tab_on .count{
+.myPageProfileInfo .purchase_list_tab.detail_tab .tab_on .count{
     color: #31b46e;
 }
 
-.myPageWishList .purchase_list_tab.detail_tab .count{
+.myPageProfileInfo .purchase_list_tab.detail_tab .count{
     font-size: 20px;
     letter-spacing: -.1px;
     line-height: 24px;
     margin-top: 0;
 }
 
-.myPageWishList .title>h3{
+.myPageProfileInfo .title>h3{
     font-size: 24px;
     line-height: 29px;
 }
 
-.myPageWishList .before_purchase_confirmation{
+.myPageProfileInfo .main_title>h3{
+    font-size: 24px;
+    line-height: 29px;
+}
+
+.myPageProfileInfo .before_purchase_confirmation{
     font-size: 12px;
     color: #BFBFBF;
 
 }
 
-.myPageWishList .after_purchase_confirmation{
+.myPageProfileInfo .after_purchase_confirmation{
     font-size: 12px;
     color: #BFBFBF;
 }
 
-.myPageWishList .content_title.border{
+.myPageProfileInfo .content_title.border{
     border-bottom: 3px solid #222;
     padding-bottom: 16px;
 }
 
-.myPageWishList .saved-chips-container{
+.myPageProfileInfo .saved-chips-container{
     padding: 12px 0;
 }
 
-.myPageWishList .filter_chip_group.bubble{
+.myPageProfileInfo .filter_chip_group.bubble{
     display: flex;
     flex-wrap: wrap;
     gap: 12px 8px;
     position: relative;
 }
 
-.myPageWishList .blind, .myPageWishList .u_skip {
+.myPageProfileInfo .blind, .myPageProfileInfo .u_skip {
     clip: rect(0, 0, 0, 0) !important;
     height: 1px !important;
     margin: -1px !important;
@@ -762,7 +784,7 @@
     width: 1px !important;
 }
 
-.myPageWishList input, .myPageWishList textarea {
+.myPageProfileInfo input, .myPageProfileInfo textarea {
     -webkit-appearance: none;
     background-color: transparent;
     border: 0;
@@ -772,7 +794,7 @@
     resize: none;
 }
 
-.myPageWishList .filter_button.line{
+.myPageProfileInfo .filter_button.line{
     align-items: center;
     background-color: #fff;
     border: 1px solid #f0f0f0;
@@ -786,7 +808,7 @@
     padding: 0 8px;
 }
 
-.myPageWishList .filter_button.line.active{
+.myPageProfileInfo .filter_button.line.active{
     background-color: #222;
     border: none;
     color: #fff;
@@ -794,12 +816,12 @@
     box-shadow: none;
 }
 
-.myPageWishList .filter_button{
+.myPageProfileInfo .filter_button{
     cursor: pointer;
     position: relative;
 }
 
-.myPageWishList button{
+.myPageProfileInfo button{
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -811,23 +833,193 @@
     padding: 0;
 }
 
-.myPageWishList .filter_button .text-group{
+.myPageProfileInfo .filter_button .text-group{
     padding: 0 4px;
 }
 
-.myPageWishList .filter_button .num{
+.myPageProfileInfo .filter_button .num{
     display: none;
 }
 
-.myPageWishList .content-header{
+.myPageProfileInfo .content-header{
     align-items: center;
     display: flex;
     justify-content: space-between;
     padding-top: 20px;
 }
 
-.myPageWishList .total-rows{
+.myPageProfileInfo .total-rows{
     color: rgba(34, 34, 34, .8);
     font-size: 13px;
     letter-spacing: -.07px;
+}
+
+.myPageProfileInfo .profile_group.first{
+    padding-top: 0 !important;
+}
+
+.myPageProfileInfo .profile_info{
+    max-width: 480px;
+    padding-top: 38px;
+}
+
+.myPageProfileInfo .profile_group{
+    padding-top: 48px;
+}
+
+
+.myPageProfileInfo .lg .profile_group, .myPageProfileInfo .md .profile_group{
+    padding-top: 58px;
+}
+
+.myPageProfileInfo .group_title{
+    font-size: 18px;
+    letter-spacing: -.27px;
+}
+
+.myPageProfileInfo .unit{
+    border-bottom: 1px solid #ebebeb;
+    display: flex;
+    flex-direction: column;
+    padding: 25px 0 12px;
+    position: relative;
+}
+
+.myPageProfileInfo .unit_content{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.myPageProfileInfo .desc{
+    flex: 1;
+    font-size: 16px;
+    letter-spacing: -.16px;
+    overflow: hidden;
+    padding-bottom: 8px;
+    padding-top: 8px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.myPageProfileInfo .btn_modify{
+    position: absolute;
+    right: 0;
+}
+
+.myPageProfileInfo .my-profile__term-desc{
+    line-height: 1;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.myPageProfileInfo .my-profile__term-desc>span{
+    display: block;
+    margin-bottom: 2px;
+}
+
+.myPageProfileInfo .desc [type=button]{
+    color: #909090;
+    font-size: 12px;
+    font-weight: 400;
+    text-decoration-line: underline;
+}
+
+.myPageProfileInfo .base-switch{
+    background-color: var(--75b83bce);
+    border-radius: 15.5px;
+    cursor: pointer;
+    height: 31px;
+    position: relative;
+    width: 51px;
+}
+
+.myPageProfileInfo .base-switch.is-active{
+    background-color: var(--6d656928);
+}
+
+.myPageProfileInfo .base-switch .circle{
+    background-color: var(--30d0adec);
+    border-radius: 50%;
+    height: 27px;
+    left: 0;
+    position: absolute;
+    top: 50%;
+    transform: translate(2px, -50%);
+    width: 27px;
+}
+
+.myPageProfileInfo .base-switch.is-active .circle{
+    transform: translate(22px, -50%);
+}
+
+.myPageProfileInfo .base-switch .circle, .myPageProfileInfo .base-switch{
+    transition: all .3s cubic-bezier(.4,0,.2,1) !important;
+}
+
+.myPageProfileInfo .btn_withdrawal, .myPageProfileInfo .btn_withdrawal:hover {
+    -webkit-text-decoration: underline;
+    text-decoration: underline;
+}
+
+.myPageProfileInfo .btn_withdrawal{
+    color: rgba(34, 34, 34, .5);
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: -.07px;
+    margin-top: 55px;
+    padding: 5px 0;
+}
+
+.myPageProfileInfo .lg .user_profile, .myPageProfileInfo .md .user_profile{
+    border-bottom: 1px solid #ebebeb;
+}
+
+.myPageProfileInfo .user_profile{
+    align-items: center;
+    background-color: #fff;
+    display: flex;
+    padding: 38px 0;
+}
+
+.myPageProfileInfo .profile_thumb{
+    border-radius: 100%;
+    flex: none;
+    height: 80px;
+    margin-right: 12px;
+    overflow: hidden;
+    width: 80px;
+}
+
+.myPageProfileInfo .lg .profile_thumb, .myPageProfileInfo .md .profile_thumb{
+    height: 90px;
+    width: 90px;
+}
+
+.myPageProfileInfo .profile_thumb .thumb_img{
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    width: 100%;
+}
+
+.myPageProfileInfo .profile_detail .name{
+    color: #000;
+    font-size: 18px;
+    letter-spacing: -.27px;
+    line-height: 1.2222222222;
+}
+
+.myPageProfileInfo .profile_btn_box{
+    font-size: 0;
+    margin-top: 12px;
+}
+
+.myPageProfileInfo .profile_btn_box .btn+.btn{
+    margin-left: 8px;
+}
+
+.myPageProfileInfo .desc_modify{
+    padding-right: 58px;
 }

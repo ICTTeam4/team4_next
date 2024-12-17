@@ -18,7 +18,7 @@ body {
   background: var(--background);
   font-family: Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 
   Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, Helvetica Neue, Apple SD Gothic Neo, 
-  Noto Sans KR, Malgun Gothic, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  Noto Sans KR, Malgun Gothic, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol !important;
 }
 
 hr {
