@@ -1,3 +1,8 @@
+.container hr {
+  height: 3px; /* 굵기 조정 */
+  background-color: black; /* 색상 설정 */
+  border: none; /* 기본 테두리 제거 */
+}
 /* 슬라이드 패널 */
 #slidePanel {
   position: fixed;
@@ -27,7 +32,10 @@
   opacity: 0;
   transition: opacity 0.3s ease;
 }
-
+.infoTitle{
+  font-size: larger;
+  font-weight: bold;
+}
 /* 활성화된 상태 */
 #slidePanel.active {
   right: 0;
@@ -42,7 +50,7 @@
   padding: 10px;
   display: grid;
   grid-template-columns: repeat(2, 600px);
-  grid-template-rows: 600px 900px 350px;
+  grid-template-rows: 700px 600px 350px;
   justify-content: center;
   grid-template-areas: 
   "img trademenu"
@@ -71,37 +79,31 @@
 }
 .images {
   justify-self: center;
-  border: 1px solid black;
-  width: 400px;
-  height: 400px;
+  width: 600px;
+  height: 600px;
   border-radius: 5px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
-  align-items: center;
-}
-.navright{
-  padding: 20px;
-  justify-self: end;
-}
-.navleft {
-  padding: 20px;
-  justify-self: start;
+
 }
 
 .salesInfo{
   display: grid;
   grid-template-columns: 500px ;
-  grid-template-rows:  20px 20px 20px;
+  grid-template-rows:  40px 40px 40px;
   grid-template-areas: 
   "itemName"
   "itemPrice"
   "detailData";
 }
 .itemName{
+  line-height: 40px;
   grid-area: itemName;
   display: flex;
   justify-content: space-between;
+}
+.tradeTitle{
+  font-weight: bold;
+  font-size: large;
+  line-height: 33px;
 }
 .itemPrice{
   grid-area: itemPrice;
@@ -129,22 +131,29 @@
 .sellerContainer{
   display: grid;
   grid-template-columns: 600px;
-  grid-template-rows: 200px 200px 500px;
+  grid-template-rows: 130px 120px 500px;
   grid-template-areas: 
   "sellerNickname"
   "sellerData"
   "sellerRecent"
   ;
 }
-
+.sellerInfo{
+  height: 30px;
+}
 
 .sellerNickname{
+  margin-top: 20px;
   grid-area: sellerNickname ;
+  font-size: xx-large;
+  line-height: 90px;
 }
 .sellerData{
   grid-area: sellerData ;
+  justify-self: center;
+  width: 500px;
 }
-.sellerNickname{
+.sellerRecent{
   grid-area: sellerRecent;
 }
 .sellerProfile{
@@ -154,7 +163,6 @@
   grid-template-rows:  1fr;
 }
 .sellerData{
-  padding: 20px 0px ;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows:  1fr;
@@ -164,13 +172,15 @@
   font-size: small;
 }
 .purchase{
-  padding: 5px 20px;
+  text-align: center;
+  padding: 10px 20px;
   border-radius: 25px;
   border : 1px solid black ;
   color: black;
 }
 .chatting {
-  padding: 5px 20px;
+  text-align: center;
+  padding: 10px 20px;
   border-radius: 25px;
   border : 1px solid black ;
   background-color: black;
@@ -206,27 +216,28 @@ button:hover{
   background-size: cover; /* 이미지 크기 설정 */
   background-position: center; /* 이미지 위치 */
   background-repeat: no-repeat; /* 반복 제거 */
+  margin-top: 15px;
 }
 .sellerData{
   border: 1px solid gainsboro;
   border-radius: 25px;
   text-align: center;
-  padding: 50px 0px;
+  padding-top: 40px;
 }
 .sellerGoodsImg{
   background-image: url('/images/David_cloth1.jpg'); /* 배경 이미지 경로 */
   background-size: cover; /* 이미지 크기 설정 */
   background-position: center; /* 이미지 위치 */
   background-repeat: no-repeat; /* 반복 제거 */
-  width: 190px;
-  height: 190px;
-  border-radius: 20px;
+  width: 170px;
+  height: 170px;
+  border-radius: 5px;
 
 }
 .sellerRecent{
   padding: 50px 0px;
   display: flex;
-  gap: 20px;
+  gap: 35px;
   justify-content: center;
   /* display: grid;
   grid-template-columns: repeat(auto-fit, 100px);
@@ -237,13 +248,13 @@ button:hover{
   background-size: cover; /* 이미지 크기 설정 */
   background-position: center; /* 이미지 위치 */
   background-repeat: no-repeat; /* 반복 제거 */
-  width: 220px;
-  height: 220px;
-  border-radius: 25px;
+  width: 200px;
+  height: 200px;
+  border-radius: 5px;
 }
 .relatedGoods{
   display: flex;
-  gap: 20px;
+  gap: 40px;
   justify-content: center;
 }
 .tradeArea{
@@ -251,6 +262,149 @@ button:hover{
   border-radius: 25px;
   border : 1px solid black ;
   color: black;
-  width: 190px;
+  width: 230px;
   font-size: smaller;
+}
+.priceInfo{
+  font-size: x-large;
+}
+.sellerHeader{
+  display: flex;
+  justify-content: space-between;
+}
+.navigation{
+  position: relative;
+  top: -4px;
+}
+.sellerGoodsTitle{
+  margin-top: 10px;
+  font-weight: bold;
+  
+}
+.sellerGoodsPrice{
+  color: rgb(184, 184, 184);
+}
+.relatedGoodsTitle{
+  margin-top: 10px;
+  font-weight: bold;
+  
+}
+.relatedGoodsPrice{
+  color: rgb(184, 184, 184);
+}
+.mapModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mapWindow{
+  position: relative;
+  width: 50vw;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  z-index: 1000;
+}
+.shareModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.shareWindow{
+  position: relative;
+  width: 600px;
+  height:300px;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  z-index: 1000;
+  border-radius: 7px;
+}
+.shareIcons{
+  display: grid;
+  grid-template-columns: 100px 100px 100px;
+  grid-template-rows:  100px;
+  justify-content: center;
+  /* width: 50px;
+  height: 50px; */
+}
+.shareIcon{
+  border: 1px solid black;
+  border-radius: 50%;
+}
+.urlCopy{
+  text-align: center;
+  line-height: 50px;
+  background-color: burlywood;
+  color: aliceblue;
+  font-size: x-large;
+  font-weight: bold;
+}
+.closeShare{
+  width: 500px;
+  height: 50px;
+  background-color: black;
+  color: white;
+  text-align: center;
+  line-height: 50px;
+  font-weight: bold;
+  font-size: larger;
+}
+.alertModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.alertWindow{
+  padding-top: 50px;
+  position: relative;
+  width: 700px;
+  height: 600px;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  z-index: 1000;
+  font-size: x-large;
+  font-weight: bold;
+  text-align: center;
+  grid-template-rows: 200px 100px 100px;
+  align-self: center;
+}
+.chatThenTrade{
+  width: 400px;
+  justify-self: center;
+  border: 1px solid black;
+  padding: 20px 70px;
+  border-radius: 5px;
+}
+.noChatTrade{
+  width: 400px;
+  justify-self: center;
+  border: 1px solid black;
+  background-color: black;
+  color: white;
+  padding: 20px 70px;
+  border-radius: 5px;
 }
