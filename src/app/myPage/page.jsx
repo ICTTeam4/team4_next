@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 'user client';
 import React from 'react';
 
@@ -52,6 +53,22 @@ function Page(props) {
 
                     </nav>
                 </div>
+=======
+"use client";
+import Link from 'next/link';
+import './mypage.css';
+import MyPageSideNav from '../components/MyPageSideNav';
+import { usePathname } from 'next/navigation';
+
+function Page(props) {
+    
+    const pathname = usePathname();
+
+    return (
+        <div className='myPage'>
+            <div className='container my lg'>
+            <MyPageSideNav currentPath={pathname} />
+>>>>>>> ecdebbad4396162d58a7ad6ab0c4c50c20369971
                 <div className='content_area my-page-content'>
                     <div className='v_portal' style={{ display: "none" }}></div>
                     <div className='my_home'>
@@ -84,6 +101,10 @@ function Page(props) {
                                         <div className='tab_item total'>
                                             <a href="#" className='tab_link'>
                                                 <dl className='tab_box'>
+<<<<<<< HEAD
+=======
+
+>>>>>>> ecdebbad4396162d58a7ad6ab0c4c50c20369971
                                                     <dt className='title'>전체</dt>
                                                     <dd className='count'>0</dd>
                                                 </dl>
@@ -321,7 +342,11 @@ function Page(props) {
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
         </>
+=======
+        </div>
+>>>>>>> ecdebbad4396162d58a7ad6ab0c4c50c20369971
     );
 }
 
