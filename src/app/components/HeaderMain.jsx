@@ -137,7 +137,7 @@ const HeaderMain = () => {
                   </li>
                   {/* 검색 버튼 */}
                   <li className="gnb_item">
-                <button className="btn_search header-search-button" onClick={handleSearchClick}>
+                <button className="btn_search" onClick={handleSearchClick}>
                   <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" width="30" height="30">
                     <path
                       fillRule="evenodd"

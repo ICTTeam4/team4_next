@@ -65,14 +65,14 @@ const SupportLayout = ({ children }) => {
           },
         }}
       >
-       <Typography variant="h4" style={{marginBottom:"10px"}}>고객센터</Typography>
+       <Typography variant="h5" style={{marginBottom:"10px", marginTop:"20px"}}>고객센터</Typography>
         <Tab label="공지사항" />
         <Tab label="자주 묻는 질문" />
         <Tab label="1:1 문의하기" />
       </Tabs>
 
       {/* 콘텐츠 영역 */}
-      <Box sx={{ padding: '20px', flexGrow: 1 }}>
+      <Box sx={{ padding: '20px', flexGrow: 1 , height:'700px'}}>
         {children}
       </Box>
     </Box>
