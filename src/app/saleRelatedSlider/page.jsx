@@ -26,7 +26,7 @@ function page(props) {
     <div className='carousel'>
       <div
         className='itemsContainer'
-        style={{ transform: `translateX(-${currentIndex * 300}px)` }}
+        style={{ transform: `translateX(-${currentIndex * 228}px)` }}
       >
         {items.map((item) => (
           <div key={item.id} className='item'>

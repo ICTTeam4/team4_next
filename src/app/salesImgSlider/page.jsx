@@ -30,7 +30,7 @@ function page(props) {
     <div className="slider-container">
       <div
         className="slider-images"
-        style={{ transform: `translateX(-${currentIndex * 600}px)` }}
+        style={{ transform: `translateX(-${currentIndex * 390}px)` }}
       >
         {images.map((src, index) => (
           <img key={index} src={src} alt={`Slide ${index + 1}`}

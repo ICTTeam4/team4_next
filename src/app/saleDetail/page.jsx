@@ -85,7 +85,7 @@ function page(props) {
           <div className="images" > <SalesImgSlider/> </div>
         </div>
         <div className="tradeInfoMenu">
-          <div className="category">홈▶카테고리1▶카테고리2</div>
+          <div className="category">홈 &gt; 카테고리1 &gt; 카테고리2</div>
           <div className="salesInfo">
             <div className="itemName">
               <div className="item"> <span className='infoTitle'>물품이름</span> </div>
@@ -123,14 +123,23 @@ function page(props) {
         <div className="sellerInfo">
 
           <div className='sellerHeader'>
-          <span className='infoTitle'><Link href="/salepage">판매자 정보</Link></span>  <Link href="/salepage"> <Image src="/images/David_arrow.png" className='navigation' width="30" height="30"/></Link>
+          <span className='infoTitle'>
+            <Link href="/salepage" className='sallerFont'>판매자 정보</Link></span>  
+            <Link href="/salepage"> 
+            <Image src="/images/David_arrow.png" className='navigation' width="20" height="20"/>
+            </Link>
           </div>
           <hr />
           <div className="sellerContainer">
 
             <div className="sellerProfile">
               
-              <div className="sellerNickname"><Link href="/salepage">판매자 닉네임</Link></div> <Link href="/salepage"><div className="sellerImg"></div></Link>
+              <div className="sellerNickname">
+                <Link href="/salepage" className='sallerFont' style={{marginLeft:'90px'}}>판매자 닉네임</Link>
+                </div> 
+                <Link href="/salepage">
+                <div className="sellerImg" style={{marginRight:'90px'}}></div>
+                </Link>
               
             </div>
             <div className="sellerData">
