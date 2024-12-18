@@ -3,15 +3,24 @@ import Link from 'next/link';
 import './mypage.css';
 import MyPageSideNav from '../components/MyPageSideNav';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 
 function Page(props) {
-    
     const pathname = usePathname();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleModalOpen = () => {
+        setIsModalOpen(true); // 모달 열기
+    };
+
+    const handleModalClose = () => {
+        setIsModalOpen(false); // 모달 닫기
+    };
 
     return (
         <div className='myPage'>
             <div className='container my lg'>
-            <MyPageSideNav currentPath={pathname} />
+                <MyPageSideNav currentPath={pathname} />
                 <div className='content_area my-page-content'>
                     <div className='v_portal' style={{ display: "none" }}></div>
                     <div className='my_home'>
@@ -27,9 +36,9 @@ function Page(props) {
                                             <p className='email'>abcd1234@naver.com</p>
                                         </div>
                                         <div className='info-buttons'>
-                                            <a href="#" className='btn btn outlinegrey small' type="button">
+                                            <Link href="/myPageProfileInfo" className='btn btn outlinegrey small' type="button">
                                                 프로필 관리
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
@@ -42,29 +51,29 @@ function Page(props) {
                                 <div className='recent_purchase'>
                                     <div className='purchase_list_tab'>
                                         <div className='tab_item total'>
-                                            <a href="#" className='tab_link'>
+                                            <Link href="/myPageBuy?tab=전체" className='tab_link'>
                                                 <dl className='tab_box'>
 
                                                     <dt className='title'>전체</dt>
                                                     <dd className='count'>0</dd>
                                                 </dl>
-                                            </a>
+                                            </Link>
                                         </div>
                                         <div className='tab_item tab_on'>
-                                            <a href="#" className='tab_link'>
+                                            <Link href="/myPageBuy?tab=진행 중" className='tab_link'>
                                                 <dl className='tab_box'>
                                                     <dt className='title'>진행 중</dt>
                                                     <dd className='count'>0</dd>
                                                 </dl>
-                                            </a>
+                                            </Link>
                                         </div>
                                         <div className='tab_item'>
-                                            <a href="#" className='tab_link'>
+                                            <Link href="/myPageBuy?tab=구매 완료" className='tab_link'>
                                                 <dl className='tab_box'>
                                                     <dt className='title'>구매 완료</dt>
                                                     <dd className='count'>0</dd>
                                                 </dl>
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
@@ -93,7 +102,41 @@ function Page(props) {
                                                     </div>
                                                     <div className='list_item_column column_last'>
                                                         <p className='text-lookup last_title display_paragraph' style={{ color: "rgb(34, 34, 34)" }}>진행 중</p>
-                                                        <p className='text-lookup last_description display_paragraph action_named_action' style={{ color: "red" }}>구매 확정</p>
+                                                        <p className='text-lookup last_description display_paragraph action_named_action'
+                                                            style={{ color: "red" }}
+                                                            onClick={handleModalOpen}
+                                                        >구매 확정</p>
+                                                        {isModalOpen && (
+                                                            <div className='layer lg'>
+                                                                <div className='layer-background' onClick={handleModalClose}></div>
+                                                                <div className='layer_container'>
+                                                                    <div className="layer_header">
+                                                                        <h2 className="title">구매 확정</h2>
+                                                                    </div>
+                                                                    <div className='layer_content'>
+                                                                        <div className='size_list_area'>
+
+                                                                            <h5>Saint Kream에서는 구매확정을 하는 즉시, 확정 취소가 불가능해요.<br /><br /></h5>
+
+                                                                            <p className="description_text">
+                                                                                확정 뒤 3일 후 상품 판매 대금이 판매자에게 정산되고 난 후에는 상품을 취소 및 반품 요청을 할 수 없어요.<br /><br /><br />
+
+
+
+                                                                                혹시 판매자가 배송 전 구매확정을 요청했나요?<br /><br />
+
+                                                                                배송완료 이전에 판매자가 구매확정을 요청하는 거래는 사기 위험이 높아요.<br />
+
+                                                                                이런 행위를 하는 판매자를 만났다면 1:1 문의를 통해 신고를 접수해 주세요.<br /><br />
+
+                                                                            </p>
+                                                                                <p className='Fraud_Prevention'>사기 피해 방지를 위해 반드시 상품을 수령한 후 상품 상태를 확인 후에 구매확정 해주세요.<br /> </p>
+                                                                        </div>
+                                                                    </div>
+                                                                    {/* 수정 필요 */}<button onClick={handleModalClose} className="">닫기</button>
+                                                                </div>
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </a>
@@ -264,11 +307,11 @@ function Page(props) {
                                                     </div>
                                                     <div className='price'>
                                                         <div className='amount lg'>
-                                                            <em className='text-lookup num bold display_paragraph line_break_by_truncating_tail' 
-                                                            style={{color: "rgb(34, 34, 34)"}}>80,000원</em>
+                                                            <em className='text-lookup num bold display_paragraph line_break_by_truncating_tail'
+                                                                style={{ color: "rgb(34, 34, 34)" }}>80,000원</em>
                                                         </div>
                                                         <div className='desc'>
-                                                            <p className='text-lookup display_paragraph line_break_by_truncating_tail' style={{color: "rgb(167, 167, 167)"}}>10분 전</p>
+                                                            <p className='text-lookup display_paragraph line_break_by_truncating_tail' style={{ color: "rgb(167, 167, 167)" }}>10분 전</p>
                                                         </div>
                                                     </div>
                                                 </div>
