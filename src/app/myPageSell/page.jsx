@@ -182,8 +182,8 @@ const deleteImage = (index) => {
             </div>
                          {/* 모달 팝업 */}
                         {isModalOpen && (
-                            <div className="modal-overlay">
-                                <div className="modal-content">
+                            <div className="review_modal-overlay">
+                                <div className="review_modal-content">
                                     <button className="close-btn" onClick={closeModal}>&times;</button>
                                     <h3>리뷰 작성</h3>
                                     <div className="rating">

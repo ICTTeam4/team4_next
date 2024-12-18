@@ -768,7 +768,7 @@
 
 
   /* 모달 팝업 스타일 */
-  .modal-overlay {
+  .review_modal-overlay {
     position: fixed !important;
     top: 0;
     left: 0;
@@ -782,7 +782,7 @@
 }
 
   
-.modal-content {
+.review_modal-content {
     background: #fff;
     width: 400px; /* 가로 크기 */
     min-height: 330px; /* 높이를 최소로 설정 */
