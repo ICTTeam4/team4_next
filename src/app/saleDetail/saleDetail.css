@@ -361,8 +361,8 @@ button:hover{
   height: 50px; */
 }
 .shareIcon{
-  border: 1px solid black;
-  border-radius: 50%;
+  /* border: 1px solid black; */
+  border-radius: 10px;
 }
 .urlCopy{
   text-align: center;

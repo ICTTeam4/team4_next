@@ -119,7 +119,7 @@ const FilterPrice = ({ resetFilter, isActive, toggleSidebar }) => {
                     {children}
                   </div>
                 )}
-                renderThumb={({ props, isDragged }) => (
+                renderThumb={({ props,isDragged }) => (
                   <div
                     {...props}
                     style={{
