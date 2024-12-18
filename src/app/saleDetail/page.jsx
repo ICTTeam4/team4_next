@@ -6,6 +6,8 @@ import { Button } from '@mui/material';
 import SalesImgSlider from '@/app/salesImgSlider/page'
 import SalesRelatedSlider from '@/app/saleRelatedSlider/page'
 import Link from 'next/link';
+import PayPanel from './payPanel/page';
+import PayDealPanel from './payDealPanel/page';
 function page(props) {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isBookMarkOpen, setIsBookMarkOpen] = useState(false);
@@ -13,6 +15,7 @@ function page(props) {
   const [isPayOpen, setIsPayOpen] = useState(false);
   const [isMapOpen, setIsMapOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [payButtonLevel,setPayButtonLevel] = useState(0);  // 결제 단계 관리 , 
 
   
   const openBookMark = () => {
@@ -38,6 +41,7 @@ function page(props) {
 
   const closeChatPanel = () => {
     setIsChatOpen(false);
+    setPayButtonLevel(0);
   }
   const openPayPanel = () => {
     setIsPayOpen(true);
@@ -45,7 +49,8 @@ function page(props) {
 
   const closePayPanel = () => {
     setIsPayOpen(false);
-  }
+    setPayButtonLevel(0); 
+   }
 
   const openMap = () => {
     setIsMapOpen(true);
@@ -69,6 +74,8 @@ function page(props) {
     closeAlert();
     openChatPanel();
   }
+
+  
 
 
   return (
@@ -201,14 +208,17 @@ function page(props) {
 
         {/* 슬라이드 패널 */}
         <div id="slidePanel" className={isPayOpen ? 'active' : ''}>
-          <table>
-          <div className="content">
-            <div>원하시는 거래방법을 <br/>선택해 주세요</div>
-            <div className='DeliveryTransaction'>택배거레</div>
-            <div className='directTransaction'>직거래</div>
-            <div className='next1'>다음</div>
-          </div>
-          </table>
+          {payButtonLevel === 0 ?(
+            <PayPanel nextButton={payButtonLevel} setNextButton={setPayButtonLevel}/>
+          ) : payButtonLevel === 1 || payButtonLevel === 2 ? (
+            <PayDealPanel nextButton={payButtonLevel} setNextButton={setPayButtonLevel}/>
+          ) : null
+        }
+             
+          
+
+          현재상태 :  {payButtonLevel}
+          
         </div>
 
 

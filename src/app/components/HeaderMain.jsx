@@ -37,9 +37,7 @@ const HeaderMain = () => {
     setChatOpen(true);
   };
 
-  const triggerChat = () => {
-    window.dispatchEvent(new CustomEvent('open-chat', { detail: { room_id: 999,host_id:998 } })); // 임시 고객센터채팅방  room_id 값
-  };
+ 
 
   
 
