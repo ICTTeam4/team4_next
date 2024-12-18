@@ -41,10 +41,10 @@ const MyPageSideNav = ({ currentPath }) => {
                                     <Link href='/myPageAddressInfo' className={`menu_link ${isActive('/myPageAddressInfo') ? 'active' : ''}`}> 주소록 </Link>
                                 </li>
                                 <li className='menu_item'>
-                                    <a href='#' className='menu_link'> 판매 정산 계좌 </a>
+                                    <a href='/myPageAccountInfo' className={`menu_link ${isActive('/myPageAccountInfo') ? 'active' : ''}`}> 판매 정산 계좌 </a>
                                 </li>
                                 <li className='menu_item'>
-                                    <a href='#' className='menu_link'> 정산 내역 </a>
+                                    <a href='/myPagePayOuts' className={`menu_link ${isActive('/myPagePayOuts') ? 'active' : ''}`}> 정산 내역 </a>
                                 </li>
                                 <li className='menu_item'>
                                     <a href='#' className='menu_link'> 거래 후기 </a>
