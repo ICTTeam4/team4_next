@@ -4,6 +4,7 @@ import './itemList.css';
 import ItemCard from '../itemCard/page';
 import FilterButtonsSection from '../filterButtonsSection/page';
 import FilterSidebar from '../filterSidebar/page';
+import VideoBanner from "../videoBanner/page";
 
 function Page(props) {
   const [isSidebarActive, setIsSidebarActive] = useState(false);
@@ -14,6 +15,7 @@ function Page(props) {
 
   return (
     <>
+    <VideoBanner/>
     <FilterSidebar isActive={isSidebarActive} toggleSidebar={toggleSidebar}/>
     <FilterButtonsSection toggleSidebar={toggleSidebar}/>
     <div style={{display:'flex', justifyContent:'center', marginTop:'-10px'}}>

@@ -1,16 +1,17 @@
 import React from 'react';
 import Link from 'next/link';
 import './headerNavi.css';
-
+import useAuthStore from '../../../store/authStore';
 const Page = () => {
+  const {searchKeyword, resetKeyword, setKeyword } = useAuthStore();
   const navItems = [
-    { name: '전체', path: '/all' },
-    { name: '아우터', path: '/outer' },
-    { name: '상의', path: '/top' },
-    { name: '하의', path: '/bottom' },
-    { name: '신발', path: '/shoes' },
-    { name: '가방', path: '/bags' },
-    { name: '패션잡화', path: '/accessories' },
+    { name: '전체', path: '/' },
+    { name: '아우터', path: `/outerList?query=${searchKeyword}`},
+    { name: '상의', path: `/topList?query=${searchKeyword}` },
+    { name: '하의', path: `/bottomList?query=${searchKeyword}`},
+    { name: '신발', path: `/shoesList?query=${searchKeyword}` },
+    { name: '가방', path: `/bagsList?query=${searchKeyword}` },
+    { name: '패션잡화', path: `/accessoriesList?query=${searchKeyword}` },
   ];
 
   return (
