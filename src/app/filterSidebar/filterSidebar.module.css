@@ -15,7 +15,7 @@
   top: 0;
   right: -400px; /* 기본적으로 필터가 오른쪽 바깥에 위치 */
   width: 400px;
-  height: 90%;
+  height: 92%;
   background: #fff;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
   transition: right 0.35s ease-in-out;

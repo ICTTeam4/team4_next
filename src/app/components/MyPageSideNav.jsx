@@ -47,7 +47,7 @@ const MyPageSideNav = ({ currentPath }) => {
                                     <a href='/myPagePayOuts' className={`menu_link ${isActive('/myPagePayOuts') ? 'active' : ''}`}> 정산 내역 </a>
                                 </li>
                                 <li className='menu_item'>
-                                    <a href='#' className='menu_link'> 거래 후기 </a>
+                                    <a href='/myPageReviews' className={`menu_link ${isActive('/myPageReviews') ? 'active' : ''}`}> 거래 후기 </a>
                                 </li>
                             </ul>
                         </div>

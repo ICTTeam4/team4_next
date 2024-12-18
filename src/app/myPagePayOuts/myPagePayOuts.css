@@ -1100,10 +1100,10 @@
     font-size: 12px;
     letter-spacing: -.06px;
     line-height: 14px;
-    margin-left: 4px;
     margin-top: 0;
-    padding: 3px 6px;
+    padding: 3px 0.5px 3px 1px;
     vertical-align: top;
+    width: 70px;
 }
 
 .myPagePayOuts .address_info .phone{

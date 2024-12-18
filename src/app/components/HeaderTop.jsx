@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import React from 'react';
 import './css/HeaderTop.css';
+import useAuthStore from '../../../store/authStore';
 
-function HeaderTop(props) {
+function HeaderTop({toggleSidebar}) {
+  const {resetKeyword} = useAuthStore();
   return (
     
     <div className="max_width_container">
@@ -10,7 +12,7 @@ function HeaderTop(props) {
       <div className="top_inner">
         {/* 로고 */}
         <h1>
-          <Link href="/" aria-label="홈" className="logo" scroll={true}>
+          <Link href="/" aria-label="홈" className="logo" scroll={true} onClick={resetKeyword}>
             <img
             src='/images/HJ_SAINT_KREAM_logo.png'
             alt='메인로고'
@@ -32,7 +34,7 @@ function HeaderTop(props) {
             </Link>
           </li>
           <li className="top_item">
-            <Link href="/notifications" className="top_link">
+            <Link href="/notifications" className="top_link" onClick={toggleSidebar}>
               알림
             </Link>
           </li>
