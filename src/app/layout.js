@@ -1,38 +1,37 @@
-
-// layout.js 는 선택읻. (RootLayout 제외)
-// layout 이 필요 없는 간단한 페이지에서는 생략 가능
-
+'use client';
+import React from 'react';
 import './globals.css';
 import Footer from "./components/Footer";
-import VideoBanner from "./videoBanner/page";
 import Header from "./components/Header";
+import { usePathname } from 'next/navigation';
 
-// 페이지 전체의 공통 구조를 렌더링 할 때 사용
-
-// 부모컴포넌트
 export default function RootLayout({ children }) {
+  const pathname = usePathname();
+
+  // 경로에 따라 헤더 선택
+  const renderHeader = () => {
+    if (pathname === '/searchPage') {
+      return null; // 검색 페이지에서는 헤더 숨김
+    }
+    return <Header />; // 기본 헤더 출력
+  };
+
   return (
     <html lang="en">
-      <body style={{textAlign:"center"}}>
-        {/* 헤더 */}
-        <Header/>
-        <hr/>
-        {/* 비디오 베너 (임시 위치입니다) */}
-        <VideoBanner/>
-        
+      <body>
+        {/* 동적으로 선택된 헤더 렌더링 */}
+        {renderHeader()}
+        <hr />
         {children}
-        <hr/>
-        {/* 형태를 위한 DIV 입니다. 건드리지 마세요 */}
-        <div style={{display:'flex' , justifyContent:'center'}}>
-        <div style={{maxWidth:'1280px', minWidth:'510px'}}>
-        {/* 푸터 */}
-        <Footer/>
+        <hr />
+        {/* 형태를 위한 DIV */}
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ maxWidth: '1280px', minWidth: '510px' }}>
+            {/* 푸터 */}
+            <Footer />
+          </div>
         </div>
-        </div>
-        <hr/>
-        <ul>
-
-        </ul>
+        <hr />
       </body>
     </html>
   );
