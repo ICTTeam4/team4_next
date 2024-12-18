@@ -44,8 +44,8 @@ function Page(props) {
                                         <div className="info_bind">
                                             <div className="address_info">
                                                 <div className="name_box">
+                                                    <span className="mark" style={{display: "block"}}>기본 정산 계좌</span>
                                                     <span className="name">{item.bank_name}</span>
-                                                    <span className="mark">기본 정산 계좌</span>
                                                 </div>
                                                 <p className="phone">
                                                     {item.account_number.split("-").map((part, index) => (
