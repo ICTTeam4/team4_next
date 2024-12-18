@@ -19,17 +19,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-<<<<<<< HEAD
         {/* 동적으로 선택된 헤더 렌더링 */}
         {renderHeader()}
         <hr />
-=======
-        {/* 헤더 */}
-        <Header/>
-        <hr/>
-        
-        
->>>>>>> ecdebbad4396162d58a7ad6ab0c4c50c20369971
         {children}
         <hr />
         {/* 형태를 위한 DIV */}

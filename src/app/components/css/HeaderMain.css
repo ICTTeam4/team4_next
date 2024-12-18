@@ -64,7 +64,6 @@
   cursor: pointer;
 }
 
-<<<<<<< HEAD
 .searchBarContainer {
   position: absolute;
   top: 27%;
@@ -91,7 +90,7 @@
 
 .searchBar:focus {
   border-bottom: 3px solid #000;
-=======
+}
 /* 오버레이 */
 .chatoverlay {
   position: fixed;
@@ -116,5 +115,4 @@
 
 .chat_sidebar.open {
   right: 0; /* 화면 안으로 이동 */
->>>>>>> ecdebbad4396162d58a7ad6ab0c4c50c20369971
 }

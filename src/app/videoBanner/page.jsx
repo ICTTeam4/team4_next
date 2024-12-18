@@ -34,7 +34,6 @@ const Page = () => {
   }, []);
 
   return (
-<<<<<<< HEAD
     <div className='video-container' style={{ textAlign: 'center' }}>
       <div className={styles.videoBanner}>
         <div className={styles.videoSlides} style={{ backgroundColor: '#000000', height: '414px' }}>
@@ -57,34 +56,6 @@ const Page = () => {
             </div>
           ))}
         </div>
-=======
-
-    <div className='video-container' style={{textAlign:"center"}}>
-    <div className={styles.videoBanner}>
-      {/* 비디오 슬라이드 */}
-      <div className={styles.videoSlides} style={{backgroundColor:'#000000', height:'414px'}}>
-        {videos.map((video, index) => (
-          <div
-            key={index}
-            className={`${styles.videoSlide} ${
-              index === currentIndex ? styles.active : ''
-            }`}
-          >
-            {index === currentIndex && ( // 현재 활성 슬라이드만 렌더링
-              <video
-                ref={(el) => (videoRefs.current[index] = el)} // videoRef 배열에 저장
-                className={styles.video} // 로컬 클래스 추가
-                muted
-                onEnded={changeSlide} // 비디오가 끝났을 때 다음으로 이동
-              >
-                <source src={video} type="video/mp4" />
-                브라우저가 동영상을 지원하지 않습니다.
-              </video>
-            )}
-          </div>
-        ))}
-      </div>
->>>>>>> ecdebbad4396162d58a7ad6ab0c4c50c20369971
 
         {/* 페이징 버튼 */}
         <div className={styles.pagination}>

@@ -12,11 +12,7 @@ function HeaderTop({toggleSidebar}) {
       <div className="top_inner">
         {/* 로고 */}
         <h1>
-<<<<<<< HEAD
-          <Link href="/" aria-label="홈" className="logo" onClick={resetKeyword}>
-=======
-          <Link href="/" aria-label="홈" className="logo" scroll={true}>
->>>>>>> ecdebbad4396162d58a7ad6ab0c4c50c20369971
+          <Link href="/" aria-label="홈" className="logo" scroll={true} onClick={resetKeyword}>
             <img
             src='/images/HJ_SAINT_KREAM_logo.png'
             alt='메인로고'
