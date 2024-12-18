@@ -132,7 +132,7 @@ function page(props) {
             </div>
             <div className="sellerRecent">
               <div className="sellerGoods">
-              <Link href="/saleDetail">
+              <Link href="/saleDetail/test">
                 <div className="sellerGoodsImg"></div>
                 <div className="sellerGoodsTitle">제목</div>
                 <div className="sellerGoodsPrice">가격</div>
