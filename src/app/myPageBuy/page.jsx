@@ -64,7 +64,7 @@ function Page(props) {
                             <div>
                                 <div>
                                     <div>
-                                        <a href="#" className='purchase_list_display_item' style={{ backgroundColor: "rgb(255, 255, 255)" }}>
+                                        <a href="./orderdetailpreparing" className='purchase_list_display_item' style={{ backgroundColor: "rgb(255, 255, 255)" }}>
                                             <div className='purchase_list_product'>
                                                 <div className='list_item_img_wrap'>
                                                     <img alt="product_img" src="/images/JH_itemImg.png" className='list_item_img' style={{ backgroundColor: "rgb(244, 244, 244)" }} />
