@@ -1,3 +1,4 @@
+import React from 'react'; // React를 명시적으로 추가
 import { useState, useEffect } from 'react';
 import styles from '../filterSidebar.module.css';
 import './filterPrice.css';
@@ -89,9 +90,8 @@ const FilterPrice = ({ resetFilter, isActive, toggleSidebar }) => {
             {categories.map((category) => (
               <li className="big_category" key={category.id}>
                 <button
-                  className={`category_button ${
-                    selectedCategories.includes(category.id) ? 'active' : ''
-                  }`}
+                  className={`category_button ${selectedCategories.includes(category.id) ? 'active' : ''
+                    }`}
                   onClick={() => toggleCategory(category.id)}
                 >
                   {category.name}
@@ -102,47 +102,50 @@ const FilterPrice = ({ resetFilter, isActive, toggleSidebar }) => {
 
           <div className="price-range-slider">
             <div className="range-container">
-            <Range
-  values={priceRange}
-  step={1}
-  min={0}
-  max={500}
-  onChange={handlePriceRangeChange}
-  renderTrack={({ props, children }) => {
-    const [min, max] = priceRange; // 현재 최소/최대 값
-    return (
-      <div
-        {...props}
-        style={{
-          ...props.style,
-          height: '6px',
-          width: '100%',
-          background: `linear-gradient(to right, 
-                      #ccc ${((min / 500) * 100).toFixed(1)}%, 
-                      black ${((min / 500) * 100).toFixed(1)}%, 
-                      black ${((max / 500) * 100).toFixed(1)}%, 
-                      #ccc ${((max / 500) * 100).toFixed(1)}%)`,
-          borderRadius: '20px',
-        }}
-      >
-        {children}
-      </div>
-    );
-  }}
-  renderThumb={({ props }) => (
-    <div
-      {...props}
-      style={{
-        ...props.style,
-        height: '20px',
-        width: '20px',
-        borderRadius: '50%',
-        background: '#fff',
-        border: '2px solid black',
-      }}
-    ></div>
-  )}
-/>
+              {/* Range 컴포넌트 */}
+              <Range
+          values={priceRange}
+          step={1}
+          min={0}
+          max={500}
+          onChange={handlePriceRangeChange}
+          renderTrack={({ props, children }) => (
+            <div
+              {...props}
+              style={{
+                ...props.style,
+                height: '6px',
+                width: '100%',
+                background: `linear-gradient(to right, 
+                  #ccc ${(priceRange[0] / 500) * 100}%, 
+                  black ${(priceRange[0] / 500) * 100}%, 
+                  black ${(priceRange[1] / 500) * 100}%, 
+                  #ccc ${(priceRange[1] / 500) * 100}%)`,
+                borderRadius: '20px',
+              }}
+            >
+              {children.map((child, index) => (
+                React.cloneElement(child, { key: `track-child-${index}` }) // key 추가
+              ))}
+            </div>
+          )}
+          renderThumb={({ props, index }) => (
+            <div
+              {...props}
+              key={`thumb-${index}`} // key 추가
+              style={{
+                ...props.style,
+                height: '20px',
+                width: '20px',
+                borderRadius: '50%',
+                background: '#fff',
+                border: '2px solid black',
+              }}
+            ></div>
+          )}
+        />
+
+
             </div>
             <div className="price-range-display">
               <label>최소가격 {priceRange[0]}만원</label>

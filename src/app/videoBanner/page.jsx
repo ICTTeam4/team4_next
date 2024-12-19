@@ -22,6 +22,7 @@ const Page = () => {
   useEffect(() => {
     const currentVideo = videoRefs.current[currentIndex];
     if (currentVideo) {
+      currentVideo.muted = true; // 재생 전에 음소거 설정
       currentVideo.currentTime = 0; // 비디오를 처음으로 설정
       currentVideo.play().catch((error) => console.error('Video play failed', error));
     }
