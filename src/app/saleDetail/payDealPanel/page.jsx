@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Typography, Grid, Box, Paper } from '@mui/material';
-
-function CustomPage({nextButton}) {
+import { useRouter } from 'next/navigation';
+function CustomPage({nextButton,setNextButton}) {
   const [selectedPayment, setSelectedPayment] = useState(null);
+  const router = useRouter(); // 페이지 이동을 위한 history 객체 사용
 
   const handlePaymentSelect = (payment) => {
     setSelectedPayment(payment);
@@ -14,7 +15,21 @@ function CustomPage({nextButton}) {
       bgcolor: '#f0f0f0',
       '&:hover': { bgcolor: '#e0e0e0' },
     };
-
+ useEffect(() => {
+    // 네이버페이 JavaScript SDK 로드
+    const script = document.createElement('script');
+    script.src = 'https://nsp.pay.naver.com/sdk/js/naverpay.min.js';
+    script.async = true;
+    script.onload = () => {
+      // 네이버페이 객체 생성
+      window.oPay = window.Naver.Pay.create({
+        mode: 'development', // development or production
+        clientId: 'HN3GGCMDdTgGUfl0kFCo', // ClientId
+        chainId: 'VG5DTmJWRk1BaDZ' // ChainId
+      });
+    };
+    document.body.appendChild(script);
+  }, []);
     if (selectedPayment === payment) {
       switch (payment) {
         case '카카오페이':
@@ -28,6 +43,43 @@ function CustomPage({nextButton}) {
       }
     }
     return defaultStyles;
+  };
+
+   // 결제 프로세스 실행 함수
+   const executePayment = () => {
+    if (!selectedPayment) return; // 결제 수단이 선택되지 않았다면 아무 행동도 취하지 않음
+
+    switch (selectedPayment) {
+      case '카카오페이':
+        console.log('카카오페이로 결제를 진행합니다.');
+        // setNextButton(3)
+        break;
+      case '네이버페이':
+        console.log('네이버페이로 결제를 진행합니다.');
+        // setNextButton(4)
+         // 네이버페이 결제창 호출
+    if (window.oPay) {
+      window.oPay.open({
+        merchantPayKey: '20241205TwZ68b',
+        productName: '전하윤 배채우기',
+        productCount: '1',
+        totalPayAmount: '290000',
+        taxScopeAmount: '290000',
+        taxExScopeAmount: '0',
+        returnUrl: 'http://localhost:3000/naverPay/success'
+      });
+    } else {
+      console.error('Naver Pay is not initialized.');
+    }
+        break;
+      case '토스페이':
+        console.log('토스페이로 결제를 진행합니다.');
+        // setNextButton(5)
+        break;
+      default:
+        console.error('지원하지 않는 결제 수단입니다.');
+        break;
+    }
   };
 
   return (
@@ -110,6 +162,7 @@ function CustomPage({nextButton}) {
         variant="contained"
         fullWidth
         disabled={!selectedPayment}
+        onClick={executePayment} // 결제 실행 함수 연결
         sx={{
           height: '56px',
           fontWeight: 'bold',

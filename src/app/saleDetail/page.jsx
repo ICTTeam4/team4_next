@@ -8,6 +8,9 @@ import SalesRelatedSlider from '@/app/saleRelatedSlider/page'
 import Link from 'next/link';
 import PayPanel from './payPanel/page';
 import PayDealPanel from './payDealPanel/page';
+import KakaoPay from '../payments/kakaoPay/page';
+import NaverPay from '../payments/naverPay/page';
+import TossPay from '../payments/tossPay/page';
 function page(props) {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isBookMarkOpen, setIsBookMarkOpen] = useState(false);
@@ -221,6 +224,12 @@ function page(props) {
             <PayPanel nextButton={payButtonLevel} setNextButton={setPayButtonLevel}/>
           ) : payButtonLevel === 1 || payButtonLevel === 2 ? (
             <PayDealPanel nextButton={payButtonLevel} setNextButton={setPayButtonLevel}/>
+          ) : payButtonLevel ===3? (
+            <KakaoPay nextButton={payButtonLevel} setNextButton={setPayButtonLevel}/>
+          ) : payButtonLevel ===4? (
+            <NaverPay nextButton={payButtonLevel} setNextButton={setPayButtonLevel}/>
+          ) : payButtonLevel ===5? (
+            <TossPay nextButton={payButtonLevel} setNextButton={setPayButtonLevel}/>
           ) : null
         }
              

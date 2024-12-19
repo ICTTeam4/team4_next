@@ -100,6 +100,7 @@
   height: 100%;
   background: rgba(0, 0, 0, 1); /* 어두운 반투명 효과 */
   z-index: 10;
+  transition: right 0.3s ease-in-out /* 부드러운 애니메이션 */
 }
 .chat_sidebar {
   position: fixed;
@@ -110,9 +111,10 @@
   background: #fff;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5) ;
   z-index: 20;
-  transition: right 0.3s ease-in-out; /* 부드러운 애니메이션 */
+  transition: right 0.3s ease-in-out 
 }
 
 .chat_sidebar.open {
   right: 0; /* 화면 안으로 이동 */
+  transition: right 0.3s ease-in-out !important
 }
