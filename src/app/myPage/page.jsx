@@ -129,7 +129,7 @@ function Page(props) {
                                                                                 이런 행위를 하는 판매자를 만났다면 1:1 문의를 통해 신고를 접수해 주세요.<br /><br />
 
                                                                             </p>
-                                                                            <p className='Fraud_Prevention'>사기 피해 방지를 위해 반드시 상품을 수령한 후 상품 상태를 확인 후에 구매확정 해주세요.<br /> </p>
+                                                                            <p className='Fraud_Prevention'>사기 피해 방지를 위해 반드시 상품을 수령한 후<br /> 상품 상태를 확인 후에 구매확정 해주세요.<br /> </p>
                                                                         </div>
                                                                         <div className="layer_btn">
                                                                             <p className="btn solid medium" onClick={handleModalClose}> 확인 </p>
