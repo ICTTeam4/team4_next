@@ -47,7 +47,7 @@ function Page() {
         </div>
         <div className="profile-image">
           <img src="/images/YB_human.jpg" alt="프로필 이미지" />
-          <p>프로필 사진</p>
+          <p style={{textAlign:'center'}}>프로필 사진</p>
         </div>
       </div>
 

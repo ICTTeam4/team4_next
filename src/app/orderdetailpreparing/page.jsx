@@ -100,8 +100,8 @@ const OrderDetail = () => {
       {/* 거래정보 */}
       <h2 style={{ fontSize: 20 }}>거래정보</h2>
       <section className="transaction-info">
-      <div class="order-header2">
-        <h3 class="order-number2" style={{ fontSize: 18 }}>주문번호 00000000</h3>
+      <div className="order-header2">
+        <h3 className="order-number2" style={{ fontSize: 18 }}>주문번호 00000000</h3>
         <p className="transaction-date" style={{textAlign:'right'}}>24년 12월 04일 08:50</p>
         </div>
         <div className="transaction-details">
@@ -113,7 +113,7 @@ const OrderDetail = () => {
           </p>
           <p>
             <strong>운송장</strong>
-            <p>준비 중</p>
+            준비중
           </p>
         </div>
       </section>
