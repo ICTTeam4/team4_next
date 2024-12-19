@@ -1039,7 +1039,6 @@
 }
 
 .myPageProfileInfo .input_box{
-    padding: 10px 0 14px;
     position: relative;
 }
 
@@ -1068,6 +1067,11 @@
     line-height: 22px;
     padding: 8px 0;
     width: 100%;
+}
+
+
+.input_txt:focus {
+    border-bottom: 2px solid #222;
 }
 
 .myPageProfileInfo .modify_btn_box{
