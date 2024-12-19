@@ -37,7 +37,7 @@ body {
   
   .sell-profile {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 20px auto 0; /* 위쪽에 20px 여백 추가 */
     background-color: #fff;
     border-radius: 10px;
     /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */

@@ -8,6 +8,9 @@ import SalesRelatedSlider from '@/app/saleDetail/saleRelatedSlider/page'
 import Link from 'next/link';
 import PayPanel from './payPanel/page';
 import PayDealPanel from './payDealPanel/page';
+import KakaoPay from '../payments/kakaoPay/page';
+import NaverPay from '../payments/naverPay/page';
+import TossPay from '../payments/tossPay/page';
 function page(props) {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isBookMarkOpen, setIsBookMarkOpen] = useState(false);

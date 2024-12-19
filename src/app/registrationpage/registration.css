@@ -97,8 +97,9 @@
 .product-page {
   font-family: Arial, sans-serif;
   max-width: 700px;
-  margin: 0 auto;
-  padding: 20px;
+  max-height: 85%; /* 위아래 크기를 조금 줄임 */
+  margin: 100px auto; /* 위아래 여백을 줄임 */
+  padding: 15px; /* 내부 여백을 줄임 */
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

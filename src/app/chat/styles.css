@@ -8,7 +8,6 @@
 
 .chat-header {
   display: flex !important;
-  justify-content: space-between !important;
   align-items: center !important;
   padding: 16px !important;
   background: #ffffff !important; /* 헤더 배경색 */
@@ -102,7 +101,7 @@
   height: 100% !important;
   background: #ffffff !important;
   z-index: 20 !important;
-  transition: right 0.3s ease-in-out !important; /* 부드러운 애니메이션 */
+  transition: right 0.5s ease-in-out !important; /* 부드러운 애니메이션 */
 }
 .chat-list:hover {
   background: rgba(0, 0, 0, 0.02) !important; /* 전체 chat-list에 적용 */

@@ -5,17 +5,17 @@ import Page from '../chatDetail/page';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/navigation';
 
-const Chat = ({ isOpen, setChatOpen,initialRoomId,initialhostId  }) => {
+const Chat = ({ isOpen, setChatOpen, initialRoomId, initialhostId }) => {
   const [isChatDetailOpen, setChatDetailOpen] = useState(false); // 채팅디테일 사이드바 상태관리 
   const [selectedChat, setSelectedChat] = useState(null);
 
-   // 초기 room_id가 있을 경우 바로 채팅 디테일 열기
-   useEffect(() => {
+  // 초기 room_id가 있을 경우 바로 채팅 디테일 열기
+  useEffect(() => {
     if (initialRoomId) {
-      setSelectedChat({ room_id: initialRoomId, host_id : initialhostId });
+      setSelectedChat({ room_id: initialRoomId, host_id: initialhostId });
       setChatDetailOpen(true);
     }
-  }, [initialRoomId,initialhostId]);
+  }, [initialRoomId, initialhostId]);
 
 
   // 채팅 디테일 열기
@@ -69,11 +69,35 @@ const Chat = ({ isOpen, setChatOpen,initialRoomId,initialhostId  }) => {
     <div className="chat-page">
       {/* chatDetail 진입점 오버레이 - 일부러 여기엔 no_more_overlay라고 바꿈(미적용), 추후 2차 어두움 원하면 그냥 overlay로 바꾸기. */}
       {isChatDetailOpen && <div className='no_more_chatoverlay' onClick={closeChatDetail}></div>}
-      <div className="chat-header">
-        <span>채팅</span>
-        <Button sx={{ color: 'black', ":hover":{background:'#eee'} }} className="close-button" onClick={() => setChatOpen(false)}>
-          X
+      <div className="chat-header" style={{alignContent:'left',textAlign:'center' }}>
+        <Button
+          sx={{
+            width: '30px',
+            height: '30px',
+            color: 'black',
+            padding: 0,
+            minWidth: '20px', // 최소 너비 설정
+            minHeight: '20px', // 최소 높이 설정
+            border: 0, // 보더 제거
+            lineHeight: '30px', // 라인 높이 조정
+            ":hover": {
+              background: '#eee'
+            }
+          }}
+          className="close-button"
+          onClick={() => setChatOpen(false)}
+        >
+          <img
+            src="./images/HJ_close.png"
+            style={{
+              width: '50%',
+              height: '50%',
+              objectFit: 'contain' // 이미지가 버튼 크기에 맞게 조정
+            }}
+            alt=""
+          />
         </Button>
+        <span>채팅</span>
       </div>
       <div className="chat-list">
         {chats.map((chat) => (
@@ -81,10 +105,10 @@ const Chat = ({ isOpen, setChatOpen,initialRoomId,initialhostId  }) => {
             key={chat.room_id} // key 속성 추가
             className="chat-item"
             onClick={() => toggleChatDetail(chat)} // 클릭 시 채팅 디테일 열기
-            
+
           >
             <div className="chat-item2" style={{ width: '548px', border: 'none' }}>
-              <div className="chat-profile-photo"><img src='../images/HY_profile2.jpg'/></div>
+              <div className="chat-profile-photo"><img src='../images/HY_profile2.jpg' /></div>
               <div className="chat-details">
                 <span className="chat-name">{chat.name}</span>
                 <span className="chat-date">{chat.date}</span>
@@ -102,7 +126,7 @@ const Chat = ({ isOpen, setChatOpen,initialRoomId,initialhostId  }) => {
             <Button sx={{
               color: 'black', ":hover": {
                 backgroundColor: '#eee', // 호버 시 배경색을 lightgray로 변경
-                border:'none'
+                border: 'none'
               }
             }} className="close-button" onClick={closeChatDetail} style={{ margin: '0px' }}>
               ←
