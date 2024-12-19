@@ -6,6 +6,8 @@ import { Button } from '@mui/material';
 import SalesImgSlider from '@/app/salesImgSlider/page'
 import SalesRelatedSlider from '@/app/saleRelatedSlider/page'
 import Link from 'next/link';
+import PayPanel from './payPanel/page';
+import PayDealPanel from './payDealPanel/page';
 function page(props) {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isBookMarkOpen, setIsBookMarkOpen] = useState(false);
@@ -13,6 +15,7 @@ function page(props) {
   const [isPayOpen, setIsPayOpen] = useState(false);
   const [isMapOpen, setIsMapOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [payButtonLevel,setPayButtonLevel] = useState(0);  // 결제 단계 관리 , 
 
   
   const openBookMark = () => {
@@ -38,6 +41,7 @@ function page(props) {
 
   const closeChatPanel = () => {
     setIsChatOpen(false);
+    setPayButtonLevel(0);
   }
   const openPayPanel = () => {
     setIsPayOpen(true);
@@ -45,7 +49,8 @@ function page(props) {
 
   const closePayPanel = () => {
     setIsPayOpen(false);
-  }
+    setPayButtonLevel(0); 
+   }
 
   const openMap = () => {
     setIsMapOpen(true);
@@ -70,6 +75,8 @@ function page(props) {
     openChatPanel();
   }
 
+  
+
 
   return (
     <>
@@ -78,7 +85,7 @@ function page(props) {
           <div className="images" > <SalesImgSlider/> </div>
         </div>
         <div className="tradeInfoMenu">
-          <div className="category">홈▶카테고리1▶카테고리2</div>
+          <div className="category">홈 &gt; 카테고리1 &gt; 카테고리2</div>
           <div className="salesInfo">
             <div className="itemName">
               <div className="item"> <span className='infoTitle'>물품이름</span> </div>
@@ -116,14 +123,23 @@ function page(props) {
         <div className="sellerInfo">
 
           <div className='sellerHeader'>
-          <span className='infoTitle'><Link href="/salepage">판매자 정보</Link></span>  <Link href="/salepage"> <Image src="/images/David_arrow.png" className='navigation' width="30" height="30"/></Link>
+          <span className='infoTitle'>
+            <Link href="/salepage" className='sallerFont'>판매자 정보</Link></span>  
+            <Link href="/salepage"> 
+            <Image src="/images/David_arrow.png" className='navigation' width="20" height="20"/>
+            </Link>
           </div>
           <hr />
           <div className="sellerContainer">
 
             <div className="sellerProfile">
               
-              <div className="sellerNickname"><Link href="/salepage">판매자 닉네임</Link></div> <Link href="/salepage"><div className="sellerImg"></div></Link>
+              <div className="sellerNickname">
+                <Link href="/salepage" className='sallerFont' style={{marginLeft:'90px'}}>판매자 닉네임</Link>
+                </div> 
+                <Link href="/salepage">
+                <div className="sellerImg" style={{marginRight:'90px'}}></div>
+                </Link>
               
             </div>
             <div className="sellerData">
@@ -201,14 +217,17 @@ function page(props) {
 
         {/* 슬라이드 패널 */}
         <div id="slidePanel" className={isPayOpen ? 'active' : ''}>
-          <table>
-          <div className="content">
-            <div>원하시는 거래방법을 <br/>선택해 주세요</div>
-            <div className='DeliveryTransaction'>택배거레</div>
-            <div className='directTransaction'>직거래</div>
-            <div className='next1'>다음</div>
-          </div>
-          </table>
+          {payButtonLevel === 0 ?(
+            <PayPanel nextButton={payButtonLevel} setNextButton={setPayButtonLevel}/>
+          ) : payButtonLevel === 1 || payButtonLevel === 2 ? (
+            <PayDealPanel nextButton={payButtonLevel} setNextButton={setPayButtonLevel}/>
+          ) : null
+        }
+             
+          
+
+          현재상태 :  {payButtonLevel}
+          
         </div>
 
 

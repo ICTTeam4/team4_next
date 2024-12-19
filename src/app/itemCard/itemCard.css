@@ -18,6 +18,7 @@
   font-weight: bold;
   font-style: oblique;
   font-size: 17px;
+  color: black;
 }
 
 /* 판매자 제목 */
@@ -25,6 +26,7 @@
   margin-top: 9px;
   margin-bottom: 2px;
   font-style: italic;
+  color: black;
 }
 
 .price_font{

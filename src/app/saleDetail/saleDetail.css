@@ -1,6 +1,6 @@
 .container hr {
-  height: 3px; /* 굵기 조정 */
-  background-color: black; /* 색상 설정 */
+  height: 2px; /* 굵기 조정 */
+  background-color: lightgray; /* 색상 설정 */
   border: none; /* 기본 테두리 제거 */
 }
 /* 슬라이드 패널 */
@@ -137,6 +137,7 @@
   "sellerData"
   "sellerRecent"
   ;
+
 }
 .sellerInfo{
   height: 30px;
@@ -157,19 +158,22 @@
   grid-area: sellerRecent;
 }
 .sellerProfile{
- 
+  margin-top: 20px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows:  1fr;
 }
 .sellerData{
+  margin-top: 30px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows:  1fr;
+  height: 80px;
 }
 .category{
   padding: 0px 0px 5px 0px;
   font-size: small;
+  color: gray;
 }
 .purchase{
   
@@ -206,13 +210,16 @@
 .tradeArea:hover{
   cursor: pointer;
 }
+.share {
+  width: 23px;
+  height: 23px;
+}
 .share:hover{
   cursor: pointer;
 }
-button:hover{
-  background-color: rgb(231, 229, 229);
-  border: 1px solid rgb(231, 229, 229);
-}
+
+  
+
 #interaction-area{
   margin: 20px;
   display: grid;
@@ -238,7 +245,7 @@ button:hover{
   border: 1px solid gainsboro;
   border-radius: 25px;
   text-align: center;
-  padding-top: 40px;
+  padding-top: 20px;
 }
 .sellerGoodsImg{
   background-image: url('/images/David_cloth1.jpg'); /* 배경 이미지 경로 */
@@ -287,6 +294,7 @@ button:hover{
 .sellerHeader{
   display: flex;
   justify-content: space-between;
+  height: 30px;
 }
 .navigation{
   position: relative;
@@ -295,10 +303,13 @@ button:hover{
 .sellerGoodsTitle{
   margin-top: 10px;
   font-weight: bold;
+  margin-left: 5px;
   
 }
 .sellerGoodsPrice{
   color: rgb(184, 184, 184);
+  margin-top: 7px;
+  margin-left: 5px;
 }
 .relatedGoodsTitle{
   margin-top: 10px;
@@ -437,4 +448,15 @@ button:hover{
 }
 .noChatTrade{
   cursor: pointer;
+}
+
+.sallerFont:hover {
+  color: gray;
+}
+.sallerFont:active, :visited {
+  color: black;
+}
+
+.sallerFont {
+  font-size: 20px;
 }

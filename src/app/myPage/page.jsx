@@ -53,7 +53,6 @@ function Page(props) {
                                         <div className='tab_item total'>
                                             <Link href="/myPageBuy?tab=전체" className='tab_link'>
                                                 <dl className='tab_box'>
-
                                                     <dt className='title'>전체</dt>
                                                     <dd className='count'>0</dd>
                                                 </dl>
