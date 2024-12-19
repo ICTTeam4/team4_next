@@ -19,6 +19,11 @@
 #slidePanel .content {
   padding: 20px;
 }
+.descriptionContent{
+  /* text-align: center; */
+  padding-top: 5px;
+  line-height: 2;
+}
 
 /* 어두운 오버레이 */
 #overlay {
@@ -33,7 +38,7 @@
   transition: opacity 0.3s ease;
 }
 .infoTitle{
-  font-size: larger;
+  font-size: 20px;
   font-weight: bold;
 }
 /* 활성화된 상태 */
@@ -50,7 +55,7 @@
   padding: 10px;
   display: grid;
   grid-template-columns: repeat(2, 600px);
-  grid-template-rows: 700px 600px 350px;
+  grid-template-rows: 600px 600px 350px;
   justify-content: center;
   grid-template-areas: 
   "img trademenu"
@@ -59,9 +64,17 @@
   gap: 40px;
   
 }
+.hr{
+  border : none;
+}
+.descriptionTop,.sellerHeader{
+  border-bottom: 1px solid gainsboro;
+  position: relative;
+  /* padding-bottom: 30px; */
+}
 .imgBox {
   grid-area : img;
-  padding: 30px;
+  padding-top: 30px;
 }
 .tradeInfoMenu {
   grid-area : trademenu;
@@ -69,6 +82,7 @@
 }
 .salesDescription {
   grid-area : description;
+  width: 700px;
 }
 .sellerInfo {
   grid-area : sellerinfo;
@@ -78,16 +92,19 @@
   grid-area : relatedgoods;
 }
 .images {
-  justify-self: center;
-  width: 600px;
-  height: 600px;
+  justify-self: start;
+  width: 550px;
+  height: 550px;
   border-radius: 5px;
+  position: relative;
+  left: -85px;
+  top: 10px;
 
 }
 
 .salesInfo{
   display: grid;
-  grid-template-columns: 500px ;
+  grid-template-columns: 1fr ;
   grid-template-rows:  40px 40px 40px;
   grid-template-areas: 
   "itemName"
@@ -130,8 +147,10 @@
 }
 .sellerContainer{
   display: grid;
-  grid-template-columns: 600px;
-  grid-template-rows: 130px 120px 300px;
+  height: 100%;
+  width: 100%;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
   grid-template-areas: 
   "sellerNickname"
   "sellerData"
@@ -139,10 +158,21 @@
   ;
 
 }
+.goodsName{
+  font-weight: bold;
+  font-size: x-large;
+}
+.sellerFont{
+  font-weight: bold;
+}
 .sellerInfo{
   height: 30px;
+  width: 450px;
+  margin-left: 150px;
 }
-
+.descriptionTop{
+  height: 30px;
+}
 .sellerNickname{
   margin-top: 20px;
   grid-area: sellerNickname ;
@@ -152,7 +182,7 @@
 .sellerData{
   grid-area: sellerData ;
   justify-self: center;
-  width: 500px;
+  width: 100%;
 }
 .sellerRecent{
   grid-area: sellerRecent;
@@ -233,8 +263,8 @@
 .sellerImg{
   /* border: 1px solid black; */
   border-radius: 50%;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   background-image: url('/images/David_img_girl.jpg'); /* 배경 이미지 경로 */
   background-size: cover; /* 이미지 크기 설정 */
   background-position: center; /* 이미지 위치 */
@@ -252,8 +282,8 @@
   background-size: cover; /* 이미지 크기 설정 */
   background-position: center; /* 이미지 위치 */
   background-repeat: no-repeat; /* 반복 제거 */
-  width: 170px;
-  height: 170px;
+  width: 130px;
+  height: 130px;
   border-radius: 5px;
 
 }
@@ -281,11 +311,11 @@
   justify-content: center;
 }
 .tradeArea{
-  padding: 5px 20px;
+  padding: 3px 10px;
   border-radius: 25px;
   border : 1px solid black ;
   color: black;
-  width: 230px;
+  width: 187px;
   font-size: smaller;
 }
 .priceInfo{
@@ -460,7 +490,6 @@
 .sallerFont {
   font-size: 20px;
 }
-
 .safeDeal{
   border-right: none !important;
 }

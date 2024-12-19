@@ -1,8 +1,8 @@
 /* 이미지 선택 */
 .slider-container {
   position: relative;
-  width: 65%;
-  height: 65%;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -21,9 +21,9 @@
 
 .slider-images img {
   position: relative;
-  left: 390px;
-  width: 390px;
-  height: 390px;
+  left: 550px;
+  width: 550px;
+  height: 550px;
   object-fit: cover;
   cursor: pointer;
   
