@@ -131,7 +131,7 @@
 .sellerContainer{
   display: grid;
   grid-template-columns: 600px;
-  grid-template-rows: 130px 120px 500px;
+  grid-template-rows: 130px 120px 300px;
   grid-template-areas: 
   "sellerNickname"
   "sellerData"
@@ -459,4 +459,8 @@
 
 .sallerFont {
   font-size: 20px;
+}
+
+.safeDeal{
+  border-right: none !important;
 }

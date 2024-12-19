@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import "./saleDetail.css"
 import Image from 'next/image';
 import { Button } from '@mui/material';
-import SalesImgSlider from '@/app/salesImgSlider/page'
-import SalesRelatedSlider from '@/app/saleRelatedSlider/page'
+import SalesImgSlider from '@/app/saleDetail/salesImgSlider/page'
+import SalesRelatedSlider from '@/app/saleDetail/saleRelatedSlider/page'
 import Link from 'next/link';
 import PayPanel from './payPanel/page';
 import PayDealPanel from './payDealPanel/page';
@@ -46,17 +46,13 @@ function page(props) {
   const openPayPanel = () => {
     setIsPayOpen(true);
   }
-
   const closePayPanel = () => {
     setIsPayOpen(false);
     setPayButtonLevel(0); 
    }
-
   const openMap = () => {
     setIsMapOpen(true);
   }
-
-
   const closeMap = () => {
     setIsMapOpen(false);
   }
@@ -103,7 +99,7 @@ function page(props) {
             <div> 제품상태 <br /> <span className='tradeTitle'>중고</span></div>
             <div>거래방식 <br /> <span className='tradeTitle'>직거래</span></div>
             <div>배송비 <br /> <span className='tradeTitle'>포함</span></div>
-            <div>안전거래 <br /> <span className='tradeTitle'>사용</span></div>
+            <div className='safeDeal'>안전거래 <br /> <span className='tradeTitle'>사용</span></div>
           </div>
           <div id="interaction-area">
             { isBookMarkOpen ? <Image src="/images/David_bookmark-black.png" onClick={closeBookMark} width={33} height={30} className="bookmark" id="bookmark" /> :
@@ -143,7 +139,7 @@ function page(props) {
               
             </div>
             <div className="sellerData">
-              <div>안전거래 수 <br /> <span className='tradeTitle'>2</span></div>
+              <div >안전거래 수 <br /> <span className='tradeTitle'>2</span></div>
               <div>거래 후기 수 <br /> <span className='tradeTitle'>10</span></div>
             </div>
             <div className="sellerRecent">
