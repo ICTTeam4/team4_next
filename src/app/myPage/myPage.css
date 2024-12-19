@@ -700,7 +700,7 @@
 }
 
 .myPage .size_list_area{
-    height: 500px;
+    height: 220px;
     overflow-x: hidden;
     overflow-y: auto;
     padding: 6px 28px 0;
@@ -708,4 +708,34 @@
 
 .myPage .Fraud_Prevention{
     color: #f15746;
+}
+
+.myPage .layer_btn{
+    display: flex;
+    justify-content: center;
+    padding: 24px 32px 32px;
+}
+
+.myPage .layer_btn .btn{
+    width: 120px;
+    border-radius: 30px;
+}
+
+.myPage .solid{
+    background-color: #222;
+    color: #fff;
+    font-weight: 700;
+}
+
+.myPage .solid_cancel{
+    background-color: #f3f3f3;
+    color: #222;
+    font-weight: 700;
+}
+
+.myPage .medium{
+    height: 42px;
+    letter-spacing: -.14px;
+    padding: 0 18px;
+    margin: 15px;
 }

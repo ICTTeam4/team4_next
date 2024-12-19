@@ -82,7 +82,7 @@ function Page(props) {
                                 <div>
                                     <div>
                                         <div>
-                                            <a href="#" className='purchase_list_display_item' style={{ backgroundColor: "rgb(255, 255, 255)" }}>
+                                            <Link href="#" className='purchase_list_display_item' style={{ backgroundColor: "rgb(255, 255, 255)" }}>
                                                 <div className='purchase_list_product'>
                                                     <div className='list_item_img_wrap'>
                                                         <img alt="product_img" src="/images/JH_itemImg.png" className='list_item_img' style={{ backgroundColor: "rgb(244, 244, 244)" }} />
@@ -130,16 +130,19 @@ function Page(props) {
                                                                                 이런 행위를 하는 판매자를 만났다면 1:1 문의를 통해 신고를 접수해 주세요.<br /><br />
 
                                                                             </p>
-                                                                                <p className='Fraud_Prevention'>사기 피해 방지를 위해 반드시 상품을 수령한 후 상품 상태를 확인 후에 구매확정 해주세요.<br /> </p>
+                                                                            <p className='Fraud_Prevention'>사기 피해 방지를 위해 반드시 상품을 수령한 후 상품 상태를 확인 후에 구매확정 해주세요.<br /> </p>
+                                                                        </div>
+                                                                        <div className="layer_btn">
+                                                                            <p className="btn solid medium" onClick={handleModalClose}> 확인 </p>
+                                                                            <p className="btn solid_cancel medium" onClick={handleModalClose}> 취소 </p>
                                                                         </div>
                                                                     </div>
-                                                                    {/* 수정 필요 */}<button onClick={handleModalClose} className="">닫기</button>
                                                                 </div>
                                                             </div>
                                                         )}
                                                     </div>
                                                 </div>
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                     <div>
@@ -181,36 +184,36 @@ function Page(props) {
                                 <div className='recent_purchase'>
                                     <div className='purchase_list_tab sell'>
                                         <div className='tab_item total'>
-                                            <a href="#" className='tab_link'>
+                                            <Link href="/myPageSell?tab=전체" className='tab_link'>
                                                 <dl className='tab_box'>
                                                     <dt className='title'>전체</dt>
                                                     <dd className='count'>0</dd>
                                                 </dl>
-                                            </a>
+                                            </Link>
                                         </div>
                                         <div className='tab_item tab_on'>
-                                            <a href="#" className='tab_link'>
+                                            <Link href="/myPageSell?tab=판매 중" className='tab_link'>
                                                 <dl className='tab_box'>
                                                     <dt className='title'>판매 중</dt>
                                                     <dd className='count'>0</dd>
                                                 </dl>
-                                            </a>
+                                            </Link>
                                         </div>
                                         <div className='tab_item'>
-                                            <a href="#" className='tab_link'>
+                                            <Link href="/myPageSell?tab=진행 중" className='tab_link'>
                                                 <dl className='tab_box'>
                                                     <dt className='title'>진행 중</dt>
                                                     <dd className='count'>0</dd>
                                                 </dl>
-                                            </a>
+                                            </Link>
                                         </div>
                                         <div className='tab_item tab_on'>
-                                            <a href="#" className='tab_link'>
+                                            <Link href="/myPageSell?tab=판매 완료" className='tab_link'>
                                                 <dl className='tab_box'>
                                                     <dt className='title'>판매 완료</dt>
                                                     <dd className='count'>0</dd>
                                                 </dl>
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
