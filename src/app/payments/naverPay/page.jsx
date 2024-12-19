@@ -28,7 +28,7 @@ const NaverPayButton = () => {
         totalPayAmount: '290000',
         taxScopeAmount: '290000',
         taxExScopeAmount: '0',
-        returnUrl: 'http://localhost:3000/orderdetail'
+        returnUrl: 'http://localhost:3000/paments/naverPay/success'
       });
     } else {
       console.error('Naver Pay is not initialized.');

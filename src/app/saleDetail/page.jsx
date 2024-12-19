@@ -224,12 +224,6 @@ function page(props) {
             <PayPanel nextButton={payButtonLevel} setNextButton={setPayButtonLevel}/>
           ) : payButtonLevel === 1 || payButtonLevel === 2 ? (
             <PayDealPanel nextButton={payButtonLevel} setNextButton={setPayButtonLevel}/>
-          ) : payButtonLevel ===3? (
-            <KakaoPay nextButton={payButtonLevel} setNextButton={setPayButtonLevel}/>
-          ) : payButtonLevel ===4? (
-            <NaverPay nextButton={payButtonLevel} setNextButton={setPayButtonLevel}/>
-          ) : payButtonLevel ===5? (
-            <TossPay nextButton={payButtonLevel} setNextButton={setPayButtonLevel}/>
           ) : null
         }
              

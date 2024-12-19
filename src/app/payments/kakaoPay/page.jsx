@@ -25,7 +25,7 @@ const KakaoPay = () => {
       total_amount: totalAmount, // 계산된 총 금액
       vat_amount: vatAmount, // 부가세 계산
       tax_free_amount: totalAmount - vatAmount, // 면세 금액
-      approval_url: "http://localhost:3000/kakaoPay/success",
+      approval_url: "http://localhost:3000/orderdetail",
       fail_url: "http://localhost:3000/kakaoPay/fail",
       cancel_url: "http://localhost:3000/kakaoPay/cancel",
       });
