@@ -113,7 +113,7 @@ const OrderDetail = () => {
           </p>
           <p>
             <strong>운송장</strong>
-            <p>준비 중</p>
+            준비중
           </p>
         </div>
       </section>
