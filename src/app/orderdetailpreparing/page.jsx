@@ -21,7 +21,7 @@ const OrderDetail = () => {
 
    const handleContactClick = () => {
      // open-chat 이벤트 발생 시킴 -> room_id: 999 . 임시번호이고, 실제 roomid 나 관리자 id가 파라미터로 가야함.
-     window.dispatchEvent(new CustomEvent('open-chat', { detail: { room_id: 123, host_id: 123`` } }));
+     window.dispatchEvent(new CustomEvent('open-chat', { detail: { room_id: 123, host_id: 123 } }));
    };
 
   // const handleChatClick = () => {
@@ -35,9 +35,9 @@ const OrderDetail = () => {
         
         <h1 className="order-title" style={{ fontSize: 20 }}>주문 상세</h1>
       </div>
-      <div class="order-info2">
-            <h3 class="order-date" style={{color:'black'}}>2024.12.25</h3>
-            <span class="order-number">주문번호 000000000000</span>
+      <div className="order-info2">
+            <h3 className="order-date" style={{color:'black'}}>2024.12.25</h3>
+            <span className="order-number">주문번호 000000000000</span>
       </div>
 
       {/* 결제 섹션 */}
