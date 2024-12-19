@@ -66,9 +66,11 @@ const Chat = ({ isOpen, setChatOpen,initialRoomId,initialhostId  }) => {
 
 
   return (
-    <div className="chat-page">
-      {/* chatDetail 진입점 오버레이 - 일부러 여기엔 no_more_overlay라고 바꿈(미적용), 추후 2차 어두움 원하면 그냥 overlay로 바꾸기. */}
+    <div>
+    {/* chatDetail 진입점 오버레이 - 일부러 여기엔 no_more_overlay라고 바꿈(미적용), 추후 2차 어두움 원하면 그냥 overlay로 바꾸기. */}
       {isChatDetailOpen && <div className='no_more_chatoverlay' onClick={closeChatDetail}></div>}
+    
+     
       <div className="chat-header">
         <span>채팅</span>
         <Button sx={{ color: 'black', ":hover":{background:'#eee'} }} className="close-button" onClick={() => setChatOpen(false)}>
@@ -111,6 +113,7 @@ const Chat = ({ isOpen, setChatOpen,initialRoomId,initialhostId  }) => {
           </div>
         </div>
       )}
+    
     </div>
   );
 }

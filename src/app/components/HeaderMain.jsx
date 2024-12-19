@@ -8,6 +8,7 @@ import useAuthStore from '../../../store/authStore';
 
 const HeaderMain = () => {
   // 휘주 수정본 구역 시작
+  const [showNotification, setShowNotification] = useState(false); // 알림 상태
   const {searchKeyword, setSearchKeyword, setKeyword} = useAuthStore();
   const [showSearchBar, setShowSearchBar] = useState(false);
   const router = useRouter();
@@ -89,6 +90,7 @@ const HeaderMain = () => {
 // 휘주 수정본 구역 끝
   return (
     <div className='max_width_container'>
+      
       {/* 전체 화면을 덮는 오버레이 */}
       {isChatOpen && <div className="chatoverlay" onClick={closeChat}></div>}
       <div className="header_main">
