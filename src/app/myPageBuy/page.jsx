@@ -79,19 +79,21 @@ function Page(props) {
                             <div>
                                 <div>
                                     <div>
-                                        <a href="#" className='purchase_list_display_item' style={{ backgroundColor: "rgb(255, 255, 255)" }}>
-                                            <div className='purchase_list_product'>
-                                                <div className='list_item_img_wrap'>
-                                                    <img alt="product_img" src="/images/JH_itemImg.png" className='list_item_img' style={{ backgroundColor: "rgb(244, 244, 244)" }} />
+                                        <div className='purchase_list_display_item' style={{ backgroundColor: "rgb(255, 255, 255)" }}>
+                                            <a href="#" >
+                                                <div className='purchase_list_product'>
+                                                    <div className='list_item_img_wrap'>
+                                                        <img alt="product_img" src="/images/JH_itemImg.png" className='list_item_img' style={{ backgroundColor: "rgb(244, 244, 244)" }} />
+                                                    </div>
+                                                    <div className='list_item_title_wrap'>
+                                                        <p className='list_item_price'>80,000원</p>
+                                                        <p className='list_item_title'>상품 이름</p>
+                                                        <p className='list_item_description'>
+                                                            <span>판매자이름 / 택배거래</span>
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                                <div className='list_item_title_wrap'>
-                                                    <p className='list_item_price'>80,000원</p>
-                                                    <p className='list_item_title'>상품 이름</p>
-                                                    <p className='list_item_description'>
-                                                        <span>판매자이름 / 택배거래</span>
-                                                    </p>
-                                                </div>
-                                            </div>
+                                            </a>
                                             <div className='list_item_status'>
                                                 <div className='list_item_column column_secondary'>
                                                     <p className='text-lookup secondary_title display_paragraph'
@@ -99,9 +101,9 @@ function Page(props) {
                                                 </div>
                                                 <div className='list_item_column column_last'>
                                                     <p className='text-lookup last_title display_paragraph' style={{ color: "rgb(34, 34, 34)" }}>진행 중</p>
-                                                    <p className='text-lookup last_description display_paragraph action_named_action' style={{ color: "red" }}
+                                                    <a className='text-lookup last_description display_paragraph action_named_action confirm_purchase' style={{ color: "red" }}
                                                         onClick={handleModalOpen}
-                                                    >구매 확정</p>
+                                                    >구매 확정</a>
                                                     {isModalOpen && (
                                                         <div className='layer lg'>
                                                             <div className='layer-background' onClick={handleModalClose}></div>
@@ -138,24 +140,26 @@ function Page(props) {
                                                     )}
                                                 </div>
                                             </div>
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div>
                                     <div>
-                                        <a href="#" className='purchase_list_display_item' style={{ backgroundColor: "rgb(255, 255, 255)" }}>
-                                            <div className='purchase_list_product'>
-                                                <div className='list_item_img_wrap'>
-                                                    <img alt="product_img" src="/images/JH_itemImg2.png" className='list_item_img' style={{ backgroundColor: "rgb(244, 244, 244)" }} />
+                                        <div className='purchase_list_display_item' style={{ backgroundColor: "rgb(255, 255, 255)" }}>
+                                            <a href="#">
+                                                <div className='purchase_list_product'>
+                                                    <div className='list_item_img_wrap'>
+                                                        <img alt="product_img" src="/images/JH_itemImg2.png" className='list_item_img' style={{ backgroundColor: "rgb(244, 244, 244)" }} />
+                                                    </div>
+                                                    <div className='list_item_title_wrap'>
+                                                        <p className='list_item_price'>80,000원</p>
+                                                        <p className='list_item_title'>상품 이름</p>
+                                                        <p className='list_item_description'>
+                                                            <span>판매자이름 / 택배거래</span>
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                                <div className='list_item_title_wrap'>
-                                                    <p className='list_item_price'>80,000원</p>
-                                                    <p className='list_item_title'>상품 이름</p>
-                                                    <p className='list_item_description'>
-                                                        <span>판매자이름 / 택배거래</span>
-                                                    </p>
-                                                </div>
-                                            </div>
+                                            </a>
                                             <div className='list_item_status'>
                                                 <div className='list_item_column column_secondary'>
                                                     <p className='text-lookup secondary_title display_paragraph'
@@ -166,7 +170,7 @@ function Page(props) {
                                                         style={{ color: "rgb(34, 34, 34)" }}>구매 완료</p>
                                                 </div>
                                             </div>
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

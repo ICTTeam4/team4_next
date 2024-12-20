@@ -243,17 +243,6 @@
     padding-top: 12px;
 }
 
-.myPageAddressInfo .btn{
-    align-items: center;
-    background-color: #fff;
-    color: rgba(34, 34, 34, .8);
-    cursor: pointer;
-    display: inline-flex;
-    justify-content: center;
-    text-align: center;
-    vertical-align: middle;
-}
-
 .myPageAddressInfo .outlinegrey{
     border: 1px solid #d3d3d3;
     color: rgba(34, 34, 34, .8);
@@ -268,6 +257,17 @@
 }
 
 .myPageAddressInfo .btn{
+    align-items: center;
+    background-color: #fff;
+    color: rgba(34, 34, 34, .8);
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.myPageAddressInfo .btn_input{
     align-items: center;
     background-color: #fff;
     color: rgba(34, 34, 34, .8);
@@ -1148,4 +1148,187 @@
 .myPageAddressInfo .other .my_item{
     border-bottom: 1px solid #ebebeb;
     padding: 17px 0 16px;
+}
+
+.myPageAddressInfo .layer{
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1010;
+    text-align: start;
+    color: black;
+}
+
+.myPageAddressInfo .layer .layer-background{
+    background-color: rgba(34, 34, 34, .5);
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+}
+
+.myPageAddressInfo .layer_delivery .layer_container{
+    width: 520px;
+}
+
+.myPageAddressInfo .layer_container{
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .1);
+    left: 50%;
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 448px;
+}
+
+.myPageAddressInfo .btn_layer_close{
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 14px;
+}
+
+.myPageAddressInfo .layer_header .title{
+    background-color: #fff;
+    color: #000;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -.27px;
+    letter-spacing: -.15px;
+    line-height: 22px;
+    min-height: 44px;
+    padding: 18px 50px;
+    text-align: center;
+}
+
+.myPageAddressInfo .layer_delivery .delivery_bind{
+    padding: 0 32px;
+}
+
+.myPageAddressInfo .layer_delivery .input_box.first {
+    padding-top: 0;
+}
+
+.myPageAddressInfo .layer_delivery .input_box{
+    padding-top: 16px;
+}
+
+.myPageAddressInfo .input_box{
+    padding: 10px 0 14px;
+    position: relative;
+}
+
+.myPageAddressInfo .input_title{
+    font-size: 13px;
+    letter-spacing: -.07px;
+    line-height: 18px;
+}
+
+.myPageAddressInfo .input_item{
+    position: relative;
+}
+
+.myPageAddressInfo .input_txt{
+    border-bottom: 1px solid #ebebeb;
+    font-size: 15px;
+    letter-spacing: -.15px;
+    line-height: 22px;
+    padding: 8px 0;
+    width: 100%;
+}
+
+.input_txt:focus {
+    border-bottom: 2px solid #222;
+}
+
+.myPageAddressInfo .input_error{
+    display: none;
+}
+
+.myPageAddressInfo .btn_input.btn_zipcode{
+    bottom: 8px;
+    position: absolute;
+    right: 0;
+}
+
+.myPageAddressInfo .outline{
+    border: 1px solid #d3d3d3;
+}
+
+.myPageAddressInfo .checkbox_item{
+    font-size: 0;
+    position: relative;
+}
+
+.myPageAddressInfo .delivery_check .checkbox_item.last{
+    margin-right: 0;
+}
+
+.myPageAddressInfo .delivery_check.checkbox_item{
+    float: left;
+    margin-right: 19px;
+}
+
+.myPageAddressInfo .checkbox_item .check_label{
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+}
+
+.myPageAddressInfo .checkbox_item .label_txt{
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: -.07px;
+    line-height: 24px;
+    padding-left: 8px;
+    vertical-align: top;
+}
+
+.myPageAddressInfo .layer_delivery .layer_btn{
+    padding-top: 32px;
+}
+
+.myPageAddressInfo .layer_btn{
+    display: flex;
+    justify-content: center;
+    padding: 24px 32px 32px;
+}
+
+.myPageAddressInfo .layer_btn .btn_input{
+    width: 120px;
+}
+
+.myPageAddressInfo .medium{
+    height: 42px;
+    letter-spacing: -.14px;
+    padding: 0 18px;
+}
+
+.myPageAddressInfo .large.mobile, .myPageAddressInfo .medium{
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.myPageAddressInfo .solid{
+    background-color: #222;
+    color: #fff;
+    font-weight: 700;
+}
+
+.myPageAddressInfo .layer_btn .btn_input+.btn_input{
+    margin-left: 8px;
+}
+
+.myPageAddressInfo .solid.disabled, .myPageAddressInfo .solid:disabled {
+    background-color: rgba(34, 34, 34, .2);
+    color: #fff;
+    cursor: default;
+    font-weight: 400;
 }
