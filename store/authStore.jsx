@@ -29,8 +29,12 @@ const useAuthStore = create(
             },
             setKeyword : (word) => {
               set({searchKeyword : word});
-            }
-            
+            },
+            isNotibarActive : false,
+            setIsNotibarActive: () => {
+              set((state) => ({ isNotibarActive: !state.isNotibarActive }));
+            },
+
 
         }),
         {

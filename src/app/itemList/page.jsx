@@ -5,16 +5,22 @@ import ItemCard from '../itemCard/page';
 import FilterButtonsSection from '../filterButtonsSection/page';
 import FilterSidebar from '../filterSidebar/page';
 import VideoBanner from "../videoBanner/page";
+import Notifications from "../notifications/page";
 
 function Page(props) {
+  
   const [isSidebarActive, setIsSidebarActive] = useState(false);
+  // const [isNotibarActive, setIsNotibarActive] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarActive(!isSidebarActive);
   }
+  
 
+  
   return (
     <>
+    {/* <Notifications /> */}
     <VideoBanner/>
     <FilterSidebar isActive={isSidebarActive} toggleSidebar={toggleSidebar}/>
     <FilterButtonsSection toggleSidebar={toggleSidebar}/>

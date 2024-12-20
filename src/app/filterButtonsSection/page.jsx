@@ -1,7 +1,6 @@
 import React from 'react';
 import './filterButtonsSection.css';
-import { Radio, ToggleButton } from '@mui/material';
-import { RadioButtonChecked } from '@mui/icons-material';
+
 
 function Page({toggleSidebar}) {
   return (

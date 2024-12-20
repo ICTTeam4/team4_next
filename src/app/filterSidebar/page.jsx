@@ -1,7 +1,7 @@
 'use client';
 import styles from './filterSidebar.module.css'; // CSS 파일을 따로 분리할 수 있음
 import './filterSidebar.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import FilterSidebarSecondSection from './filterSidebarSecondSection/page';
 import FilterActionButtonContainer from './filterActionButtonContainer/page';
 import FilterPrice from './filterPrice/page';

@@ -141,9 +141,7 @@ h2 p {
   height: 120px;
   margin-bottom: 10px;
 }
-.noti_one_block table, td { 
-  
-}
+
 
 .noti_one_block table td {
   width: 70px;
@@ -167,4 +165,11 @@ td img {
   width: 64px;
   height: 64px;
   border-radius: 7px;
+}
+
+.exit_noti_btn{
+  all: unset;
+  color: gray; /* 기본 글자 색상 */
+  font-weight: 500; /* 글자 굵기 조절 */
+  cursor: pointer;
 }

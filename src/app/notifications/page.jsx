@@ -1,22 +1,31 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import styles from './notifications.module.css';
+import './notifications.module.css';
 import './notifications.css';
+import useAuthStore from '../../../store/authStore';
 
-const Page = ({ isActive, toggleNoticeSidebar }) => {
+const Page = ({props}) => {
+  const {isNotibarActive, setIsNotibarActive} = useAuthStore();
+  const handleToggleNotibar = () => {
+    setIsNotibarActive(); // 상태 토글
+  };
 
   return (
-    <div>
+    
+      <div>
       {/* 레이어 배경 */}
-      {isActive && <div onClick={toggleNoticeSidebar} className={styles.notiLayerBackground}></div>}
+      <div 
+      onClick={handleToggleNotibar} 
+      className={`${isNotibarActive ? styles.notiLayerBackground : ''}`}></div>
 
       {/* 필터 섹션 */}
-      <div className={`${styles.shopNotiSections} ${isActive ? styles.active : ''}`}>
+      <div className={`${styles.notiSections} ${isNotibarActive ? styles.active : ''}`} >
         <div className={styles.notiContent} style={{ paddingBottom: '5px' }}>
           <div className="noti_title_container">
-            <a href="/">
+            <button className='exit_noti_btn' onClick={handleToggleNotibar}>
               <img src="/images/HJ_close.png" className="noti_close_button" />
-            </a>
+            </button>
             <div className="noti_title">
               <h2><p>알림</p></h2>
             </div>
