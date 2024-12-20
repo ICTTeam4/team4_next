@@ -1,9 +1,9 @@
-.myPageProfileInfo body, .myPageProfileInfo button, .myPageProfileInfo dd, .myPageProfileInfo div, .myPageProfileInfo dl, .myPageProfileInfo dt, .myPageProfileInfo fieldset, .myPageProfileInfo figcaption, .myPageProfileInfo figure, .myPageProfileInfo form, .myPageProfileInfo h1, .myPageProfileInfo h2, .myPageProfileInfo h3, .myPageProfileInfo h4, .myPageProfileInfo h5, .myPageProfileInfo h6, .myPageProfileInfo input, .myPageProfileInfo legend, .myPageProfileInfo li, .myPageProfileInfo ol, .myPageProfileInfo p, .myPageProfileInfo select, .myPageProfileInfo table, .myPageProfileInfo td, .myPageProfileInfo textarea, .myPageProfileInfo th, .myPageProfileInfo ul {
+.myPageLoginInfoWithdrawal body, .myPageLoginInfoWithdrawal button, .myPageLoginInfoWithdrawal dd, .myPageLoginInfoWithdrawal div, .myPageLoginInfoWithdrawal dl, .myPageLoginInfoWithdrawal dt, .myPageLoginInfoWithdrawal fieldset, .myPageLoginInfoWithdrawal figcaption, .myPageLoginInfoWithdrawal figure, .myPageLoginInfoWithdrawal form, .myPageLoginInfoWithdrawal h1, .myPageLoginInfoWithdrawal h2, .myPageLoginInfoWithdrawal h3, .myPageLoginInfoWithdrawal h4, .myPageLoginInfoWithdrawal h5, .myPageLoginInfoWithdrawal h6, .myPageLoginInfoWithdrawal input, .myPageLoginInfoWithdrawal legend, .myPageLoginInfoWithdrawal li, .myPageLoginInfoWithdrawal ol, .myPageLoginInfoWithdrawal p, .myPageLoginInfoWithdrawal select, .myPageLoginInfoWithdrawal table, .myPageLoginInfoWithdrawal td, .myPageLoginInfoWithdrawal textarea, .myPageLoginInfoWithdrawal th, .myPageLoginInfoWithdrawal ul {
     margin: 0;
     padding: 0;
 }
 
-.myPageProfileInfo .container.my{
+.myPageLoginInfoWithdrawal .container.my{
     display: flex;
     margin-left: auto;
     margin-right: auto;
@@ -11,12 +11,12 @@
     padding: 40px 40px 160px
 }
 
-.myPageProfileInfo .snb_area{
+.myPageLoginInfoWithdrawal .snb_area{
     margin-right: 20px;
     width: 180px;
 }
 
-.myPageProfileInfo .snb_main_title{
+.myPageLoginInfoWithdrawal .snb_main_title{
     font-size: 24px;
     font-weight: 700;
     letter-spacing: -.15px;
@@ -24,17 +24,17 @@
     padding-bottom: 30px;
 }
 
-.myPageProfileInfo a {
+.myPageLoginInfoWithdrawal a {
     -webkit-tap-highlight-color: rgba(0,0,0,.1);
     color: inherit
 }
 
-.myPageProfileInfo a,.myPageProfileInfo a:active, .myPageProfileInfo a:focus, .myPageProfileInfo a:hover {
+.myPageLoginInfoWithdrawal a,.myPageLoginInfoWithdrawal a:active, .myPageLoginInfoWithdrawal a:focus, .myPageLoginInfoWithdrawal a:hover {
     -webkit-text-decoration: none;
     text-decoration: none
 }
 
-.myPageProfileInfo p {
+.myPageLoginInfoWithdrawal p {
     display: block;
     margin-block-start: 0;
     margin-block-end: 0;
@@ -43,16 +43,16 @@
     unicode-bidi: isolate;
 }
 
-.myPageProfileInfo *, .myPageProfileInfo :after, .myPageProfileInfo :before {
+.myPageLoginInfoWithdrawal *, .myPageLoginInfoWithdrawal :after, .myPageLoginInfoWithdrawal :before {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     box-sizing: border-box
 }
 
-.myPageProfileInfo nav {
+.myPageLoginInfoWithdrawal nav {
     display: block;
 }
 
-.myPageProfileInfo body, .myPageProfileInfo button, .myPageProfileInfo input, .myPageProfileInfo select, .myPageProfileInfo table, .myPageProfileInfo textarea {
+.myPageLoginInfoWithdrawal body, .myPageLoginInfoWithdrawal button, .myPageLoginInfoWithdrawal input, .myPageLoginInfoWithdrawal select, .myPageLoginInfoWithdrawal table, .myPageLoginInfoWithdrawal textarea {
     font-feature-settings: "frac" 0,"numr" 0;
     color: #222;
     font-family: Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 
@@ -60,12 +60,12 @@
     Noto Sans KR, Malgun Gothic, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 }
 
-.myPageProfileInfo div {
+.myPageLoginInfoWithdrawal div {
     display: block;
     unicode-bidi: isolate;
 }
 
-.myPageProfileInfo .snb_title{
+.myPageLoginInfoWithdrawal .snb_title{
     display: inline-block;
     font-size: 18px;
     font-weight: 700;
@@ -75,11 +75,11 @@
     vertical-align: top;
 }
 
-.myPageProfileInfo li, .myPageProfileInfo ol, .myPageProfileInfo ul {
+.myPageLoginInfoWithdrawal li, .myPageLoginInfoWithdrawal ol, .myPageLoginInfoWithdrawal ul {
     list-style: none;
 }
 
-.myPageProfileInfo ul {
+.myPageLoginInfoWithdrawal ul {
     display: block;
     list-style-type: disc;
     margin-block-start: 0px;
@@ -90,43 +90,43 @@
     unicode-bidi: isolate;
 }
 
-.myPageProfileInfo li {
+.myPageLoginInfoWithdrawal li {
     display: list-item;
     text-align: inherit;
     unicode-bidi: isolate;
 }
 
-.myPageProfileInfo .menu_link{
+.myPageLoginInfoWithdrawal .menu_link{
     color: rgba(34, 34, 34, .5);
     font-size: 15px;
     letter-spacing: -.15px;
     line-height: 18px;
 }
 
-.myPageProfileInfo .menu_item + .menu_item{
+.myPageLoginInfoWithdrawal .menu_item + .menu_item{
     margin-top: 12px;
 }
 
-.myPageProfileInfo .container.my .snb_area + div{
+.myPageLoginInfoWithdrawal .container.my .snb_area + div{
     flex: 1;
 }
 
-.myPageProfileInfo .content_area{
+.myPageLoginInfoWithdrawal .content_area{
     margin-left: auto;
     margin-right: auto;
     max-width: 1280px;
 }
 
-.myPageProfileInfo .my-page-content{
+.myPageLoginInfoWithdrawal .my-page-content{
     flex: 1;
 }
 
-.myPageProfileInfo .lg .user_membership, .myPageProfileInfo .md .user_membership{
+.myPageLoginInfoWithdrawal .lg .user_membership, .myPageLoginInfoWithdrawal .md .user_membership{
     flex-direction: row;
     padding: 24px;
 }
 
-.myPageProfileInfo .user_membership{
+.myPageLoginInfoWithdrawal .user_membership{
     background-color: #fff;
     border: 1px solid #ebebeb;
     border-radius: 10px;
@@ -134,24 +134,24 @@
     flex-direction: column;
 }
 
-.myPageProfileInfo .lg .user_detail, .myPageProfileInfo .md .user_detail{
+.myPageLoginInfoWithdrawal .lg .user_detail, .myPageLoginInfoWithdrawal .md .user_detail{
     border-bottom: none;
     padding: 0;
 }
 
-.myPageProfileInfo .user_detail{
+.myPageLoginInfoWithdrawal .user_detail{
     border-bottom: 8px solid #f0f0f0;
     display: flex;
     flex: 1;
     padding: 16px 24px;
 }
 
-.myPageProfileInfo .lg .user_thumb, .myPageProfileInfo .md .user_thumb{
+.myPageLoginInfoWithdrawal .lg .user_thumb, .myPageLoginInfoWithdrawal .md .user_thumb{
     height: 60px;
     width: 60px;
 }
 
-.myPageProfileInfo .user_thumb{
+.myPageLoginInfoWithdrawal .user_thumb{
     border-radius: 50%;
     flex-shrink: 0;
     height: 90px;
@@ -160,7 +160,7 @@
     width: 90px;
 }
 
-.myPageProfileInfo .user_thumb:after {
+.myPageLoginInfoWithdrawal .user_thumb:after {
     border: 1px solid rgba(34, 34, 34, .05);
     border-radius: 50%;
     bottom: 0;
@@ -171,7 +171,7 @@
     top: 0;
 }
 
-.myPageProfileInfo .user_thumb .thumb_img{
+.myPageLoginInfoWithdrawal .user_thumb .thumb_img{
     border-radius: 100%;
     height: 100%;
     -o-object-fit: cover;
@@ -179,7 +179,7 @@
     width: 100%;
 }
 
-.myPageProfileInfo img, .myPageProfileInfo video {
+.myPageLoginInfoWithdrawal img, .myPageLoginInfoWithdrawal video {
     -webkit-user-drag: none;
     -webkit-touch-callout: none;
     border: 0;
@@ -189,28 +189,28 @@
     vertical-align: top;
 }
 
-.myPageProfileInfo img {
+.myPageLoginInfoWithdrawal img {
     overflow-clip-margin: content-box;
     overflow: clip;
 }
 
-.myPageProfileInfo .lg .user_info, .myPageProfileInfo .md .user_info{
+.myPageLoginInfoWithdrawal .lg .user_info, .myPageLoginInfoWithdrawal .md .user_info{
     align-items: center;
     flex-direction: row;
 }
 
-.myPageProfileInfo .user_info{
+.myPageLoginInfoWithdrawal .user_info{
     display: flex;
     flex: 1;
     flex-direction: column;
     justify-content: center;
 }
 
-.myPageProfileInfo .info_box{
+.myPageLoginInfoWithdrawal .info_box{
     flex: 1;
 }
 
-.myPageProfileInfo .user_info .email, .myPageProfileInfo .user_info .name{
+.myPageLoginInfoWithdrawal .user_info .email, .myPageLoginInfoWithdrawal .user_info .name{
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -218,7 +218,7 @@
     text-overflow: ellipsis;
 }
 
-.myPageProfileInfo .user_info .name{
+.myPageLoginInfoWithdrawal .user_info .name{
     color: #000;
     display: flex;
     font-size: 18px;
@@ -227,7 +227,7 @@
     line-height: 21px;
 }
 
-.myPageProfileInfo .user_info .email{
+.myPageLoginInfoWithdrawal .user_info .email{
     color: rgba(34, 34, 34, .5);
     font-size: 14px;
     letter-spacing: -.21px;
@@ -235,15 +235,15 @@
     line-height: 18px;
 }
 
-.myPageProfileInfo .lg .info-buttons, .myPageProfileInfo .md .info-buttons{
+.myPageLoginInfoWithdrawal .lg .info-buttons, .myPageLoginInfoWithdrawal .md .info-buttons{
     padding-top: 0;
 }
 
-.myPageProfileInfo .info-buttons{
+.myPageLoginInfoWithdrawal .info-buttons{
     padding-top: 12px;
 }
 
-.myPageProfileInfo .btn{
+.myPageLoginInfoWithdrawal .btn{
     align-items: center;
     background-color: #fff;
     color: rgba(34, 34, 34, .8);
@@ -254,12 +254,12 @@
     vertical-align: middle;
 }
 
-.myPageProfileInfo .outlinegrey{
+.myPageLoginInfoWithdrawal .outlinegrey{
     border: 1px solid #d3d3d3;
     color: rgba(34, 34, 34, .8);
 }
 
-.myPageProfileInfo .small{
+.myPageLoginInfoWithdrawal .small{
     border-radius: 10px;
     font-size: 12px;
     height: 34px;
@@ -267,7 +267,7 @@
     padding: 0 14px;
 }
 
-.myPageProfileInfo .btn{
+.myPageLoginInfoWithdrawal .btn{
     align-items: center;
     background-color: #fff;
     color: rgba(34, 34, 34, .8);
@@ -278,7 +278,7 @@
     vertical-align: middle;
 }
 
-.myPageProfileInfo .lg .shortcut-grid, .myPageProfileInfo .md .shortcut-grid{
+.myPageLoginInfoWithdrawal .lg .shortcut-grid, .myPageLoginInfoWithdrawal .md .shortcut-grid{
     border: 1px solid #ebebeb;
     border-radius: 10px;
     padding-bottom: 24px;
@@ -286,57 +286,57 @@
     row-gap: 20px;
 }
 
-.myPageProfileInfo .lg .shortcut-grid{
+.myPageLoginInfoWithdrawal .lg .shortcut-grid{
     grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
-.myPageProfileInfo .shortcut-grid{
+.myPageLoginInfoWithdrawal .shortcut-grid{
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.myPageProfileInfo .my_home_title{
+.myPageLoginInfoWithdrawal .my_home_title{
     display: flex;
     max-width: 100%;
     padding-bottom: 0px;
 }
 
-.myPageProfileInfo .my_home_title .title{
+.myPageLoginInfoWithdrawal .my_home_title .title{
     font-size: 18px;
     letter-spacing: -.27px;
 }
 
-.myPageProfileInfo .title{
+.myPageLoginInfoWithdrawal .title{
     font-size: 24px;
     letter-spacing: -.36px;
 }
 
-.myPageProfileInfo .title{
+.myPageLoginInfoWithdrawal .title{
     color: rgba(34, 34, 34, .5);
     font-size: 13px;
     font-weight: 400;
     letter-spacing: -.07px;
 }
 
-.myPageProfileInfo .purchase_list_tab{
+.myPageLoginInfoWithdrawal .purchase_list_tab{
     background-color: #fafafa;
     border-radius: 12px;
     display: flex;
     width: 100%;
 }
 
-.myPageProfileInfo .tab_item{
+.myPageLoginInfoWithdrawal .tab_item{
     display: flex;
     flex: 1;
     text-align: center;
 }
 
-.myPageProfileInfo .tab_item.tab_on {
+.myPageLoginInfoWithdrawal .tab_item.tab_on {
     border-bottom: 2px solid #000; /* 활성화된 탭 */
     font-weight: bold;
 }
 
-.myPageProfileInfo .tab_link{
+.myPageLoginInfoWithdrawal .tab_link{
     display: block;
     flex: 1;
     padding-bottom: 14px;
@@ -345,13 +345,13 @@
 }
 
 @media (min-width: 961px) {
-    .myPageProfileInfo .tab_link{
+    .myPageLoginInfoWithdrawal .tab_link{
         padding-bottom: 18px;
         padding-top: 18px;
     }
 }
 
-.myPageProfileInfo dl {
+.myPageLoginInfoWithdrawal dl {
     display: block;
     margin-block-start: 1em;
     margin-block-end: 1em;
@@ -361,32 +361,32 @@
 }
 
 @media (min-width: 961px) {
-    .myPageProfileInfo .tab_link .title{
+    .myPageLoginInfoWithdrawal .tab_link .title{
         font-size: 13px;
     }
 }
 
-.myPageProfileInfo .tab_link .title{
+.myPageLoginInfoWithdrawal .tab_link .title{
     color: rgba(34, 34, 34, .8);
     font-size: 12px;
 }
 
-.myPageProfileInfo dt {
+.myPageLoginInfoWithdrawal dt {
     display: block;
     unicode-bidi: isolate;
 }
 
-.myPageProfileInfo .tab_item.total .count{
+.myPageLoginInfoWithdrawal .tab_item.total .count{
     color: #f15746;
 }
 
 @media (min-width: 961px) {
-    .myPageProfileInfo .tab_link .count{
+    .myPageLoginInfoWithdrawal .tab_link .count{
         font-size: 18px;
     }
 }
 
-.myPageProfileInfo .tab_link .count{
+.myPageLoginInfoWithdrawal .tab_link .count{
     font-size: 15px;
     font-weight: 700;
     letter-spacing: -.09px;
@@ -394,7 +394,7 @@
     margin-top: 2px;
 }
 
-.myPageProfileInfo .tab_item:first-of-type .tab_link:before {
+.myPageLoginInfoWithdrawal .tab_item:first-of-type .tab_link:before {
     background-color: #ebebeb;
     bottom: 18px;
     content: "";
@@ -404,14 +404,14 @@
     width: 1px;
 }
 
-.myPageProfileInfo .tab_link .hold{
+.myPageLoginInfoWithdrawal .tab_link .hold{
     color: #ff7500;
     font-size: 12px;
     letter-spacing: -.06px;
     line-height: 19px;
 }
 
-.myPageProfileInfo .purchase_list_display_item{
+.myPageLoginInfoWithdrawal .purchase_list_display_item{
     align-items: center;
     border-bottom: 1px solid #ebebeb;
     cursor: pointer;
@@ -420,7 +420,7 @@
     position: relative;
 }
 
-.myPageProfileInfo .purchase_list_display_item .wish_delete{
+.myPageLoginInfoWithdrawal .purchase_list_display_item .wish_delete{
     position: absolute; /* 부모의 왼쪽 아래에 고정 */
     right: 0; /* 왼쪽으로 정렬 */
     bottom: 20px; /* 아래쪽으로 정렬 */
@@ -431,15 +431,15 @@
     letter-spacing: -.06px;
 }
 
-.myPageProfileInfo .purchase_list_product{
+.myPageLoginInfoWithdrawal .purchase_list_product{
     display: flex;
 }
 
-.myPageProfileInfo .purchase_list_product .list_item_img_wrap{
+.myPageLoginInfoWithdrawal .purchase_list_product .list_item_img_wrap{
     position: relative;
 }
 
-.myPageProfileInfo .purchase_list_product .list_item_img_wrap .list_item_img{
+.myPageLoginInfoWithdrawal .purchase_list_product .list_item_img_wrap .list_item_img{
     border-radius: 12px;
     height: 80px;
     -o-object-fit: cover;
@@ -447,7 +447,7 @@
     width: 80px;
 }
 
-.myPageProfileInfo .purchase_list_product .list_item_title_wrap{
+.myPageLoginInfoWithdrawal .purchase_list_product .list_item_title_wrap{
     align-self: center;
     display: flex;
     flex-direction: column;
@@ -457,7 +457,7 @@
     row-gap: 13px;
 }
 
-.myPageProfileInfo .purchase_list_product .list_item_title_wrap .list_item_price{
+.myPageLoginInfoWithdrawal .purchase_list_product .list_item_title_wrap .list_item_price{
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -468,7 +468,7 @@
     text-overflow: ellipsis;
 }
 
-.myPageProfileInfo .purchase_list_product .list_item_title_wrap .list_item_title{
+.myPageLoginInfoWithdrawal .purchase_list_product .list_item_title_wrap .list_item_title{
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -479,7 +479,7 @@
     text-overflow: ellipsis;
 }
 
-.myPageProfileInfo .purchase_list_product .list_item_title_wrap .list_item_description{
+.myPageLoginInfoWithdrawal .purchase_list_product .list_item_title_wrap .list_item_description{
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     color: rgba(34, 34, 34, .5);
@@ -494,60 +494,60 @@
     text-overflow: ellipsis;
 }
 
-.myPageProfileInfo .list_item_status{
+.myPageLoginInfoWithdrawal .list_item_status{
     align-items: center;
     display: flex;
     margin-left: auto;
     text-align: right;
 }
 
-.myPageProfileInfo .list_item_column p {
+.myPageLoginInfoWithdrawal .list_item_column p {
     margin: 2.5px 0;
 }
 
-.myPageProfileInfo .list_item_status .column_secondary{
+.myPageLoginInfoWithdrawal .list_item_status .column_secondary{
     font-size: 13px;
     letter-spacing: -.07px;
 }
 
-.myPageProfileInfo .list_item_status .list_item_column{
+.myPageLoginInfoWithdrawal .list_item_status .list_item_column{
     margin-left: 10px;
     width: 134px;
 }
 
-.myPageProfileInfo .list_item_status .column_last{
+.myPageLoginInfoWithdrawal .list_item_status .column_last{
     align-self: center;
     display: flex;
     flex-direction: column;
 }
 
-.myPageProfileInfo .list_item_status .list_item_column{
+.myPageLoginInfoWithdrawal .list_item_status .list_item_column{
     margin-left: 10px;
     width: 134px;
 }
 
-.myPageProfileInfo .list_item_status .column_last .last_title{
+.myPageLoginInfoWithdrawal .list_item_status .column_last .last_title{
     font-size: 14px;
     letter-spacing: -.21px;
 }
 
-.myPageProfileInfo .list_item_status .column_last .last_description.action_named_action{
+.myPageLoginInfoWithdrawal .list_item_status .column_last .last_description.action_named_action{
     -webkit-text-decoration: underline;
     text-decoration: underline;
 }
 
-.myPageProfileInfo .list_item_status .column_last .last_description{
+.myPageLoginInfoWithdrawal .list_item_status .column_last .last_description{
     font-size: 14px;
     letter-spacing: -.06px;
     overflow: hidden;
     word-break: keep-all;
 }
 
-.myPageProfileInfo .purchase_list_tab.inventory .tab_item.total .count, .myPageProfileInfo .purchase_list_tab.sell .tab_item.total .count{
+.myPageLoginInfoWithdrawal .purchase_list_tab.inventory .tab_item.total .count, .myPageLoginInfoWithdrawal .purchase_list_tab.sell .tab_item.total .count{
     color: #31b46e;
 }
 
-.myPageProfileInfo .my_home_title .btn_more{
+.myPageLoginInfoWithdrawal .my_home_title .btn_more{
     align-items: center;
     display: inline-flex;
     flex-shrink: 0;
@@ -555,11 +555,11 @@
     padding-left: 5px;
 }
 
-.myPageProfileInfo .interest_product{
+.myPageLoginInfoWithdrawal .interest_product{
     margin: 0 -10px;
 }
 
-.myPageProfileInfo .product_item{
+.myPageLoginInfoWithdrawal .product_item{
     display: inline-block;
     margin: 20px 0;
     padding: 0 12px;
@@ -568,48 +568,48 @@
     width: 25%;
 }
 
-.myPageProfileInfo .product_item .item_inner{
+.myPageLoginInfoWithdrawal .product_item .item_inner{
     background-color: #fff;
     border-radius: 12px;
     display: block;
 }
 
-.myPageProfileInfo .product{
+.myPageLoginInfoWithdrawal .product{
     border-radius: 8px;
     overflow: hidden;
     padding-top: 100%;
     position: relative;
 }
 
-.myPageProfileInfo .detail_stock .product_img, .myPageProfileInfo .is_exclusive .product_img, .myPageProfileInfo .lucky_draw_column .product_img, .myPageProfileInfo .other_stock .product_img, .myPageProfileInfo .product_img, .myPageProfileInfo .stock .product_img{
+.myPageLoginInfoWithdrawal .detail_stock .product_img, .myPageLoginInfoWithdrawal .is_exclusive .product_img, .myPageLoginInfoWithdrawal .lucky_draw_column .product_img, .myPageLoginInfoWithdrawal .other_stock .product_img, .myPageLoginInfoWithdrawal .product_img, .myPageLoginInfoWithdrawal .stock .product_img{
     height: auto;
     width: 100%;
 }
 
-.myPageProfileInfo .product_img{
+.myPageLoginInfoWithdrawal .product_img{
     left: 50%;
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
 }
 
-.myPageProfileInfo .picture{
+.myPageLoginInfoWithdrawal .picture{
     border: none;
     display: flex;
 }
 
-.myPageProfileInfo .image.full_width{
+.myPageLoginInfoWithdrawal .image.full_width{
     height: 100%;
     width: 100%;
 }
 
-.myPageProfileInfo .image{
+.myPageLoginInfoWithdrawal .image{
     image-rendering: auto;
     -o-object-fit: cover;
     object-fit: cover;
 }
 
-.myPageProfileInfo .product_item .btn_wish{
+.myPageLoginInfoWithdrawal .product_item .btn_wish{
     bottom: 3px;
     display: inline-flex;
     padding: 5px;
@@ -618,7 +618,7 @@
     z-index: 1;
 }
 
-.myPageProfileInfo .btn_wish{
+.myPageLoginInfoWithdrawal .btn_wish{
     display: flex;
     height: inherit;
 }
@@ -632,11 +632,11 @@
     width: 24px;
 }
 
-.myPageProfileInfo .product_item .info_box{
+.myPageLoginInfoWithdrawal .product_item .info_box{
     padding: 9px 4px 0;
 }
 
-.myPageProfileInfo .brand-text {
+.myPageLoginInfoWithdrawal .brand-text {
     align-items: center;
     color: #222;
     display: inline-flex;
@@ -647,7 +647,7 @@
     margin-bottom: 2px;
 }
 
-.myPageProfileInfo .brand-text > .brand-name {
+.myPageLoginInfoWithdrawal .brand-text > .brand-name {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -656,16 +656,16 @@
     text-overflow: ellipsis;
 }
 
-.myPageProfileInfo .product_item .price{
+.myPageLoginInfoWithdrawal .product_item .price{
     padding-top: 12px;
 }
 
-.myPageProfileInfo .product_item .amount{
+.myPageLoginInfoWithdrawal .product_item .amount{
     font-size: 0;
     line-height: 0;
 }
 
-.myPageProfileInfo .product_item .discount_rate, .myPageProfileInfo .product_item .num, .myPageProfileInfo .product_item .won{
+.myPageLoginInfoWithdrawal .product_item .discount_rate, .myPageLoginInfoWithdrawal .product_item .num, .myPageLoginInfoWithdrawal .product_item .won{
     display: inline-block;
     font-size: 14px;
     font-weight: 700;
@@ -674,7 +674,7 @@
     vertical-align: top;
 }
 
-.myPageProfileInfo .display_paragraph.line_break_by_truncating_tail {
+.myPageLoginInfoWithdrawal .display_paragraph.line_break_by_truncating_tail {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -682,100 +682,100 @@
     text-overflow: ellipsis;
 }
 
-.myPageProfileInfo .text-lookup.bold{
+.myPageLoginInfoWithdrawal .text-lookup.bold{
     font-weight: 700;
 }
 
-.myPageProfileInfo address, .myPageProfileInfo em {
+.myPageLoginInfoWithdrawal address, .myPageLoginInfoWithdrawal em {
     font-style: normal;
 }
 
-.myPageProfileInfo .product_item .desc{
+.myPageLoginInfoWithdrawal .product_item .desc{
     color: rgba(34, 34, 34, .5);
     font-size: 11px;
     line-height: 13px;
     margin-top: 2px;
 }
 
-.myPageProfileInfo .content_title{
+.myPageLoginInfoWithdrawal .content_title{
     display: flex;
 }
 
-.myPageProfileInfo .purchase_list_tab.detail_tab{
+.myPageLoginInfoWithdrawal .purchase_list_tab.detail_tab{
     background-color: #fff;
     border-radius: 0;
     margin-top: 20px;
 }
 
-.myPageProfileInfo .purchase_list_tab.detail_tab .tab_link{
+.myPageLoginInfoWithdrawal .purchase_list_tab.detail_tab .tab_link{
     border-bottom: 1px solid #ebebeb;
     height: 80px;
     padding-top: 12px;
 }
 
-.myPageProfileInfo .purchase_list_tab.detail_tab .tab_box{
+.myPageLoginInfoWithdrawal .purchase_list_tab.detail_tab .tab_box{
     display: flex;
     flex-direction: column-reverse;
 }
 
-.myPageProfileInfo .purchase_list_tab.detail_tab .tab_on .title{
+.myPageLoginInfoWithdrawal .purchase_list_tab.detail_tab .tab_on .title{
     color: #222;
     font-weight: 700;
 }
 
-.myPageProfileInfo .purchase_list_tab.detail_tab .title{
+.myPageLoginInfoWithdrawal .purchase_list_tab.detail_tab .title{
     color: rgba(34, 34, 34, .5);
 }
 
-.myPageProfileInfo .purchase_list_tab.detail_tab .tab_on .count{
+.myPageLoginInfoWithdrawal .purchase_list_tab.detail_tab .tab_on .count{
     color: #31b46e;
 }
 
-.myPageProfileInfo .purchase_list_tab.detail_tab .count{
+.myPageLoginInfoWithdrawal .purchase_list_tab.detail_tab .count{
     font-size: 20px;
     letter-spacing: -.1px;
     line-height: 24px;
     margin-top: 0;
 }
 
-.myPageProfileInfo .title>h3{
+.myPageLoginInfoWithdrawal .title>h3{
     font-size: 24px;
     line-height: 29px;
 }
 
-.myPageProfileInfo .main_title>h3{
+.myPageLoginInfoWithdrawal .main_title>h3{
     font-size: 24px;
     line-height: 29px;
 }
 
-.myPageProfileInfo .before_purchase_confirmation{
+.myPageLoginInfoWithdrawal .before_purchase_confirmation{
     font-size: 12px;
     color: #BFBFBF;
 
 }
 
-.myPageProfileInfo .after_purchase_confirmation{
+.myPageLoginInfoWithdrawal .after_purchase_confirmation{
     font-size: 12px;
     color: #BFBFBF;
 }
 
-.myPageProfileInfo .content_title.border{
+.myPageLoginInfoWithdrawal .content_title.border{
     border-bottom: 3px solid #222;
     padding-bottom: 16px;
 }
 
-.myPageProfileInfo .saved-chips-container{
+.myPageLoginInfoWithdrawal .saved-chips-container{
     padding: 12px 0;
 }
 
-.myPageProfileInfo .filter_chip_group.bubble{
+.myPageLoginInfoWithdrawal .filter_chip_group.bubble{
     display: flex;
     flex-wrap: wrap;
     gap: 12px 8px;
     position: relative;
 }
 
-.myPageProfileInfo .blind, .myPageProfileInfo .u_skip {
+.myPageLoginInfoWithdrawal .blind, .myPageLoginInfoWithdrawal .u_skip {
     clip: rect(0, 0, 0, 0) !important;
     height: 1px !important;
     margin: -1px !important;
@@ -784,7 +784,7 @@
     width: 1px !important;
 }
 
-.myPageProfileInfo input, .myPageProfileInfo textarea {
+.myPageLoginInfoWithdrawal input, .myPageLoginInfoWithdrawal textarea {
     -webkit-appearance: none;
     background-color: transparent;
     border: 0;
@@ -794,7 +794,7 @@
     resize: none;
 }
 
-.myPageProfileInfo .filter_button.line{
+.myPageLoginInfoWithdrawal .filter_button.line{
     align-items: center;
     background-color: #fff;
     border: 1px solid #f0f0f0;
@@ -808,7 +808,7 @@
     padding: 0 8px;
 }
 
-.myPageProfileInfo .filter_button.line.active{
+.myPageLoginInfoWithdrawal .filter_button.line.active{
     background-color: #222;
     border: none;
     color: #fff;
@@ -816,12 +816,12 @@
     box-shadow: none;
 }
 
-.myPageProfileInfo .filter_button{
+.myPageLoginInfoWithdrawal .filter_button{
     cursor: pointer;
     position: relative;
 }
 
-.myPageProfileInfo button{
+.myPageLoginInfoWithdrawal button{
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -833,51 +833,51 @@
     padding: 0;
 }
 
-.myPageProfileInfo .filter_button .text-group{
+.myPageLoginInfoWithdrawal .filter_button .text-group{
     padding: 0 4px;
 }
 
-.myPageProfileInfo .filter_button .num{
+.myPageLoginInfoWithdrawal .filter_button .num{
     display: none;
 }
 
-.myPageProfileInfo .content-header{
+.myPageLoginInfoWithdrawal .content-header{
     align-items: center;
     display: flex;
     justify-content: space-between;
     padding-top: 20px;
 }
 
-.myPageProfileInfo .total-rows{
+.myPageLoginInfoWithdrawal .total-rows{
     color: rgba(34, 34, 34, .8);
     font-size: 13px;
     letter-spacing: -.07px;
 }
 
-.myPageProfileInfo .profile_group.first{
+.myPageLoginInfoWithdrawal .profile_group.first{
     padding-top: 0 !important;
 }
 
-.myPageProfileInfo .profile_info{
+.myPageLoginInfoWithdrawal .profile_info{
     max-width: 480px;
     padding-top: 38px;
 }
 
-.myPageProfileInfo .profile_group{
+.myPageLoginInfoWithdrawal .profile_group{
     padding-top: 48px;
 }
 
 
-.myPageProfileInfo .lg .profile_group, .myPageProfileInfo .md .profile_group{
+.myPageLoginInfoWithdrawal .lg .profile_group, .myPageLoginInfoWithdrawal .md .profile_group{
     padding-top: 58px;
 }
 
-.myPageProfileInfo .group_title{
+.myPageLoginInfoWithdrawal .group_title{
     font-size: 18px;
     letter-spacing: -.27px;
 }
 
-.myPageProfileInfo .unit{
+.myPageLoginInfoWithdrawal .unit{
     border-bottom: 1px solid #ebebeb;
     display: flex;
     flex-direction: column;
@@ -885,14 +885,14 @@
     position: relative;
 }
 
-.myPageProfileInfo .unit_content{
+.myPageLoginInfoWithdrawal .unit_content{
     align-items: center;
     display: flex;
     justify-content: center;
     width: 100%;
 }
 
-.myPageProfileInfo .desc{
+.myPageLoginInfoWithdrawal .desc{
     flex: 1;
     font-size: 16px;
     letter-spacing: -.16px;
@@ -903,30 +903,30 @@
     white-space: nowrap;
 }
 
-.myPageProfileInfo .btn_modify{
+.myPageLoginInfoWithdrawal .btn_modify{
     position: absolute;
     right: 0;
 }
 
-.myPageProfileInfo .my-profile__term-desc{
+.myPageLoginInfoWithdrawal .my-profile__term-desc{
     line-height: 1;
     padding-bottom: 0;
     padding-top: 0;
 }
 
-.myPageProfileInfo .my-profile__term-desc>span{
+.myPageLoginInfoWithdrawal .my-profile__term-desc>span{
     display: block;
     margin-bottom: 2px;
 }
 
-.myPageProfileInfo .desc [type=button]{
+.myPageLoginInfoWithdrawal .desc [type=button]{
     color: #909090;
     font-size: 12px;
     font-weight: 400;
     text-decoration-line: underline;
 }
 
-.myPageProfileInfo .base-switch{
+.myPageLoginInfoWithdrawal .base-switch{
     background-color: var(--75b83bce);
     border-radius: 15.5px;
     cursor: pointer;
@@ -935,11 +935,11 @@
     width: 51px;
 }
 
-.myPageProfileInfo .base-switch.is-active{
+.myPageLoginInfoWithdrawal .base-switch.is-active{
     background-color: var(--6d656928);
 }
 
-.myPageProfileInfo .base-switch .circle{
+.myPageLoginInfoWithdrawal .base-switch .circle{
     background-color: var(--30d0adec);
     border-radius: 50%;
     height: 27px;
@@ -950,20 +950,20 @@
     width: 27px;
 }
 
-.myPageProfileInfo .base-switch.is-active .circle{
+.myPageLoginInfoWithdrawal .base-switch.is-active .circle{
     transform: translate(22px, -50%);
 }
 
-.myPageProfileInfo .base-switch .circle, .myPageProfileInfo .base-switch{
+.myPageLoginInfoWithdrawal .base-switch .circle, .myPageLoginInfoWithdrawal .base-switch{
     transition: all .3s cubic-bezier(.4,0,.2,1) !important;
 }
 
-.myPageProfileInfo .btn_withdrawal, .myPageProfileInfo .btn_withdrawal:hover {
+.myPageLoginInfoWithdrawal .btn_withdrawal, .myPageLoginInfoWithdrawal .btn_withdrawal:hover {
     -webkit-text-decoration: underline;
     text-decoration: underline;
 }
 
-.myPageProfileInfo .btn_withdrawal{
+.myPageLoginInfoWithdrawal .btn_withdrawal{
     color: rgba(34, 34, 34, .5);
     display: inline-block;
     font-size: 13px;
@@ -972,139 +972,142 @@
     padding: 5px 0;
 }
 
-.myPageProfileInfo .lg .user_profile, .myPageProfileInfo .md .user_profile{
-    border-bottom: 1px solid #ebebeb;
+.myPageLoginInfoWithdrawal .lg .withdrawal_wrap, .myPageLoginInfoWithdrawal .md .withdrawal_wrap{
+    padding-top: 40px;
 }
 
-.myPageProfileInfo .user_profile{
-    align-items: center;
-    background-color: #fff;
-    display: flex;
-    padding: 38px 0;
-}
-
-.myPageProfileInfo .profile_thumb{
-    border-radius: 100%;
-    flex: none;
-    height: 80px;
-    margin-right: 12px;
-    overflow: hidden;
-    width: 80px;
-}
-
-.myPageProfileInfo .lg .profile_thumb, .myPageProfileInfo .md .profile_thumb{
-    height: 90px;
-    width: 90px;
-}
-
-.myPageProfileInfo .profile_thumb .thumb_img{
-    height: 100%;
-    -o-object-fit: cover;
-    object-fit: cover;
-    width: 100%;
-}
-
-.myPageProfileInfo .profile_detail .name{
-    color: #000;
+.myPageLoginInfoWithdrawal .withdrawal_title{
     font-size: 18px;
     letter-spacing: -.27px;
-    line-height: 1.2222222222;
 }
 
-.myPageProfileInfo .profile_btn_box{
-    font-size: 0;
-    margin-top: 12px;
+.myPageLoginInfoWithdrawal .withdrawal_terms{
+    border: 1px solid #d3d3d3;
+    margin-top: 20px;
+    padding: 24px;
 }
 
-.myPageProfileInfo .profile_btn_box .btn+.btn{
-    margin-left: 8px;
-}
-
-.myPageProfileInfo .desc_modify{
-    padding-right: 58px;
-}
-
-.myPageProfileInfo .modify.name{
-    padding-top: 25px;
-}
-
-.myPageProfileInfo .input_title{
-    font-size: 13px;
-    letter-spacing: -.07px;
-    line-height: 18px;
-}
-
-.myPageProfileInfo .input_box{
-    padding: 0;
-}
-
-.myPageProfileInfo .input_box{
-    position: relative;
-}
-
-.myPageProfileInfo .input_item{
-    position: relative;
-}
-
-.myPageProfileInfo .profile_group .modify .input_txt{
-    font-size: 15px;
-    letter-spacing: -.15px;
-    padding-bottom: 7px;
-    padding-top: 7px;
-}
-
-.myPageProfileInfo .profile_group .input_txt{
+.myPageLoginInfoWithdrawal .terms_title{
     font-size: 16px;
     letter-spacing: -.16px;
-    padding-bottom: 19px;
-    padding-top: 7px;
 }
 
-.myPageProfileInfo .input_txt{
-    border-bottom: 1px solid #ebebeb;
+.myPageLoginInfoWithdrawal .checkbox_item{
+    font-size: 0;
+    position: relative;
+}
+
+.myPageLoginInfoWithdrawal .checkbox_item .check_label{
+    display: inline-block;
+    position: relative;
+}
+
+.myPageLoginInfoWithdrawal .checkbox_item .check_label_on{
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+}
+
+.myPageLoginInfoWithdrawal .withdrawal_wrap .label_txt{
+    font-size: 16px;
+    letter-spacing: -.16px;
+}
+
+.myPageLoginInfoWithdrawal .checkbox_item .label_txt{
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: -.07px;
+    line-height: 24px;
+    vertical-align: top;
+}
+
+.myPageLoginInfoWithdrawal .checkbox_item .label_txt_on{
+    display: inline-block;
+    font-size: 15px;
+    letter-spacing: -.07px;
+    line-height: 24px;
+    vertical-align: top;
+    padding-left: 10px;
+}
+
+.myPageLoginInfoWithdrawal .terms_detail{
+    padding-top: 16px;
+}
+
+.myPageLoginInfoWithdrawal .terms_item{
+    color: #333;
+    padding-left: 12px;
+    position: relative;
+    word-break: keep-all;
+}
+
+.myPageLoginInfoWithdrawal .terms_item:before {
+    background-color: #222;
+    border-radius: 100%;
+    content: "";
+    height: 4px;
+    left: 0;
+    position: absolute;
+    top: 8px;
+    width: 4px;
+}
+
+.myPageLoginInfoWithdrawal .terms_item, .myPageLoginInfoWithdrawal .terms_subtitle{
     font-size: 15px;
     letter-spacing: -.15px;
-    line-height: 22px;
-    padding: 8px 0;
-    width: 100%;
 }
 
-
-.input_txt:focus {
-    border-bottom: 2px solid #222;
+.myPageLoginInfoWithdrawal .terms_item+.terms_item{
+    margin-top: 8px;
 }
 
-.myPageProfileInfo .modify_btn_box{
-    font-size: 0;
-    padding-top: 28px;
+.myPageLoginInfoWithdrawal .terms_box+.terms_box{
+    margin-top: 40px;
+}
+
+.myPageLoginInfoWithdrawal .terms_subtitle{
+    font-weight: 600;
+    padding-bottom: 8px;
+}
+
+.myPageLoginInfoWithdrawal .withdrawal_check{
+    margin-top: 20px;
+}
+
+.myPageLoginInfoWithdrawal .withdrawal_btn_box{
+    padding-top: 40px;
     text-align: center;
 }
 
-.myPageProfileInfo .modify_btn_box .btn{
-    padding: 0 38px;
+.myPageLoginInfoWithdrawal .withdrawal_btn_box .btn{
+    width: 120px;
 }
 
-.myPageProfileInfo .medium{
+.myPageLoginInfoWithdrawal .medium{
     height: 42px;
     letter-spacing: -.14px;
     padding: 0 18px;
 }
 
-.myPageProfileInfo .large.mobile, .myPageProfileInfo .medium{
+.myPageLoginInfoWithdrawal .large.mobile, .myPageLoginInfoWithdrawal .medium{
     border-radius: 10px;
     font-size: 14px;
 }
 
-.myPageProfileInfo .modify_btn_box .btn+.btn{
+.myPageLoginInfoWithdrawal .withdrawal_btn_box .btn+.btn{
     margin-left: 8px;
 }
 
-.myPageProfileInfo .solid{
+.myPageLoginInfoWithdrawal .withdrawal_btn_box .btn{
+    width: 120px;
+}
+
+.myPageLoginInfoWithdrawal .solid{
     background-color: #222;
     color: #fff;
     font-weight: 700;
 }
 
-.myPageProfileInfo .modify{
-    padding-top: 23px;
+.myPageLoginInfoWithdrawal .terms_list{
+    margin-block-end: 0em !important;
 }

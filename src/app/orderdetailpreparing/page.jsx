@@ -61,22 +61,22 @@ const OrderDetail = () => {
             <section className="sale-info">
         <div className="sale-row">
           <div className="sale-item">
-            <span>상품 금액</span>
-            <span>80,000원</span>
+            <span2>상품 금액</span2>
+            <span2>80,000원</span2>
           </div>
           <div className="vertical-bar"></div> {/* 수직 바 추가 */}
           <div className="sale-item">
-            <span>결제수단</span>
-            <span className="bold">카카오뱅크</span>
+            <span2>결제수단</span2>
+            <span2 className="bold">카카오뱅크</span2>
           </div>
         </div>
         <div className="sale-row">
           <div className="sale-item">
-            <span>배송비</span>
-            <span >+3,000원</span>
+            <span2>배송비</span2>
+            <span2 >+3,000원</span2>
             <br></br>
-            <span className="bold">결제금액</span>
-            <span className="bold">83,000원</span>
+            <span2 className="bold">결제금액</span2>
+            <span2 className="bold">83,000원</span2>
           </div>
         </div>
       </section>

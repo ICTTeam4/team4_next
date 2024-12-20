@@ -64,8 +64,11 @@ function ProductPage() {
   };
 
   return (
+    
     <div className="product-page">
+      {/* <h3 style={{textAlign:'center', fontWeight:'30px'}}>판매등록</h3> */}
       <div className="image-upload">
+        
         <label htmlFor="file-input" className="upload-button">
           <span className="camera-icon">📷</span>
           <span className="add-icon">+</span>
@@ -77,7 +80,7 @@ function ProductPage() {
           multiple
           style={{ display: "none" }}
           onChange={handleImageUpload}
-        />
+          />
       </div>
 
       <div className="image-gallery">

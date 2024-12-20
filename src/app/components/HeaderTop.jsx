@@ -33,7 +33,7 @@ function HeaderTop(props) {
           </li>
           
           <li className="top_item">
-            <Link href="/saved" className="top_link">
+            <Link href="/myPageWishList" className="top_link">
               관심
             </Link>
           </li>

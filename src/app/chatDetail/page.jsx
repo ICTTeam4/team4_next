@@ -8,7 +8,7 @@ import ChatReport from './chatReport/page';
 import ChatCheck from './chatCheck/page';
 import { useRouter } from 'next/navigation';
 
-const Page = ({ room_id,host_id }) => {
+const Page = ({ room_id,host_id,closeChat,closeDetail }) => {
   const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfilePopupOpen, setIsProfilePopupOpen] = useState(false);
@@ -18,6 +18,7 @@ const Page = ({ room_id,host_id }) => {
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
+  
   };
 
   const toggleProfilePopup = () => {
@@ -30,12 +31,15 @@ const Page = ({ room_id,host_id }) => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
+        
       }
       if (profileRef.current && !profileRef.current.contains(event.target)) {
         setIsProfilePopupOpen(false);
+       
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
+    
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
@@ -77,7 +81,7 @@ const Page = ({ room_id,host_id }) => {
           )}
         </div>
       </header>
-      {/* 뒤로가기 버튼 */}
+      {/* 채팅방이동 버튼 */}
      {activePage !== 'chatRoom' &&(
       <Button
       sx={{

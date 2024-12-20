@@ -1,15 +1,20 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './orderdetail.css';
+import { useRouter } from 'next/navigation';
 
 
 const OrderDetail = () => {
-
-// const Router = useRouter();
+  const [price, setPrice] = useState(null);
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const priceFromUrl = queryParams.get('price');
+    setPrice(priceFromUrl);
+  }, []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModal2Open, setIsModal2Open] = useState(false);
-  
+
   // 모달 열기/닫기 함수
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -19,10 +24,10 @@ const OrderDetail = () => {
 
 
 
-   const handleContactClick = () => {
-     // open-chat 이벤트 발생 시킴 -> room_id: 999 . 임시번호이고, 실제 roomid 나 관리자 id가 파라미터로 가야함.
-     window.dispatchEvent(new CustomEvent('open-chat', { detail: { room_id: 123, host_id: 123 } }));
-   };
+  const handleContactClick = () => {
+    // open-chat 이벤트 발생 시킴 -> room_id: 999 . 임시번호이고, 실제 roomid 나 관리자 id가 파라미터로 가야함.
+    window.dispatchEvent(new CustomEvent('open-chat', { detail: { room_id: 123, host_id: 123 } }));
+  };
 
   // const handleChatClick = () => {
   //   Router.push("/chat"); // 버튼 클릭시 이동함
@@ -32,12 +37,12 @@ const OrderDetail = () => {
     <div className="order-detail">
       {/* 헤더 */}
       <div className="order-header">
-        
+
         <h1 className="order-title" style={{ fontSize: 20 }}>주문 상세</h1>
       </div>
       <div className="order-info2">
-                <h3 className="order-date" style={{color:'black'}}>2024.12.25</h3>
-                <span className="order-number">주문번호 000000000000</span>
+        <h3 className="order-date" style={{ color: 'black' }}>2024.12.25</h3>
+        <span className="order-number">주문번호 000000000000</span>
       </div>
 
       {/* 결제 섹션 */}
@@ -50,30 +55,30 @@ const OrderDetail = () => {
           <div className="product-img"></div>
           <div className="product-details">
             <p className="product-name">상품이름</p>
-            <p className="product-price">80,000원</p>
+            <p className="product-price">80,000원, 이전으로부터 받은값 : {price}</p>
           </div>
-          <button  className="cancel-btn" onClick={openModal2}>거래 취소하기</button>
+          <button className="cancel-btn" onClick={openModal2}>거래 취소하기</button>
         </div>
       </section>
 
 
-      <h2 style={{fontSize:20}}>판매정보</h2>
-            <section className="sale-info">
+      <h2 style={{ fontSize: 20 }}>판매정보</h2>
+      <section className="sale-info">
         <div className="sale-row">
           <div className="sale-item">
-            <span>상품 금액</span>
-            <span className="bold">80,000원</span>
+            <span2>상품 금액</span2>
+            <span2 className="bold">80,000원</span2>
           </div>
           <div className="vertical-bar"></div> {/* 수직 바 추가 */}
           <div className="sale-item">
-            <span>정산 계좌</span>
-            <span className="bold">카카오뱅크 33330000000000 홍길동</span>
+            <span2>정산 계좌</span2>
+            <span2 className="bold">카카오뱅크 33330000000000 홍길동</span2>
           </div>
         </div>
         <div className="sale-row">
           <div className="sale-item">
-            <span>정산예정금액</span>
-            <span className="bold">80,000원</span>
+            <span2>정산예정금액</span2>
+            <span2 className="bold">80,000원</span2>
           </div>
         </div>
       </section>
@@ -82,9 +87,11 @@ const OrderDetail = () => {
       {/* 거래정보 */}
       <h2 style={{ fontSize: 20 }}>거래정보</h2>
       <section className="transaction-info">
+
       <div className="order-header2">
         <h3 className="order-number2" style={{ fontSize: 18 }}>주문번호 00000000</h3>
         <p className="transaction-date" style={{textAlign:'right'}}>24년 12월 04일 08:50</p>
+
         </div>
         <div className="transaction-details">
           <p>
@@ -133,7 +140,7 @@ const OrderDetail = () => {
             <div className="modal-form2">
               <label className='modal-form3'>거래 취소 사유</label>
               <select>
-              <option>선택하세요</option>
+                <option>선택하세요</option>
                 <option>"상품이 마음에 들지 않아서 구매를 취소합니다."</option>
                 <option>"상품 상태가 설명과 다르거나 하자가 있어서 거래를 취소합니다."</option>
                 <option>"판매자와 연락이 되지 않거나 상품 발송이 지연되어 거래를 취소합니다."</option>
@@ -146,15 +153,15 @@ const OrderDetail = () => {
         </div>
       )}
 
-<div className="action-buttons">
-  <button className="chat-btn" onClick={handleContactClick}>채팅하기</button>
-  <button className="register-btn2" onClick={openModal}>
-    운송장 등록
-  </button>
-</div>
+      <div className="action-buttons">
+        <button className="chat-btn" onClick={handleContactClick}>채팅하기</button>
+        <button className="register-btn2" onClick={openModal}>
+          운송장 등록
+        </button>
+      </div>
     </div>
 
-    
+
   );
 };
 

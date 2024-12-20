@@ -170,11 +170,9 @@ const HeaderMain = () => {
           </div>
         </div >
         {/* 채팅 사이드바 */}
-        {isChatOpen && (
           <div className={`chat_sidebar ${isChatOpen ? 'open' : ''}`} onClick={(e) => e.stopPropagation()}>
-            <Page isOpen={isChatOpen} setChatOpen={setChatOpen} initialRoomId={initialRoomId} initialhostId={initialhostId} />
+            <Page isOpen={isChatOpen} closeChat={closeChat} initialRoomId={initialRoomId} initialhostId={initialhostId} />
           </div>
-        )}
       </div>
     </div>
   );

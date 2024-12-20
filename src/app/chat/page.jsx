@@ -5,17 +5,20 @@ import Page from '../chatDetail/page';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/navigation';
 
-const Chat = ({ isOpen, setChatOpen,initialRoomId,initialhostId  }) => {
+const Chat = ({ isOpen, closeChat, initialRoomId, initialhostId }) => {
   const [isChatDetailOpen, setChatDetailOpen] = useState(false); // 채팅디테일 사이드바 상태관리 
   const [selectedChat, setSelectedChat] = useState(null);
 
-   // 초기 room_id가 있을 경우 바로 채팅 디테일 열기
-   useEffect(() => {
+
+
+  
+  // 초기 room_id가 있을 경우 바로 채팅 디테일 열기
+  useEffect(() => {
     if (initialRoomId) {
-      setSelectedChat({ room_id: initialRoomId, host_id : initialhostId });
+      setSelectedChat({ room_id: initialRoomId, host_id: initialhostId });
       setChatDetailOpen(true);
     }
-  }, [initialRoomId,initialhostId]);
+  }, [initialRoomId, initialhostId]);
 
 
   // 채팅 디테일 열기
@@ -28,6 +31,7 @@ const Chat = ({ isOpen, setChatOpen,initialRoomId,initialhostId  }) => {
   const closeChatDetail = () => {
     setChatDetailOpen(false); // 팝업 닫기
     setSelectedChat(null); // 선택된 채팅 초기화
+   
   };
 
 
@@ -72,10 +76,11 @@ const Chat = ({ isOpen, setChatOpen,initialRoomId,initialhostId  }) => {
     
      
       <div className="chat-header">
-        <span>채팅</span>
+        
         <Button sx={{ color: 'black', ":hover":{background:'#eee'} }} className="close-button" onClick={() => setChatOpen(false)}>
           X
         </Button>
+        <span>채팅</span>
       </div>
       <div className="chat-list">
         {chats.map((chat) => (
@@ -83,10 +88,10 @@ const Chat = ({ isOpen, setChatOpen,initialRoomId,initialhostId  }) => {
             key={chat.room_id} // key 속성 추가
             className="chat-item"
             onClick={() => toggleChatDetail(chat)} // 클릭 시 채팅 디테일 열기
-            
+
           >
             <div className="chat-item2" style={{ width: '548px', border: 'none' }}>
-              <div className="chat-profile-photo"><img src='../images/HY_profile2.jpg'/></div>
+              <div className="chat-profile-photo"><img src='../images/HY_profile2.jpg' /></div>
               <div className="chat-details">
                 <span className="chat-name">{chat.name}</span>
                 <span className="chat-date">{chat.date}</span>
@@ -104,12 +109,12 @@ const Chat = ({ isOpen, setChatOpen,initialRoomId,initialhostId  }) => {
             <Button sx={{
               color: 'black', ":hover": {
                 backgroundColor: '#eee', // 호버 시 배경색을 lightgray로 변경
-                border:'none'
+                border: 'none'
               }
             }} className="close-button" onClick={closeChatDetail} style={{ margin: '0px' }}>
               ←
             </Button>
-            <Page room_id={selectedChat.room_id} host_id={selectedChat.host_id} />
+            <Page room_id={selectedChat.room_id} host_id={selectedChat.host_id} closeChat={closeChat} closeDetail={closeChatDetail} />
           </div>
         </div>
       )}
