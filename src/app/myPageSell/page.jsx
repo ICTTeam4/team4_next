@@ -1,12 +1,14 @@
 "use client";
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import MyPageSideNav from '../components/MyPageSideNav';
 import './myPageSell.css';
 import { useState } from 'react';
 
 function Page(props) {
+    const searchParams = useSearchParams();
+    const initialTab = searchParams.get('tab') || '전체';
     const pathname = usePathname();
-    const [activeTab, setActiveTab] = useState('전체');
+    const [activeTab, setActiveTab] = useState(initialTab);
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);

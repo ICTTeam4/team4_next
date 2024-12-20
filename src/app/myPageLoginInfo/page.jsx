@@ -3,6 +3,7 @@ import { usePathname } from 'next/navigation';
 import MyPageSideNav from '../components/MyPageSideNav';
 import './myPageLoginInfo.css';
 import { useState } from 'react';
+import Link from 'next/link';
 
 function Page(props) {
     const pathname = usePathname();
@@ -103,7 +104,7 @@ function Page(props) {
                                 </div>
 
                             </div>
-                            <a href="#" className='btn_withdrawal'>회원 탈퇴</a>
+                            <Link href="/myPageLoginInfoWithdrawal" className='btn_withdrawal'>회원 탈퇴</Link>
                         </div>
                     </div>
                 </div>
