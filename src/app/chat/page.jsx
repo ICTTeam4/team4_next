@@ -72,7 +72,7 @@ const Chat = ({ isOpen, closeChat, initialRoomId, initialhostId }) => {
   return (
     <div className="chat-page">
       {/* chatDetail 진입점 오버레이 - 일부러 여기엔 no_more_overlay라고 바꿈(미적용), 추후 2차 어두움 원하면 그냥 overlay로 바꾸기. */}
-      {isChatDetailOpen && <div className='chatoverlay' onClick={closeChatDetail}></div>}
+      {isChatDetailOpen && <div className='chatoverlay2' onClick={closeChatDetail}></div>}
       <div className="chat-header" style={{alignContent:'left',textAlign:'center' }}>
         <Button
           sx={{
