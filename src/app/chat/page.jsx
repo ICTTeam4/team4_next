@@ -5,10 +5,13 @@ import Page from '../chatDetail/page';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/navigation';
 
-const Chat = ({ isOpen, setChatOpen, initialRoomId, initialhostId }) => {
+const Chat = ({ isOpen, closeChat, initialRoomId, initialhostId }) => {
   const [isChatDetailOpen, setChatDetailOpen] = useState(false); // 채팅디테일 사이드바 상태관리 
   const [selectedChat, setSelectedChat] = useState(null);
 
+
+
+  
   // 초기 room_id가 있을 경우 바로 채팅 디테일 열기
   useEffect(() => {
     if (initialRoomId) {
@@ -28,6 +31,7 @@ const Chat = ({ isOpen, setChatOpen, initialRoomId, initialhostId }) => {
   const closeChatDetail = () => {
     setChatDetailOpen(false); // 팝업 닫기
     setSelectedChat(null); // 선택된 채팅 초기화
+   
   };
 
 
@@ -68,7 +72,7 @@ const Chat = ({ isOpen, setChatOpen, initialRoomId, initialhostId }) => {
   return (
     <div className="chat-page">
       {/* chatDetail 진입점 오버레이 - 일부러 여기엔 no_more_overlay라고 바꿈(미적용), 추후 2차 어두움 원하면 그냥 overlay로 바꾸기. */}
-      {isChatDetailOpen && <div className='no_more_chatoverlay' onClick={closeChatDetail}></div>}
+      {isChatDetailOpen && <div className='chatoverlay' onClick={closeChatDetail}></div>}
       <div className="chat-header" style={{alignContent:'left',textAlign:'center' }}>
         <Button
           sx={{
@@ -85,7 +89,7 @@ const Chat = ({ isOpen, setChatOpen, initialRoomId, initialhostId }) => {
             }
           }}
           className="close-button"
-          onClick={() => setChatOpen(false)}
+          onClick={() => closeChat()}
         >
           <img
             src="./images/HJ_close.png"
@@ -131,7 +135,7 @@ const Chat = ({ isOpen, setChatOpen, initialRoomId, initialhostId }) => {
             }} className="close-button" onClick={closeChatDetail} style={{ margin: '0px' }}>
               ←
             </Button>
-            <Page room_id={selectedChat.room_id} host_id={selectedChat.host_id} />
+            <Page room_id={selectedChat.room_id} host_id={selectedChat.host_id} closeChat={closeChat} closeDetail={closeChatDetail} />
           </div>
         </div>
       )}

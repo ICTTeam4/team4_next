@@ -90,8 +90,9 @@
   left: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  background: rgba(0, 0, 0, 0.5) !important; /* 어두운 반투명 효과 */
-  z-index: 10 !important;
+  background: rgba(0, 0, 0, 0.3) ; /* 어두운 반투명 효과 */
+  transition: right 0.5s ease-in-out !important; /* 부드러운 애니메이션 */
+  z-index: 0 
 }
 .chatDetail_sidebar {
   position: fixed !important;
@@ -100,8 +101,8 @@
   width: 600px !important;
   height: 100% !important;
   background: #ffffff !important;
-  z-index: 20 !important;
-  transition: right 0.5s ease-in-out !important; /* 부드러운 애니메이션 */
+  z-index: 100; /* 충분히 높은 z-index 값 설정 */
+  transition: right 0.5s ease; /* 부드러운 오른쪽 이동을 위한 트랜지션 */
 }
 .chat-list:hover {
   background: rgba(0, 0, 0, 0.02) !important; /* 전체 chat-list에 적용 */
