@@ -66,19 +66,19 @@ const OrderDetail = () => {
       <section className="sale-info">
         <div className="sale-row">
           <div className="sale-item">
-            <span>상품 금액</span>
-            <span className="bold">80,000원</span>
+            <span2>상품 금액</span2>
+            <span2 className="bold">80,000원</span2>
           </div>
           <div className="vertical-bar"></div> {/* 수직 바 추가 */}
           <div className="sale-item">
-            <span>정산 계좌</span>
-            <span className="bold">카카오뱅크 33330000000000 홍길동</span>
+            <span2>정산 계좌</span2>
+            <span2 className="bold">카카오뱅크 33330000000000 홍길동</span2>
           </div>
         </div>
         <div className="sale-row">
           <div className="sale-item">
-            <span>정산예정금액</span>
-            <span className="bold">80,000원</span>
+            <span2>정산예정금액</span2>
+            <span2 className="bold">80,000원</span2>
           </div>
         </div>
       </section>
