@@ -1,10 +1,18 @@
 .chat-page {
+  top: 0;
+  right: -600px; /* 기본적으로 필터가 오른쪽 바깥에 위치 */
   width: 600px !important; /* 채팅 페이지 너비 설정 */
   height: 100% !important;
   background: #ffffff !important; /* 배경색 설정 */
   display: flex !important;
   flex-direction: column !important;
+  transition: right 0.35s ease-in-out;
 }
+
+.chat-page.open {
+  right: 0; /* 우측으로 슬라이드 */
+}
+
 
 .chat-header {
   display: flex !important;
@@ -90,9 +98,9 @@
   left: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  background: rgba(0, 0, 0, 0.3) ; /* 어두운 반투명 효과 */
-  transition: right 0.5s ease-in-out !important; /* 부드러운 애니메이션 */
-  z-index: 0 
+  background: rgba(0, 0, 0, 0.5) !important; /* 어두운 반투명 효과 */
+  
+  z-index: 10 !important;
 }
 .chatDetail_sidebar {
   position: fixed !important;
