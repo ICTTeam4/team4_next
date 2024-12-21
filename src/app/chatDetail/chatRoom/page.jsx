@@ -63,7 +63,7 @@ const Page = ({ room_id, host_id }) => {
   {/* 파일 미리보기 플로팅 */}
   {previewUrls.length > 0 && (
         <div style={{ width:'580px',
-          position: 'fixed', top: 700, left: 1945, right: 0,
+          position: 'fixed', bottom: 100, right: 0,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           backgroundColor: 'rgba(255, 255, 255, 0)', // 반투명 배경
           zIndex: 1000, padding: '5px 10px'
@@ -83,13 +83,13 @@ const Page = ({ room_id, host_id }) => {
                 />
               </Card>
             ))}
-          </div>
+          </div>                       
           <IconButton onClick={() => scrollPreviews('right')}><ArrowForwardIosIcon /></IconButton>
         </div>
       )}
 
    {/* 메시지 창 */}
-   <main className="chat-messages" style={{ paddingTop: previewUrls.length > 0 ? '120px' : '20px', maxHeight: '600px', overflowY: 'auto' }}>
+   <main className="chat-messages" style={{ paddingTop: previewUrls.length > 0 ? '120px' : '20px', maxHeight: '70%', overflowY: 'auto' }}>
         {messages.map(msg => (
           <Card
             key={msg.id}
