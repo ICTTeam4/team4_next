@@ -118,7 +118,7 @@ const Page = ({ room_id, host_id }) => {
         <div className="product-photo"><img src='../images/HY_cup1.jpg' /></div>
         <div className="product-details">
           <h3>8,000원</h3>
-          <p>찻잔 세트 싸게 팝니다</p>
+          <p>찻잔 세트 싸게 팝니다</p> 
         </div>
       </section>
       {/* 파일 미리보기 플로팅 */}
