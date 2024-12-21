@@ -1,5 +1,5 @@
 /* 레이어 배경 */
-.layerBackground {
+.notiLayerBackground {
   position: fixed;
   top: 0;
   left: 0;
@@ -10,7 +10,7 @@
 }
 
 /* 필터 섹션 */
-.shopFilterSections {
+.notiSections {
   position: fixed;
   top: 0;
   right: -400px; /* 기본적으로 필터가 오른쪽 바깥에 위치 */
@@ -18,38 +18,37 @@
   height: 100%;
   background: #fff;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
-  transition: right 0.35s ease-in-out;
+  transition: right 0.35s ease-in-out ;
   overflow-y: scroll; /* 내부 스크롤 활성화 */
   z-index: 1002;
-  right: 0; /* 우측으로 슬라이드 */
-  /* z-index: 999; */
 }
 
 /* 필터가 활성화되었을 때 */
-.shopFilterSections.active {
+.notiSections.active {
+  right: 0 ; /* 우측으로 슬라이드 */
 }
 
 /* 필터 내용 */
-.filterContent {
+.notiContent {
   padding: 20px;
 }
 
-.filterContent h2 {
+.notiContent h2 {
   font-size: 20px;
 }
 
-.filterContent ul {
+.notiContent ul {
   list-style: none;
   padding: 0;
 }
 
-.filterContent ul li {
+.notiContent ul li {
   margin: 10px 0;
 }
 
 @media (max-width: 700px) {
   /* 변경되는 필터 섹션 */
-.shopFilterSections {
+.notiSections {
   position: fixed;
   top: 390px;
   /* 기본적으로 필터가 오른쪽 바깥에 위치 */
@@ -63,7 +62,7 @@
   z-index: 1000;
 }
 /* 필터가 활성화되었을 때 */
-.shopFilterSections.active {
+.notiSections.active {
   bottom: 0; /* 화면 안으로 올라오도록 설정 */
 }
 

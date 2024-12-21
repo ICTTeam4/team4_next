@@ -139,6 +139,7 @@ const Chat = ({ isOpen, closeChat, initialRoomId, initialhostId }) => {
           </div>
         </div>
       )}
+    
     </div>
   );
 }

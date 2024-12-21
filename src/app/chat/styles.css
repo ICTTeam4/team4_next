@@ -1,10 +1,18 @@
 .chat-page {
+  top: 0;
+  right: -600px; /* 기본적으로 필터가 오른쪽 바깥에 위치 */
   width: 600px !important; /* 채팅 페이지 너비 설정 */
   height: 100% !important;
   background: #ffffff !important; /* 배경색 설정 */
   display: flex !important;
   flex-direction: column !important;
+  transition: right 0.35s ease-in-out;
 }
+
+.chat-page.open {
+  right: 0; /* 우측으로 슬라이드 */
+}
+
 
 .chat-header {
   display: flex !important;
