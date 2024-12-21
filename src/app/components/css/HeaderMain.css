@@ -98,8 +98,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 1); /* 어두운 반투명 효과 */
-  z-index: 10;
+  background: rgba(0, 0, 0, 0.2); /* 어두운 반투명 효과 */
 }
 .chat_sidebar {
   position: fixed;
@@ -108,7 +107,7 @@
   width: 600px;
   height: 100%;
   background: #fff;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5) ;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1) ;
   z-index: 20;
   transition: right 0.3s ease-in-out ;
 }
