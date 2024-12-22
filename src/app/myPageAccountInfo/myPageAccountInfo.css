@@ -60,11 +60,6 @@
     Noto Sans KR, Malgun Gothic, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 }
 
-.myPageAccountInfo div {
-    display: block;
-    unicode-bidi: isolate;
-}
-
 .myPageAccountInfo .snb_title{
     display: inline-block;
     font-size: 18px;
