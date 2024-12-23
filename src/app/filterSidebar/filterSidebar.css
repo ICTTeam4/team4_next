@@ -141,3 +141,10 @@ h2 p {
   padding: 0;
   margin: 0;
 }
+
+.exit_sidebar_btn{
+  all: unset;
+  color: gray; /* 기본 글자 색상 */
+  font-weight: 500; /* 글자 굵기 조절 */
+  cursor: pointer;
+}

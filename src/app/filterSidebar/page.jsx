@@ -51,9 +51,9 @@ const Page = ({ isActive, toggleSidebar }) => {
       <div className={`${styles.shopFilterSections} ${isActive ? styles.active : ''}`}>
         <div className={styles.filterContent}>
           <div className="title_container">
-            <a href="/">
+            <button className='exit_sidebar_btn' onClick={toggleSidebar}>
               <img src="/images/HJ_close.png" className="close_button" />
-            </a>
+            </button>
             <div className="title">
               <h2><p>필터</p></h2>
             </div>

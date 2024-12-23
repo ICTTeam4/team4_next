@@ -29,6 +29,10 @@
   font-size: 16px !important;
 }
 
+.chat-close-button:hover {
+  all: unset;
+}
+
 .chat-list {
   overflow-y: auto !important;
 }
@@ -124,4 +128,14 @@
 .chatDetail_sidebar.open {
   right: 0 !important; /* 화면 안으로 이동 */
   background: #ffffff !important;
+}
+.close-button{
+  all: unset;
+  cursor: pointer;
+}
+.close_button {
+  width: 22px;
+  height: 22px;
+  margin: 15px 0px 0px 15px;
+  z-index: 10;
 }

@@ -29,6 +29,7 @@ const Chat = ({ isOpen, closeChat, initialRoomId, initialhostId }) => {
 
   // 채팅 디테일 닫기
   const closeChatDetail = () => {
+    console.log('버튼 클림됨');
     setChatDetailOpen(false); // 팝업 닫기
     setSelectedChat(null); // 선택된 채팅 초기화
    
@@ -77,10 +78,10 @@ const Chat = ({ isOpen, closeChat, initialRoomId, initialhostId }) => {
      
       <div className="chat-header">
         
-        <Button sx={{ color: 'black', ":hover":{background:'#eee'} }} className="close-button" onClick={() => setChatOpen(false)}>
-          X
-        </Button>
-        <span>채팅</span>
+        <button className="close-button" onClick={closeChat}>
+        <img src="/images/HJ_close.png" className="close_button"/>
+        </button>
+        <span style={{fontSize:'25px', fontWeight:'bold', marginTop:'11px', marginLeft:'15px'}}>채팅</span>
       </div>
       <div className="chat-list">
         {chats.map((chat) => (
