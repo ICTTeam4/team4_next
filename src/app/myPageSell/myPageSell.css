@@ -391,7 +391,6 @@
 .myPageSell .purchase_list_display_item{
     align-items: center;
     border-bottom: 1px solid #ebebeb;
-    cursor: pointer;
     display: flex;
     padding: 25px;
 }

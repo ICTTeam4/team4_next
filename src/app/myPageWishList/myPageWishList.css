@@ -397,7 +397,6 @@
 .myPageWishList .purchase_list_display_item{
     align-items: center;
     border-bottom: 1px solid #ebebeb;
-    cursor: pointer;
     display: flex;
     padding: 25px 25px 25px 0px;
     position: relative;
@@ -412,6 +411,7 @@
     padding: 0 3px; /* 텍스트 주위에 약간의 여백 추가 */
     text-decoration: underline;
     letter-spacing: -.06px;
+    cursor: pointer;
 }
 
 .myPageWishList .purchase_list_product{
