@@ -391,7 +391,6 @@
 .myPageBuy .purchase_list_display_item{
     align-items: center;
     border-bottom: 1px solid #ebebeb;
-    cursor: pointer;
     display: flex;
     padding: 25px;
 }
@@ -803,4 +802,8 @@
     letter-spacing: -.14px;
     padding: 0 18px;
     margin: 0 8px;
+}
+
+.myPageBuy .confirm_purchase{
+    cursor: pointer;
 }

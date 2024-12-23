@@ -377,7 +377,6 @@
 .myPage .purchase_list_display_item{
     align-items: center;
     border-bottom: 1px solid #ebebeb;
-    cursor: pointer;
     display: flex;
     padding: 12px;
 }
@@ -481,6 +480,8 @@
 .myPage .list_item_status .column_last .last_description.action_named_action{
     -webkit-text-decoration: underline;
     text-decoration: underline;
+    cursor: pointer;
+    color: red;
 }
 
 .myPage .list_item_status .column_last .last_description{
@@ -738,4 +739,11 @@
     letter-spacing: -.14px;
     padding: 0 18px;
     margin: 0 8px;
+}
+
+.myPage .post_up{
+    color: red; 
+    text-decoration: underline;
+    font-size: 12px;
+    cursor: pointer;
 }
