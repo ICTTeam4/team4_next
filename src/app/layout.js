@@ -4,10 +4,11 @@ import './globals.css';
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { usePathname } from 'next/navigation';
+import Notifications from './notifications/page'
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
-
+ 
   // 경로에 따라 헤더 선택
   const renderHeader = () => {
     if (pathname === '/searchPage') {
@@ -16,12 +17,15 @@ export default function RootLayout({ children }) {
     return <Header />; // 기본 헤더 출력
   };
 
+  
+
   return (
     <html lang="en">
       <body>
         {/* 동적으로 선택된 헤더 렌더링 */}
         {renderHeader()}
-        <hr/>
+         <Notifications />
+        <hr />
         {children}
         <hr/>
         {/* 형태를 위한 DIV */}

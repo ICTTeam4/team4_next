@@ -70,36 +70,15 @@ const Chat = ({ isOpen, closeChat, initialRoomId, initialhostId }) => {
 
 
   return (
-    <div className="chat-page">
-      {/* chatDetail 진입점 오버레이 - 일부러 여기엔 no_more_overlay라고 바꿈(미적용), 추후 2차 어두움 원하면 그냥 overlay로 바꾸기. */}
-      {isChatDetailOpen && <div className='chatoverlay' onClick={closeChatDetail}></div>}
-      <div className="chat-header" style={{alignContent:'left',textAlign:'center' }}>
-        <Button
-          sx={{
-            width: '30px',
-            height: '30px',
-            color: 'black',
-            padding: 0,
-            minWidth: '20px', // 최소 너비 설정
-            minHeight: '20px', // 최소 높이 설정
-            border: 0, // 보더 제거
-            lineHeight: '30px', // 라인 높이 조정
-            ":hover": {
-              background: '#eee'
-            }
-          }}
-          className="close-button"
-          onClick={() => closeChat()}
-        >
-          <img
-            src="./images/HJ_close.png"
-            style={{
-              width: '50%',
-              height: '50%',
-              objectFit: 'contain' // 이미지가 버튼 크기에 맞게 조정
-            }}
-            alt=""
-          />
+    <div>
+    {/* chatDetail 진입점 오버레이 - 일부러 여기엔 no_more_overlay라고 바꿈(미적용), 추후 2차 어두움 원하면 그냥 overlay로 바꾸기. */}
+      {isChatDetailOpen && <div className='no_more_chatoverlay' onClick={closeChatDetail}></div>}
+    
+     
+      <div className="chat-header">
+        
+        <Button sx={{ color: 'black', ":hover":{background:'#eee'} }} className="close-button" onClick={() => setChatOpen(false)}>
+          X
         </Button>
         <span>채팅</span>
       </div>
@@ -139,6 +118,7 @@ const Chat = ({ isOpen, closeChat, initialRoomId, initialhostId }) => {
           </div>
         </div>
       )}
+    
     </div>
   );
 }

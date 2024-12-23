@@ -24,6 +24,7 @@
   margin: 0;
   padding: 0;
   gap: 35px; /* 항목 간 간격을 10px로 설정 */
+  height: 34px;
 }
 
 /* 네비게이션 아이템 */
@@ -53,8 +54,8 @@
   content: ''; /* 가상의 요소 */
   position: absolute;
   bottom: 0; /* 하단에 위치 */
-  left: -17px; /* 왼쪽으로 10px 이동 */
-  right: -17px; /* 오른쪽으로 10px 이동 */
+  left: -18px; /* 왼쪽으로 10px 이동 */
+  right: -18px; /* 오른쪽으로 10px 이동 */
   height: 2px; /* 밑줄의 두께 */
   background-color: transparent; /* 기본적으로 투명 */
   transition: background-color 0.4s ease; /* 밑줄 색상 변화 부드럽게 */
@@ -62,6 +63,11 @@
 
 /* hover 시 밑줄 색상 변경 */
 .navi_item:hover::after {
+  height: 2px;
   background-color: black; /* hover 시 밑줄 색상 변경 */
 }
 
+/* '.selected' 클래스가 추가된 항목에 밑줄 스타일 적용 */
+.navi_item.selected::after {
+  background-color: black; /* 활성화된 항목 밑줄 색상 */
+}
