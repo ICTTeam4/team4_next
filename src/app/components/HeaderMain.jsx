@@ -8,6 +8,7 @@ import useAuthStore from '../../../store/authStore';
 
 const HeaderMain = () => {
   // 휘주 수정본 구역 시작
+  const [showNotification, setShowNotification] = useState(false); // 알림 상태
   const {searchKeyword, setSearchKeyword, setKeyword} = useAuthStore();
   const [showSearchBar, setShowSearchBar] = useState(false);
   const router = useRouter();
@@ -89,6 +90,7 @@ const HeaderMain = () => {
 // 휘주 수정본 구역 끝
   return (
     <div className='max_width_container'>
+      
       {/* 전체 화면을 덮는 오버레이 */}
       {isChatOpen && <div className="chatoverlay" onClick={closeChat}></div>}
       <div className="header_main">
@@ -168,11 +170,9 @@ const HeaderMain = () => {
           </div>
         </div >
         {/* 채팅 사이드바 */}
-        {isChatOpen && (
           <div className={`chat_sidebar ${isChatOpen ? 'open' : ''}`} onClick={(e) => e.stopPropagation()}>
-            <Page isOpen={isChatOpen} setChatOpen={setChatOpen} initialRoomId={initialRoomId} initialhostId={initialhostId} />
+            <Page isOpen={isChatOpen} closeChat={closeChat} initialRoomId={initialRoomId} initialhostId={initialhostId} />
           </div>
-        )}
       </div>
     </div>
   );

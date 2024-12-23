@@ -98,19 +98,18 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 1); /* 어두운 반투명 효과 */
-  z-index: 10;
+  background: rgba(0, 0, 0, 0.2); /* 어두운 반투명 효과 */
 }
 .chat_sidebar {
   position: fixed;
   top: 0;
-  right: -383px; /* 기본 위치: 화면 밖으로 숨김 */
+  right: -600px; /* 기본 위치: 화면 밖으로 숨김 */
   width: 600px;
   height: 100%;
   background: #fff;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5) ;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1) ;
   z-index: 20;
-  transition: right 0.3s ease-in-out; /* 부드러운 애니메이션 */
+  transition: right 0.3s ease-in-out ;
 }
 
 .chat_sidebar.open {

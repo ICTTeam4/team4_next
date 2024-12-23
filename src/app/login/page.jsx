@@ -43,7 +43,9 @@ const LoginPage = () => {
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <img src="./images/HY_logo.png" alt="Logo" style={{ width: '300px', marginBottom: '40px' }} />
+
+      <img src="./images/HY_logo.png" alt="Logo" style={{ width: '300px', marginBottom: '40px', marginTop:'10px'}} />
+
     <form style={{ marginTop: '30px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}  onKeyDown={handleKeyDown}>{ /* 폼 전체에 키 이벤트 추가 */}
         <label style={{ marginBottom: '20px', fontSize: '14px', width: '400px', textAlign: 'left' }}>
           이메일 주소</label>

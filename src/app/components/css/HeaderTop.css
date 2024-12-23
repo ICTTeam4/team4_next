@@ -55,3 +55,10 @@
 .top_link:active {
   color: gray; /* 동일한 색상 유지 */
 }
+
+.go_noti_btn{
+  all: unset;
+  color: gray; /* 기본 글자 색상 */
+  font-weight: 500; /* 글자 굵기 조절 */
+  cursor: pointer;
+}

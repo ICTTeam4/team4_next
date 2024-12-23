@@ -21,7 +21,7 @@ const OrderDetail = () => {
 
    const handleContactClick = () => {
      // open-chat 이벤트 발생 시킴 -> room_id: 999 . 임시번호이고, 실제 roomid 나 관리자 id가 파라미터로 가야함.
-     window.dispatchEvent(new CustomEvent('open-chat', { detail: { room_id: 123, host_id: 123`` } }));
+     window.dispatchEvent(new CustomEvent('open-chat', { detail: { room_id: 123, host_id: 123} }));
    };
 
   // const handleChatClick = () => {
@@ -35,9 +35,9 @@ const OrderDetail = () => {
         
         <h1 className="order-title" style={{ fontSize: 20 }}>주문 상세</h1>
       </div>
-      <div class="order-info2">
-            <h3 class="order-date" style={{color:'black'}}>2024.12.25</h3>
-            <span class="order-number">주문번호 000000000000</span>
+      <div className="order-info2">
+            <h3 className="order-date" style={{color:'black'}}>2024.12.25</h3>
+            <span className="order-number">주문번호 000000000000</span>
       </div>
 
       {/* 결제 섹션 */}
@@ -61,22 +61,22 @@ const OrderDetail = () => {
             <section className="sale-info">
         <div className="sale-row">
           <div className="sale-item">
-            <span>상품 금액</span>
-            <span>80,000원</span>
+            <span2>상품 금액</span2>
+            <span2>80,000원</span2>
           </div>
           <div className="vertical-bar"></div> {/* 수직 바 추가 */}
           <div className="sale-item">
-            <span>결제수단</span>
-            <span className="bold">카카오뱅크</span>
+            <span2>결제수단</span2>
+            <span2 className="bold">카카오뱅크</span2>
           </div>
         </div>
         <div className="sale-row">
           <div className="sale-item">
-            <span>배송비</span>
-            <span >+3,000원</span>
+            <span2>배송비</span2>
+            <span2 >+3,000원</span2>
             <br></br>
-            <span className="bold">결제금액</span>
-            <span className="bold">83,000원</span>
+            <span2 className="bold">결제금액</span2>
+            <span2 className="bold">83,000원</span2>
           </div>
         </div>
       </section>
@@ -100,8 +100,8 @@ const OrderDetail = () => {
       {/* 거래정보 */}
       <h2 style={{ fontSize: 20 }}>거래정보</h2>
       <section className="transaction-info">
-      <div class="order-header2">
-        <h3 class="order-number2" style={{ fontSize: 18 }}>주문번호 00000000</h3>
+      <div className="order-header2">
+        <h3 className="order-number2" style={{ fontSize: 18 }}>주문번호 00000000</h3>
         <p className="transaction-date" style={{textAlign:'right'}}>24년 12월 04일 08:50</p>
         </div>
         <div className="transaction-details">

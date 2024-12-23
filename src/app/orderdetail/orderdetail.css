@@ -16,6 +16,15 @@
    
   }
 
+  .order-header2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid lightgray; /* 밑줄 설정 */
+    margin-bottom: 30px;
+   
+  }
+
   .icon-back {
     font-size: 30px; 
     font-weight: bold; 
@@ -184,7 +193,7 @@
     margin: 0 10px; 
   }
   
-  span {
+  span2 {
     display: block; 
     margin: 2px 0;
   }

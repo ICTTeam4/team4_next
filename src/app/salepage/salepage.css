@@ -37,7 +37,7 @@ body {
 
 .sell-profile {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 20px auto 0; /* 위쪽에 20px 여백 추가 */
   background-color: #fff;
   border-radius: 10px;
   /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
@@ -276,3 +276,98 @@ text-align: center;
 .product-title h5 {
   color: lightgray;
 }
+
+
+
+
+
+
+
+/* 후기 css */
+
+.trade-review {
+  width: 900px;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.review-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 15px 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.profile-section {
+  flex: 0 0 60px;
+  margin-right: 15px;
+}
+
+
+.content-section {
+  flex: 1;
+}
+
+.title-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.rating {
+  font-size: 17px;
+  color: black;
+}
+
+.review-content {
+  font-size: 14px;
+  color: #555;
+  margin-top: 10px;
+}
+
+.review-item:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .trade-review {
+    padding: 15px;
+  }
+
+  .review-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-section {
+    margin-bottom: 10px;
+  }
+
+  .title-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .rating {
+    margin-top: 5px;
+  }
+
+
+  .profile-image2{
+      width: 100px;
+      height: 100px;
+  }
+}
+
+/* 후기 css */

@@ -1,10 +1,14 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import './css/HeaderTop.css';
 import useAuthStore from '../../../store/authStore';
 
-function HeaderTop({toggleSidebar}) {
-  const {resetKeyword} = useAuthStore();
+function HeaderTop(props) {
+  const {resetKeyword, isNotibarActive, setIsNotibarActive} = useAuthStore();
+  const toggleNotibar = () => {
+    setIsNotibarActive(isNotibarActive);
+  }
+  
   return (
     
     <div className="max_width_container">
@@ -34,9 +38,9 @@ function HeaderTop({toggleSidebar}) {
             </Link>
           </li>
           <li className="top_item">
-            <Link href="/notifications" className="top_link" onClick={toggleSidebar}>
+            <button className="top_link go_noti_btn" onClick={toggleNotibar}>
               알림
-            </Link>
+            </button>
           </li>
           {/* isLoginChk 로 활성 비활성 설정해야함 */}
           <li className="top_item">
