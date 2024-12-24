@@ -1,16 +1,31 @@
 "use client"
 import { Button, Checkbox, FormControlLabel, Paper, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
+import axios from 'axios';
 import Terms from './Terms';
 import MarketingPolicy from './MarketingPolicy';
 import PrivacyPolicy from './PrivacyPolicy';
+import { useRouter } from 'next/navigation';
 
 const RegisterPage = () => {
+  const router = useRouter();
+  const LOCAL_API_BASE_URL = process.env.NEXT_PUBLIC_LOCAL_API_BASE_URL;
+  const API_URL = `${LOCAL_API_BASE_URL}/members/register`;
+
+
+  const [isNicknameChecked, setIsNicknameChecked] = useState(false);
+  const [isEmailChecked, setIsEmailChecked] = useState(false);
+
+
+  const [authCode, setAuthCode] = useState(""); // 인증번호 입력값
+  const [isPhoneVerified, setIsPhoneVerified] = useState(false); // 인증 완료 여부
+
 
   const initUser = {
-    nickname: "",
+    nickname : "",
+    name: "",
     email: "",
-    phone: "",
+    tel_no: "",
     password: "",
     confirmPassword: ""
   };
@@ -25,7 +40,7 @@ const RegisterPage = () => {
     optionalMarketing: false
   });
 
-  const isRegisterDisabled = !user.nickname || !user.email || !user.phone || !user.password || user.password !== user.confirmPassword || !agreements.age || !agreements.terms || !agreements.privacy;
+  // const isRegisterDisabled = !user.name || !user.email || !user.tel_no || !user.password || user.password !== user.confirmPassword || !agreements.age || !agreements.terms || !agreements.privacy;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,6 +48,12 @@ const RegisterPage = () => {
       ...prev,
       [name]: value
     }));
+    if (name === 'nickname') {
+      setIsNicknameChecked(false); // 닉네임 수정 시 중복 확인 상태 초기화
+    }
+    if (name === 'email') {
+      setIsEmailChecked(false); // 이메일 수정 시 중복 확인 상태 초기화
+    }
   };
 
   const handlePhoneChange = (e) => {
@@ -44,8 +65,29 @@ const RegisterPage = () => {
     } else {
       value = value.slice(0, 3) + "-" + value.slice(3, 7) + "-" + value.slice(7, 11);
     }
-    setUser(prev => ({ ...prev, phone: value }));
+    setUser(prev => ({ ...prev, tel_no: value }));
   };
+
+
+  const handleVerifyPhoneAuth = async () => {
+    if (!authCode) {
+      alert("인증번호를 입력하세요.");
+      return;
+    }
+  
+    try {
+      const response = await axios.post(`${LOCAL_API_BASE_URL}/members/verify-phone-auth`, null, {
+        params: { phone: user.tel_no, code: authCode },
+      });
+      alert(response.data.message);
+      setIsPhoneVerified(true); // 인증 성공
+    } catch (error) {
+      console.error("인증번호 검증 오류:", error);
+      alert("인증번호 검증에 실패했습니다. 다시 시도해주세요.");
+      setIsPhoneVerified(false); // 인증 실패
+    }
+  };
+  
 
   const handleAgreementChange = (e) => {
     const { name, checked } = e.target;
@@ -62,15 +104,99 @@ const RegisterPage = () => {
       setAgreements(prev => ({
         ...prev,
         [name]: checked,
-        all: false
+        all: prev.age && prev.terms && prev.privacy && checked // 모두 동의 업데이트
       }));
     }
   };
 
-  const [openModal, setOpenModal] = useState(false); // 모달 상태 관리
+  const handleCheckNickname = async () => {
+    try {
+      const response = await axios.get(`${LOCAL_API_BASE_URL}/members/check-nickname`, {
+        params: { nickname: user.nickname }
+      });
+      if (response.data) {
+        alert("사용 가능한 닉네임입니다.");
+        setIsNicknameChecked(true); // 닉네임 중복 확인 성공
+      } else {
+        alert("이미 사용 중인 닉네임입니다.");
+        setIsNicknameChecked(false);
+      }
+    } catch (error) {
+      console.error("닉네임 중복 확인 오류:", error);
+      alert("닉네임 확인 중 문제가 발생했습니다.");
+      setIsNicknameChecked(false);
+    }
+  };
+
+
+const handleCheckEmail = async () => {
+  try {
+    const response = await axios.get(`${LOCAL_API_BASE_URL}/members/check-email`, {
+      params: { email: user.email }
+    });
+    if (response.data) {
+      alert("사용 가능한 이메일입니다.");
+      setIsEmailChecked(true); // 이메일 중복 확인 성공
+    } else {
+      alert("이미 사용 중인 이메일입니다.");
+      setIsEmailChecked(false);
+    }
+  } catch (error) {
+    console.error("이메일 중복 확인 오류:", error);
+    alert("이메일 확인 중 문제가 발생했습니다.");
+    setIsEmailChecked(false);
+  }
+};
+
+const handleSendPhoneAuth = async () => {
+  if (!user.tel_no) {
+    alert("휴대전화 번호를 입력하세요.");
+    return;
+  }
+
+  try {
+    const response = await axios.post(`${LOCAL_API_BASE_URL}/members/send-phone-auth`, null, {
+      params: { phone: user.tel_no },
+    });
+    alert(response.data.message); // 성공 메시지 표시
+  } catch (error) {
+    console.error("휴대폰 인증 요청 오류:", error);
+    alert("휴대폰 인증 요청에 실패했습니다. 다시 시도해주세요.");
+  }
+};
+
+
+
+const goServer = async () => {
+  console.log("회원가입 데이터:", user); // 요청 데이터 확인
+
+  try {
+    const response = await axios.post(API_URL, user, {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    console.log("서버 응답 알려줘!!!!:", response.data); // 서버 응답 데이터 확인
+
+    // 응답 메시지 확인
+    if (response.data.message === "회원가입 성공") {
+      alert(response.data.message); // 성공 메시지 표시
+      router.push("/login"); // 로그인 페이지로 이동
+    } else {
+      alert(response.data.message); // 실패 메시지 표시
+    }
+  } catch (error) {
+    console.error("회원가입 요청 중 오류:", error.response?.data || error.message);
+    alert("회원가입 요청에 실패했습니다. 다시 시도해주세요.");
+  }
+};
+
+
+
+  const [openModal, setOpenModal] = useState(false);
   const [openMarketingPolicy, setOpenMarketingPolicy] = useState(false);
   const [openPrivacyPolicy, setOpenPrivacyPolicy] = useState(false);
-
 
   return (
     <div style={{ backgroundColor: '#f7f7f7', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -96,7 +222,8 @@ const RegisterPage = () => {
             <Button
               type="button"
               variant="outlined"
-              style={{ marginLeft: '10px', padding: '8px 15px', backgroundColor: '#f5f5f5', color: '#333', border: '1px solid #ddd' }}
+              style={{ marginLeft: '10px', padding: '4px 10px', backgroundColor: '#f5f5f5', color: '#333', border: '1px solid #ddd' }}
+              onClick={handleCheckNickname}
             >
               중복 확인
             </Button>
@@ -120,7 +247,8 @@ const RegisterPage = () => {
             <Button
               type="button"
               variant="outlined"
-              style={{ marginLeft: '10px', padding: '8px 15px', backgroundColor: '#f5f5f5', color: '#333', border: '1px solid #ddd' }}
+              style={{ marginLeft: '10px', padding: '4px 10px', backgroundColor: '#f5f5f5', color: '#333', border: '1px solid #ddd' }}
+              onClick={handleCheckEmail}
             >
               중복 확인
             </Button>
@@ -128,27 +256,73 @@ const RegisterPage = () => {
 
           <label style={{ marginBottom: '5px', fontSize: '14px', color: '#333', fontWeight: 'bold', textAlign: 'left' }}>휴대전화 번호</label>
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
-            <TextField variant="standard"
-              name='phone'
-              value={user.phone}
-              onChange={handlePhoneChange}
-              type="tel"
-              placeholder="010-1234-5678"
-              style={{
-                flex: 1,
-                padding: '10px',
-                outline: 'none',
-                backgroundColor: 'transparent'
-              }}
-            />
-            <Button
-              type="button"
-              variant="outlined"
-              style={{ marginLeft: '10px', padding: '8px 15px', backgroundColor: '#f5f5f5', color: '#333', border: '1px solid #ddd' }}
-            >
-              휴대폰 인증
-            </Button>
-          </div>
+          <TextField
+                variant="standard"
+                name="tel_no"
+                value={user.tel_no}
+                onChange={handlePhoneChange}
+                type="tel"
+                disabled={!isNicknameChecked || !isEmailChecked}
+                placeholder="010-1234-5678"
+                style={{
+                  flex: 1,
+                  padding: '10px',
+                  outline: 'none',
+                  backgroundColor: 'transparent',
+                }}
+              />
+             <Button
+                  type="button"
+                  variant="outlined"
+                  style={{
+                    marginLeft: '10px',
+                    padding: '4px 10px',
+                    backgroundColor: '#f5f5f5',
+                    color: '#333',
+                    border: '1px solid #ddd',
+                  }}
+                  onClick={handleSendPhoneAuth}
+                >
+                  휴대폰 인증 요청
+                </Button>
+              </div>
+
+               {/* 인증번호 입력 및 검증 */}
+                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
+                  <TextField
+                    variant="standard"
+                    name="authCode"
+                    value={authCode}
+                    onChange={(e) => setAuthCode(e.target.value)}
+                    type="text"
+                    placeholder="인증번호 입력"
+                    disabled={!user.tel_no}
+                    style={{
+                      flex: 1,
+                      padding: '10px',
+                      outline: 'none',
+                      backgroundColor: 'transparent',
+                    }}
+                  />
+                  <Button
+                    type="button"
+                    variant="outlined"
+                    style={{
+                      marginLeft: '10px',
+                      padding: '4px 10px',
+                      backgroundColor: '#f5f5f5',
+                      color: '#333',
+                      border: '1px solid #ddd',
+                    }}
+                    onClick={handleVerifyPhoneAuth}
+                    disabled={!user.tel_no || isPhoneVerified}
+                  >
+                    인증번호 확인
+                  </Button>
+                </div>     
+
+
+
 
           <label style={{ marginBottom: '5px', fontSize: '14px', color: '#333', fontWeight: 'bold', textAlign: 'left' }}>비밀번호</label>
           <TextField variant="standard"
@@ -157,6 +331,7 @@ const RegisterPage = () => {
             onChange={handleChange}
             type="password"
             placeholder="비밀번호를 입력하세요"
+            disabled={!isNicknameChecked || !isEmailChecked}
             style={{
               padding: '10px',
               marginBottom: '15px',
@@ -172,6 +347,7 @@ const RegisterPage = () => {
             onChange={handleChange}
             type="password"
             placeholder="비밀번호를 다시 입력하세요"
+            disabled={!isNicknameChecked || !isEmailChecked}
             style={{
               padding: '10px',
               marginBottom: '10px',
@@ -290,15 +466,24 @@ const RegisterPage = () => {
           <Button
             fullWidth
             variant='contained'
-            disabled={isRegisterDisabled}
+            // disabled={isRegisterDisabled}
+            disabled={
+              !agreements.age || // 만 14세 이상 동의 여부
+              !agreements.terms || // 이용약관 동의 여부
+              !agreements.privacy || // 개인정보 수집 동의 여부
+              !isNicknameChecked || // 닉네임 중복 확인이 완료되지 않았을 때 비활성화
+              !isEmailChecked || // 이메일 중복 확인이 완료되지 않았을 때 비활성화
+              !isPhoneVerified || // 휴대폰 인증 여부
+              !user.password ||
+              user.password !== user.confirmPassword
+            }
             style={{
-              backgroundColor: isRegisterDisabled ? 'lightgray' : '#333',
+              // backgroundColor: isRegisterDisabled ? 'lightgray' : '#333',
               color: 'white',
               padding: '10px',
               borderRadius: '5px',
               fontWeight: 'bold'
-            }}
-          >
+            }} onClick={goServer}>
             가입하기
           </Button>
           <Terms open={openModal} onClose={() => setOpenModal(false)} />
