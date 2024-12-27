@@ -1,9 +1,35 @@
-.myPageBuy body, .myPageBuy button, .myPageBuy dd, .myPageBuy div, .myPageBuy dl, .myPageBuy dt, .myPageBuy fieldset, .myPageBuy figcaption, .myPageBuy figure, .myPageBuy form, .myPageBuy h1, .myPageBuy h2, .myPageBuy h3, .myPageBuy h4, .myPageBuy h5, .myPageBuy h6, .myPageBuy input, .myPageBuy legend, .myPageBuy li, .myPageBuy ol, .myPageBuy p, .myPageBuy select, .myPageBuy table, .myPageBuy td, .myPageBuy textarea, .myPageBuy th, .myPageBuy ul {
+.myPageBuy body,
+.myPageBuy button,
+.myPageBuy dd,
+.myPageBuy div,
+.myPageBuy dl,
+.myPageBuy dt,
+.myPageBuy fieldset,
+.myPageBuy figcaption,
+.myPageBuy figure,
+.myPageBuy form,
+.myPageBuy h1,
+.myPageBuy h2,
+.myPageBuy h3,
+.myPageBuy h4,
+.myPageBuy h5,
+.myPageBuy h6,
+.myPageBuy input,
+.myPageBuy legend,
+.myPageBuy li,
+.myPageBuy ol,
+.myPageBuy p,
+.myPageBuy select,
+.myPageBuy table,
+.myPageBuy td,
+.myPageBuy textarea,
+.myPageBuy th,
+.myPageBuy ul {
     margin: 0;
     padding: 0;
 }
 
-.myPageBuy .container.my{
+.myPageBuy .container.my {
     display: flex;
     margin-left: auto;
     margin-right: auto;
@@ -11,12 +37,12 @@
     padding: 40px 40px 160px
 }
 
-.myPageBuy .snb_area{
+.myPageBuy .snb_area {
     margin-right: 20px;
     width: 180px;
 }
 
-.myPageBuy .snb_main_title{
+.myPageBuy .snb_main_title {
     font-size: 24px;
     font-weight: 700;
     letter-spacing: -.15px;
@@ -25,11 +51,14 @@
 }
 
 .myPageBuy a {
-    -webkit-tap-highlight-color: rgba(0,0,0,.1);
+    -webkit-tap-highlight-color: rgba(0, 0, 0, .1);
     color: inherit
 }
 
-.myPageBuy a,.myPageBuy a:active, .myPageBuy a:focus, .myPageBuy a:hover {
+.myPageBuy a,
+.myPageBuy a:active,
+.myPageBuy a:focus,
+.myPageBuy a:hover {
     -webkit-text-decoration: none;
     text-decoration: none
 }
@@ -43,8 +72,16 @@
     unicode-bidi: isolate;
 }
 
-.myPageBuy *, .myPageBuy :after, .myPageBuy :before {
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
+.myPageBuy .nothing_at_all{
+    text-align: center;
+    margin-top: 150px;
+    color: gray;
+}
+
+.myPageBuy *,
+.myPageBuy :after,
+.myPageBuy :before {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     box-sizing: border-box
 }
 
@@ -52,12 +89,17 @@
     display: block;
 }
 
-.myPageBuy body, .myPageBuy button, .myPageBuy input, .myPageBuy select, .myPageBuy table, .myPageBuy textarea {
-    font-feature-settings: "frac" 0,"numr" 0;
+.myPageBuy body,
+.myPageBuy button,
+.myPageBuy input,
+.myPageBuy select,
+.myPageBuy table,
+.myPageBuy textarea {
+    font-feature-settings: "frac" 0, "numr" 0;
     color: #222;
-    font-family: Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 
-    Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, Helvetica Neue, Apple SD Gothic Neo, 
-    Noto Sans KR, Malgun Gothic, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+    font-family: Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
+        Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, Helvetica Neue, Apple SD Gothic Neo,
+        Noto Sans KR, Malgun Gothic, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 }
 
 .myPageBuy div {
@@ -65,7 +107,7 @@
     unicode-bidi: isolate;
 }
 
-.myPageBuy .snb_title{
+.myPageBuy .snb_title {
     display: inline-block;
     font-size: 18px;
     font-weight: 700;
@@ -75,7 +117,9 @@
     vertical-align: top;
 }
 
-.myPageBuy li, .myPageBuy ol, .myPageBuy ul {
+.myPageBuy li,
+.myPageBuy ol,
+.myPageBuy ul {
     list-style: none;
 }
 
@@ -96,31 +140,32 @@
     unicode-bidi: isolate;
 }
 
-.myPageBuy .menu_link{
+.myPageBuy .menu_link {
     color: rgba(34, 34, 34, .5);
     font-size: 15px;
     letter-spacing: -.15px;
     line-height: 18px;
 }
 
-.myPageBuy .menu_item + .menu_item{
+.myPageBuy .menu_item+.menu_item {
     margin-top: 12px;
 }
 
-.myPageBuy .container.my .snb_area + div{
+.myPageBuy .container.my .snb_area+div {
     flex: 1;
 }
 
-.myPageBuy .my-page-content{
+.myPageBuy .my-page-content {
     flex: 1;
 }
 
-.myPageBuy .lg .user_membership, .myPageBuy .md .user_membership{
+.myPageBuy .lg .user_membership,
+.myPageBuy .md .user_membership {
     flex-direction: row;
     padding: 24px;
 }
 
-.myPageBuy .user_membership{
+.myPageBuy .user_membership {
     background-color: #fff;
     border: 1px solid #ebebeb;
     border-radius: 10px;
@@ -128,24 +173,26 @@
     flex-direction: column;
 }
 
-.myPageBuy .lg .user_detail, .myPageBuy .md .user_detail{
+.myPageBuy .lg .user_detail,
+.myPageBuy .md .user_detail {
     border-bottom: none;
     padding: 0;
 }
 
-.myPageBuy .user_detail{
+.myPageBuy .user_detail {
     border-bottom: 8px solid #f0f0f0;
     display: flex;
     flex: 1;
     padding: 16px 24px;
 }
 
-.myPageBuy .lg .user_thumb, .myPageBuy .md .user_thumb{
+.myPageBuy .lg .user_thumb,
+.myPageBuy .md .user_thumb {
     height: 60px;
     width: 60px;
 }
 
-.myPageBuy .user_thumb{
+.myPageBuy .user_thumb {
     border-radius: 50%;
     flex-shrink: 0;
     height: 90px;
@@ -165,7 +212,7 @@
     top: 0;
 }
 
-.myPageBuy .user_thumb .thumb_img{
+.myPageBuy .user_thumb .thumb_img {
     border-radius: 100%;
     height: 100%;
     -o-object-fit: cover;
@@ -173,7 +220,8 @@
     width: 100%;
 }
 
-.myPageBuy img, .myPageBuy video {
+.myPageBuy img,
+.myPageBuy video {
     -webkit-user-drag: none;
     -webkit-touch-callout: none;
     border: 0;
@@ -188,23 +236,25 @@
     overflow: clip;
 }
 
-.myPageBuy .lg .user_info, .myPageBuy .md .user_info{
+.myPageBuy .lg .user_info,
+.myPageBuy .md .user_info {
     align-items: center;
     flex-direction: row;
 }
 
-.myPageBuy .user_info{
+.myPageBuy .user_info {
     display: flex;
     flex: 1;
     flex-direction: column;
     justify-content: center;
 }
 
-.myPageBuy .info_box{
+.myPageBuy .info_box {
     flex: 1;
 }
 
-.myPageBuy .user_info .email, .myPageBuy .user_info .name{
+.myPageBuy .user_info .email,
+.myPageBuy .user_info .name {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -212,7 +262,7 @@
     text-overflow: ellipsis;
 }
 
-.myPageBuy .user_info .name{
+.myPageBuy .user_info .name {
     color: #000;
     display: flex;
     font-size: 18px;
@@ -221,7 +271,7 @@
     line-height: 21px;
 }
 
-.myPageBuy .user_info .email{
+.myPageBuy .user_info .email {
     color: rgba(34, 34, 34, .5);
     font-size: 14px;
     letter-spacing: -.21px;
@@ -229,26 +279,27 @@
     line-height: 18px;
 }
 
-.myPageBuy .lg .info-buttons, .myPageBuy .md .info-buttons{
+.myPageBuy .lg .info-buttons,
+.myPageBuy .md .info-buttons {
     padding-top: 0;
 }
 
-.myPageBuy .info-buttons{
+.myPageBuy .info-buttons {
     padding-top: 12px;
 }
 
-.myPageBuy .btn{
+.myPageBuy .btn {
     align-self: flex-start;
     height: 36px;
     line-height: 34px;
 }
 
-.myPageBuy .outlinegrey{
+.myPageBuy .outlinegrey {
     border: 1px solid #d3d3d3;
     color: rgba(34, 34, 34, .8);
 }
 
-.myPageBuy .small{
+.myPageBuy .small {
     border-radius: 10px;
     font-size: 12px;
     height: 34px;
@@ -256,7 +307,7 @@
     padding: 0 14px;
 }
 
-.myPageBuy .btn{
+.myPageBuy .btn {
     align-items: center;
     background-color: #fff;
     color: rgba(34, 34, 34, .8);
@@ -267,7 +318,8 @@
     vertical-align: middle;
 }
 
-.myPageBuy .lg .shortcut-grid, .myPageBuy .md .shortcut-grid{
+.myPageBuy .lg .shortcut-grid,
+.myPageBuy .md .shortcut-grid {
     border: 1px solid #ebebeb;
     border-radius: 10px;
     padding-bottom: 24px;
@@ -275,45 +327,46 @@
     row-gap: 20px;
 }
 
-.myPageBuy .lg .shortcut-grid{
+.myPageBuy .lg .shortcut-grid {
     grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
-.myPageBuy .shortcut-grid{
+.myPageBuy .shortcut-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.myPageBuy .my_home_title{
+.myPageBuy .my_home_title {
     display: flex;
     max-width: 100%;
     padding-bottom: 0px;
 }
 
-.myPageBuy .my_home_title .title{
+.myPageBuy .my_home_title .title {
     font-size: 18px;
     letter-spacing: -.27px;
 }
 
-.myPageBuy .purchase_list_tab{
+.myPageBuy .purchase_list_tab {
     background-color: #fafafa;
     border-radius: 12px;
     display: flex;
     width: 100%;
 }
 
-.myPageBuy .tab_item{
+.myPageBuy .tab_item {
     display: flex;
     flex: 1;
     text-align: center;
 }
 
 .myPageBuy .tab_item.tab_on {
-    border-bottom: 2px solid #000; /* 활성화된 탭 */
+    border-bottom: 2px solid #000;
+    /* 활성화된 탭 */
     font-weight: bold;
 }
 
-.myPageBuy .tab_link{
+.myPageBuy .tab_link {
     display: block;
     flex: 1;
     padding-bottom: 10px;
@@ -322,7 +375,7 @@
 }
 
 @media (min-width: 961px) {
-    .myPageBuy .tab_link{
+    .myPageBuy .tab_link {
         padding-bottom: 18px;
         padding-top: 18px;
     }
@@ -338,12 +391,12 @@
 }
 
 @media (min-width: 961px) {
-    .myPageBuy .tab_link .title{
+    .myPageBuy .tab_link .title {
         font-size: 13px;
     }
 }
 
-.myPageBuy .tab_link .title{
+.myPageBuy .tab_link .title {
     color: rgba(34, 34, 34, .8);
     font-size: 12px;
 }
@@ -353,17 +406,17 @@
     unicode-bidi: isolate;
 }
 
-.myPageBuy .tab_item.total .count{
+.myPageBuy .tab_item.total .count {
     color: #f15746;
 }
 
 @media (min-width: 961px) {
-    .myPageBuy .tab_link .count{
+    .myPageBuy .tab_link .count {
         font-size: 18px;
     }
 }
 
-.myPageBuy .tab_link .count{
+.myPageBuy .tab_link .count {
     font-size: 15px;
     font-weight: 700;
     letter-spacing: -.09px;
@@ -381,29 +434,29 @@
     width: 1px;
 }
 
-.myPageBuy .tab_link .hold{
+.myPageBuy .tab_link .hold {
     color: #ff7500;
     font-size: 12px;
     letter-spacing: -.06px;
     line-height: 19px;
 }
 
-.myPageBuy .purchase_list_display_item{
+.myPageBuy .purchase_list_display_item {
     align-items: center;
     border-bottom: 1px solid #ebebeb;
     display: flex;
     padding: 25px;
 }
 
-.myPageBuy .purchase_list_product{
+.myPageBuy .purchase_list_product {
     display: flex;
 }
 
-.myPageBuy .purchase_list_product .list_item_img_wrap{
+.myPageBuy .purchase_list_product .list_item_img_wrap {
     position: relative;
 }
 
-.myPageBuy .purchase_list_product .list_item_img_wrap .list_item_img{
+.myPageBuy .purchase_list_product .list_item_img_wrap .list_item_img {
     border-radius: 12px;
     height: 80px;
     -o-object-fit: cover;
@@ -411,7 +464,7 @@
     width: 80px;
 }
 
-.myPageBuy .purchase_list_product .list_item_title_wrap{
+.myPageBuy .purchase_list_product .list_item_title_wrap {
     align-self: center;
     display: flex;
     flex-direction: column;
@@ -421,7 +474,7 @@
     row-gap: 13px;
 }
 
-.myPageBuy .purchase_list_product .list_item_title_wrap .list_item_price{
+.myPageBuy .purchase_list_product .list_item_title_wrap .list_item_price {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -432,7 +485,7 @@
     text-overflow: ellipsis;
 }
 
-.myPageBuy .purchase_list_product .list_item_title_wrap .list_item_title{
+.myPageBuy .purchase_list_product .list_item_title_wrap .list_item_title {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -443,7 +496,7 @@
     text-overflow: ellipsis;
 }
 
-.myPageBuy .purchase_list_product .list_item_title_wrap .list_item_description{
+.myPageBuy .purchase_list_product .list_item_title_wrap .list_item_description {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     color: rgba(34, 34, 34, .5);
@@ -458,56 +511,57 @@
     text-overflow: ellipsis;
 }
 
-.myPageBuy .list_item_status{
+.myPageBuy .list_item_status {
     align-items: center;
     display: flex;
     margin-left: auto;
     text-align: right;
 }
 
-.myPageBuy .list_item_status .column_secondary{
+.myPageBuy .list_item_status .column_secondary {
     font-size: 13px;
     letter-spacing: -.07px;
 }
 
-.myPageBuy .list_item_status .list_item_column{
+.myPageBuy .list_item_status .list_item_column {
     margin-left: 10px;
     width: 134px;
 }
 
-.myPageBuy .list_item_status .column_last{
+.myPageBuy .list_item_status .column_last {
     align-self: center;
     display: flex;
     flex-direction: column;
 }
 
-.myPageBuy .list_item_status .list_item_column{
+.myPageBuy .list_item_status .list_item_column {
     margin-left: 10px;
     width: 134px;
 }
 
-.myPageBuy .list_item_status .column_last .last_title{
+.myPageBuy .list_item_status .column_last .last_title {
     font-size: 14px;
     letter-spacing: -.21px;
 }
 
-.myPageBuy .list_item_status .column_last .last_description.action_named_action{
+.myPageBuy .list_item_status .column_last .last_description.action_named_action {
     -webkit-text-decoration: underline;
     text-decoration: underline;
 }
 
-.myPageBuy .list_item_status .column_last .last_description{
+.myPageBuy .list_item_status .column_last .last_description {
     font-size: 12px;
     letter-spacing: -.06px;
     overflow: hidden;
     word-break: keep-all;
 }
 
-.myPageBuy .purchase_list_tab.inventory .tab_item.total .count, .myPageBuy .purchase_list_tab.sell .tab_item.total .count{
+.myPageBuy .purchase_list_tab.inventory .tab_item.total .count,
+.myPageBuy .purchase_list_tab.sell .tab_item.total .count {
     color: #31b46e;
 }
 
-.myPageBuy .my_home_title .btn_more{
+.myPageBuy .my_home_title .btn_more {
     align-items: center;
     display: inline-flex;
     flex-shrink: 0;
@@ -515,11 +569,11 @@
     padding-left: 5px;
 }
 
-.myPageBuy .interest_product{
+.myPageBuy .interest_product {
     margin: 0 -10px;
 }
 
-.myPageBuy .product_item{
+.myPageBuy .product_item {
     display: inline-block;
     margin: 20px 0;
     padding: 0 12px;
@@ -528,48 +582,53 @@
     width: 25%;
 }
 
-.myPageBuy .product_item .item_inner{
+.myPageBuy .product_item .item_inner {
     background-color: #fff;
     border-radius: 12px;
     display: block;
 }
 
-.myPageBuy .product{
+.myPageBuy .product {
     border-radius: 8px;
     overflow: hidden;
     padding-top: 100%;
     position: relative;
 }
 
-.myPageBuy .detail_stock .product_img, .myPageBuy .is_exclusive .product_img, .myPageBuy .lucky_draw_column .product_img, .myPageBuy .other_stock .product_img, .myPageBuy .product_img, .myPageBuy .stock .product_img{
+.myPageBuy .detail_stock .product_img,
+.myPageBuy .is_exclusive .product_img,
+.myPageBuy .lucky_draw_column .product_img,
+.myPageBuy .other_stock .product_img,
+.myPageBuy .product_img,
+.myPageBuy .stock .product_img {
     height: auto;
     width: 100%;
 }
 
-.myPageBuy .product_img{
+.myPageBuy .product_img {
     left: 50%;
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
 }
 
-.myPageBuy .picture{
+.myPageBuy .picture {
     border: none;
     display: flex;
 }
 
-.myPageBuy .image.full_width{
+.myPageBuy .image.full_width {
     height: 100%;
     width: 100%;
 }
 
-.myPageBuy .image{
+.myPageBuy .image {
     image-rendering: auto;
     -o-object-fit: cover;
     object-fit: cover;
 }
 
-.myPageBuy .product_item .btn_wish{
+.myPageBuy .product_item .btn_wish {
     bottom: 3px;
     display: inline-flex;
     padding: 5px;
@@ -578,7 +637,7 @@
     z-index: 1;
 }
 
-.myPageBuy .btn_wish{
+.myPageBuy .btn_wish {
     display: flex;
     height: inherit;
 }
@@ -592,7 +651,7 @@
     width: 24px;
 }
 
-.myPageBuy .product_item .info_box{
+.myPageBuy .product_item .info_box {
     padding: 9px 4px 0;
 }
 
@@ -607,7 +666,7 @@
     margin-bottom: 2px;
 }
 
-.myPageBuy .brand-text > .brand-name {
+.myPageBuy .brand-text>.brand-name {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -616,16 +675,18 @@
     text-overflow: ellipsis;
 }
 
-.myPageBuy .product_item .price{
+.myPageBuy .product_item .price {
     padding-top: 12px;
 }
 
-.myPageBuy .product_item .amount{
+.myPageBuy .product_item .amount {
     font-size: 0;
     line-height: 0;
 }
 
-.myPageBuy .product_item .discount_rate, .myPageBuy .product_item .num, .myPageBuy .product_item .won{
+.myPageBuy .product_item .discount_rate,
+.myPageBuy .product_item .num,
+.myPageBuy .product_item .won {
     display: inline-block;
     font-size: 14px;
     font-weight: 700;
@@ -642,73 +703,74 @@
     text-overflow: ellipsis;
 }
 
-.myPageBuy .text-lookup.bold{
+.myPageBuy .text-lookup.bold {
     font-weight: 700;
 }
 
-.myPageBuy address, .myPageBuy em {
+.myPageBuy address,
+.myPageBuy em {
     font-style: normal;
 }
 
-.myPageBuy .product_item .desc{
+.myPageBuy .product_item .desc {
     color: rgba(34, 34, 34, .5);
     font-size: 11px;
     line-height: 13px;
     margin-top: 2px;
 }
 
-.myPageBuy .content_title{
+.myPageBuy .content_title {
     display: flex;
 }
 
-.myPageBuy .title{
+.myPageBuy .title {
     font-size: 24px;
     letter-spacing: -.36px;
 }
 
-.myPageBuy .purchase_list_tab.detail_tab{
+.myPageBuy .purchase_list_tab.detail_tab {
     background-color: #fff;
     border-radius: 0;
     margin-top: 20px;
 }
 
-.myPageBuy .purchase_list_tab.detail_tab .tab_link{
+.myPageBuy .purchase_list_tab.detail_tab .tab_link {
     border-bottom: 1px solid #ebebeb;
     height: 80px;
     padding-top: 10px;
 }
 
-.myPageBuy .purchase_list_tab.detail_tab .tab_box{
+.myPageBuy .purchase_list_tab.detail_tab .tab_box {
     display: flex;
     flex-direction: column-reverse;
 }
 
-.myPageBuy .purchase_list_tab.detail_tab .tab_on .title{
+.myPageBuy .purchase_list_tab.detail_tab .tab_on .title {
     color: #222;
     font-weight: 700;
 }
 
-.myPageBuy .purchase_list_tab.detail_tab .title{
+.myPageBuy .purchase_list_tab.detail_tab .title {
     color: rgba(34, 34, 34, .5);
 }
 
-.myPageBuy .purchase_list_tab.detail_tab .tab_on .count{
+.myPageBuy .purchase_list_tab.detail_tab .tab_on .count {
     color: #f15746;
 }
 
-.myPageBuy .purchase_list_tab.detail_tab .count{
+.myPageBuy .purchase_list_tab.detail_tab .count {
     font-size: 20px;
     letter-spacing: -.1px;
     line-height: 24px;
     margin-top: 0;
 }
 
-.myPageBuy .title>h3{
+.myPageBuy .title>h3 {
     font-size: inherit;
     line-height: 29px;
 }
 
-.myPageBuy .layer{
+.myPageBuy .layer {
     bottom: 0;
     left: 0;
     position: fixed;
@@ -717,7 +779,7 @@
     z-index: 1010;
 }
 
-.myPageBuy .layer .layer-background{
+.myPageBuy .layer .layer-background {
     background-color: rgba(34, 34, 34, .5);
     bottom: 0;
     height: 100%;
@@ -728,7 +790,7 @@
     width: 100%;
 }
 
-.myPageBuy .layer_container{
+.myPageBuy .layer_container {
     background-color: #fff;
     border-radius: 16px;
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .1);
@@ -740,7 +802,7 @@
     width: 448px;
 }
 
-.myPageBuy .layer_header .title{
+.myPageBuy .layer_header .title {
     background-color: #fff;
     color: #000;
     font-size: 18px;
@@ -753,57 +815,59 @@
     text-align: center;
 }
 
-.myPageBuy .layer_content{
+.myPageBuy .layer_content {
     text-align: center;
 }
 
-.myPageBuy .layer_content .description_text{
+.myPageBuy .layer_content .description_text {
     font-size: 13px !important;
     font-weight: 400 !important;
     letter-spacing: -.07px !important;
 }
 
-.myPageBuy .size_list_area{
+.myPageBuy .size_list_area {
     height: 220px;
     overflow-x: hidden;
     overflow-y: auto;
     padding: 6px 28px 0;
 }
 
-.myPageBuy .Fraud_Prevention{
+.myPageBuy .Fraud_Prevention {
     color: #f15746;
 }
 
-.myPageBuy .layer_btn{
+.myPageBuy .layer_btn {
     display: flex;
     justify-content: center;
     padding: 24px 32px 32px;
 }
 
-.myPageBuy .layer_btn .btn{
+.myPageBuy .layer_btn .btn {
     width: 120px;
     border-radius: 30px;
+    /* 버튼 기본 스타일 제거 */
+    border: none;
 }
 
-.myPageBuy .solid{
+.myPageBuy .solid {
     background-color: #222;
     color: #fff;
     font-weight: 700;
 }
 
-.myPageBuy .solid_cancel{
+.myPageBuy .solid_cancel {
     background-color: #f3f3f3;
     color: #222;
     font-weight: 700;
 }
 
-.myPageBuy .medium{
+.myPageBuy .medium {
     height: 42px;
     letter-spacing: -.14px;
     padding: 0 18px;
     margin: 0 8px;
 }
 
-.myPageBuy .confirm_purchase{
+.myPageBuy .confirm_purchase {
     cursor: pointer;
 }
