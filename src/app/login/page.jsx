@@ -1,6 +1,8 @@
-"use client"
-import { Button, TextField } from '@mui/material';
+"use client";
+import { createTheme, ThemeProvider, TextField } from '@mui/material';
 import React, { useState, useRef, useEffect } from 'react';
+import styles from './login.module.css'; // CSS 모듈 import
+import './login.css';
 
 
 // zustand store 호출
@@ -72,7 +74,8 @@ const LoginPage = () => {
   const emailInputRef = useRef(null);
 
   useEffect(() => {
-    // 페이지 로드 시 이메일 입력 필드에 포커스
+    // 상태 초기화 및 포커스 설정
+    setUvo(initUvo);
     if (emailInputRef.current) {
       emailInputRef.current.focus();
     }
@@ -81,12 +84,13 @@ const LoginPage = () => {
   function changeUvo(e) {
     const { name, value } = e.target;
     setUvo(prev => ({
-      ...prev, [name]: value
+      ...prev,
+      [name]: value
     }));
   }
+
   function handleKeyDown(e) {
     if (!isBtnChk && e.key === "Enter") {
-      // 로그인 버튼 동작 처리
       handleLogin();
     }
   }
@@ -96,6 +100,30 @@ const LoginPage = () => {
     // 로그인 로직 추가
   }
 
+  if (!uvo) {
+    return <div>로딩 중...</div>; // 상태 초기화 중 로딩 표시
+  }
+
+// TextField 커스텀
+const theme = createTheme({
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiInput-underline:before': {
+            borderBottom: '2px solid #ccc', // 비활성 상태의 border
+          },
+          '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
+            borderBottom: '2px solid #000000', // 호버 상태의 border
+          },
+          '& .MuiInput-underline:after': {
+            borderBottom: '3px solid #000000', // 포커스 상태의 border
+          },
+        },
+      },
+    },
+  },
+});
   //네이버 로그인
   const handleNaverLogin = () => {
     window.location.href = "http://localhost:8080/oauth2/authorization/naver";
@@ -112,137 +140,86 @@ const LoginPage = () => {
   };
 
   return (
-    <div style={{ textAlign: 'center' }}>
+    <div className="background_container">
+      <div className="all_container">
+        <div className="paper_card">
+          <div className={styles.container}>
+            <div className={styles.maxwidth_contain}>
+              <img src="./images/HY_logo.png" alt="Logo" className={styles.logo} />
+              <form className={styles.formContainer} onKeyDown={handleKeyDown}>
+                <label className={styles.label}>이메일 주소</label>
+                <ThemeProvider  theme={theme}>
+                <TextField
+                  variant="standard"
+                  name="m_id"
+                  value={uvo.m_id}
+                  onChange={changeUvo}
+                  type="email"
+                  placeholder="예) ict@ict.com"
+                  inputRef={emailInputRef}
+                  className={styles.textField}
+                />
+                </ThemeProvider>
+                <label className={styles.label}>비밀번호</label>
+                <ThemeProvider  theme={theme}>
+                <TextField
+                  variant="standard"
+                  name="m_pw"
+                  value={uvo.m_pw}
+                  onChange={changeUvo}
+                  type="password"
+                  className={styles.textField}
+                />
+                </ThemeProvider>
 
-      <img src="./images/HY_logo.png" alt="Logo" style={{ width: '300px', marginBottom: '40px', marginTop: '10px' }} />
+                <button
+                  fullWidth
+                  variant="contained"
+                  disabled={isBtnChk}
+                  onClick={handleLogin}
+                  className={isBtnChk ? `${styles.loginButton} ${styles.loginButtonDisabled}` : styles.loginButton}
+                >
+                  로그인 버튼
+                </button>
 
-      <form style={{ marginTop: '30px', display: 'flex', flexDirection: 'column', alignItems: 'center' }} onKeyDown={handleKeyDown}>{ /* 폼 전체에 키 이벤트 추가 */}
-        <label style={{ marginBottom: '20px', fontSize: '14px', width: '400px', textAlign: 'left' }}>
-          이메일 주소</label>
-        <TextField variant="standard"
-          name='m_id'
-          value={uvo.m_id}
-          onChange={changeUvo}
-          type="email"
-          placeholder="예) ict@ict.com"
-          inputRef={emailInputRef} // 참조 연결
-          style={{
-            width: '400px',
-            marginTop: '0px',
-            marginBottom: '20px',
-            border: 'none',
-            borderBottom: '1px solid gray',
-            outline: 'none',
-            backgroundColor: 'transparent',
-          }}
-        />
+                <div className={styles.linkContainer}>
+                  <a href="/register" className={styles.link}>회원가입</a>
+                  <a>|</a>
+                  <a href="/findid" className={styles.link}>아이디 찾기</a>
+                  <a>|</a>
+                  <a href="/findpw" className={styles.link}>비밀번호 찾기</a>
+                </div>
+                <button 
+                type="button" 
+                className={`${styles.snsLoginButton} ${styles.snsLoginButtonNaver}`}
+                onClick={handleNaverLogin} // 클릭 시 로그인 처리 함수 호출
+                >
+                  <img src="./images/HY_naverlogo.png" alt="" />
+                  네이버로 로그인
+                </button>
 
-        <label style={{ marginBottom: '20px', fontSize: '14px', width: '400px', textAlign: 'left' }}>
-          비밀번호  </label>
-        <TextField variant="standard"
-          name='m_pw'
-          value={uvo.m_pw}
-          onChange={changeUvo}
-          type="password"
-          style={{
-            width: '400px',
-            marginTop: '0px',
-            marginBottom: '20px',
-            border: 'none',
-            borderBottom: '1px solid gray',
-            outline: 'none',
-            backgroundColor: 'transparent',
-          }}
-        />
+                <button 
+                type="button" 
+                className={`${styles.snsLoginButton} ${styles.snsLoginButtonKakao}`}
+                onClick={handleKakaoLogin} // 클릭 시 로그인 처리 함수 호출
+                >
+                  <img src="./images/HY_kakaologo.png" alt="" />
+                  카카오로 로그인
+                </button>
 
-        <Button
-          fullWidth variant='contained'
-          disabled={isBtnChk}
-          onClick={handleLogin} // 로그인 버튼 클릭 처리
-          style={{
-            width: '400px',
-            padding: '10px',
-            backgroundColor: isBtnChk ? 'lightgray' : '#000',
-            marginTop: '20px',
-            color: 'white',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            marginBottom: '20px',
-          }}
-        >
-          로그인 버튼
-        </Button>
-        <div style={{ justifyContent: 'space-between', margin: '10px', marginBottom: '40px', fontSize: '12px', width: '400px', display: 'flex' }}>
-          <a href="/register" style={{ color: 'black' }}>회원가입</a>
-          <a>|</a>
-          <a href="/findid" style={{ color: 'black' }}>아이디 찾기</a>
-          <a>|</a>
-          <a href="/findpw" style={{ color: 'black' }}>비밀번호 찾기</a>
+                <button type="button" className={`${styles.snsLoginButton} ${styles.snsLoginButtonGoogle}`}
+                onClick={handleGoogleLogin} // 클릭 시 로그인 처리 함수 호출
+                >
+                  <img src="./images/HY_googlelogo.png" alt="" />
+                  구글로 로그인
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
-        <Button
-          type="button"
-          onClick={handleNaverLogin} // 클릭 시 로그인 처리 함수 호출
-          style={{
-            width: '400px',
-            border: '1px solid lightgray',
-            backgroundColor: '#fff',
-            marginBottom: '10px',
-            color: "black",
-            borderRadius: '5px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center', // 수직 정렬
-            justifyContent: 'flex-start', // 로고는 왼쪽, 텍스트는 중앙
-            gap: '110px', // 로고와 텍스트 간격
-          }}
-        >
-          <img src="./images/HY_naverlogo.png" style={{ width: '40px' }} alt="" />
-          네이버로 로그인
-        </Button>
-        <Button
-          type="button"
-          onClick={handleKakaoLogin} // 클릭 시 로그인 처리 함수 호출
-          style={{
-            width: '400px',
-            padding: '10px',
-            border: '1px solid lightgray',
-            backgroundColor: '#fff',
-            marginBottom: '10px',
-            color: "black",
-            borderRadius: '5px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center', // 수직 정렬
-            justifyContent: 'flex-start', // 로고는 왼쪽, 텍스트는 중앙
-            gap: '115px', // 로고와 텍스트 간격
-          }}
-        >
-          <img src="./images/HY_kakaologo.png" style={{ width: '30px', paddingLeft: '2px' }} alt="" />
-          카카오로 로그인
-        </Button>
-        <Button
-          type="button"
-          onClick={handleGoogleLogin} // 클릭 시 로그인 처리 함수 호출
-          style={{
-            width: '400px',
-            padding: '10px',
-            border: '1px solid lightgray',
-            backgroundColor: '#fff',
-            marginBottom: '10px',
-            color: "black",
-            borderRadius: '5px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center', // 수직 정렬
-            justifyContent: 'flex-start', // 로고는 왼쪽, 텍스트는 중앙
-            gap: '120px', // 로고와 텍스트 간격
-          }}
-        >
-          <img src="./images/HY_googlelogo.png" style={{ width: '30px', paddingLeft: '2px' }} alt="" />
-          구글로 로그인
-        </Button>
-      </form>
+      </div>
     </div>
+    
   );
 };
 

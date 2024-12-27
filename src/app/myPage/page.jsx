@@ -106,6 +106,7 @@ function Page(props) {
                                                         </p>
                                                         <p className='text-lookup last_description display_paragraph action_named_action'
                                                             onClick={handleModalOpen}
+                                                            style={{marginTop:'5px'}}
                                                         >구매 확정</p>
                                                         {isModalOpen && (
                                                             <div className='layer lg'>

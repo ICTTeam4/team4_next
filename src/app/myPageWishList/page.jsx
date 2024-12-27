@@ -37,7 +37,7 @@ function Page(props) {
                                     <button className={`filter_button line ${activeFilter === '찜 한 상품' ? 'active' : ''}`}
                                         onClick={() => handleFilterClick('찜 한 상품')}>
                                         <p className='text-group'>
-                                            <span className='title'>찜 한 상품</span>
+                                            <span className='title_name'>찜 한 상품</span>
                                             <span className='num'></span>
                                         </p>
                                     </button>
@@ -49,7 +49,7 @@ function Page(props) {
                                     <button className={`filter_button line ${activeFilter === '최근 본 상품' ? 'active' : ''}`}
                                         onClick={() => handleFilterClick('최근 본 상품')}>
                                         <p className='text-group'>
-                                            <span className='title'>최근 본 상품</span>
+                                            <span className='title_name'>최근 본 상품</span>
                                             <span className='num'></span>
                                         </p>
                                     </button>

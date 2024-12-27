@@ -296,7 +296,7 @@
     padding-bottom: 0px;
 }
 
-.myPageWishList .my_home_title .title{
+.myPageWishList .my_home_title .title_name{
     font-size: 18px;
     letter-spacing: -.27px;
 }
@@ -344,12 +344,12 @@
 }
 
 @media (min-width: 961px) {
-    .myPageWishList .tab_link .title{
+    .myPageWishList .tab_link .title_name{
         font-size: 13px;
     }
 }
 
-.myPageWishList .tab_link .title{
+.myPageWishList .tab_link .title_name{
     color: rgba(34, 34, 34, .8);
     font-size: 12px;
 }
@@ -701,12 +701,12 @@
     flex-direction: column-reverse;
 }
 
-.myPageWishList .purchase_list_tab.detail_tab .tab_on .title{
+.myPageWishList .purchase_list_tab.detail_tab .tab_on .title_name{
     color: #222;
     font-weight: 700;
 }
 
-.myPageWishList .purchase_list_tab.detail_tab .title{
+.myPageWishList .purchase_list_tab.detail_tab .title_name{
     color: rgba(34, 34, 34, .5);
 }
 
@@ -721,7 +721,7 @@
     margin-top: 0;
 }
 
-.myPageWishList .title>h3{
+.myPageWishList .title_name > h3{
     font-size: 24px;
     line-height: 29px;
 }

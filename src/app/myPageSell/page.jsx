@@ -189,9 +189,10 @@ function Page(props) {
             {/* 모달 팝업 */}
             {isModalOpen && (
                 <div className="review_modal-overlay">
+                    <div className="big_review_modal-content">
                     <div className="review_modal-content">
                         <button className="close-btn" onClick={closeModal}>&times;</button>
-                        <h3>리뷰 작성</h3>
+                        <div style={{padding:'20px'}}><h3>리뷰 작성</h3></div>
                         <div className="rating">
                             {Array(5)
                                 .fill(0)
@@ -206,11 +207,14 @@ function Page(props) {
                                         }}>★</span>
                                 ))}
                         </div>
-                        <textarea placeholder="판매자에게 전하고 싶은 후기를 남겨주세요." rows="5"></textarea>
+                        <div style={{paddingTop:'15px', paddingBottom:'20px'}}>
+                        <textarea placeholder="  판매자에게 전하고 싶은 후기를 남겨주세요." rows="5"></textarea>
+                        </div>
                         {/* 사진 추가 영역 */}
-                        <div className="image-upload" style={{ textAlign: 'left' }}>
-                            <label htmlFor="fileInput" style={{ textAlign: 'left' }}>사진 추가</label>
+                        <div className="image-upload" >
+                            <label htmlFor="fileInput" style={{width:'80px', height:'31px', fontSize:'15px'}} >사진 추가</label>
                             <input
+                            
                                 type="file"
                                 id="fileInput"
                                 multiple
@@ -234,9 +238,11 @@ function Page(props) {
                         </div>
                         {/* 모달 하단 버튼 */}
                         <div className="modal-actions">
-                            <button className="cancel-btn" onClick={closeModal}>취소</button>
-                            <button className="submit-btn">작성하기</button>
+                            <button className="cancel-btn" onClick={closeModal}>취 소</button>
+                            <a style={{width:'20px', color:'white'}}>.         .        .</a>
+                            <button className="submit-btn">작 성 하 기</button>
                         </div>
+                    </div>
                     </div>
                 </div>
             )}

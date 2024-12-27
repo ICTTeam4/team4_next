@@ -10,6 +10,8 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import * as StompJs from '@stomp/stompjs'; // 추가: STOMP WebSocket 라이브러리
 import SockJS from 'sockjs-client'; // 추가: SockJS WebSocket 폴리필..??
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
 
 const Page = ({ room_id, host_id }) => {
   const previewRef = useRef(null); //사진,동영상 미리보기 플로팅 상태관리
@@ -117,8 +119,8 @@ const Page = ({ room_id, host_id }) => {
       <section className="product-info">
         <div className="product-photo"><img src='../images/HY_cup1.jpg' /></div>
         <div className="product-details">
-          <h3>8,000원</h3>
-          <p>찻잔 세트 싸게 팝니다</p> 
+          <h4>8,000원</h4>
+          <p>찻잔 세트 싸게 팝니다</p>
         </div>
       </section>
       {/* 파일 미리보기 플로팅 */}
@@ -161,27 +163,55 @@ const Page = ({ room_id, host_id }) => {
         }}
       >
         {messages.map((msg, index) => (
-          <Card
+
+          <Box
             key={index}
-            variant="outlined"
-            style={{
+            sx={{
               margin: '10px',
-              backgroundColor: msg.name === 'user' ? '#e0f7fa' : '#ffffff',
+             
               marginLeft: msg.name === 'user' ? 'auto' : '10px',
               marginRight: msg.name === 'user' ? '10px' : 'auto',
-              maxWidth: '70%',
-              alignSelf: msg.name === 'user' ? 'flex-end' : 'flex-start'
+              maxWidth: { xs: '100%', sm: '70%' },
+              alignSelf: msg.name === 'user' ? 'flex-end' : 'flex-start',
+              // border: '1px solid rgba(0, 0, 0, 0.1)',
+              borderRadius: '8px', // 더 부드러운 테두리
+              padding: '8px', // 박스 안쪽 여백
+              marginBottom: '20px', // 메시지 간의 간격
             }}
           >
-            <CardContent style={{ wordWrap: 'break-word' }}>
-              <Typography variant="body2" component="p" style={{ color: 'black' }}>
+            <Paper elevation={6} style={{ padding: '12px', backgroundColor: msg.name === 'user' ? '#f1f1ea' : '#ebf0f5'}} sx={{
+              padding: '10px',
+              backgroundColor: msg.name === 'user' ? '#e0f7fa' : '#ffffff', // Paper에도 배경색 적용
+              borderRadius: '4px', // Paper의 모서리도 둥글게
+            }}>
+              <Typography
+                variant="body2"
+                component="p"
+                style={{
+                  color: 'black',
+                  wordWrap: 'break-word', // 긴 텍스트 처리
+                  lineHeight: '1.5', // 텍스트 가독성 향상
+                }}
+              >
                 {msg.message || 'No message'}
               </Typography>
-              <Typography color="textSecondary" style={{ fontSize: '14px', textAlign: msg.sender === 'user' ? 'right' : 'left' }}>
-                {msg.timestamp || ''} {msg.read && msg.sender === 'user' ? <Check style={{ fontSize: 'small' }} /> : ''}
+              <Typography
+                color="textSecondary"
+                style={{
+                  fontSize: '14px',
+                  textAlign: msg.name === 'user' ? 'right' : 'left',
+                  marginTop: '8px', // 텍스트와 타임스탬프 간 간격
+                }}
+              >
+                {msg.timestamp || ''}{' '}
+                {msg.read && msg.name === 'user' ? (
+                  <Check style={{ fontSize: 'small' }} />
+                ) : (
+                  ''
+                )}
               </Typography>
-            </CardContent>
-          </Card>
+            </Paper>
+          </Box>
         ))}
         {/* 추가: 스크롤을 위한 마지막 메시지 참조 */}
         <div ref={messagesEndRef} />
@@ -215,7 +245,21 @@ const Page = ({ room_id, host_id }) => {
           />
         </div>
         <div className="input-right">
-          <button className="send-button" onClick={sendMessage}>⬆</button>
+          <button className="send-button" onClick={sendMessage}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              viewBox="-2 -4 30 30"
+              fill="none"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M22 2L11 13" />
+              <path d="M22 2L15 22L11 13L2 9L22 2Z" />
+            </svg></button>
         </div>
       </footer>
 

@@ -80,7 +80,7 @@ const NoticesPage = () => {
       <h2 style={{ color: '#333', borderBottom: '3px solid black', paddingBottom: '10px', textAlign: 'left' }}>공지사항</h2>
       <div>
         {notices.map((notice) => (
-          <div key={notice.id} style={{ padding: '10px 0', borderBottom: '1px solid #ccc' }}>
+          <div key={notice.id} style={{ padding: '5px 0', borderBottom: '1px solid #ccc' }}>
             <Button onClick={() => handleClickOpen(notice)} style={{ textDecoration: 'none', color: 'black', textTransform: 'none', width: '100%', justifyContent: 'left' }}>
               {notice.text}
             </Button>
