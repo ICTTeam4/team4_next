@@ -297,13 +297,13 @@ function Page(props) {
                                             <div className='item_inner'>
                                                 <div className='thumb_box'>
                                                     <div className='product' style={{ backgroundColor: "rgb(244, 244, 244)" }}>
-                                                        <a href="#">
+                                                        <Link href="/myPageWishList">
                                                             <picture className='picture product_img'>
                                                                 <source type="image/webp" srcSet='/images/JH_itemImg2.png' />
                                                                 <source srcSet='/images/JH_itemImg2.png' />
                                                                 <img alt="Nike Air Max" src="/images/JH_itemImg2.png" loading='lazy' className='image full_width' />
                                                             </picture>
-                                                        </a>
+                                                        </Link>
                                                         <span aria-label='관심상품' role='button' className='btn_wish'>
                                                             <svg xmlns="http://www.w3.org/2000/svg" className='icon sprite-icons ico-wish-on'>
                                                                 <use href="/JH_wishIco.svg#i_ico-wish-on" />

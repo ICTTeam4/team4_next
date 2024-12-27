@@ -27,15 +27,15 @@ export default function RootLayout({ children }) {
          <Notifications />
         <hr />
         {children}
-        <hr />
+        <hr/>
         {/* 형태를 위한 DIV */}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div style={{ maxWidth: '1280px', minWidth: '510px' }}>
             {/* 푸터 */}
-            <Footer />
+            <Footer/>
           </div>
         </div>
-        <hr />
+        <hr/>
       </body>
     </html>
   );
