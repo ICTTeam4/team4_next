@@ -8,27 +8,9 @@ import Script from 'next/script';
 
 function Page(props) {
     const pathname = usePathname();
-    const [defaultId, setDefaultId] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-
-    // 기본 배송지 상태 (ID로 구분)
-    const [addresses, setAddresses] = useState([
-        {
-            id: 1,
-            name: "홍길동",
-            phone: "010-1234-5678",
-            zipcode: "(12345)",
-            address: "서울 동대문구 전농로땡땡길 12-34 (휘경동) 123호",
-        },
-        {
-            id: 2,
-            name: "둘리",
-            phone: "010-1234-5678",
-            zipcode: "(56789)",
-            address: "서울 서대문구 땡땡로12길 34-56 (땡땡동) 789호",
-        },
-    ]);
+    const [isEditing, setIsEditing] = useState(false); // 수정 모드 여부
+    const [editingAddressId, setEditingAddressId] = useState(null); // 수정할 주소 ID
 
     // 새 주소 추가 모달 내 입력 필드 상태 관리
     const [name, setName] = useState("");
@@ -38,25 +20,77 @@ function Page(props) {
     const [detailAddress, setDetailAddress] = useState("");
     const [isChecked, setIsChecked] = useState(false);
 
+
+    // 기본 배송지 상태 (ID로 구분)
+    const [addresses, setAddresses] = useState([
+        {
+            id: 1,
+            name: "홍길동",
+            phone: "010-1234-5678",
+            zipcode: "(12345)",
+            address: "서울 동대문구 전농로땡땡길 12-34 (휘경동)",
+            detailAddress: "123호",
+            isDefault: true, // 기본 배송지
+        },
+        {
+            id: 2,
+            name: "둘리",
+            phone: "010-1234-5678",
+            zipcode: "(56789)",
+            address: "서울 서대문구 땡땡로12길 34-56 (땡땡동)",
+            detailAddress: "789호",
+            isDefault: false,
+        },
+    ]);
+
+
+
     // 모든 필드 채워졌는지 확인하는 유효성 로직
-    const isFormValid = name.trim() !== "" && phone.trim() !== "" && zipcode.trim() !== ""
-        && address.trim() !== "" && detailAddress.trim() !== "";
+    const isFormValid = (name?.trim() || "") !== "" &&
+        (phone?.trim() || "") !== "" &&
+        (zipcode?.trim() || "") !== "" &&
+        (address?.trim() || "") !== "" &&
+        (detailAddress?.trim() || "") !== "";
 
     const handleSetDefault = (id) => {
-        setAddresses((prev) => {
-            const selected = prev.find((item) => item.id === id); // 선택된 주소 찾기
-            const others = prev.filter((item) => item.id !== id); // 나머지 주소들
-            return [selected, ...others]; // 선택된 주소를 맨 위로 배치
-        });
-        setDefaultId(id); // 기본 배송지 ID 업데이트
+        setAddresses((prev) =>
+            prev.map((addr) => ({
+                ...addr,
+                isDefault: addr.id === id,
+            }))
+        );
     };
 
-    const handleModalOpen = () => {
-        setIsModalOpen(true); // 모달 열기
+    // 모달 열기 핸들러 (수정/추가 구분)
+    const handleModalOpen = (address = null) => {
+        if (address) {
+            // 수정모드
+            setIsEditing(true);
+            setEditingAddressId(address.id);
+            setName(address.name);
+            setPhone(address.phone);
+            setZipcode(address.zipcode);
+            setAddressInput(address.address);
+            setDetailAddress(address.detailAddress || "");
+            setIsChecked(address.isDefault);
+        } else {
+            // 추가모드
+            setIsEditing(false);
+            setEditingAddressId(null);
+            setName("");
+            setPhone("");
+            setZipcode("");
+            setAddressInput("");
+            setDetailAddress("");
+            setIsChecked(false);
+        }
+        setIsModalOpen(true);
     };
 
     const handleModalClose = () => {
         setIsModalOpen(false); // 모달 닫기
+        setIsEditing(false);
+        setEditingAddressId(null);
         // 모달 닫힐 때 입력값 초기화 (필요 시)
         setName("");
         setPhone("");
@@ -70,8 +104,63 @@ function Page(props) {
         if (!isFormValid) return;
         // 여기에 저장 로직 추가
         // 예: setAddresses([...addresses, { id: ..., name, phone, zipcode, address, detailAddress }])
+
+        if (isEditing && editingAddressId !== null) {
+            // 수정로직
+            setAddresses((prev) =>
+                prev.map((addr) =>
+                    addr.id === editingAddressId
+                        ? {
+                            ...addr,
+                            name,
+                            phone,
+                            zipcode,
+                            address,
+                            detailAddress,
+                            isDefault: isChecked,
+                        }
+                        : addr
+                )
+            );
+        } else {
+            // 추가 로직
+            const newId = addresses.length > 0 ? Math.max(...addresses.map(addr => addr.id)) + 1 : 1;
+            setAddresses([
+                ...addresses,
+                {
+                    id: newId,
+                    name,
+                    phone,
+                    zipcode,
+                    address,
+                    detailAddress,
+                    isDefault: isChecked,
+                },
+            ]);
+        }
+        // 기본 배송지 설정 : isChecked가 true인 경우
+        if (isChecked) {
+            handleSetDefault(isEditing ? editingAddressId : Math.max(...addresses.map(a => a.id)) + 1);
+        }
+
         handleModalClose();
-    }
+    };
+
+    // 삭제 핸들러
+    const handleDelete = (id) => {
+        if (confirm("정말 이 주소를 삭제하시겠습니까?")) {
+            const isDefault = addresses.find(addr => addr.id === id)?.isDefault;
+            setAddresses((prev) => prev.filter((addr) => addr.id !== id));
+
+            // 기본 배송지가 삭제된 경우 다른 주소를 기본 배송지로 설정
+            if (isDefault && addresses.length > 1) {
+                const newDefault = addresses.find(addr => addr.id !== id);
+                if (newDefault) {
+                    handleSetDefault(newDefault.id);
+                }
+            }
+        }
+    };
 
     // 다음 우편번호 팝업 호출 함수
     const sample4_execDaumPostcode = () => {
@@ -90,18 +179,18 @@ function Page(props) {
 
                 // 법정동명이 있을 경우 추가한다. (법정리는 제외)
                 // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
                     extraRoadAddr += data.bname;
                 }
                 // 건물명이 있고, 공동주택일 경우 추가한다.
                 if (data.buildingName !== '' && data.apartment === 'Y') {
-                    extraRoadAddr += (extraRoadAddr !== '' ? ','  + `${data.buildingName}` : data.buildingName);
+                    extraRoadAddr += (extraRoadAddr !== '' ? ',' + `${data.buildingName}` : data.buildingName);
                 }
                 // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
                 if (extraRoadAddr !== '') {
                     extraRoadAddr = `(${extraRoadAddr})`;
                 }
-                
+
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
                 setZipcode(data.zonecode);
                 setAddressInput(roadAddr + extraRoadAddr);
@@ -120,7 +209,7 @@ function Page(props) {
             {/* Daum 우편번호 스크립트 로드 */}
             <Script
                 src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
-                strategy='beforeInteractive'
+                strategy='afterInteractive'
             />
             <div className='myPageAddressInfo'>
                 <div className='container my lg'>
@@ -150,7 +239,7 @@ function Page(props) {
                                                     </div>
                                                 </a>
                                                 <div className="layer_header">
-                                                    <h2 className="title"> 새 주소 추가 </h2>
+                                                    <h2 className="title">{isEditing ? "주소 수정" : "새 주소 추가"}</h2>
                                                 </div>
                                                 <div className="layer_content">
                                                     <div className="delivery_bind">
@@ -167,7 +256,6 @@ function Page(props) {
                                                                         onChange={(e) => setName(e.target.value)}
                                                                     />
                                                                 </div>
-                                                                <p className="input_error">올바른 이름을 입력해주세요. (2 - 50자)</p>
                                                             </div>
                                                             <div className="input_box" >
                                                                 <h4 className="input_title">휴대폰 번호</h4>
@@ -181,7 +269,6 @@ function Page(props) {
                                                                         onChange={(e) => setPhone(e.target.value)}
                                                                     />
                                                                 </div>
-                                                                <p className="input_error">정확한 휴대폰 번호를 입력해주세요.</p>
                                                             </div>
                                                             <div className="input_box" >
                                                                 <h4 className="input_title">우편번호</h4>
@@ -277,10 +364,10 @@ function Page(props) {
                             {/* 기본 배송지 */}
                             <div className='my_list'>
                                 <div className='basic'>
-                                    {addresses.slice(0, 1).map((item) => (
+                                    {addresses.filter(addr => addr.isDefault).map((item) => (
                                         <div
                                             key={item.id}
-                                            className={`my_item ${defaultId === item.id ? "is_active" : ""}`}
+                                            className={`my_item is_active`}
                                             default-mark="기본 배송지"
                                         >
                                             <div className="info_bind">
@@ -300,24 +387,33 @@ function Page(props) {
                                                     <div className="address_box">
                                                         <span className="zipcode">{item.zipcode}</span>
                                                         <span className="address">{item.address}</span>
+                                                        {item.detailAddress && (
+                                                            <span className='detail-address'>{item.detailAddress}</span>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="btn_bind">
-                                                <a href="#" className="btn outlinegrey small">
+                                                <a
+                                                    href="#"
+                                                    className="btn outlinegrey small"
+                                                    onClick={(e) => { e.preventDefault(); handleModalOpen(item); }}>
                                                     수정
                                                 </a>
-                                                <a href="#" className="btn outlinegrey small">
+                                                <a
+                                                    href="#"
+                                                    className="btn outlinegrey small"
+                                                    onClick={(e) => { e.preventDefault(); handleDelete(item.id); }}>
+
                                                     삭제
                                                 </a>
                                             </div>
                                         </div>
                                     ))}
                                 </div>
-
                                 {/* 나머지 배송지 */}
                                 <div className="other">
-                                    {addresses.slice(1).map((item) => (
+                                    {addresses.filter(addr => !addr.isDefault).map((item) => (
                                         <div
                                             key={item.id}
                                             className="other_list"
@@ -339,6 +435,9 @@ function Page(props) {
                                                         <div className="address_box">
                                                             <span className="zipcode">{item.zipcode}</span>
                                                             <span className="address">{item.address}</span>
+                                                            {item.detailAddress && (
+                                                                <span className="detail-address">{item.detailAddress}</span>
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -353,7 +452,9 @@ function Page(props) {
                                                     >
                                                         기본 배송지
                                                     </a>
-                                                    <a href="#" className="btn outlinegrey small">
+                                                    <a href="#"
+                                                        className="btn outlinegrey small"
+                                                        onClick={(e) => { e.preventDefault(); handleModalOpen(item); }}>
                                                         수정
                                                     </a>
                                                     <a href="#" className="btn outlinegrey small">
