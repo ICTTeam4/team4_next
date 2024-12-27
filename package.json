@@ -19,6 +19,7 @@
     "next": "^15.1.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-input-mask": "^2.0.4",
     "react-range": "^1.10.0",
     "react-router-dom": "^7.0.2",
     "react-select": "^5.9.0",
