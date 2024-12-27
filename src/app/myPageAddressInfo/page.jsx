@@ -26,7 +26,7 @@ function Page(props) {
         {
             id: 1,
             name: "홍길동",
-            phone: "010-1234-5678",
+            phone: "01012345678",
             zipcode: "(12345)",
             address: "서울 동대문구 전농로땡땡길 12-34 (휘경동)",
             detailAddress: "123호",
@@ -35,7 +35,7 @@ function Page(props) {
         {
             id: 2,
             name: "둘리",
-            phone: "010-1234-5678",
+            phone: "01012345678",
             zipcode: "(56789)",
             address: "서울 서대문구 땡땡로12길 34-56 (땡땡동)",
             detailAddress: "789호",
@@ -43,6 +43,20 @@ function Page(props) {
         },
     ]);
 
+
+    // 전화번호 포맷팅 함수
+    const formatPhoneNumber = (phone) => {
+        if (!phone) return '';
+        return phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+    };
+
+    const handlePhoneChange = (e) => {
+        let value = e.target.value.replace(/\D/g, '').slice(0,11); // 숫자만, 11자리까지
+        if(!value.startsWith('010')){
+            value = '010' + value.slice(3,11); // 맨 앞 자리가 "010"이 아니면 "010"으로 대체
+        }
+        setPhone(value);
+    };
 
 
     // 모든 필드 채워졌는지 확인하는 유효성 로직
@@ -266,7 +280,7 @@ function Page(props) {
                                                                         autoComplete="off"
                                                                         className="input_txt text_fill"
                                                                         value={phone}
-                                                                        onChange={(e) => setPhone(e.target.value)}
+                                                                        onChange={handlePhoneChange}
                                                                     />
                                                                 </div>
                                                             </div>
@@ -377,12 +391,7 @@ function Page(props) {
                                                         <span className="mark">기본 배송지</span>
                                                     </div>
                                                     <p className="phone">
-                                                        {item.phone.split("-").map((part, index) => (
-                                                            <span key={index}>
-                                                                {part}
-                                                                {index < 2 && <span className="hyphen"></span>}
-                                                            </span>
-                                                        ))}
+                                                        {formatPhoneNumber(item.phone)}
                                                     </p>
                                                     <div className="address_box">
                                                         <span className="zipcode">{item.zipcode}</span>
@@ -424,14 +433,7 @@ function Page(props) {
                                                         <div className="name_box">
                                                             <span className="name">{item.name}</span>
                                                         </div>
-                                                        <p className="phone">
-                                                            {item.phone.split("-").map((part, index) => (
-                                                                <span key={index}>
-                                                                    {part}
-                                                                    {index < 2 && <span className="hyphen"></span>}
-                                                                </span>
-                                                            ))}
-                                                        </p>
+                                                        <p className="phone">{formatPhoneNumber(item.phone)}</p>
                                                         <div className="address_box">
                                                             <span className="zipcode">{item.zipcode}</span>
                                                             <span className="address">{item.address}</span>
