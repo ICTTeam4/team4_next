@@ -45,7 +45,7 @@ function Page(props) {
 
 
     // 전화번호 포맷팅 함수
-    const formatPhoneNumber = (콜) => {
+    const formatPhoneNumber = (phone) => {
         if (!phone) return '';
         return phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
     };
