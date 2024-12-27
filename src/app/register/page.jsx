@@ -21,19 +21,8 @@ const RegisterPage = () => {
   const [authCode, setAuthCode] = useState(""); // 인증번호 입력값
   const [isPhoneVerified, setIsPhoneVerified] = useState(false); // 인증 완료 여부
 
- // URL의 query parameter 가져오기
- const queryParams = new URLSearchParams(window.location.search);
-  const [formData, setFormData] = useState({
-    email: queryParams.get('email') || '',
-    name: queryParams.get('name') || '',
-    provider: queryParams.get('provider') || '',
-    password: '',
-  });
 
-  function handleInputChange(e) {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-}
+
 
 function handleSubmit() {
     console.log('Submitting form:', formData);

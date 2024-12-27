@@ -40,6 +40,7 @@ const LoginPage = () => {
         username, email, name
 
       };
+      
       login(user, token); // Zustand 상태에 저장
       router.push("/"); // 홈으로 이동
     }
