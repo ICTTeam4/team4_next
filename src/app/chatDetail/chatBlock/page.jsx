@@ -11,19 +11,20 @@ const ChatBlock = ({ room_id }) => {
       height: '100vh', // 전체 뷰포트 높이 조정
       bgcolor: '#fff' // 배경색
     }}>
-      <br/><br/><br/><br/> <br/><br/><br/><br/>
-      <Typography variant="h6" sx={{ mb: 2 }}>
-        임시방번호:  {room_id} 회원님을 차단하시겠습니까?
+      <br/><br/><br/><br/> <br/><br/><br/>
+      <Typography variant="h6" sx={{ mb: 2, fontSize: '18px'}}>
+        임시방번호 : <a style={{fontWeight:'bold'}}> {room_id} </a> 회원님을 차단하시겠습니까?
       </Typography>
       <Box>
-      <br/><br/><br/><br/> <br/><br/><br/><br/>
+      <br/><br/><br/><br/> <br/><br/><br/>
         <Button variant="contained" sx={{
-          bgcolor: '#d32f2f', // 더 어두운 빨강
+          bgcolor: '#000000', // 더 어두운 빨강
           ':hover': {
-            bgcolor: '#b71c1c' // 호버 시 더욱 어두운 빨강
+            bgcolor: '#d32f2f' // 호버 시 더욱 어두운 빨강
           },
           mr: 1,
-          color: 'white' // 텍스트 색상
+          color: 'white', // 텍스트 색상
+          marginRight:'15px'
         }}>
           예
         </Button>
@@ -31,7 +32,9 @@ const ChatBlock = ({ room_id }) => {
           borderColor: 'gray', // 테두리 색상
           color: 'gray', // 텍스트 색상
           ':hover': {
-            bgcolor: 'rgba(128, 128, 128, 0.1)' // 호버 시 배경 색상
+            bgcolor: 'lightgray', // 호버 시 배경 색상
+            color:'white',
+            border:'1px solid #ffffff'
           }
         }}>
           아니오

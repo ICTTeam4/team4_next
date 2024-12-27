@@ -103,7 +103,7 @@ const deleteImage = (index) => {
                                         </div>
                                         <div className={`tab_item ${activeTab === '판매 완료' ? 'tab_on' : ''}`}
                                             onClick={() => handleTabClick('판매 완료')}>
-                                            <a href="#" className='tab_link'>
+                                            <a className='tab_link'>
                                                 <dl className='tab_box'>
                                                     <dd className='count'>0</dd>
                                                     <dt className='title'>내 후기</dt>

@@ -16,6 +16,7 @@
     width: 180px;
 }
 
+
 .myPage .snb_main_title{
     font-size: 24px;
     font-weight: 700;
@@ -145,16 +146,6 @@
     width: 90px;
 }
 
-.myPage .user_thumb:after {
-    border: 1px solid rgba(34, 34, 34, .05);
-    border-radius: 50%;
-    bottom: 0;
-    content: "";
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-}
 
 .myPage .user_thumb .thumb_img{
     border-radius: 100%;
@@ -377,7 +368,6 @@
 .myPage .purchase_list_display_item{
     align-items: center;
     border-bottom: 1px solid #ebebeb;
-    cursor: pointer;
     display: flex;
     padding: 12px;
 }
@@ -479,8 +469,11 @@
 }
 
 .myPage .list_item_status .column_last .last_description.action_named_action{
+    margin-top: 5px;
     -webkit-text-decoration: underline;
     text-decoration: underline;
+    cursor: pointer;
+    color: red;
 }
 
 .myPage .list_item_status .column_last .last_description{
@@ -633,6 +626,10 @@
     font-weight: 700;
 }
 
+.text-lookup.bold{
+    font-weight: 700;
+}
+
 .myPage address, .myPage em {
     font-style: normal;
 }
@@ -738,4 +735,11 @@
     letter-spacing: -.14px;
     padding: 0 18px;
     margin: 0 8px;
+}
+
+.myPage .post_up{
+    color: red; 
+    text-decoration: underline;
+    font-size: 12px;
+    cursor: pointer;
 }

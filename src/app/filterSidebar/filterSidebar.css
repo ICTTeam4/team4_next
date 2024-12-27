@@ -120,8 +120,19 @@ h2 p {
   display: flex;
   height: 50px;
 }
+.small_category {
+  display: flex;
+  height: 50px;
+}
 
 .big_category_container {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap; /* 넘칠 경우 다음 줄로 이동 */
+  gap: 0px;
+  margin-left: -20px;
+}
+.small_category_container {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap; /* 넘칠 경우 다음 줄로 이동 */

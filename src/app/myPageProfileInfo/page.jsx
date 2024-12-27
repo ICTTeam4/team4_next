@@ -2,7 +2,7 @@
 import { usePathname } from 'next/navigation';
 import MyPageSideNav from '../components/MyPageSideNav';
 import './myPageProfileInfo.css';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 function Page(props) {
     const pathname = usePathname();
@@ -13,15 +13,18 @@ function Page(props) {
     const [tempProfileName, setTempProfileName] = useState(profileName); // 임시 프로필 이름
     const [tempUserName, setTempUserName] = useState(userName); // 임시 사용자 이름
 
-
+    const profileNameInputRef = useRef(null);
+    const userNameInputRef = useRef(null);
 
     const handleEditClick = (field) => {
         setIsEditing(true);
         setEditingField(field); // 수정 중인 필드 설정
         if (field === "profileName") {
             setTempProfileName(profileName); // 현재 프로필 이름 값으로 초기화
+            setTimeout(() => profileNameInputRef.current?.focus(), 0);
         } else if (field === "userName") {
             setTempUserName(userName); // 현재 사용자 이름 값으로 초기화
+            setTimeout(() => userNameInputRef.current?.focus(), 0);
         }
     };
 
@@ -75,6 +78,7 @@ function Page(props) {
                                             <h6 className="input_title">프로필 이름</h6>
                                             <div className="input_item">
                                                 <input
+                                                    ref={profileNameInputRef}
                                                     type="text"
                                                     value={tempProfileName}
                                                     onChange={(e) => setTempProfileName(e.target.value)}
@@ -120,9 +124,10 @@ function Page(props) {
                                 {isEditing && editingField === "userName" ? (
                                     <div className="modify name">
                                         <div className="input_box">
-                                            <h6 className="input_title">사용자 이름</h6>
+                                            <h6 className="input_title">이름</h6>
                                             <div className="input_item">
                                                 <input
+                                                    ref={userNameInputRef}
                                                     type="text"
                                                     value={tempUserName}
                                                     onChange={(e) => setTempUserName(e.target.value)}

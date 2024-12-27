@@ -1,21 +1,22 @@
 "use client"
 import { Button, Checkbox, FormControlLabel, Paper, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
+import axios from 'axios';
 import Terms from './Terms';
 import MarketingPolicy from './MarketingPolicy';
 import PrivacyPolicy from './PrivacyPolicy';
+import { useRouter } from 'next/navigation';
+import './register.css'; // Import the CSS file
 
 const RegisterPage = () => {
-
-  const initUser = {
-    nickname: "",
-    email: "",
-    phone: "",
-    password: "",
-    confirmPassword: ""
-  };
-
-  const [user, setUser] = useState(initUser);
+  const router = useRouter();
+  const LOCAL_API_BASE_URL = process.env.NEXT_PUBLIC_LOCAL_API_BASE_URL;
+  const API_URL = `${LOCAL_API_BASE_URL}/members/register`;
+  const [openModal, setOpenModal] = useState(false); // Modal state
+  const [openMarketingPolicy, setOpenMarketingPolicy] = useState(false);
+  const [openPrivacyPolicy, setOpenPrivacyPolicy] = useState(false);
+  const [authCode, setAuthCode] = useState(""); // 인증번호 입력값
+  const [isPhoneVerified, setIsPhoneVerified] = useState(false); // 인증 완료 여부
   const [agreements, setAgreements] = useState({
     all: false,
     age: false,
@@ -24,8 +25,19 @@ const RegisterPage = () => {
     optionalPrivacy: false,
     optionalMarketing: false
   });
-
+  const initUser = {
+    nickname: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: ""
+  };
+  const [user, setUser] = useState(initUser);
   const isRegisterDisabled = !user.nickname || !user.email || !user.phone || !user.password || user.password !== user.confirmPassword || !agreements.age || !agreements.terms || !agreements.privacy;
+  const [isNicknameChecked, setIsNicknameChecked] = useState(false);
+  const [isEmailChecked, setIsEmailChecked] = useState(false);
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,6 +57,25 @@ const RegisterPage = () => {
       value = value.slice(0, 3) + "-" + value.slice(3, 7) + "-" + value.slice(7, 11);
     }
     setUser(prev => ({ ...prev, phone: value }));
+  };
+
+  const handleVerifyPhoneAuth = async () => {
+    if (!authCode) {
+      alert("인증번호를 입력하세요.");
+      return;
+    }
+  
+    try {
+      const response = await axios.post(`${LOCAL_API_BASE_URL}/members/verify-phone-auth`, null, {
+        params: { phone: user.tel_no, code: authCode },
+      });
+      alert(response.data.message);
+      setIsPhoneVerified(true); // 인증 성공
+    } catch (error) {
+      console.error("인증번호 검증 오류:", error);
+      alert("인증번호 검증에 실패했습니다. 다시 시도해주세요.");
+      setIsPhoneVerified(false); // 인증 실패
+    }
   };
 
   const handleAgreementChange = (e) => {
@@ -67,155 +98,162 @@ const RegisterPage = () => {
     }
   };
 
-  const [openModal, setOpenModal] = useState(false); // 모달 상태 관리
-  const [openMarketingPolicy, setOpenMarketingPolicy] = useState(false);
-  const [openPrivacyPolicy, setOpenPrivacyPolicy] = useState(false);
+
 
 
   return (
-    <div style={{ backgroundColor: '#f7f7f7', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <Paper elevation={0} style={{ width: '480px', padding: '40px', borderRadius: '10px', marginTop: '10px', marginBottom:'10px' }}>
-        <Typography variant="h5" component="h1" style={{ marginBottom: '30px', marginTop:'0px', textAlign: 'left', fontWeight: 'bold' }}>
+    <div className="register-container">
+      <Paper elevation={0} className="register-paper">
+        <Typography variant="h5" component="h1" className="register-title">
           회원가입
         </Typography>
-        <form style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
-          <label style={{ marginBottom: '5px', fontSize: '14px', color: '#333', fontWeight: 'bold', textAlign: 'left' }}>닉네임</label>
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
-            <TextField variant="standard"
+        <form className="register-form">
+          <label className="register-label">닉네임</label>
+          <div className="input-group">
+            <TextField
+              variant="standard"
               name='nickname'
               value={user.nickname}
               onChange={handleChange}
               type="text"
               placeholder="닉네임을 입력하세요"
-              style={{
-                flex: 1,
-                padding: '10px',
-                backgroundColor: 'transparent'
+              className="text-field"
+              sx={{
+                "& .MuiInputBase-root": {
+                  backgroundColor: "#ffffff", // 원하는 바탕색 설정
+                },
+                "& .Mui-focused .MuiInputBase-root": {
+                  backgroundColor: "#f0f0f0", // 포커스 시 바탕색 설정
+                },
               }}
             />
             <Button
               type="button"
               variant="outlined"
-              style={{ marginLeft: '10px', padding: '8px 15px', backgroundColor: '#f5f5f5', color: '#333', border: '1px solid #ddd' }}
+              className="action-button"
             >
               중복 확인
             </Button>
           </div>
 
-          <label style={{ marginBottom: '5px', fontSize: '14px', color: '#333', fontWeight: 'bold', textAlign: 'left' }}>이메일 주소</label>
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
-            <TextField variant="standard"
+          <label className="register-label">이메일 주소</label>
+          <div className="input-group">
+            <TextField
+              variant="standard"
               name='email'
               value={user.email}
               onChange={handleChange}
               type="email"
               placeholder="예) ict@ict.com"
-              style={{
-                flex: 1,
-                padding: '10px',
-                outline: 'none',
-                backgroundColor: 'transparent'
-              }}
+              className="text-field"
             />
             <Button
               type="button"
               variant="outlined"
-              style={{ marginLeft: '10px', padding: '8px 15px', backgroundColor: '#f5f5f5', color: '#333', border: '1px solid #ddd' }}
+              className="action-button"
             >
               중복 확인
             </Button>
           </div>
 
-          <label style={{ marginBottom: '5px', fontSize: '14px', color: '#333', fontWeight: 'bold', textAlign: 'left' }}>휴대전화 번호</label>
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
-            <TextField variant="standard"
-              name='phone'
-              value={user.phone}
+          <label className="register-label">휴대전화 번호</label>
+          <div className="input-group">
+            <TextField
+              variant="standard"
+              name="tel_no"
+              value={user.tel_no}
               onChange={handlePhoneChange}
               type="tel"
+              disabled={!isNicknameChecked || !isEmailChecked}
               placeholder="010-1234-5678"
-              style={{
-                flex: 1,
-                padding: '10px',
-                outline: 'none',
-                backgroundColor: 'transparent'
-              }}
+              className="text-field-phone"
             />
             <Button
               type="button"
               variant="outlined"
-              style={{ marginLeft: '10px', padding: '8px 15px', backgroundColor: '#f5f5f5', color: '#333', border: '1px solid #ddd' }}
+              className="action-button tell_btn"
             >
               휴대폰 인증
             </Button>
           </div>
+          <div className="input-group">
+            <TextField
+              variant="standard"
+              name='authCode'
+              value={authCode}
+              onChange={handlePhoneChange}
+              type="text"
+              placeholder="인증 번호를 입력하세요"
+              disabled={!user.tel_no}
+              className="text-field-phone"
+            />
+            <Button
+              type="button"
+              variant="outlined"
+              className="action-button tell_btn"
+              onClick={handleVerifyPhoneAuth}
+              disabled={!user.tel_no || isPhoneVerified}
+            >
+              인증번호 확인
+            </Button>
+          </div>
 
-          <label style={{ marginBottom: '5px', fontSize: '14px', color: '#333', fontWeight: 'bold', textAlign: 'left' }}>비밀번호</label>
-          <TextField variant="standard"
+          <label className="register-label">비밀번호</label>
+          <TextField
+            variant="standard"
             name='password'
             value={user.password}
             onChange={handleChange}
             type="password"
             placeholder="비밀번호를 입력하세요"
-            style={{
-              padding: '10px',
-              marginBottom: '15px',
-              outline: 'none',
-              backgroundColor: 'transparent'
-            }}
+            className="password-field"
           />
 
-          <label style={{ marginBottom: '5px', fontSize: '14px', color: '#333', fontWeight: 'bold', textAlign: 'left' }}>비밀번호 확인</label>
-          <TextField variant="standard"
+          <label className="register-label">비밀번호 확인</label>
+          <TextField
+            variant="standard"
             name='confirmPassword'
             value={user.confirmPassword}
             onChange={handleChange}
             type="password"
             placeholder="비밀번호를 다시 입력하세요"
-            style={{
-              padding: '10px',
-              marginBottom: '10px',
-              outline: 'none',
-              backgroundColor: 'transparent'
-            }}
+            className="confirm-password-field"
           />
           {user.password !== user.confirmPassword && user.confirmPassword && (
-            <Typography style={{ color: 'red', fontSize: '12px', marginBottom: '15px' }}>
+            <Typography className="password-error">
               비밀번호를 확인해주세요.
             </Typography>
           )}
 
-          <div style={{ width: '100%', marginTop: '15px', marginBottom: '20px', textAlign: 'left' }}>
+          <div className="agreements-section">
             <FormControlLabel
               control={
                 <Checkbox
                   name="all"
                   checked={agreements.all}
                   onChange={handleAgreementChange}
-                  sx={{ padding: '0 10px', color: 'black', '&.Mui-checked': { color: 'black' } }}
+                  className="agreement-checkbox"
                 />
               }
-              label={<span style={{ fontWeight: 'bold', color: 'black' }}>모두 동의합니다</span>}
-              sx={{ color: '#333' }}
+              label={<span className="agreements-label">모두 동의합니다</span>}
             />
             <div>
-              <Typography variant="caption" sx={{ color: 'black', marginLeft: '35px', marginBottom: '10px' }}>
+              <Typography variant="caption" className="agreements-caption">
                 선택 동의항목 포함
               </Typography>
             </div>
 
-            <div style={{ marginLeft: '35px' }}>
+            <div className="agreements-options">
               <FormControlLabel
                 control={
                   <Checkbox
                     name="age"
                     checked={agreements.age}
                     onChange={handleAgreementChange}
-                    sx={{ color: 'black', '&.Mui-checked': { color: 'black' } }}
+                    className="agreement-checkbox"
                   />
                 }
-                label={<span style={{ color: 'black' }}>[필수] 만 14세 이상입니다</span>}
-                sx={{ display: 'block', marginBottom: '5px', color: 'black' }}
+                label={<span className="agreement-label">[필수] 만 14세 이상입니다</span>}
               />
               <FormControlLabel
                 control={
@@ -223,21 +261,20 @@ const RegisterPage = () => {
                     name="terms"
                     checked={agreements.terms}
                     onChange={handleAgreementChange}
-                    sx={{ color: 'black', '&.Mui-checked': { color: 'black' } }}
+                    className="agreement-checkbox"
                   />
                 }
                 label={
-                  <span style={{ color: 'black' }}>
+                  <span className="agreement-label">
                     [필수] 이용약관 동의
                     <Button
                       onClick={() => setOpenModal(true)}
-                      sx={{ fontSize: '12px', color: 'black', textDecoration: 'underline' }}
+                      className="policy-button"
                     >
                       내용 보기
                     </Button>
                   </span>
                 }
-                sx={{ display: 'block', marginBottom: '5px', color: 'black' }}
               />
               <FormControlLabel
                 control={
@@ -245,21 +282,20 @@ const RegisterPage = () => {
                     name="privacy"
                     checked={agreements.privacy}
                     onChange={handleAgreementChange}
-                    sx={{ color: 'black', '&.Mui-checked': { color: 'black' } }}
+                    className="agreement-checkbox"
                   />
                 }
                 label={
-                  <span style={{ color: 'black' }}>
+                  <span className="agreement-label">
                     [필수] 개인정보 수집 및 이용 동의
                     <Button
                       onClick={() => setOpenPrivacyPolicy(true)}
-                      sx={{ fontSize: '12px', color: 'black', textDecoration: 'underline' }}
+                      className="policy-button"
                     >
                       내용 보기
                     </Button>
                   </span>
                 }
-                sx={{ display: 'block', marginBottom: '5px', color: 'black' }}
               />
               <FormControlLabel
                 control={
@@ -267,21 +303,20 @@ const RegisterPage = () => {
                     name="optionalMarketing"
                     checked={agreements.optionalMarketing}
                     onChange={handleAgreementChange}
-                    sx={{ color: 'black', '&.Mui-checked': { color: 'black' } }}
+                    className="agreement-checkbox"
                   />
                 }
                 label={
-                  <span style={{ color: 'black' }}>
+                  <span className="agreement-label">
                     [선택] 광고성 정보 수신 동의
                     <Button
                       onClick={() => setOpenMarketingPolicy(true)}
-                      sx={{ fontSize: '12px', color: 'black', textDecoration: 'underline' }}
+                      className="policy-button"
                     >
                       펼치기
                     </Button>
                   </span>
                 }
-                sx={{ display: 'block', marginBottom: '5px', color: 'black' }}
               />
             </div>
           </div>
@@ -291,13 +326,7 @@ const RegisterPage = () => {
             fullWidth
             variant='contained'
             disabled={isRegisterDisabled}
-            style={{
-              backgroundColor: isRegisterDisabled ? 'lightgray' : '#333',
-              color: 'white',
-              padding: '10px',
-              borderRadius: '5px',
-              fontWeight: 'bold'
-            }}
+            className={`register-button ${isRegisterDisabled ? 'disabled' : ''}`}
           >
             가입하기
           </Button>

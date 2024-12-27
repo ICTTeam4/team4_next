@@ -4,6 +4,7 @@ import './styles.css'; // 스타일 파일을 import합니다.
 import Page from '../chatDetail/page';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 const Chat = ({ isOpen, closeChat, initialRoomId, initialhostId }) => {
   const [isChatDetailOpen, setChatDetailOpen] = useState(false); // 채팅디테일 사이드바 상태관리 
@@ -11,7 +12,6 @@ const Chat = ({ isOpen, closeChat, initialRoomId, initialhostId }) => {
 
 
 
-  
   // 초기 room_id가 있을 경우 바로 채팅 디테일 열기
   useEffect(() => {
     if (initialRoomId) {
@@ -29,16 +29,10 @@ const Chat = ({ isOpen, closeChat, initialRoomId, initialhostId }) => {
 
   // 채팅 디테일 닫기
   const closeChatDetail = () => {
-    console.log('버튼 클림됨');
     setChatDetailOpen(false); // 팝업 닫기
     setSelectedChat(null); // 선택된 채팅 초기화
-   
+
   };
-
-
-
-
-
 
 
   // 채팅 데이터 예시
@@ -71,17 +65,16 @@ const Chat = ({ isOpen, closeChat, initialRoomId, initialhostId }) => {
 
 
   return (
-    <div>
-    {/* chatDetail 진입점 오버레이 - 일부러 여기엔 no_more_overlay라고 바꿈(미적용), 추후 2차 어두움 원하면 그냥 overlay로 바꾸기. */}
-      {isChatDetailOpen && <div className='no_more_chatoverlay' onClick={closeChatDetail}></div>}
-    
-     
-      <div className="chat-header">
-        
+
+    <div className="chat-page">
+      {/* chatDetail 진입점 오버레이 - 일부러 여기엔 no_more_overlay라고 바꿈(미적용), 추후 2차 어두움 원하면 그냥 overlay로 바꾸기. */}
+      {isChatDetailOpen && <div className='chatoverlay2' onClick={closeChatDetail}></div>}
+      <div className="chat-header" style={{ alignContent: 'left', textAlign: 'center' }}>
+
         <button className="close-button" onClick={closeChat}>
-        <img src="/images/HJ_close.png" className="close_button"/>
+          <img src="/images/HJ_close.png" className="close_button" />
         </button>
-        <span style={{fontSize:'25px', fontWeight:'bold', marginTop:'11px', marginLeft:'15px'}}>채팅</span>
+        <span style={{ fontSize: '25px', fontWeight: 'bold', marginTop: '11px', marginLeft: '15px' }}>채팅</span>
       </div>
       <div className="chat-list">
         {chats.map((chat) => (
@@ -109,17 +102,22 @@ const Chat = ({ isOpen, closeChat, initialRoomId, initialhostId }) => {
           <div className="chat-detail">
             <Button sx={{
               color: 'black', ":hover": {
-                backgroundColor: '#eee', // 호버 시 배경색을 lightgray로 변경
+                backgroundColor: '#f5f5f5', // 호버 시 배경색을 lightgray로 변경
                 border: 'none'
               }
             }} className="close-button" onClick={closeChatDetail} style={{ margin: '0px' }}>
-              ←
+              <ArrowBackIosIcon
+                style={{
+                  margin: '10px',
+                  marginLeft: '15px'
+                }}
+              />
             </Button>
             <Page room_id={selectedChat.room_id} host_id={selectedChat.host_id} closeChat={closeChat} closeDetail={closeChatDetail} />
           </div>
         </div>
       )}
-    
+
     </div>
   );
 }
