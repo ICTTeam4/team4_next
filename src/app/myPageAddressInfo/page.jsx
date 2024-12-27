@@ -11,16 +11,15 @@ function Page(props) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false); // 수정 모드 여부
     const [editingAddressId, setEditingAddressId] = useState(null); // 수정할 주소 ID
-    
-        // 새 주소 추가 모달 내 입력 필드 상태 관리
-        const [name, setName] = useState("");
-        const [phone, setPhone] = useState("");
-        const [zipcode, setZipcode] = useState("");
-        const [address, setAddressInput] = useState("");
-        const [detailAddress, setDetailAddress] = useState("");
-        const [isChecked, setIsChecked] = useState(false);
-    
-    
+
+    // 새 주소 추가 모달 내 입력 필드 상태 관리
+    const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [zipcode, setZipcode] = useState("");
+    const [address, setAddressInput] = useState("");
+    const [detailAddress, setDetailAddress] = useState("");
+    const [isChecked, setIsChecked] = useState(false);
+
 
     // 기본 배송지 상태 (ID로 구분)
     const [addresses, setAddresses] = useState([
@@ -29,7 +28,8 @@ function Page(props) {
             name: "홍길동",
             phone: "010-1234-5678",
             zipcode: "(12345)",
-            address: "서울 동대문구 전농로땡땡길 12-34 (휘경동) 123호",
+            address: "서울 동대문구 전농로땡땡길 12-34 (휘경동)",
+            detailAddress: "123호",
             isDefault: true, // 기본 배송지
         },
         {
@@ -37,14 +37,20 @@ function Page(props) {
             name: "둘리",
             phone: "010-1234-5678",
             zipcode: "(56789)",
-            address: "서울 서대문구 땡땡로12길 34-56 (땡땡동) 789호",
+            address: "서울 서대문구 땡땡로12길 34-56 (땡땡동)",
+            detailAddress: "789호",
             isDefault: false,
         },
     ]);
 
+
+
     // 모든 필드 채워졌는지 확인하는 유효성 로직
-    const isFormValid = name.trim() !== "" && phone.trim() !== "" && zipcode.trim() !== ""
-        && address.trim() !== "" && detailAddress.trim() !== "";
+    const isFormValid = (name?.trim() || "") !== "" &&
+        (phone?.trim() || "") !== "" &&
+        (zipcode?.trim() || "") !== "" &&
+        (address?.trim() || "") !== "" &&
+        (detailAddress?.trim() || "") !== "";
 
     const handleSetDefault = (id) => {
         setAddresses((prev) =>
@@ -60,13 +66,13 @@ function Page(props) {
         if (address) {
             // 수정모드
             setIsEditing(true);
-            setEditingAddressId(addresses.id);
-            setName(addresses.name);
-            setPhone(addresses.phone);
-            setZipcode(addresses.zipcode);
-            setAddressInput(addresses.address);
-            setDetailAddress(addresses.detailAddress || "");
-            setIsChecked(addresses.isDefault);
+            setEditingAddressId(address.id);
+            setName(address.name);
+            setPhone(address.phone);
+            setZipcode(address.zipcode);
+            setAddressInput(address.address);
+            setDetailAddress(address.detailAddress || "");
+            setIsChecked(address.isDefault);
         } else {
             // 추가모드
             setIsEditing(false);
@@ -388,17 +394,17 @@ function Page(props) {
                                                 </div>
                                             </div>
                                             <div className="btn_bind">
-                                                <a 
-                                                href="#" 
-                                                className="btn outlinegrey small"
-                                                onClick={(e) => {e.preventDefault(); handleModalOpen(item);}}>
+                                                <a
+                                                    href="#"
+                                                    className="btn outlinegrey small"
+                                                    onClick={(e) => { e.preventDefault(); handleModalOpen(item); }}>
                                                     수정
                                                 </a>
-                                                <a 
-                                                href="#" 
-                                                className="btn outlinegrey small"
-                                                onClick={(e) => { e.preventDefault(); handleDelete(item.id); }}>
-                                                
+                                                <a
+                                                    href="#"
+                                                    className="btn outlinegrey small"
+                                                    onClick={(e) => { e.preventDefault(); handleDelete(item.id); }}>
+
                                                     삭제
                                                 </a>
                                             </div>
@@ -407,7 +413,7 @@ function Page(props) {
                                 </div>
                                 {/* 나머지 배송지 */}
                                 <div className="other">
-                                {addresses.filter(addr => !addr.isDefault).map((item) => (
+                                    {addresses.filter(addr => !addr.isDefault).map((item) => (
                                         <div
                                             key={item.id}
                                             className="other_list"
@@ -446,7 +452,9 @@ function Page(props) {
                                                     >
                                                         기본 배송지
                                                     </a>
-                                                    <a href="#" className="btn outlinegrey small">
+                                                    <a href="#"
+                                                        className="btn outlinegrey small"
+                                                        onClick={(e) => { e.preventDefault(); handleModalOpen(item); }}>
                                                         수정
                                                     </a>
                                                     <a href="#" className="btn outlinegrey small">
