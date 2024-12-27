@@ -4,7 +4,21 @@ import React, { useState, useRef, useEffect } from 'react';
 import styles from './login.module.css'; // CSS 모듈 import
 import './login.css';
 
+
+// zustand store 호출
+import useAuthStore from '../../../store/authStore';
+import { useRouter } from 'next/navigation';
+
 const LoginPage = () => {
+
+
+
+  const LOCAL_API_BASE_URL = 'http://localhost:8080/';
+  const API_URL = `${LOCAL_API_BASE_URL}/login/login`;
+  const router = useRouter(); // useRouter 초기화
+  const { login } = useAuthStore(); // zustand login 함수 가져오기 
+
+  //텍스트필드 초기화
   const initUvo = {
     m_id: "",
     m_pw: ""
@@ -13,6 +27,50 @@ const LoginPage = () => {
   const [uvo, setUvo] = useState(initUvo);
   const isBtnChk = !uvo.m_id || !uvo.m_pw;
 
+  // URL 쿼리 파라미터에서 토큰 확인 후 처리
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const token = searchParams.get("token");
+    const username = searchParams.get("username");
+    const email = searchParams.get("email");
+    const name = searchParams.get("name");
+
+    if (token && username && email && name) {
+      alert("로그인 성공");
+      // 사용자 정보 생성
+      const user = {
+        username, email, name
+
+      };
+      
+      login(user, token); // Zustand 상태에 저장
+      router.push("/"); // 홈으로 이동
+    }
+  }, [login, router]);
+
+  function changeUvo(e) {
+    const { name, value } = e.target;
+    setUvo(prev => ({
+      ...prev, [name]: value
+    }));
+  }
+
+  function goServer(params) {
+    axios.post(API_URL, uvo)
+      .then(response => {
+        const data = response.data;
+        if (data.success) {
+          alert(data.message);
+          login(data.data, data.token);
+          router.push('/');
+        } else {
+          alert(data.message);
+          setUvo(initUvo);
+        }
+      });
+  }
+
+  // 이메일 입력 필드에 대한 참조 생성
   const emailInputRef = useRef(null);
 
   useEffect(() => {
@@ -66,6 +124,20 @@ const theme = createTheme({
     },
   },
 });
+  //네이버 로그인
+  const handleNaverLogin = () => {
+    window.location.href = "http://localhost:8080/oauth2/authorization/naver";
+  };
+
+  // 카카오 로그인
+  const handleKakaoLogin = () => {
+    window.location.href = "http://localhost:8080/oauth2/authorization/kakao";
+  };
+
+  // 구글 로그인
+  const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:8080/oauth2/authorization/google";
+  };
 
   return (
     <div className="background_container">
@@ -117,18 +189,27 @@ const theme = createTheme({
                   <a>|</a>
                   <a href="/findpw" className={styles.link}>비밀번호 찾기</a>
                 </div>
-
-                <button type="button" className={`${styles.snsLoginButton} ${styles.snsLoginButtonNaver}`}>
+                <button 
+                type="button" 
+                className={`${styles.snsLoginButton} ${styles.snsLoginButtonNaver}`}
+                onClick={handleNaverLogin} // 클릭 시 로그인 처리 함수 호출
+                >
                   <img src="./images/HY_naverlogo.png" alt="" />
                   네이버로 로그인
                 </button>
 
-                <button type="button" className={`${styles.snsLoginButton} ${styles.snsLoginButtonKakao}`}>
+                <button 
+                type="button" 
+                className={`${styles.snsLoginButton} ${styles.snsLoginButtonKakao}`}
+                onClick={handleKakaoLogin} // 클릭 시 로그인 처리 함수 호출
+                >
                   <img src="./images/HY_kakaologo.png" alt="" />
                   카카오로 로그인
                 </button>
 
-                <button type="button" className={`${styles.snsLoginButton} ${styles.snsLoginButtonGoogle}`}>
+                <button type="button" className={`${styles.snsLoginButton} ${styles.snsLoginButtonGoogle}`}
+                onClick={handleGoogleLogin} // 클릭 시 로그인 처리 함수 호출
+                >
                   <img src="./images/HY_googlelogo.png" alt="" />
                   구글로 로그인
                 </button>
@@ -138,6 +219,7 @@ const theme = createTheme({
         </div>
       </div>
     </div>
+    
   );
 };
 

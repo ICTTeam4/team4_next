@@ -17,6 +17,31 @@ const RegisterPage = () => {
   const [openPrivacyPolicy, setOpenPrivacyPolicy] = useState(false);
   const [authCode, setAuthCode] = useState(""); // 인증번호 입력값
   const [isPhoneVerified, setIsPhoneVerified] = useState(false); // 인증 완료 여부
+
+
+  const [isNicknameChecked, setIsNicknameChecked] = useState(false);
+  const [isEmailChecked, setIsEmailChecked] = useState(false);
+
+
+
+
+
+
+
+function handleSubmit() {
+    console.log('Submitting form:', formData);
+    // 가입 처리 로직
+}
+
+ 
+const initUser = {
+  nickname: "",
+  email: "",
+  phone: "",
+  password: "",
+  confirmPassword: ""
+};
+  const [user, setUser] = useState(initUser);
   const [agreements, setAgreements] = useState({
     all: false,
     age: false,
@@ -25,17 +50,8 @@ const RegisterPage = () => {
     optionalPrivacy: false,
     optionalMarketing: false
   });
-  const initUser = {
-    nickname: "",
-    email: "",
-    phone: "",
-    password: "",
-    confirmPassword: ""
-  };
-  const [user, setUser] = useState(initUser);
+
   const isRegisterDisabled = !user.nickname || !user.email || !user.phone || !user.password || user.password !== user.confirmPassword || !agreements.age || !agreements.terms || !agreements.privacy;
-  const [isNicknameChecked, setIsNicknameChecked] = useState(false);
-  const [isEmailChecked, setIsEmailChecked] = useState(false);
 
 
 
@@ -45,6 +61,12 @@ const RegisterPage = () => {
       ...prev,
       [name]: value
     }));
+    if (name === 'nickname') {
+      setIsNicknameChecked(false); // 닉네임 수정 시 중복 확인 상태 초기화
+    }
+    if (name === 'email') {
+      setIsEmailChecked(false); // 이메일 수정 시 중복 확인 상태 초기화
+    }
   };
 
   const handlePhoneChange = (e) => {
@@ -56,8 +78,9 @@ const RegisterPage = () => {
     } else {
       value = value.slice(0, 3) + "-" + value.slice(3, 7) + "-" + value.slice(7, 11);
     }
-    setUser(prev => ({ ...prev, phone: value }));
+    setUser(prev => ({ ...prev, tel_no: value }));
   };
+
 
   const handleVerifyPhoneAuth = async () => {
     if (!authCode) {
@@ -65,6 +88,7 @@ const RegisterPage = () => {
       return;
     }
   
+
     try {
       const response = await axios.post(`${LOCAL_API_BASE_URL}/members/verify-phone-auth`, null, {
         params: { phone: user.tel_no, code: authCode },
@@ -77,6 +101,7 @@ const RegisterPage = () => {
       setIsPhoneVerified(false); // 인증 실패
     }
   };
+
 
   const handleAgreementChange = (e) => {
     const { name, checked } = e.target;
@@ -93,10 +118,95 @@ const RegisterPage = () => {
       setAgreements(prev => ({
         ...prev,
         [name]: checked,
-        all: false
+        all: prev.age && prev.terms && prev.privacy && checked // 모두 동의 업데이트
       }));
     }
   };
+
+
+  const handleCheckNickname = async () => {
+    try {
+      const response = await axios.get(`${LOCAL_API_BASE_URL}/members/check-nickname`, {
+        params: { nickname: user.nickname }
+      });
+      if (response.data) {
+        alert("사용 가능한 닉네임입니다.");
+        setIsNicknameChecked(true); // 닉네임 중복 확인 성공
+      } else {
+        alert("이미 사용 중인 닉네임입니다.");
+        setIsNicknameChecked(false);
+      }
+    } catch (error) {
+      console.error("닉네임 중복 확인 오류:", error);
+      alert("닉네임 확인 중 문제가 발생했습니다.");
+      setIsNicknameChecked(false);
+    }
+  };
+
+
+  const handleCheckEmail = async () => {
+    try {
+      const response = await axios.get(`${LOCAL_API_BASE_URL}/members/check-email`, {
+        params: { email: user.email }
+      });
+      if (response.data) {
+        alert("사용 가능한 이메일입니다.");
+        setIsEmailChecked(true); // 이메일 중복 확인 성공
+      } else {
+        alert("이미 사용 중인 이메일입니다.");
+        setIsEmailChecked(false);
+      }
+    } catch (error) {
+      console.error("이메일 중복 확인 오류:", error);
+      alert("이메일 확인 중 문제가 발생했습니다.");
+      setIsEmailChecked(false);
+    }
+  };
+
+  const handleSendPhoneAuth = async () => {
+    if (!user.tel_no) {
+      alert("휴대전화 번호를 입력하세요.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${LOCAL_API_BASE_URL}/members/send-phone-auth`, null, {
+        params: { phone: user.tel_no },
+      });
+      alert(response.data.message); // 성공 메시지 표시
+    } catch (error) {
+      console.error("휴대폰 인증 요청 오류:", error);
+      alert("휴대폰 인증 요청에 실패했습니다. 다시 시도해주세요.");
+    }
+  };
+
+
+
+  const goServer = async () => {
+    console.log("회원가입 데이터:", user); // 요청 데이터 확인
+
+    try {
+      const response = await axios.post(API_URL, user, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      console.log("서버 응답 알려줘!!!!:", response.data); // 서버 응답 데이터 확인
+
+      // 응답 메시지 확인
+      if (response.data.message === "회원가입 성공") {
+        alert(response.data.message); // 성공 메시지 표시
+        router.push("/login"); // 로그인 페이지로 이동
+      } else {
+        alert(response.data.message); // 실패 메시지 표시
+      }
+    } catch (error) {
+      console.error("회원가입 요청 중 오류:", error.response?.data || error.message);
+      alert("회원가입 요청에 실패했습니다. 다시 시도해주세요.");
+    }
+  };
+
 
 
 
@@ -173,7 +283,7 @@ const RegisterPage = () => {
               variant="outlined"
               className="action-button tell_btn"
             >
-              휴대폰 인증
+              휴대폰 인증 요청
             </Button>
           </div>
           <div className="input-group">

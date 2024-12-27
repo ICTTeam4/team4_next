@@ -8,7 +8,7 @@ function HeaderTop(props) {
   const toggleNotibar = () => {
     setIsNotibarActive(isNotibarActive);
   }
-  
+  const { isAuthenticated, logout } = useAuthStore();
   return (
     
     <div className="max_width_container">
@@ -43,16 +43,19 @@ function HeaderTop(props) {
             </button>
           </li>
           {/* isLoginChk 로 활성 비활성 설정해야함 */}
-          <li className="top_item">
-            <Link href="/login" className="top_link">
-              로그인
-            </Link>
-          </li>
-          <li className="top_item">
-            <Link href="/logout" className="top_link">
-              로그아웃
-            </Link>
-          </li>
+          {isAuthenticated ? (
+      <>
+        <li className="top_item">
+          <Link href="/" className="top_link" onClick={logout}>로그아웃</Link>
+        </li>
+      </>
+    ) : (
+      <>
+        <li className="top_item">
+          <Link href="/login" className="top_link">로그인</Link>
+        </li>
+      </>
+    )}
           <div style={{width:'10px'}}></div>
         </ul>
       </div>

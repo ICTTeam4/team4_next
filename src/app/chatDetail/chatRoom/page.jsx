@@ -32,7 +32,7 @@ const Page = ({ room_id, host_id }) => {
 
 
 
-  useEffect(() => {
+  useEffect(() => { 
     // WebSocket 연결 설정
     const socket = new SockJS('http://localhost:8080/gs-guide-websocket'); // 서버 WebSocket 엔드포인트
     const client = new StompJs.Client({

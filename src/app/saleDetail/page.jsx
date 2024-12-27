@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import "./saleDetail.css"
 import Image from 'next/image';
 import { Button } from '@mui/material';
-import SalesImgSlider from '@/app/saleDetail/salesImgSlider/page'
-import SalesRelatedSlider from '@/app/saleDetail/saleRelatedSlider/page'
+import SalesImgSlider from './salesImgSlider/page';
+import SalesRelatedSlider from './saleRelatedSlider/page'
 import Link from 'next/link';
 import PayPanel from './payPanel/page';
 import PayDealPanel from './payDealPanel/page';
