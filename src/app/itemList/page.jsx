@@ -11,7 +11,6 @@ import axios from 'axios';
 function Page(props) {
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState([]);
-  const [sortOption, setSortOption] = useState('latest');
   const API_URL = `http://localhost:8080/api/salespost/itemlist`;
   const [isSidebarActive, setIsSidebarActive] = useState(false);
   // const [isNotibarActive, setIsNotibarActive] = useState(false);
@@ -27,7 +26,6 @@ function Page(props) {
       console.log(response);
       const data = response.data.data;
       setList(data);
-      console.log(data);
     } catch (err) {
       console.error("Error fetching data:", err);
       setError(err.message);
@@ -39,7 +37,7 @@ function Page(props) {
   // 최초 한 번만 실행
   useEffect(() => {
     getData();
-  }, [API_URL]);
+  }, []);
   // 로딩 중 화면
   if (loading) {
     return <div style={{ textAlign: "center", padding: "20px" }}>Loading...</div>;
@@ -49,35 +47,18 @@ function Page(props) {
   //   return <div style={{ textAlign: "center", padding: "20px", color: "red" }}>Error: {error}</div>;
   // }
 
-  // 정렬 로직
-  const sortedList = [...list].sort((a, b) => {
-    if (sortOption === 'latest') {
-      return new Date(b.created_at) - new Date(a.created_at);
-    }
-    if (sortOption === 'popular') {
-      return (b.view_count || 0) - (a.view_count || 0);
-    }
-    if (sortOption === 'lowPrice') {
-      return (a.sell_price || 0) - (b.sell_price || 0);
-    }
-    if (sortOption === 'highPrice') {
-      return (b.sell_price || 0) - (a.sell_price || 0);
-    }
-  });
-
   return (
     <>
       {/* <Notifications /> */}
       <VideoBanner />
       <FilterSidebar isActive={isSidebarActive} toggleSidebar={toggleSidebar} />
-      <FilterButtonsSection setSortOption={setSortOption} />
+      <FilterButtonsSection toggleSidebar={toggleSidebar} />
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '-10px' }}>
         <div className='main_list_container'>
-          {sortedList.length === 0 ?(
-            <div style={{textAlign: "center"}}>등록된 게시물이 없습니다.</div>
-          ) : (
-             sortedList.map((item)=>(<ItemCard key={item.pwr_id} data={item}/>))
-          )}
+          {
+            list.length === 0 ? <div style={{textAlign: "center"}}>등록된 게시물이 없습니다.</div>
+            : list.map((item)=>(<ItemCard data={item}/>))
+          }
         </div>
       </div>
     </>
