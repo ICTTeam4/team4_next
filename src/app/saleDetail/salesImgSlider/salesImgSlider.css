@@ -17,14 +17,14 @@
 .slider-images {
   display: flex;
   transition: transform 0.5s ease;
+  height: 100%;
 }
 
 .slider-images img {
   position: relative;
-  left: 550px;
-  width: 550px;
-  height: 550px;
-  object-fit: cover;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
   cursor: pointer;
   
 }
