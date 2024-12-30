@@ -39,9 +39,10 @@ const ContactPage = () => {
     borderRadius: '30px', // 테두리 둥글게 조정
     boxSizing: 'border-box', // border-box로 설정
     '&:hover': {
-      backgroundColor: '#eeeeee',
+      backgroundColor: '#000000',
       border: '3px solid gray', // hover 상태에서도 border 유지
-      borderColor: 'black'
+      borderColor: 'black',
+      color:'white'
     }
   }}
 >

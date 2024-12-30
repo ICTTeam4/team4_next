@@ -6,7 +6,8 @@
   background: #ffffff !important; /* 배경색 설정 */
   display: flex !important;
   flex-direction: column !important;
-  transition: right 0.35s ease-in-out;
+  transition: right 0.7s ease-in-out;
+  z-index: 90 !important;
 }
 
 .chat-page.open {
@@ -27,6 +28,10 @@
   background: none !important;
   cursor: pointer !important;
   font-size: 16px !important;
+}
+
+.chat-close-button:hover {
+  all: unset;
 }
 
 .chat-list {
@@ -75,21 +80,22 @@
 }
 
 .chat-name {
-  font-size: 16px !important;
+  font-size: 15px !important;
   font-weight: bold !important;
+  margin-top: 10px;
 }
 
 .chat-date {
   font-size: 12px !important;
   margin-left: 10px !important;
-  color: #888 !important;
+  color: gray !important;
 }
 
 .chat-message {
   font-size: 14px !important;
-  color: #333 !important;
+  color: gray !important;
   background-color: #fff !important;
-  margin-top: 4px !important;
+  margin-top: 10px !important;
 }
 /* 오버레이 */
 .chatoverlay2 {
@@ -99,8 +105,8 @@
   width: 100% !important;
   height: 100% !important;
   background: rgba(0, 0, 0, 0) ; /* 어두운 반투명 효과 */
-  transition: right 0.5s ease-in-out !important; /* 부드러운 애니메이션 */
-  z-index: 11; 
+  transition: right 0.35s ease-in-out !important; /* 부드러운 애니메이션 */
+  z-index: 99; 
 }
 .chatDetail_sidebar {
   position: fixed !important;
@@ -110,7 +116,7 @@
   height: 100% !important;
   background: #ffffff !important;
   z-index: 100; /* 충분히 높은 z-index 값 설정 */
-  transition: right 0.5s ease; /* 부드러운 오른쪽 이동을 위한 트랜지션 */
+  transition: right 0.35s ease; /* 부드러운 오른쪽 이동을 위한 트랜지션 */
 }
 .chat-list:hover {
   background: rgba(0, 0, 0, 0.02) !important; /* 전체 chat-list에 적용 */
@@ -124,4 +130,14 @@
 .chatDetail_sidebar.open {
   right: 0 !important; /* 화면 안으로 이동 */
   background: #ffffff !important;
+}
+.close-button{
+  all: unset;
+  cursor: pointer;
+}
+.close_button {
+  width: 22px;
+  height: 22px;
+  margin: 15px 0px 0px 15px;
+  z-index: 10;
 }

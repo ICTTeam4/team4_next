@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import './headerNavi.css';
+import './headerNavi.css'; // CSS 모듈 import
 import useAuthStore from '../../../store/authStore';
 import { usePathname, useSearchParams } from 'next/navigation'; // useSearchParams 추가
 
@@ -29,27 +29,29 @@ const Page = () => {
   ];
 
   return (
-    <div className='max_width_container'>
-      <div className="header_navi">
-        <div className="navi_inner">
-          <ul className="navi_list">
-            {navItems.map((item, index) => {
-              // 경로를 전체 경로로 변환한 후 비교
-              const fullPath = getFullPath(item.path);
-              const isSelected = pathname === item.path || pathname === fullPath;
+    <div className='header_navigation'>
+      <div className="max_width_container">
+        <div className="header_navi">
+          <div className="navi_inner">
+            <ul className="navi_list">
+              {navItems.map((item, index) => {
+                // 경로를 전체 경로로 변환한 후 비교
+                const fullPath = getFullPath(item.path);
+                const isSelected = pathname === item.path || pathname === fullPath;
 
-              return (
-                <li
-                  className={`navi_item ${isSelected ? 'selected' : ''}`} // 'selected' 클래스 추가
-                  key={index}
-                >
-                  <Link href={fullPath} className="navi_link">
-                    {item.name}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+                return (
+                  <li
+                    className={`navi_item ${isSelected ? 'selected' : ''}`} // 'selected' 클래스 추가
+                    key={index}
+                  >
+                    <Link href={fullPath} className="navi_link">
+                      {item.name}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </div>
     </div>

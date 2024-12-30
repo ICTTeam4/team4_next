@@ -39,6 +39,7 @@
 }
 .infoTitle{
   font-size: 20px;
+  color: black;
   font-weight: bold;
 }
 /* 활성화된 상태 */
@@ -82,10 +83,10 @@
 }
 .salesDescription {
   grid-area : description;
-  width: 700px;
+
 }
 .sellerInfo {
-  grid-area : sellerinfo;
+display: inline-flexbox;
  
 }
 .relatedGoods {
@@ -145,11 +146,7 @@
   border-right: 1px solid gainsboro;
 }
 .sellerContainer{
-  display: grid;
-  height: 100%;
-  width: 100%;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+
   grid-template-areas: 
   "sellerNickname"
   "sellerData"
@@ -162,7 +159,10 @@
   font-size: x-large;
 }
 .sellerFont{
+  margin-top: 0;
+  font-size: 25px;
   font-weight: bold;
+  color: black;
 }
 .sellerInfo{
   height: 30px;
@@ -173,9 +173,8 @@
   height: 30px;
 }
 .sellerNickname{
-  margin-top: 20px;
+  margin-top: 10px;
   grid-area: sellerNickname ;
-  font-size: xx-large;
   line-height: 90px;
 }
 .sellerData{
@@ -332,6 +331,7 @@
 .sellerGoodsTitle{
   margin-top: 10px;
   font-weight: bold;
+  color: black;
   margin-left: 5px;
   
 }

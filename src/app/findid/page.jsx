@@ -1,6 +1,7 @@
 "use client";
 import { Button, TextField, Typography } from "@mui/material";
 import React, { useState, useRef, useEffect } from "react";
+import "./findid.css"; // 외부 CSS 파일 임포트
 
 const FindEmailPage = () => {
   const [phone, setPhone] = useState("");
@@ -36,19 +37,19 @@ const FindEmailPage = () => {
   };
 
   return (
-    <div style={{ textAlign: "center", padding: "50px 20px" }}>
-      <Typography variant="h4" style={{ fontWeight: "bold", marginBottom: "10px" }}>
+    <div className="background_container">
+      <div className="container">
+        <div className="paper_card">
+      <Typography variant="h4" className="title">
         이메일 아이디 찾기
       </Typography>
-      <hr style={{ border: "none", borderTop: "2px solid #000", margin: "10px auto 20px", width: "400px" }} />
-      <Typography variant="body2" style={{ color: "#555", marginBottom: "30px" }}>
-        가입 시 등록한 휴대폰 번호를 입력하면 <br />
+      <hr className="separator" />
+      <Typography variant="body2" className="description">
+        등록하신 휴대폰 번호를 입력하면 <br />
         이메일 주소의 일부를 알려드립니다.
       </Typography>
-      <form style={{ display: "inline-block", textAlign: "left", width: "300px" }}>
-        <label style={{ display: "block", fontWeight: "bold", marginBottom: "10px", color: "#333" }}>
-          휴대폰 번호
-        </label>
+      <form className="form" onSubmit={(e) => e.preventDefault()}>
+        <label className="label">휴대폰 번호</label>
         <TextField
           variant="standard"
           fullWidth
@@ -56,26 +57,20 @@ const FindEmailPage = () => {
           value={phone}
           onChange={handlePhoneChange}
           inputRef={phoneInputRef}
-          style={{
-            marginBottom: "30px",
-          }}
+          className="textField"
         />
         <Button
           variant="contained"
           fullWidth
           disabled={isBtnDisabled}
           onClick={handleFindEmail}
-          style={{
-            padding: "10px",
-            backgroundColor: isBtnDisabled ? "lightgray" : "#000",
-            color: "white",
-            borderRadius: "5px",
-            fontWeight: "bold",
-          }}
+          className={`button ${isBtnDisabled ? "buttonDisabled" : "buttonEnabled"}`}
         >
           이메일 아이디 찾기
         </Button>
       </form>
+      </div>
+      </div>
     </div>
   );
 };

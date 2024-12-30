@@ -7,7 +7,6 @@ import MarketingPolicy from './MarketingPolicy';
 import PrivacyPolicy from './PrivacyPolicy';
 import { useRouter } from 'next/navigation';
 
-
 const RegisterPage = () => {
   const router = useRouter();
   const LOCAL_API_BASE_URL = process.env.NEXT_PUBLIC_LOCAL_API_BASE_URL;
@@ -22,15 +21,8 @@ const RegisterPage = () => {
   const [isPhoneVerified, setIsPhoneVerified] = useState(false); // 인증 완료 여부
 
 
-
-
-function handleSubmit() {
-    console.log('Submitting form:', formData);
-    // 가입 처리 로직
-}
-
   const initUser = {
-    nickname: "",
+    nickname : "",
     name: "",
     email: "",
     tel_no: "",
@@ -82,7 +74,7 @@ function handleSubmit() {
       alert("인증번호를 입력하세요.");
       return;
     }
-
+  
     try {
       const response = await axios.post(`${LOCAL_API_BASE_URL}/members/verify-phone-auth`, null, {
         params: { phone: user.tel_no, code: authCode },
@@ -95,7 +87,7 @@ function handleSubmit() {
       setIsPhoneVerified(false); // 인증 실패
     }
   };
-
+  
 
   const handleAgreementChange = (e) => {
     const { name, checked } = e.target;
@@ -137,68 +129,68 @@ function handleSubmit() {
   };
 
 
-  const handleCheckEmail = async () => {
-    try {
-      const response = await axios.get(`${LOCAL_API_BASE_URL}/members/check-email`, {
-        params: { email: user.email }
-      });
-      if (response.data) {
-        alert("사용 가능한 이메일입니다.");
-        setIsEmailChecked(true); // 이메일 중복 확인 성공
-      } else {
-        alert("이미 사용 중인 이메일입니다.");
-        setIsEmailChecked(false);
-      }
-    } catch (error) {
-      console.error("이메일 중복 확인 오류:", error);
-      alert("이메일 확인 중 문제가 발생했습니다.");
+const handleCheckEmail = async () => {
+  try {
+    const response = await axios.get(`${LOCAL_API_BASE_URL}/members/check-email`, {
+      params: { email: user.email }
+    });
+    if (response.data) {
+      alert("사용 가능한 이메일입니다.");
+      setIsEmailChecked(true); // 이메일 중복 확인 성공
+    } else {
+      alert("이미 사용 중인 이메일입니다.");
       setIsEmailChecked(false);
     }
-  };
+  } catch (error) {
+    console.error("이메일 중복 확인 오류:", error);
+    alert("이메일 확인 중 문제가 발생했습니다.");
+    setIsEmailChecked(false);
+  }
+};
 
-  const handleSendPhoneAuth = async () => {
-    if (!user.tel_no) {
-      alert("휴대전화 번호를 입력하세요.");
-      return;
-    }
+const handleSendPhoneAuth = async () => {
+  if (!user.tel_no) {
+    alert("휴대전화 번호를 입력하세요.");
+    return;
+  }
 
-    try {
-      const response = await axios.post(`${LOCAL_API_BASE_URL}/members/send-phone-auth`, null, {
-        params: { phone: user.tel_no },
-      });
-      alert(response.data.message); // 성공 메시지 표시
-    } catch (error) {
-      console.error("휴대폰 인증 요청 오류:", error);
-      alert("휴대폰 인증 요청에 실패했습니다. 다시 시도해주세요.");
-    }
-  };
+  try {
+    const response = await axios.post(`${LOCAL_API_BASE_URL}/members/send-phone-auth`, null, {
+      params: { phone: user.tel_no },
+    });
+    alert(response.data.message); // 성공 메시지 표시
+  } catch (error) {
+    console.error("휴대폰 인증 요청 오류:", error);
+    alert("휴대폰 인증 요청에 실패했습니다. 다시 시도해주세요.");
+  }
+};
 
 
 
-  const goServer = async () => {
-    console.log("회원가입 데이터:", user); // 요청 데이터 확인
+const goServer = async () => {
+  console.log("회원가입 데이터:", user); // 요청 데이터 확인
 
-    try {
-      const response = await axios.post(API_URL, user, {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-
-      console.log("서버 응답 알려줘!!!!:", response.data); // 서버 응답 데이터 확인
-
-      // 응답 메시지 확인
-      if (response.data.message === "회원가입 성공") {
-        alert(response.data.message); // 성공 메시지 표시
-        router.push("/login"); // 로그인 페이지로 이동
-      } else {
-        alert(response.data.message); // 실패 메시지 표시
+  try {
+    const response = await axios.post(API_URL, user, {
+      headers: {
+        "Content-Type": "application/json"
       }
-    } catch (error) {
-      console.error("회원가입 요청 중 오류:", error.response?.data || error.message);
-      alert("회원가입 요청에 실패했습니다. 다시 시도해주세요.");
+    });
+
+    console.log("서버 응답 알려줘!!!!:", response.data); // 서버 응답 데이터 확인
+
+    // 응답 메시지 확인
+    if (response.data.message === "회원가입 성공") {
+      alert(response.data.message); // 성공 메시지 표시
+      router.push("/login"); // 로그인 페이지로 이동
+    } else {
+      alert(response.data.message); // 실패 메시지 표시
     }
-  };
+  } catch (error) {
+    console.error("회원가입 요청 중 오류:", error.response?.data || error.message);
+    alert("회원가입 요청에 실패했습니다. 다시 시도해주세요.");
+  }
+};
 
 
 
@@ -208,8 +200,8 @@ function handleSubmit() {
 
   return (
     <div style={{ backgroundColor: '#f7f7f7', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <Paper elevation={0} style={{ width: '480px', padding: '40px', borderRadius: '10px', marginTop: '10px', marginBottom: '10px' }}>
-        <Typography variant="h5" component="h1" style={{ marginBottom: '30px', marginTop: '0px', textAlign: 'left', fontWeight: 'bold' }}>
+      <Paper elevation={0} style={{ width: '480px', padding: '40px', borderRadius: '10px', marginTop: '10px', marginBottom:'10px' }}>
+        <Typography variant="h5" component="h1" style={{ marginBottom: '30px', marginTop:'0px', textAlign: 'left', fontWeight: 'bold' }}>
           회원가입
         </Typography>
         <form style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
@@ -264,70 +256,70 @@ function handleSubmit() {
 
           <label style={{ marginBottom: '5px', fontSize: '14px', color: '#333', fontWeight: 'bold', textAlign: 'left' }}>휴대전화 번호</label>
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
-            <TextField
-              variant="standard"
-              name="tel_no"
-              value={user.tel_no}
-              onChange={handlePhoneChange}
-              type="tel"
-              disabled={!isNicknameChecked || !isEmailChecked}
-              placeholder="010-1234-5678"
-              style={{
-                flex: 1,
-                padding: '10px',
-                outline: 'none',
-                backgroundColor: 'transparent',
-              }}
-            />
-            <Button
-              type="button"
-              variant="outlined"
-              style={{
-                marginLeft: '10px',
-                padding: '4px 10px',
-                backgroundColor: '#f5f5f5',
-                color: '#333',
-                border: '1px solid #ddd',
-              }}
-              onClick={handleSendPhoneAuth}
-            >
-              휴대폰 인증 요청
-            </Button>
-          </div>
+          <TextField
+                variant="standard"
+                name="tel_no"
+                value={user.tel_no}
+                onChange={handlePhoneChange}
+                type="tel"
+                disabled={!isNicknameChecked || !isEmailChecked}
+                placeholder="010-1234-5678"
+                style={{
+                  flex: 1,
+                  padding: '10px',
+                  outline: 'none',
+                  backgroundColor: 'transparent',
+                }}
+              />
+             <Button
+                  type="button"
+                  variant="outlined"
+                  style={{
+                    marginLeft: '10px',
+                    padding: '4px 10px',
+                    backgroundColor: '#f5f5f5',
+                    color: '#333',
+                    border: '1px solid #ddd',
+                  }}
+                  onClick={handleSendPhoneAuth}
+                >
+                  휴대폰 인증 요청
+                </Button>
+              </div>
 
-          {/* 인증번호 입력 및 검증 */}
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
-            <TextField
-              variant="standard"
-              name="authCode"
-              value={authCode}
-              onChange={(e) => setAuthCode(e.target.value)}
-              type="text"
-              placeholder="인증번호 입력"
-              disabled={!user.tel_no}
-              style={{
-                flex: 1,
-                padding: '10px',
-                outline: 'none',
-                backgroundColor: 'transparent',
-              }}
-            />
-            <Button
-              type="button"
-              variant="outlined"
-              style={{
-                marginLeft: '10px',
-                padding: '4px 10px',
-                backgroundColor: '#f5f5f5',
-                color: '#333',
-                border: '1px solid #ddd',
-              }}
-              onClick={handleVerifyPhoneAuth}
-              disabled={!user.tel_no || isPhoneVerified}
-            >
-              인증번호 확인
-            </Button>
-          </div>
+               {/* 인증번호 입력 및 검증 */}
+                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
+                  <TextField
+                    variant="standard"
+                    name="authCode"
+                    value={authCode}
+                    onChange={(e) => setAuthCode(e.target.value)}
+                    type="text"
+                    placeholder="인증번호 입력"
+                    disabled={!user.tel_no}
+                    style={{
+                      flex: 1,
+                      padding: '10px',
+                      outline: 'none',
+                      backgroundColor: 'transparent',
+                    }}
+                  />
+                  <Button
+                    type="button"
+                    variant="outlined"
+                    style={{
+                      marginLeft: '10px',
+                      padding: '4px 10px',
+                      backgroundColor: '#f5f5f5',
+                      color: '#333',
+                      border: '1px solid #ddd',
+                    }}
+                    onClick={handleVerifyPhoneAuth}
+                    disabled={!user.tel_no || isPhoneVerified}
+                  >
+                    인증번호 확인
+                  </Button>
+                </div>     
 
 
 

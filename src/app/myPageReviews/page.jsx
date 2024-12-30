@@ -193,7 +193,6 @@ function Page(props) {
                                                 </dl>
                                             </a>
                                         </div>
-
                                         {/* 내 후기 탭 */}
                                         <div className={`tab_item ${activeTab === '내후기' ? 'tab_on' : ''}`}
                                             onClick={() => handleTabClick('내후기')}>

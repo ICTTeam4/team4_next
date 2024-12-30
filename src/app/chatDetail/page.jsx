@@ -8,7 +8,7 @@ import ChatReport from './chatReport/page';
 import ChatCheck from './chatCheck/page';
 import { useRouter } from 'next/navigation';
 
-const Page = ({ room_id,host_id,closeChat,closeDetail }) => {
+const Page = ({ room_id, host_id, closeChat, closeDetail }) => {
   const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfilePopupOpen, setIsProfilePopupOpen] = useState(false);
@@ -18,7 +18,7 @@ const Page = ({ room_id,host_id,closeChat,closeDetail }) => {
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
-  
+
   };
 
   const toggleProfilePopup = () => {
@@ -31,15 +31,15 @@ const Page = ({ room_id,host_id,closeChat,closeDetail }) => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
-        
+
       }
       if (profileRef.current && !profileRef.current.contains(event.target)) {
         setIsProfilePopupOpen(false);
-       
+
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
-    
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
@@ -52,55 +52,70 @@ const Page = ({ room_id,host_id,closeChat,closeDetail }) => {
       {/* 상단 헤더 */}
       <header className="chat-detail-header">
         <div className="chat-detail-info">
-          <div className="chat-detail-photo"><img src='../images/HY_profile2.jpg'/></div>
+          <div className="chat-detail-photo"><img src='../images/HY_profile2.jpg' /></div>
           <div className="chat-detail-user">닉네임</div>
         </div>
         <div className="chat-detail-actions">
           <Button className="profile-button" sx={{
             color: 'gray',
-            ":hover": { background: '#eee', border: 'none' },
-            
+            ":hover": { background: '#f5f5f5' }
+
           }} onClick={toggleProfilePopup} >👤</Button>
 
-          <Button className="options-button" sx={{
-            color: 'gray',
-            ":hover": { background: '#eee', border: 'none'}
-          }} onClick={toggleDropdown}>⋮</Button>
+          <Button
+            className="options-button"
+            sx={{
+              padding: '8px',
+              ":hover": { background: '#f5f5f5' },
+            }}
+            onClick={toggleDropdown}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="3" r="2" />
+              <circle cx="12" cy="12" r="2" />
+              <circle cx="12" cy="21" r="2" />
+            </svg>
+          </Button>
 
           {isDropdownOpen && (
             <div ref={dropdownRef} className="dropdown-menu" style={{ marginBottom: '20px' }}>
 
-              <button onClick={() => {setActivePage('chatReport');  setIsDropdownOpen(false); }}>신고하기</button>
-              <button onClick={() => {setActivePage('chatBlock');  setIsDropdownOpen(false); }}>차단하기</button>
+              <button onClick={() => { setActivePage('chatReport'); setIsDropdownOpen(false); }} style={{ fontSize: '14px' }}>신고하기</button>
+              <button onClick={() => { setActivePage('chatBlock'); setIsDropdownOpen(false); }} style={{ fontSize: '14px' }}>차단하기</button>
             </div>
           )}
           {isProfilePopupOpen && (
             <div ref={profileRef} className="profile-popup" style={{ marginBottom: '20px' }}>
-              <button onClick={() => {setActivePage('chatCheck'); setIsProfilePopupOpen(false);}}>안전유저 검사</button>
+              <button onClick={() => { setActivePage('chatCheck'); setIsProfilePopupOpen(false); }} style={{ fontSize: '14px' }}>안전유저 검사</button>
             </div>
           )}
         </div>
       </header>
       {/* 채팅방이동 버튼 */}
-     {activePage !== 'chatRoom' &&(
-      <Button
-      sx={{
-        color: 'black',
-        justifyContent:'left',
-        border:'1px solid lightgray',
-        width:'120px',
-        left: '2px',
-        marginTop:'2px',
-        marginBottom:'10px',
-        ":hover": { background: '#eee' }
-      }}
-      className="chatback-button"
-      onClick={() => setActivePage('chatRoom')} // chatRoom으로 이동
-    >
-      채팅방으로 이동
-    </Button>
-     )}
-     
+      {activePage !== 'chatRoom' && (
+        <Button
+          sx={{
+            marginLeft:'15px',
+            padding:'4px',
+            fontWeight:'bold',
+            color: 'black',
+            justifyContent: 'left',
+            width: '85px',
+            height: '40px',
+            left: '2px',
+            marginTop: '2px',
+            marginBottom: '10px',
+            ":hover": { backgroundColor: '#f5f5f5' }
+          }}
+          className="chatback-button"
+          onClick={() => setActivePage('chatRoom')} // chatRoom으로 이동
+        >
+          <img src='/images/HJ_chatImg.png' style={{
+          height:'25px', marginLeft:'5px', marginRight:'8px'
+          }}/>이동
+        </Button>
+      )}
+
       {/* 조건부 렌더링 */}
       {activePage === 'chatRoom' && <ChatRoom room_id={room_id} host_id={host_id} />}
       {activePage === 'chatBlock' && <ChatBlock room_id={room_id} host_id={host_id} />}

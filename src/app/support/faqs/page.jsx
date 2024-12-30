@@ -32,7 +32,7 @@ const FaqPage = () => {
       <h2 style={{ color: '#333', borderBottom: '3px solid black', paddingBottom: '10px', textAlign: 'left' }}>자주 묻는 질문</h2>
       <div>
         {faqs.map((faq) => (
-          <div key={faq.id} style={{ padding: '10px 0', borderBottom: '1px solid #ccc' }}>
+          <div key={faq.id} style={{ padding: '5px 0', borderBottom: '1px solid #ccc' }}>
             <Button onClick={() => handleClickOpen(faq)} style={{ textDecoration: 'none', color: 'black', textTransform: 'none', width: '100%', justifyContent: 'left' }}>
               {faq.question}
             </Button>

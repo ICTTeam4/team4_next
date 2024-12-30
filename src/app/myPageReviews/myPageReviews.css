@@ -493,7 +493,8 @@
 .myPageReviews .list_item_status .column_last .last_title{
     font-size: 14px;
     letter-spacing: -.21px;
-    text-decoration: underline;
+    margin-top: 10px;
+    
 }
 
 .myPageReviews .list_item_status .column_last .last_description.action_named_action{
