@@ -34,7 +34,19 @@ const LoginPage = () => {
       if (response.data.success) {
         localStorage.setItem("token", response.data.token); // JWT 토큰 저장
         alert("일반회원 로그인 성공!");
-        login(response.data.data, response.data.token); // Zustand에 사용자 정보 저장
+        //login(response.data.data, response.data.token); // Zustand에 사용자 정보 저장
+
+        // 사용자 정보 저장
+        const user = {
+          member_id: response.data.data.member_id,
+          email: response.data.data.email,
+          nickname: response.data.data.nickname,
+          name: response.data.data.name,
+          tel_no: response.data.data.tel_no,
+        };
+        console.log("닉네임 확인:", user.nickname); // 로그로 닉네임 확인  
+        login(user, response.data.token); // Zustand에 사용자 정보 저장
+
         router.push("/"); // 리디렉션
       } else {
         alert(response.data.message); // 실패 메시지 표시
@@ -47,34 +59,36 @@ const LoginPage = () => {
     }
   };
 
-   //로그아웃 처리  -- 현재 안되는거같음..
-    const handleLogout = () => {
-     localStorage.removeItem("token"); // 토큰 제거
-     setIsLoggedIn(false); // 상태 업데이트
+  //로그아웃 처리  -- 현재 안되는거같음..
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // 토큰 제거
+    setIsLoggedIn(false); // 상태 업데이트
     alert("로그아웃되었습니다.");
-     window.location.reload(); // 페이지 리로드 또는 라우팅
-   };  
+    window.location.reload(); // 페이지 리로드 또는 라우팅
+  };
 
-// URL 쿼리 파라미터에서 토큰 확인 후 처리
-useEffect(() => {
-  const searchParams = new URLSearchParams(window.location.search);
-  const token = searchParams.get("token");
-  const username = searchParams.get("username");
-  const email = searchParams.get("email");
-  const name = searchParams.get("name");
+  // URL 쿼리 파라미터에서 토큰 확인 후 처리
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const token = searchParams.get("token");
+    const username = searchParams.get("username");
+    const email = searchParams.get("email");
+    const name = searchParams.get("name");
+    const provider = searchParams.get("provider");
+    // const nickname = searchParams.get("nickname");
 
-  if (token && username && email && name) {
-    alert("로그인 성공");
-    // 사용자 정보 생성
-    const user = {
-      username, email, name
+    if (token && username && email && name) {
+      alert("로그인 성공");
+      // 사용자 정보 생성
+      const user = {
+        username, email, name, provider
 
-    };
-    
-    login(user, token); // Zustand 상태에 저장
-    router.push("/"); // 홈으로 이동
-  }
-}, [login, router]);
+      };
+
+      login(user, token); // Zustand 상태에 저장
+      router.push("/"); // 홈으로 이동
+    }
+  }, [login, router]);
 
 
   // 이메일 입력 필드에 대한 참조 생성

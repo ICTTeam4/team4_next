@@ -81,10 +81,10 @@ function Page(props) {
             // 수정모드
             setIsEditing(true);
             setEditingAddressId(address.id);
-            setName(address.name);
-            setPhone(address.phone);
-            setZipcode(address.zipcode);
-            setAddressInput(address.address);
+            setName(address.name || "");
+            setPhone(address.phone || "");
+            setZipcode(address.zipcode || "");
+            setAddressInput(address.address || "");
             setDetailAddress(address.detailAddress || "");
             setIsChecked(address.isDefault);
         } else {

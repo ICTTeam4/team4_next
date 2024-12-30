@@ -72,10 +72,14 @@
     unicode-bidi: isolate;
 }
 
-.myPageSell *,
-.myPageSell :after,
-.myPageSell :before {
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+.myPageSell .nothing_at_all{
+    text-align: center;
+    margin-top: 150px;
+    color: gray;
+}
+
+.myPageSell *, .myPageSell :after, .myPageSell :before {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
     box-sizing: border-box
 }
 
