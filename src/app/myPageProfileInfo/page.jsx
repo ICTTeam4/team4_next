@@ -12,9 +12,11 @@ function Page(props) {
     const [userName, setUserName] = useState("사용자 이름"); // 사용자 이름
     const [tempProfileName, setTempProfileName] = useState(profileName); // 임시 프로필 이름
     const [tempUserName, setTempUserName] = useState(userName); // 임시 사용자 이름
+    const [profileImage, setProfileImage] = useState("/images/JH_userImg.png"); // 초기 이미지 상태 추가
 
     const profileNameInputRef = useRef(null);
     const userNameInputRef = useRef(null);
+    const fileInputRef = useRef(null); // 파일 입력 ref 추가
 
     const handleEditClick = (field) => {
         setIsEditing(true);
@@ -43,6 +45,61 @@ function Page(props) {
         setEditingField(null); // 수정 중인 필드 초기화
     };
 
+    // const uploadImageToServer = async (file) => {
+    //     const formData = new FormData();
+    //     formData.append('profileImage', file);
+
+    //     try {
+    //         const response = await fetch('/api/upload', { // 실제 API 엔드포인트로 변경해야 함함
+    //             method: 'POST',
+    //             body: formData,
+    //         });
+    //         const data = await response.json();
+    //         if (response.ok){
+    //             setProfileImage(data.imageUrl); // 서버에서 반환한 이미지 URL로 업데이트
+    //         }else{
+    //             console.error('이미지 업로드 실패: ', data.message);
+    //         }
+    //     } catch (error) {
+    //         console.error('이미지 업로드 중 오류 발생: ', error);
+    //     }
+    // };
+
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            if(!validImageTypes.includes(file.type)){
+                alert('지원되지 않는 파일 형식입니다. JPG, PNG, GIF 파일만 업로드할 수 있습니다.');
+                return;
+            }
+
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            if(file.size > maxSize){
+                alert("파일 크기가 너무 큽니다. 최대 5MB까지 업로드할 수 있습니다.");
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setProfileImage(reader.result);
+                // 여기서 서버로 이미지를 업로드할 수 있음
+                // 예: uploadImageToServer(file);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleImageChangeClick = () => {
+        if(fileInputRef.current){
+            fileInputRef.current.click();
+        }
+    };
+
+    const handleImageDelete = () => {
+        setProfileImage("/images/JH_userImg.png"); // 기본이미지로 되돌리기
+        // 필요시 서버에서 이미지를 삭제하는 로직을 추가할 수 있습니다.
+    };
 
     return (
 
@@ -57,15 +114,29 @@ function Page(props) {
                             </div>
                         </div>
                         <div className='user_profile'>
-                            <input type="file" hidden="#" />
+                            <input 
+                            type="file" 
+                            ref={fileInputRef}
+                            hidden
+                            accept='image/*'
+                            onChange={handleImageChange} 
+                            />
                             <div className='profile_thumb'>
-                                <img src="/images/JH_userImg.png" alt="사용자 이미지" className='thumb_img' />
+                                <img src={profileImage} alt="사용자 이미지" className='thumb_img' />
                             </div>
                             <div className='profile_detail'>
                                 <strong className='name'>{profileName}</strong>
                                 <div className='profile_btn_box'>
-                                    <button type="button" className='btn outlinegrey small'> 이미지 변경 </button>
-                                    <button type="button" className='btn outlinegrey small'> 삭제 </button>
+                                    <button 
+                                    type="button" 
+                                    className='btn outlinegrey small'
+                                    onClick={handleImageChangeClick}
+                                    > 이미지 변경 </button>
+                                    <button 
+                                    type="button" 
+                                    className='btn outlinegrey small'
+                                    onClick={handleImageDelete}
+                                    > 삭제 </button>
                                 </div>
                             </div>
                         </div>

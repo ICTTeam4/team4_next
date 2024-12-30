@@ -35,6 +35,8 @@ const HeaderMain = () => {
     };
   }, []);
 
+  
+
   const closeChat = () => {
     if (isChatOpen) {
       setChatOpen(false);
@@ -57,36 +59,48 @@ const HeaderMain = () => {
   };
 
 // 휘주 수정본 구역 시작
-  useEffect(() => {
-    const queryFromURL = searchParams.get('query') || '';
+useEffect(() => {
+  const queryFromURL = searchParams.get("query") || "";
+  if (queryFromURL) {
+    setKeyword(queryFromURL); // URL에서 검색어 가져오기
+    setShowSearchBar(true); // 검색창 활성화
+  } else {
+    setShowSearchBar(false); // 검색창 숨김
+  }
+}, [searchParams]);
 
-    if (queryFromURL) {
-      setKeyword(queryFromURL); // URL에서 검색어를 가져와서 상태에 설정
-      setShowSearchBar(true); // 쿼리가 있을 때 검색창을 보이도록 설정
+const handleChange = (e) => {
+  setKeyword(e.target.value); // 상태에 검색어 업데이트
+};
+
+const handleKeyDown = (event) => {
+  if (event.key === "Enter") {
+    if (searchKeyword.trim() !== "") {
+      // 카테고리 페이지인지 확인
+      const isCategoryPage = pathname.includes("outerList") || 
+                             pathname.includes("topList") || 
+                             pathname.includes("bottomList") || 
+                             pathname.includes("shoesList") || 
+                             pathname.includes("bagsList") || 
+                             pathname.includes("accessoriesList");
+
+      // 카테고리 페이지는 현재 경로에 쿼리를 추가, 아니면 itemSearchResult로 이동
+      const targetPath = isCategoryPage
+        ? `${pathname}?query=${encodeURIComponent(searchKeyword)}`
+        : `/itemSearchResult?query=${encodeURIComponent(searchKeyword)}`;
+      
+      router.push(targetPath);
     } else {
-      setShowSearchBar(false); // 그 외 페이지에서는 검색창을 숨김
+      alert("검색어를 입력해주세요!");
     }
-  }, [pathname, searchParams]); // pathname과 searchParams가 변경될 때마다 실행
+  }
+};
 
   const handleSearchClick = () => {
     router.push('/searchPage');
   };
 
-  const handleChange = (e) => {
-    // setSearchQuery(e.target.value);
-    setKeyword(e.target.value);
-  };
-
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      if (searchKeyword.trim() !== "") {
-        router.push(`/itemSearchResult?query=${encodeURIComponent(searchKeyword)}`);
-
-      } else {
-        alert("검색어를 입력해주세요!");
-      }
-    }
-  };
+  
 // 휘주 수정본 구역 끝
   return (
     <div className='max_width_container'>

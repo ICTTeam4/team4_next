@@ -358,7 +358,7 @@ const handleCheckChange = (event) => {
           </div>
         </li>
       </ul>
-      <button className="register-button">등 록</button>
+      <button className="register-button" onClick={handleSubmit}>등 록</button>
     </div>
   );
 }

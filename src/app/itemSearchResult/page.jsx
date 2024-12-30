@@ -5,56 +5,61 @@ import './itemSearchResult.css';
 import ItemCard from '../itemCard/page';
 import FilterButtonsSection from '../filterButtonsSection/page';
 import FilterSidebar from '../filterSidebar/page';
-import useAuthStore from '../../../store/authStore';
+import axios from 'axios';
 
 function Page() {
-  const {searchKeyword, resetKeyword, setKeyword } = useAuthStore();
   const searchParams = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
   const [isSidebarActive, setIsSidebarActive] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const query = searchParams.get('query') || '';
+  const status = searchParams.get('status') || '';
 
   useEffect(() => {
-    const query = searchParams.get('query') || '';
-    setSearchQuery(query);
-    fetchSearchResults(query);  // 페이지가 렌더링될 때마다 검색 결과를 가져옴
-  }, [searchParams]);
+    if (status === 'success') {
+      fetchSearchResults(query);
+    }
+  }, [query, status]);
 
   const toggleSidebar = () => {
     setIsSidebarActive(!isSidebarActive);
   };
 
-    // 검색 결과를 가져오는 함수
-    const fetchSearchResults = async (query) => {
-      if (query) {
-        try {
-          // 요청 URL을 로그에 찍어 확인
-          console.log("요청 URL:", `/api/searchItems?keyword=${encodeURIComponent(query)}`);
-          const response = await fetch(`/api/searchItems?keyword=${encodeURIComponent(query)}`);
-          const data = await response.json();
-          setSearchResults(data); // 서버에서 받은 검색 결과를 상태에 저장
-        } catch (error) {
-          console.error("검색 오류:", error);
-        }
-      }
-    };
+  const fetchSearchResults = async (query) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await axios.get(`/searchItems`, {
+        params: { keyword: query },
+      });
+
+      setSearchResults(response.data.items || []);
+    } catch (err) {
+      setError('검색 결과를 가져오는 중 문제가 발생했습니다.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
-        
       <FilterSidebar isActive={isSidebarActive} toggleSidebar={toggleSidebar} />
       <FilterButtonsSection toggleSidebar={toggleSidebar} />
-          <h3 style={{ textAlign: 'center', color:'lightgray'}}>검색 결과 : {searchKeyword}</h3>
+      <h3 style={{ textAlign: 'center', color: 'lightgray' }}>
+        검색 결과 : "{query}"
+        {status === 'empty' && ` 에 대한 검색결과가 존재하지 않습니다.`}
+      </h3>
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '-10px' }}>
-        <div className='main_list_container'>
-          {/* 검색 결과가 없을 때와 있을 때 분기 처리 */}
-          {searchQuery ? (
-            <>
-              {/* 
-              여기에 검색 결과에 해당하는 <ItemCard query={searchQuery}/> 들이 나와야함
-              */}
-            </>
+        <div className="main_list_container">
+          {loading && <p>로딩 중입니다...</p>}
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          {!loading && !error && searchResults.length > 0 ? (
+            searchResults.map((data, index) => <ItemCard key={index} data={data} />)
           ) : (
-            <p style={{ textAlign: 'center' }}>검색어가 없습니다. 다시 입력해 주세요.</p>
+            !loading && !error && <p>검색 결과가 없습니다.</p>
           )}
         </div>
       </div>
