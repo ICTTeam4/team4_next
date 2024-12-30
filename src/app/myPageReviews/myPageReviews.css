@@ -1004,6 +1004,10 @@
     display: block !important;
   }
   
-  
+  .myPageReviews .nothing_at_all{
+    text-align: center;
+    margin-top: 150px;
+    color: gray;
+}
   
   
