@@ -47,13 +47,6 @@ const LoginPage = () => {
     }
   };
 
-   //로그아웃 처리  -- 현재 안되는거같음..
-    const handleLogout = () => {
-     localStorage.removeItem("token"); // 토큰 제거
-     setIsLoggedIn(false); // 상태 업데이트
-    alert("로그아웃되었습니다.");
-     window.location.reload(); // 페이지 리로드 또는 라우팅
-   };  
 
 // URL 쿼리 파라미터에서 토큰 확인 후 처리
 useEffect(() => {
