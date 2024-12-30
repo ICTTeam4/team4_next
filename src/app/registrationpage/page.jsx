@@ -51,29 +51,28 @@ function ProductPage() {
     title: '',
     sell_price: '',
     description: '',
-    category_id: '',
     is_direct: false,
     is_delivery: false
 });
-const handleCheckChange = (event) => {
-  const { name, checked } = event.target; // name: 체크박스 이름, checked: 체크 여부
-  let tinyInt = 0;
-  if (checked) {
-    tinyInt = 1;
-  }
-  setFormData({
-    ...formData, // 기존 상태 유지
-    [name]: tinyInt, // 변경된 체크 상태 업데이트
-  });
-};
+// const handleCheckChange = (event) => {
+//   const { name, checked } = event.target; // name: 체크박스 이름, checked: 체크 여부
+//   let tinyInt = 0;
+//   if (checked) {
+//     tinyInt = 1;
+//   }
+//   setFormData({
+//     ...formData, // 기존 상태 유지
+//     [name]: tinyInt, // 변경된 체크 상태 업데이트
+//   });
+// };
 
   const convertDataURLToFile = async (dataURL, fileName) => {
-    const response =await axios.get(dataURL,{
+    const response = await axios.get(dataURL,{
       responseType : "blob",
     });
     const blob = response.data;
     const imgFile =new File([blob],fileName,{type:blob.type});
-    return imgFile
+    return imgFile;
   };
 
   const handleImageUpload = (event) => {
@@ -152,9 +151,10 @@ const handleCheckChange = (event) => {
     data.append("title", formData.title);
     data.append("sell_price", formData.sell_price);
     data.append("description", formData.description);
-    data.append("category_id", selectedCategory);
-    data.append("is_direct", formData.is_direct);
-    data.append("is_delivery", formData.is_delivery);
+    data.append("sup_category", selectedCategory);
+    data.append("sub_category", selectedSmallCategory);
+    data.append("is_direct", isInPersonTransaction);
+    data.append("is_delivery", isDeliveryTransaction);
     // if (formData.file) {
     //     data.append("file", formData.file);
     // }
@@ -285,11 +285,11 @@ const handleCheckChange = (event) => {
         )}
       </div>
    
-      <input type="text" className="price" placeholder="가격" />
-      <textarea className="product-explain" placeholder="상품 설명"></textarea>
+      <input type="text" className="price" placeholder="가격" onChange={handleChange} value={formData.sell_price} name="sell_price" />
+      <textarea className="product-explain" placeholder="상품 설명" onChange={handleChange} value={formData.description} name="description" ></textarea>
       <p style={{ textAlign: "left" }}>  *  선호하는 직거래 위치</p>
       <div className="location">
-        <input type="text" placeholder="  우편 번호를 입력하세요" />
+        <input type="text" placeholder="  우편 번호를 입력하세요" onChange={handleChange} value={formData.selling_area_id} name="selling_area_id"  />
         <button className="postal-info">우편번호</button>
       </div>
       <ul style={{ padding: '0px' }}>
