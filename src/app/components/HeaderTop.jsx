@@ -9,6 +9,12 @@ function HeaderTop(props) {
     setIsNotibarActive(isNotibarActive);
   }
   const { isAuthenticated, logout } = useAuthStore();
+
+   //로그아웃 처리  -- 현재 알람이  안되는거같음..
+   const handleLogout = () => {
+    logout();
+    alert("로그아웃되었습니다."); // 알림창 표시
+  };
   return (
     
     <div className="max_width_container">
@@ -46,7 +52,7 @@ function HeaderTop(props) {
           {isAuthenticated ? (
       <>
         <li className="top_item">
-          <Link href="/" className="top_link" onClick={logout}>로그아웃</Link>
+          <Link href="/" className="top_link" onClick={handleLogout}>로그아웃</Link>
         </li>
       </>
     ) : (
