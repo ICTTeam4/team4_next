@@ -101,7 +101,8 @@ function Page(props) {
             <div className='search_rank_container'>
               <ul>
                 <li >
-                  테스트
+                  {/* 검색 카운트 수 비교해서 출력되어야함함 */}
+                  테스트 
                 </li>
                 <li>
                  테스트
