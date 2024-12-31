@@ -6,28 +6,41 @@ const Page = ({ data }) => {
 
   console.log(data.fileList); // fileList 배열 확인
   console.log(data.fileList[0]?.fileName); // 첫 번째 파일의 fileName 확인
+
+  function formatTimeAgo(created_at) {
+    const createdTime = new Date(created_at); // `created_at` 문자열을 Date 객체로 변환
+    const now = new Date(); // 현재 시간
+    const diff = Math.floor((now - createdTime) / 1000); // 초 단위 시간 차이
+
+    if (diff < 60) {
+      return `${diff}초 전`;
+    } else if (diff < 3600) {
+      const minutes = Math.floor(diff / 60);
+      return `${minutes}분 전`;
+    } else if (diff < 86400) {
+      const hours = Math.floor(diff / 3600);
+      return `${hours}시간 전`;
+    } else {
+      const days = Math.floor(diff / 86400);
+      return `${days}일 전`;
+    }
+  }
   return (
     <>
       <Link
+        prefetch={false}
         href={{
           pathname: "/saleDetail",
           query: {
-            id: data.id,
-            title: data.title,
-            price: data.sell_price,
-            created_at: data.created_at,
-            description: data.description,
-            count: data.view_count,
-            sup_category: data.sup_category,
-            sub_category: data.sub_category,
-            file_name: encodeURIComponent(data.fileList[0].fileName),
+            id: data.pwr_id,
           },
+
         }}
       >
         <div className="product_card_container">
           <div className='product_img'>
             <img
-              src={`http://localhost:8080/images/${data.fileList[0].fileName}`}
+              src={`http://localhost:8080/images/${data.fileList[0]?.fileName}`}
               alt="판매 아이콘"
               style={{ borderRadius: '12px' }}
             />
@@ -38,8 +51,8 @@ const Page = ({ data }) => {
               <p className='item_title'>{data.title}</p>
             </div>
             <div className='info_bottom'>
-              <span className='price_font'>{data.sell_price}원</span>
-              <p className='date_font'>{data.created_at}</p>
+              <span className='price_font'>{Number(data.sell_price).toLocaleString()}원</span>
+              <p className='date_font'>{formatTimeAgo(data.created_at)}</p>
             </div>
           </div>
         </div>
