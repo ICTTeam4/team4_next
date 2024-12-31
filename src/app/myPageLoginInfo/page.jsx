@@ -17,12 +17,44 @@ function Page(props) {
     const [isPhoneVerified, setIsPhoneVerified] = useState(false); // 인증 완료 여부
     const [loading, setLoading] = useState(true); // 로딩 상태
     const [isActive, setIsActive] = useState(false);
+    const [isPasswordError, setIsPasswordError] = useState(false); // 에러 상태 추가
+    const [passwordMessage, setPasswordMessage] = useState(""); // 비밀번호 검증 메시지
+    const [showNewPassword, setShowNewPassword] = useState(false); // 새로운 비밀번호 보이기 상태
+
+    const handlePasswordChange = async (value) => {
+        setOldPassword(value); // 입력값 상태 업데이트
+
+        if (!value) {
+            setPasswordMessage(""); // 초기화
+            setIsPasswordError(false);
+            return;
+        }
+
+        try {
+            const response = await axios.post("http://localhost:8080/members/check-password", {
+                email: user.email,
+                oldPassword: value,
+            });
+
+            if (response.data) {
+                setIsPasswordError(false);
+                setPasswordMessage("비밀번호가 확인되었습니다."); // 성공 메시지
+            } else {
+                setIsPasswordError(true);
+                setPasswordMessage("비밀번호가 일치하지 않습니다."); // 에러 메시지
+            }
+        } catch (error) {
+            console.error("비밀번호 확인 오류:", error);
+            setIsPasswordError(true);
+            setPasswordMessage("서버 오류로 요청이 실패했습니다."); // 서버 오류 메시지
+        }
+    };
 
     const toggleSwitch = () => {
         setIsActive(!isActive);
     };
 
-    // 회원 정보 가져오기
+    // 회원 정보 가져오기(폰번)
     useEffect(() => {
         const fetchMemberInfo = async () => {
             try {
@@ -135,28 +167,70 @@ function Page(props) {
                                             type="password"
                                             placeholder="이전 비밀번호"
                                             value={oldPassword}
-                                            onChange={(e) => setOldPassword(e.target.value)}
-                                            className="desc password"
+                                            onChange={(e) => handlePasswordChange(e.target.value)} // 입력 시마다 호출
+                                            className={`desc password ${isPasswordError ? "input-error" : ""}`}
                                         />
-                                        <input
-                                            type="password"
-                                            placeholder="새로운 비밀번호"
-                                            value={newPassword}
-                                            onChange={(e) => setNewPassword(e.target.value)}
-                                            className="desc password"
-                                            style={{ marginTop: "10px" }}
-                                        />
-                                        <button
-                                            type="button"
-                                            className="btn btn_modify outlinegrey small"
-                                            onClick={() => alert("비밀번호 변경은 추후에 가능합니다.")}
-                                        >
-                                            저장
-                                        </button>
+
+                                        <div className="unit_content" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                                            <input
+                                                type={showNewPassword ? "text" : "password"} // 보이기 상태에 따라 타입 변경
+                                                placeholder="새로운 비밀번호"
+                                                value={newPassword}
+                                                onChange={(e) => setNewPassword(e.target.value)} // 새로운 비밀번호 업데이트
+                                                className="desc password"
+                                                style={{ flex: 1 }} // 입력 필드가 줄 안에서 여유롭게 차지하도록 설정
+                                            />
+
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowNewPassword(!showNewPassword)} // 상태 토글
+                                                className="btn btn_modify outlinegrey small"
+                                                style={{ whiteSpace: "nowrap" }} // 텍스트 줄바꿈 방지
+                                            >
+                                                {showNewPassword ? "숨기기" : "보기"}
+                                            </button>
+
+                                        </div>
+                                        <div style={{ alignSelf: "flex-end",marginTop:'50px' }}> {/* 버튼을 오른쪽 정렬 */}
+                                            <div style={{ alignSelf: "flex-end" }}> {/* 버튼을 오른쪽 정렬 */}
+                                                <button
+                                                    type="button"
+                                                    className="btn btn_modify outlinegrey small"
+                                                    onClick={() => {
+                                                        if (newPassword.trim()) {
+                                                            const userConfirmed = window.confirm(`새로운 비밀번호: ${newPassword}\n변경하시겠습니까?`);
+                                                            if (userConfirmed) {
+                                                                // 확인을 눌렀을 때의 동작
+                                                                alert("비밀번호가 성공적으로 변경되었습니다.");
+                                                            } else {
+                                                                // 취소를 눌렀을 때의 동작
+                                                                alert("비밀번호 변경이 취소되었습니다.");
+                                                            }
+                                                        } else {
+                                                            alert("새로운 비밀번호를 입력하세요.");
+                                                        }
+                                                    }}
+                                                >
+                                                    저장
+                                                </button>
+                                            </div>
+                                         
+                                        </div>
                                     </div>
+                                       {/* 메시지 표시 */}
+                                       {passwordMessage && (
+                                                <p
+                                                    style={{
+                                                        color: isPasswordError ? "red" : "green",
+                                                        marginTop: "5px", // 메시지가 입력 필드 바로 아래에 위치
+                                                        fontSize: "14px", // 메시지의 글꼴 크기
+                                                    }}
+                                                >
+                                                    {passwordMessage}
+                                                </p>
+                                            )}
                                 </div>
                             </div>
-
                             <div className="profile_group">
                                 <h4 className="group_title">개인 정보</h4>
                                 <div className="unit">
@@ -187,17 +261,17 @@ function Page(props) {
                                             disabled={!phone}
                                             className="desc"
                                         />   <button
-                                        type="button"
-                                        className="btn btn_modify outlinegrey small"
-                                        onClick={handleVerifyPhoneAuth}
-                                        disabled={!phone || isPhoneVerified} // 인증 완료 시 비활성화
-                                    >
-                                        인증 확인
-                                    </button>
-                                     
-                                    </div>  
-                                        {/* 번호 수정 */}
-                                {isPhoneVerified && (
+                                            type="button"
+                                            className="btn btn_modify outlinegrey small"
+                                            onClick={handleVerifyPhoneAuth}
+                                            disabled={!phone || isPhoneVerified} // 인증 완료 시 비활성화
+                                        >
+                                            인증 확인
+                                        </button>
+
+                                    </div>
+                                    {/* 번호 수정 */}
+                                    {isPhoneVerified && (
                                         <div className="unit_content" style={{ marginTop: "25px" }}>
                                             <button
                                                 type="button"
@@ -209,7 +283,7 @@ function Page(props) {
                                         </div>
                                     )}
                                 </div>
-                            
+
                             </div>
 
                             <div className="profile_group">
