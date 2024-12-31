@@ -9,7 +9,7 @@ import useAuthStore from '../../../store/authStore';
 const HeaderMain = () => {
   // 휘주 수정본 구역 시작
   const [showNotification, setShowNotification] = useState(false); // 알림 상태
-  const {searchKeyword, setSearchKeyword, setKeyword} = useAuthStore();
+  const {searchKeyword, setSearchKeyword, setKeyword, setCategory} = useAuthStore(); // Zustand에서 검색 상태 관리
   const [showSearchBar, setShowSearchBar] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -59,9 +59,51 @@ const HeaderMain = () => {
   };
 
 // 휘주 수정본 구역 시작
+
+
+const handleChange = (event) => {
+  const value = event.target.value;
+  console.log("헤더메인에 입력된 검색어 : ", value); // 입력된 검색어 확인
+  setKeyword(value); // 상태 업데이트
+};
+
+const handleKeyDown = (event) => {
+  if (event.key === "Enter") {
+    handleSearch(); // 엔터 키로 검색 실행
+  }
+};
+
+const handleSearch = () => {
+  if (searchKeyword.trim() === "") {
+    alert("검색어를 입력해주세요!");
+    return;
+  }
+
+  // 현재 경로에 따라 검색 요청을 다르게 처리
+  const isCategoryPage = [
+    "/outerList",
+    "/topList",
+    "/bottomList",
+    "/shoesList",
+    "/bagsList",
+    "/accessoriesList",
+  ].includes(pathname);
+  
+  if (isCategoryPage) {
+    setCategory(pathname); // 현재 카테고리 주스탠드에 저장
+    // 카테고리 페이지 내에서 검색
+    router.push(`${pathname}?query=${encodeURIComponent(searchKeyword)}`);
+  } else {
+    setCategory(""); // 쥬스탠드 카테고리 초기화 (전체 리스트)
+    // 일반 검색 (itemSearchResult로 이동)
+    router.push(`/itemSearchResult?query=${encodeURIComponent(searchKeyword)}&status=success`);
+  }
+};
+
 useEffect(() => {
   const queryFromURL = searchParams.get("query") || "";
   if (queryFromURL) {
+    console.log("URL에서 가져온 검색어 : ", queryFromURL); // URL 검색어 확인
     setKeyword(queryFromURL); // URL에서 검색어 가져오기
     setShowSearchBar(true); // 검색창 활성화
   } else {
@@ -69,32 +111,8 @@ useEffect(() => {
   }
 }, [searchParams]);
 
-const handleChange = (e) => {
-  setKeyword(e.target.value); // 상태에 검색어 업데이트
-};
 
-const handleKeyDown = (event) => {
-  if (event.key === "Enter") {
-    if (searchKeyword.trim() !== "") {
-      // 카테고리 페이지인지 확인
-      const isCategoryPage = pathname.includes("outerList") || 
-                             pathname.includes("topList") || 
-                             pathname.includes("bottomList") || 
-                             pathname.includes("shoesList") || 
-                             pathname.includes("bagsList") || 
-                             pathname.includes("accessoriesList");
 
-      // 카테고리 페이지는 현재 경로에 쿼리를 추가, 아니면 itemSearchResult로 이동
-      const targetPath = isCategoryPage
-        ? `${pathname}?query=${encodeURIComponent(searchKeyword)}`
-        : `/itemSearchResult?query=${encodeURIComponent(searchKeyword)}`;
-      
-      router.push(targetPath);
-    } else {
-      alert("검색어를 입력해주세요!");
-    }
-  }
-};
 
   const handleSearchClick = () => {
     router.push('/searchPage');

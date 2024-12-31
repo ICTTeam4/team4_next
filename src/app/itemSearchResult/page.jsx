@@ -6,6 +6,7 @@ import ItemCard from '../itemCard/page';
 import FilterButtonsSection from '../filterButtonsSection/page';
 import FilterSidebar from '../filterSidebar/page';
 import axios from 'axios';
+import useAuthStore from '../../../store/authStore';
 
 function Page() {
   const searchParams = useSearchParams();
@@ -13,12 +14,14 @@ function Page() {
   const [isSidebarActive, setIsSidebarActive] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const {setKeyword} = useAuthStore(); // Zustand에서 검색어 가져오기
 
   const query = searchParams.get('query') || '';
   const status = searchParams.get('status') || '';
 
   useEffect(() => {
-    if (status === 'success') {
+    if (query && status === 'success') {
+      setKeyword(query); // 검색어를 Zustand에 동기화
       fetchSearchResults(query);
     }
   }, [query, status]);
@@ -32,17 +35,28 @@ function Page() {
     setError(null);
 
     try {
-      const response = await axios.get(`/searchItems`, {
-        params: { keyword: query },
-      });
+        const response = await axios.get(`http://localhost:8080/searchItems/itemSearchResult`, {
+            params: { keyword: query }, // keyword가 컨트롤러와 일치
+        });
 
-      setSearchResults(response.data.items || []);
+        console.log("응답 데이터:", response.data);
+
+        if (response.data.status === 'success') {
+            setSearchResults(response.data.items || []);
+        } else if (response.data.status === 'empty') {
+            console.log('검색 결과 없음');
+            setSearchResults([]);
+        } else {
+            console.error('알 수 없는 상태:', response.data);
+            setError('서버에서 알 수 없는 응답이 반환되었습니다.');
+        }
     } catch (err) {
-      setError('검색 결과를 가져오는 중 문제가 발생했습니다.');
+        console.error("검색 오류:", err.response?.status, err.response?.data || err.message);
+        setError('검색 결과를 가져오는 중 문제가 발생했습니다.');
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
 
   return (
     <div>
@@ -50,16 +64,20 @@ function Page() {
       <FilterButtonsSection toggleSidebar={toggleSidebar} />
       <h3 style={{ textAlign: 'center', color: 'lightgray' }}>
         검색 결과 : "{query}"
-        {status === 'empty' && ` 에 대한 검색결과가 존재하지 않습니다.`}
       </h3>
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '-10px' }}>
         <div className="main_list_container">
           {loading && <p>로딩 중입니다...</p>}
           {error && <p style={{ color: 'red' }}>{error}</p>}
-          {!loading && !error && searchResults.length > 0 ? (
+          {!loading && searchResults.length > 0 ? (
             searchResults.map((data, index) => <ItemCard key={index} data={data} />)
           ) : (
-            !loading && !error && <p>검색 결과가 없습니다.</p>
+            !loading &&
+            !error && (
+              <p style={{ textAlign: 'center', color: 'gray' }}>
+                검색 결과가 없습니다.
+              </p>
+            )
           )}
         </div>
       </div>
