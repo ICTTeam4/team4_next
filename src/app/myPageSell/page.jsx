@@ -14,23 +14,13 @@ function Page(props) {
     const { user, login } = useAuthStore();
     const LOCAL_API_BASE_URL = "http://localhost:8080";
     const [isLoading, setLoading] = useState(false);
+    const [previewImages, setPreviewImages] = useState([]); // 미리보기 이미지 배열 추가
     //1. 회원 정보 통합으로 가져오기
-
     useEffect(() => {
-        if (user?.email) {
-            setLoading(true);
-            axios.get(`${LOCAL_API_BASE_URL}/members/userInfo`, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-                params: { email: user.email }
-            }).then(response => {
-                // 이곳에서 사용자 정보 업데이트 로직 처리
-            }).catch(error => {
-                console.error("회원 정보를 가져오는 중 오류 발생:", error);
-            }).finally(() => {
-                setLoading(false);
-            });
-        }
-    }, [user?.email]);
+        const token = localStorage.getItem('token');
+        console.log('Saved Token:', token);
+    }, []);
+
     // 아이템 데이터
     const items = [
         {
@@ -88,19 +78,24 @@ function Page(props) {
     };
 
     // 별점 기능 추가
-   
+
     const handleRating = (index) => setRating(index + 1);
     const handleReviewTextChange = (event) => setReviewText(event.target.value);
 
     // 이미지 업로드
-    const handleImageUpload = (event) => {
-        if (event.target.files.length > 0) {
-            const fileArray = Array.from(event.target.files).map(file => {
-                return URL.createObjectURL(file);
-            });
-            setImages(fileArray);
+    const handleImageUpload = (e) => {
+        if (e.target.files.length > 0) {
+            const files = Array.from(e.target.files);
+
+            // Blob URL은 미리보기 용도로 생성
+            const previews = files.map(file => URL.createObjectURL(file));
+            setPreviewImages(prevUrls => [...prevUrls, ...previews]);
+
+            // 원본 파일 객체는 images 배열에 저장
+            setImages(prevImages => [...prevImages, ...files]);
         }
     };
+
 
     // 이미지 상세 모달 열기
     const openImageModal = (image) => {
@@ -114,27 +109,33 @@ function Page(props) {
 
     // 이미지 삭제
     const deleteImage = (index) => {
-        setImages(images.filter((_, i) => i !== index));
+        setImages(images.filter((_, i) => i !== index)); // 원본 파일 삭제
+        setPreviewImages(previewImages.filter((_, i) => i !== index)); // 미리보기 이미지 삭제
     };
     const handleSubmitReview = async () => {
-        if (!images.length) {
-            alert('Please add at least one image.');
-            return;
-        }
         setSubmitting(true);
         const formData = new FormData();
+      // 이미지가 있는 경우에만 추가
+    if (images.length > 0) {
         images.forEach(image => formData.append('images', image));
-        formData.append('review', reviewText);
-        formData.append('rating', rating);
-
+    }
+        formData.append('content', reviewText);
+        formData.append('rate', rating);
+        console.log('FormData values:');
+        formData.forEach((value, key) => {
+            console.log(`${key}:`, value);
+        });
         try {
+            console.log('로그콘솔하윤' + localStorage.getItem('token'));
+            const token = localStorage.getItem('token');
             const response = await axios.post(`${LOCAL_API_BASE_URL}/HayoonReview/submit`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`, // 토큰 포함
                 }
             });
             if (response.data.success) {
-                alert('Review successfully submitted.');
+                alert('리뷰 등록에 성공했습니다.');
                 setIsModalOpen(false);
             } else {
                 alert('Failed to submit review.');
@@ -280,10 +281,10 @@ function Page(props) {
 
                             {/* 사진 미리보기 */}
                             <div className="image-preview" style={{ textAlign: 'left' }}>
-                                {images.map((image, index) => (
+                                {previewImages.map((image, index) => (
                                     <div key={index} className="image-container">
                                         <img
-                                            src={image}
+                                            src={image} // previewImages에서 가져온 URL 사용
                                             alt={`uploaded-${index}`}
                                             onClick={() => openImageModal(image)}
                                         />
@@ -291,6 +292,7 @@ function Page(props) {
                                     </div>
                                 ))}
                             </div>
+
                             {/* 모달 하단 버튼 */}
                             <div className="modal-actions">
                                 <button className="cancel-btn" onClick={closeModal}>취 소</button>

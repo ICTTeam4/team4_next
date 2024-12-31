@@ -26,7 +26,7 @@ const LoginPage = () => {
     setCredentials((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 로그인 요청 처리 -- 토큰 안된 상태. 일반로그인
+  // 로그인 요청 처리 -- 일반로그인
   const handleLogin = async () => {
     setIsLoading(true); // 로딩 상태 활성화
     try {
@@ -94,7 +94,7 @@ const LoginPage = () => {
         username, email, name, provider,member_id,adv_agree
 
       };
-
+      localStorage.setItem("token", token); // JWT 토큰 저장
       login(user, token); // Zustand 상태에 저장
       router.push("/"); // 홈으로 이동
     }
