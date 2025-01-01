@@ -36,11 +36,17 @@ const Page = ({ isActive, toggleSidebar, getSelectedCategories,getSelectedSmallC
     );
 
     // 대분류 선택 시, 소분류가 자동으로 선택되지 않도록 수정
+    // setSelectedSmallCategories((prev) =>
+    //   isCategorySelected
+    //     ? prev.filter((item) => !relatedSmallCategories.includes(item)) // 관련 소분류 제거
+    //     : prev
+    // );
     setSelectedSmallCategories((prev) =>
       isCategorySelected
         ? prev.filter((item) => !relatedSmallCategories.includes(item)) // 관련 소분류 제거
-        : prev
+        : [...prev, ...relatedSmallCategories]
     );
+    console.log(selectedSmallCategories);
   };
 
   // 소분류 선택 핸들러
@@ -51,17 +57,7 @@ const Page = ({ isActive, toggleSidebar, getSelectedCategories,getSelectedSmallC
         : [...prev, smallCategory] // 선택 추가
     );
   };
-  // 지금 해결해야하는 문제: 카테고리 부모 자식 카테고리로 분류를 해야한다.
-  // 일단 부모 카테고리로 선택을 하면 해당 카테고리가 선택이 되넝 분류가 되고 
-  // 부모 카테고리중에 자식 카테고리를 선택하게 되면 해당하는 카테고리만 나오게 된다.
-  // 해결 방법 : map 를 써서 클릭된 부모이면서 클릭된 자식이면 true를 리턴하여 해당하는 itemcard만 나오게 하면된다.
-  //            하지만 부모만 있는경우 모두 리턴하기
-  //            선택된 카테고리 들을 저장해둘 배열 을 생성한다. 예를 들어 나이키 양말이 있다.
-  //            나이키 양말 둘다 일치해야만 true를 리턴한다. 하지만 예를 들어 아디다스만 입력을 했다고 하자
-  //            그러면 아디다스만 있고 해당 선택된 small category가 null 이라면 항상 true로 해서(for one 같이 하나라도 있으면 true를 한다거나 아예 없으면 리턴하는 함수를 이용하자)
-  //            아디다스와 관련된 모든 것을 가져오게 한다.
-  //            상위만 선택한 경우와 하위도 선택한 경우를 따로 분리해서 map으로 불러내는 방법이 있다.
-  //            일단 카테고리 선택한 것들을 
+
 
   // 전체 선택 핸들러
   const selectAll = () => {
