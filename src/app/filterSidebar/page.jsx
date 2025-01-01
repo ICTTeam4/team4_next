@@ -89,7 +89,7 @@ const Page = ({ isActive, toggleSidebar, getSelectedCategories,getSelectedSmallC
       getSelectedCategories(selectedCategories);
       getSelectedSmallCategories(selectedSmallCategories);
       getPriceRange(priceRange);
-      console.log(priceRange);
+      console.log("if 스위치 내부");
     } else {
       window.location.reload();
     }

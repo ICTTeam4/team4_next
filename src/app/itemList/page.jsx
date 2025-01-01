@@ -10,8 +10,8 @@ import axios from 'axios';
 function Page(props) {
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState([]); // 전체 데이터
-  const [priceRange, setPriceRange] = useState(null); // 전체 데이터
   const [filteredList, setFilteredList] = useState([]); // 필터링된 데이터
+  const [priceRange, setPriceRange] = useState(null); // 전체 데이터
   const [selectedCategories, setSelectedCategories] = useState(null); // 선택된 카테고리
   const [selectedSmallCategories, setSelectedSmallCategories] = useState(null); // 선택된 카테고리
   const API_URL = `http://localhost:8080/api/salespost/itemlist`;
@@ -53,32 +53,76 @@ function Page(props) {
   // }, [priceRange]);
 
   // 선택된 카테고리에 따라 필터링
-  useEffect(() => {
-    if (selectedCategories) {
-      var filteredVOs = list.filter((vo) =>
-        selectedCategories.includes(vo.sup_category)
-      );
-      setFilteredList(filteredVOs); // 필터링된 데이터 업데이트
+//   useEffect(() => {
+//     setFilteredList(list);
+//     console.log("새로고침 FilteredList"+JSON.stringify(filteredList));
+//     console.log("selectedCategories"+selectedCategories);
+//     console.log("selectedSmallCategories"+selectedSmallCategories);
+//     console.log("priceRange"+priceRange);
+//     // console.log(selectedSmallCategories);
+//     if (selectedCategories) {
+//       // var filteredVOs = list.filter((vo) =>
+//         //   selectedCategories.includes(vo.sup_category)
+//       // );
+//       // setFilteredList(filteredVOs); // 필터링된 데이터 업데이트
+//       var filteredVOs = filteredList;
+//       if (selectedSmallCategories) {
+//         filteredVOs = filteredVOs.filter((vo) =>
+//           selectedSmallCategories.includes(vo.sub_category)
+//       );
+//       setFilteredList(filteredVOs); // 필터링된 데이터 업데이트
+//       console.log("새로고침 after category Vo.ver."+JSON.stringify(filteredVOs.map((vo)=>{return vo.sub_category})));
+//       console.log("새로고침 after category filteredlist.ver."+JSON.stringify(filteredList.map((vo)=>{return vo.sub_category})));
+//     }
+    
+//   } else {
+//     setFilteredList(list); // 선택된 카테고리가 없으면 전체 데이터
+//   }
+//   if (priceRange) {
+//     var filteredVOs = filteredList.filter((vo) => (vo.sell_price >= priceRange[0]*10000) && (vo.sell_price <= priceRange[1]*10000)
+    
+//   );
+//   console.table("가격 필터링 : [0]:"+priceRange[0]*10000 + "[1]:"+priceRange[1]*10000 + filteredList);
+//   setFilteredList(filteredVOs); 
+//   console.log("새로고침 after price"+JSON.stringify(filteredList.map((vo)=>{return vo.sell_price})));
+// }
+// }, [selectedCategories,selectedSmallCategories, list,priceRange]);
 
-      if (selectedSmallCategories) {
-        filteredVOs = filteredVOs.filter((vo) =>
-          selectedSmallCategories.includes(vo.sub_category)
-        );
-        setFilteredList(filteredVOs); // 필터링된 데이터 업데이트
-      }
+useEffect(() => {
+  // 초기 값은 원본 데이터
+  let filteredVOs = list;
 
-    } else {
-      setFilteredList(list); // 선택된 카테고리가 없으면 전체 데이터
-    }
-    if (priceRange) {
-      var filteredVOs = filteredList.filter((vo) => (vo.sell_price >= priceRange[0]) && (vo.sell_price <= priceRange[1])
-        
-      );
-      setFilteredList(filteredVOs); 
-    }
-  }, [selectedCategories, list,priceRange]);
+  // 상위 카테고리 필터링
+  if (selectedCategories && selectedCategories.length > 0) {
+    filteredVOs = filteredVOs.filter((vo) =>
+      selectedCategories.includes(vo.sup_category)
+    );
+  }
 
-  // 로딩 중 화면
+  // 하위 카테고리 필터링
+  if (selectedSmallCategories && selectedSmallCategories.length > 0) {
+    filteredVOs = filteredVOs.filter((vo) =>
+      selectedSmallCategories.includes(vo.sub_category)
+    );
+  }
+
+  // 가격 범위 필터링
+  if (priceRange && priceRange.length === 2) {
+    filteredVOs = filteredVOs.filter(
+      (vo) =>
+        vo.sell_price >= priceRange[0] * 10000 &&
+        vo.sell_price <= priceRange[1] * 10000
+    );
+  }
+
+  // 필터링된 결과를 상태로 설정
+  setFilteredList(filteredVOs);
+
+  // 디버깅 로그
+  console.log("Filtered List:", filteredVOs);
+}, [selectedCategories, selectedSmallCategories, list, priceRange]);
+
+// 로딩 중 화면
   if (loading) {
     return <div style={{ textAlign: "center", padding: "20px" }}>Loading...</div>;
   }
