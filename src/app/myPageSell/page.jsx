@@ -115,12 +115,14 @@ function Page(props) {
     const handleSubmitReview = async () => {
         setSubmitting(true);
         const formData = new FormData();
-      // 이미지가 있는 경우에만 추가
-    if (images.length > 0) {
-        images.forEach(image => formData.append('images', image));
-    }
+        // 이미지가 있는 경우에만 추가
+        if (images.length > 0) {
+            images.forEach(image => formData.append('images', image));
+        }
         formData.append('content', reviewText);
         formData.append('rate', rating);
+        // user.member_id 추가
+        formData.append('member_id', user.member_id);
         console.log('FormData values:');
         formData.forEach((value, key) => {
             console.log(`${key}:`, value);

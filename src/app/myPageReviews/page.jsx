@@ -2,11 +2,22 @@
 import { usePathname } from 'next/navigation';
 import MyPageSideNav from '../components/MyPageSideNav';
 import './myPageReviews.css';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import useAuthStore from "../../../store/authStore";
+import axios from 'axios';
 
 function Page(props) {
+    const { user, login } = useAuthStore();
     const pathname = usePathname();
+    const LOCAL_API_BASE_URL = "http://localhost:8080";
 
+     //1. 회원 정보 통합으로 가져오기
+        useEffect(() => {
+            const token = localStorage.getItem('token');
+            console.log('Saved Token:', token);
+        }, []);
+            //참고용
+        <strong className='name'>{user?.nickname ?? user?.name ?? "닉네임 없음"}</strong>
     // 탭 상태
     const [activeTab, setActiveTab] = useState('전체');
 
@@ -21,7 +32,7 @@ function Page(props) {
             id: 1,
             rating: 4.9,
             content: "물건 잘 받았습니다. 친절한 거래 감사드립니다!",
-            writer: "내이름",
+            writer: user?.nickname ?? user?.name,
             time: "2분 전",
             type: "mine",      // 내 후기
         },
@@ -83,7 +94,7 @@ function Page(props) {
             return review.type === "buyer";
         }
         if (activeTab === "내후기") {
-            return review.type === "mine";
+            return review.writer === user?.nickname ?? user?.name;
         }
         return false;
     });
@@ -237,7 +248,7 @@ function Page(props) {
                                                 {item.writer} / {item.time}
                                             </p>
                                             {/* 내 후기라면 표시 */}
-                                            {item.type === "mine" && (
+                                            {item.writer === (user?.nickname ?? user?.name) && (
                                                 <p
                                                     className="text-lookup last_title display_paragraph"
                                                     style={{ color: "rgb(34, 34, 34)" }}
