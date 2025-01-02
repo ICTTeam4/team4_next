@@ -4,7 +4,7 @@ import styles from '../filterSidebar.module.css';
 import './filterPrice.css';
 import { Range } from 'react-range';
 
-const FilterPrice = ({ resetFilter, isActive, toggleSidebar }) => {
+const FilterPrice = ({ resetFilter, isActive, toggleSidebar ,selectedPriceRange,setPriceRange,priceRange }) => {
   const categories = [
     { id: 1, name: '10만원 이하' },
     { id: 2, name: '20만원 이하' },
@@ -16,14 +16,15 @@ const FilterPrice = ({ resetFilter, isActive, toggleSidebar }) => {
 
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [priceRange, setPriceRange] = useState([0, 500]);
+  // const [priceRange, setPriceRange] = useState([0, 500]);
 
-  useEffect(() => {
-    if (resetFilter) {
-      setSelectedCategories([]);
-      setPriceRange([0, 500]);
-    }
-  }, [resetFilter]);
+  // useEffect(() => {
+  //   if (resetFilter) {
+  //     setSelectedCategories([]);
+  //     setPriceRange([0, 500]);
+  //   }
+  // }, [resetFilter]);
+  
 
   const toggleCategory = (categoryId) => {
     setSelectedCategories((prev) =>
@@ -32,6 +33,9 @@ const FilterPrice = ({ resetFilter, isActive, toggleSidebar }) => {
         : [...prev, categoryId]
     );
   };
+  // const handlePrice = (range) =>{
+  //   updatePrice(range);
+  // }
 
   const selectAll = () => {
     setSelectedCategories(categories.map((category) => category.id));
@@ -45,9 +49,6 @@ const FilterPrice = ({ resetFilter, isActive, toggleSidebar }) => {
     setIsCollapsed((prev) => !prev);
   };
 
-  const handlePriceRangeChange = (values) => {
-    setPriceRange(values);
-  };
 
   return (
     <div>
@@ -74,13 +75,15 @@ const FilterPrice = ({ resetFilter, isActive, toggleSidebar }) => {
         >
           <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 16px' }}>
             <button
-              onClick={() => {
+              onClick={
+                () => {
                 if (selectedCategories.length === categories.length) {
                   clearSelection();
                 } else {
                   selectAll();
                 }
-              }}
+              }
+            }
               className="category_button_sub"
             >
               {selectedCategories.length === categories.length ? '선택 해제' : '전체 선택'}
@@ -108,7 +111,8 @@ const FilterPrice = ({ resetFilter, isActive, toggleSidebar }) => {
           step={1}
           min={0}
           max={500}
-          onChange={handlePriceRangeChange}
+          onChange={(values) => {
+            setPriceRange(values)}}
           renderTrack={({ props, children }) => (
             <div
               {...props}
