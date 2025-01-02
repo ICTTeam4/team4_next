@@ -20,6 +20,7 @@ function Page(props) {
     <FilterButtonsSection toggleSidebar={toggleSidebar}/>
     <div style={{display:'flex', justifyContent:'center', marginTop:'-10px'}}>
     <div className='main_list_container'>
+    {/* <ItemCard/>
     <ItemCard/>
     <ItemCard/>
     <ItemCard/>
@@ -51,8 +52,7 @@ function Page(props) {
     <ItemCard/>
     <ItemCard/>
     <ItemCard/>
-    <ItemCard/>
-    <ItemCard/>
+    <ItemCard/> */}
     
     </div>
     </div>
