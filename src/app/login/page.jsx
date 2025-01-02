@@ -12,6 +12,7 @@ const LoginPage = () => {
   const API_URL = `${LOCAL_API_BASE_URL}/members/login`;
   const router = useRouter(); // useRouter 초기화
   const { login } = useAuthStore(); // zustand login 함수 가져오기
+  //const { user } = useAuthStore(); // zustand login 함수 가져오기
 
 
   // 로딩 상태 관리
@@ -38,6 +39,7 @@ const LoginPage = () => {
 
          // 사용자 정보 저장
         const user = {
+        member_id : response.data.data.member_id,
         email: response.data.data.email,
         nickname: response.data.data.nickname,
         name: response.data.data.name,

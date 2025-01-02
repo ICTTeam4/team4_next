@@ -2,14 +2,22 @@
 import { usePathname } from 'next/navigation';
 import MyPageSideNav from '../components/MyPageSideNav';
 import './myPageAccountInfo.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { noOptionsMessageCSS } from 'react-select';
 
+
+
 function Page(props) {
+
+    
     const pathname = usePathname();
     const [defaultId, setDefaultId] = useState(1); // 기본 정산 계좌 아이디디
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    
+    const API_URL = `${process.env.NEXT_PUBLIC_LOCAL_API_BASE_URL}/accounts`;
+
 
     // 정산 계좌 목록 (ID로 구분)
     const [accounts, setAccounts] = useState([
@@ -46,6 +54,9 @@ function Page(props) {
         { value: "NH농협은행", label: "NH농협은행" },
         { value: "토스뱅크", label: "토스뱅크" },
     ];
+
+
+    
 
 
     const noArrowComponents = {
@@ -121,14 +132,60 @@ function Page(props) {
         accountNumber.trim() != "" &&
         accountHolderName.trim() !== "";
 
-    const handleSetDefaultAccount = (id) => {
-        setAccounts((prev) => {
-            const selected = prev.find((item) => item.id === id); // 선택된 주소 찾기
-            const others = prev.filter((item) => item.id !== id); // 나머지 주소들
-            return [selected, ...others]; // 선택된 주소를 맨 위로 배치
-        });
-        setDefaultId(id); // 기본 배송지 ID 업데이트
+    // const handleSetDefaultAccount = (id) => {
+    //     setAccounts((prev) => {
+    //         const selected = prev.find((item) => item.id === id); // 선택된 주소 찾기
+    //         const others = prev.filter((item) => item.id !== id); // 나머지 주소들
+    //         return [selected, ...others]; // 선택된 주소를 맨 위로 배치
+    //     });
+    //     setDefaultId(id); // 기본 배송지 ID 업데이트
+    // };
+
+
+    //계좌 목록 가져오기
+    const fetchAccounts = async () => {
+        try {
+            const response = await fetch(`${API_URL}?memberId=1`);
+            if (!response.ok) {
+                throw new Error('계좌 목록 조회 실패');
+            }
+            const data = await response.json();
+            setAccounts(data); // 계좌 목록 업데이트
+        } catch (error) {
+            console.error('계좌 목록 조회 중 오류 발생:', error);
+        }
     };
+    
+    // 컴포넌트 마운트 시 계좌 목록 불러오기
+    useEffect(() => {
+        fetchAccounts();
+    }, []);
+    
+
+
+    // 기본 계좌 설정
+const setDefaultAccount = async (id) => {
+    const response = await fetch(`${API_URL}/${id}/set-default?memberId=1`, {
+        method: 'PUT',
+    });
+
+    if (!response.ok) {
+        throw new Error('기본 계좌 설정 실패');
+    }
+    return response.json();
+};
+
+const handleSetDefaultAccount = async (id) => {
+    try {
+        await setDefaultAccount(id);
+        alert('기본 계좌가 설정되었습니다.');
+        fetchAccounts(); // 목록 새로고침
+    } catch (error) {
+        console.error('기본 계좌 설정 중 오류 발생:', error);
+        alert('기본 계좌 설정에 실패했습니다.');
+    }
+};
+
 
     const handleModalOpen = () => {
         setIsModalOpen(true); // 모달 열기
@@ -142,14 +199,73 @@ function Page(props) {
         setIsChecked(false);
     };
 
+
+
+    
+
     // 새 계좌 저장 로직
-    const handleSave = () => {
+    const addAccount = async (account) => {
+        const response = await fetch(`${API_URL}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(account),
+        });
+    
+        if (!response.ok) {
+            throw new Error('계좌 추가 실패');
+        }
+        return response.json();
+    };
+    
+    const handleSave = async () => {
         if (!isFormValid) return;
+    
+        const newAccount = {
+            bankName,
+            accountNumber,
+            accountHolderName,
+            isDefault: isChecked ? 1 : 0, // 기본 계좌 여부
+            userId: 1, // 실제 로그인 사용자 ID 사용
+        };
+    
+        try {
+            await addAccount(newAccount); // 계좌 추가 요청
+            alert('계좌가 성공적으로 추가되었습니다.');
+            handleModalClose();
+            fetchAccounts(); // 목록 새로고침
+        } catch (error) {
+            console.error('계좌 추가 중 오류 발생:', error);
+            alert('계좌 추가에 실패했습니다.');
+        }
+    };
 
-        // 여기에 저장 서버 다녀오는 로직 추가
 
-        handleModalClose();
+    // 계좌 삭제
+const deleteAccount = async (id) => {
+    const response = await fetch(`${API_URL}/${id}`, {
+        method: 'DELETE',
+    });
+
+    if (!response.ok) {
+        throw new Error('계좌 삭제 실패');
     }
+    return response.json();
+};
+
+const handleDelete = async (id) => {
+    if (confirm('정말 이 계좌를 삭제하시겠습니까?')) {
+        try {
+            await deleteAccount(id);
+            alert('계좌가 삭제되었습니다.');
+            fetchAccounts(); // 목록 새로고침
+        } catch (error) {
+            console.error('계좌 삭제 중 오류 발생:', error);
+            alert('계좌 삭제에 실패했습니다.');
+        }
+    }
+};
+
+
 
     return (
 

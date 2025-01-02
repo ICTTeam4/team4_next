@@ -2,7 +2,7 @@
 import { usePathname } from 'next/navigation';
 import MyPageSideNav from '../components/MyPageSideNav';
 import './myPageProfileInfo.css';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useAuthStore from "../../../store/authStore";
 import axios from 'axios';
 
@@ -12,13 +12,14 @@ function Page(props) {
     const API_BASE_URL = "http://localhost:8080"; // 백엔드 서버 URL
     const { user, login } = useAuthStore(); // Zustand에서 user 가져오기
 
+
     const [isEditing, setIsEditing] = useState(false); // 프로필 변경 상태 관리
     const [editingField, setEditingField] = useState(null); // 현재 수정 중인 필드
     const [profileName, setProfileName] = useState(user?.nickname || "사용자 닉네임"); // 프로필 이름
     const [userName, setUserName] = useState(user?.name || "사용자 이름"); // 사용자 이름
     const [tempProfileName, setTempProfileName] = useState(profileName); // 임시 프로필 이름
     const [tempUserName, setTempUserName] = useState(userName); // 임시 사용자 이름
-    const [profileImage, setProfileImage] = useState("/images/JH_userImg.png"); // 초기 이미지 상태 추가
+    const [profileImage, setProfileImage] = useState(user?.profile_image ||"/images/JH_userImg.png"); // 초기 이미지 상태 추가
 
     const profileNameInputRef = useRef(null);
     const userNameInputRef = useRef(null);
@@ -97,41 +98,143 @@ function Page(props) {
     //     }
     // };
 
-    const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
-            if(!validImageTypes.includes(file.type)){
-                alert('지원되지 않는 파일 형식입니다. JPG, PNG, GIF 파일만 업로드할 수 있습니다.');
-                return;
-            }
+    // const handleImageChange = (event) => {
+    //     const file = event.target.files[0];
+    //     if (file) {
+    //         const validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    //         if(!validImageTypes.includes(file.type)){
+    //             alert('지원되지 않는 파일 형식입니다. JPG, PNG, GIF 파일만 업로드할 수 있습니다.');
+    //             return;
+    //         }
 
-            const maxSize = 5 * 1024 * 1024; // 5MB
-            if(file.size > maxSize){
-                alert("파일 크기가 너무 큽니다. 최대 5MB까지 업로드할 수 있습니다.");
-                return;
-            }
+    //         const maxSize = 5 * 1024 * 1024; // 5MB
+    //         if(file.size > maxSize){
+    //             alert("파일 크기가 너무 큽니다. 최대 5MB까지 업로드할 수 있습니다.");
+    //             return;
+    //         }
             
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setProfileImage(reader.result);
-                // 여기서 서버로 이미지를 업로드할 수 있음
-                // 예: uploadImageToServer(file);
-            };
-            reader.readAsDataURL(file);
+    //         const reader = new FileReader();
+    //         reader.onloadend = () => {
+    //             setProfileImage(reader.result);
+    //             // 여기서 서버로 이미지를 업로드할 수 있음
+    //             // 예: uploadImageToServer(file);
+    //         };
+    //         reader.readAsDataURL(file);
+    //     }
+    // };
+
+    // const handleImageChangeClick = () => {
+    //     if(fileInputRef.current){
+    //         fileInputRef.current.click();
+    //     }
+    // };
+
+    // 서버에서 최신 유저 정보를 가져오는 함수
+    const fetchUserData = async () => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/members/get-profile`, {
+                params: { email: user?.email }, // user가 null인 경우를 방어
+            });
+    
+            if (response.data.success) {
+                console.log("프로필 정보:", response.data.user);
+                login(response.data.user, user.token); // Zustand 상태 업데이트
+                setProfileName(response.data.user.nickname);
+                setProfileImage(response.data.user.profile_image);
+            } else {
+                console.error("프로필 정보를 가져오지 못했습니다.");
+            }
+        } catch (error) {
+            console.error("프로필 정보 로드 중 오류:", error);
         }
     };
+    
 
-    const handleImageChangeClick = () => {
-        if(fileInputRef.current){
-            fileInputRef.current.click();
+// 페이지 로드 시 최신 유저 정보 가져오기
+useEffect(() => {
+    if (user && user.email) {
+        fetchUserData(); // 유저가 유효할 경우 데이터 가져오기
+    } else {
+        console.error("로그인이 필요합니다.");
+    }
+}, [user]);
+
+
+const handleImageChange = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (!user || !user.email) {
+        alert("로그인이 필요합니다.");
+        return;
+    }
+
+    const validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    if (!validImageTypes.includes(file.type)) {
+        alert("지원되지 않는 파일 형식입니다. JPG, PNG, GIF 파일만 업로드할 수 있습니다.");
+        return;
+    }
+
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    if (file.size > maxSize) {
+        alert("파일 크기가 너무 큽니다. 최대 5MB까지 업로드할 수 있습니다.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("email", user.email);
+
+    try {
+        const response = await axios.post(`${API_BASE_URL}/members/upload-profile-image`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+
+        if (response.data.status === "success") {
+            const imageUrl = response.data.imageUrl;
+            setProfileImage(imageUrl); // 프로필 이미지 상태 업데이트
+            login({ ...user, profile_image: imageUrl }, user.token); // Zustand 상태 업데이트
+            alert("프로필 이미지가 성공적으로 변경되었습니다.");
+        } else {
+            alert("이미지 업로드 실패: " + response.data.message);
+        }
+    } catch (error) {
+        console.error("이미지 업로드 중 오류:", error);
+        alert("이미지 업로드 중 오류가 발생했습니다.");
+    }
+};
+
+
+    
+    
+
+    // const handleImageDelete = () => {
+    //     setProfileImage("/images/JH_userImg.png"); // 기본이미지로 되돌리기
+    //     // 필요시 서버에서 이미지를 삭제하는 로직을 추가할 수 있습니다.
+    // };
+
+    const handleImageDelete = async () => {
+        try {
+            const response = await axios.post(`${API_BASE_URL}/members/delete-profile-image`, {
+                email: user.email,
+            });
+    
+            if (response.data.status === "success") {
+                const defaultImage = "/images/JH_userImg.png";
+                setProfileImage(defaultImage);
+                login({ ...user, profile_image: defaultImage }, user.token);
+                alert("프로필 이미지가 기본값으로 초기화되었습니다.");
+            } else {
+                alert("이미지 삭제 실패: " + response.data.message);
+            }
+        } catch (error) {
+            console.error("이미지 삭제 중 오류:", error);
+            alert("이미지 삭제 중 오류가 발생했습니다.");
         }
     };
-
-    const handleImageDelete = () => {
-        setProfileImage("/images/JH_userImg.png"); // 기본이미지로 되돌리기
-        // 필요시 서버에서 이미지를 삭제하는 로직을 추가할 수 있습니다.
-    };
+    
 
     return (
 
@@ -154,15 +257,19 @@ function Page(props) {
                             onChange={handleImageChange} 
                             />
                             <div className='profile_thumb'>
-                                <img src={profileImage} alt="사용자 이미지" className='thumb_img' />
-                            </div>
+                            <img
+                                    src={profileImage.startsWith("/uploads") ? `${API_BASE_URL}${profileImage}` : profileImage}
+                                    alt="사용자 이미지"
+                                    className="thumb_img"
+                                />
+                                </div>
                             <div className='profile_detail'>
                                 <strong className='name'>{profileName}</strong>
                                 <div className='profile_btn_box'>
                                     <button 
                                     type="button" 
                                     className='btn outlinegrey small'
-                                    onClick={handleImageChangeClick}
+                                    onClick={() => fileInputRef.current?.click()}
                                     > 이미지 변경 </button>
                                     <button 
                                     type="button" 
@@ -170,6 +277,13 @@ function Page(props) {
                                     onClick={handleImageDelete}
                                     > 삭제 </button>
                                 </div>
+                                <input
+                                    type="file"
+                                    ref={fileInputRef}
+                                    hidden
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                />
                             </div>
                         </div>
                         <div className='profile_info'>

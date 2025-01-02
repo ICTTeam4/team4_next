@@ -2,7 +2,7 @@
 import { usePathname } from 'next/navigation';
 import MyPageSideNav from '../components/MyPageSideNav';
 import './myPageAddressInfo.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Script from 'next/script';
 
@@ -19,6 +19,109 @@ function Page(props) {
     const [address, setAddressInput] = useState("");
     const [detailAddress, setDetailAddress] = useState("");
     const [isChecked, setIsChecked] = useState(false);
+
+    
+    const API_URL = `${process.env.NEXT_PUBLIC_LOCAL_API_BASE_URL}/address`;
+
+    
+
+// 주소 추가
+const addAddress = async (address) => {
+    const response = await fetch(`${API_URL}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(address),
+    });
+
+    if (!response.ok) {
+        throw new Error('주소 추가 실패');
+    }
+    return response.json();
+};
+
+// 주소 수정
+const updateAddress = async (add_id, address) => {
+    const response = await fetch(`${API_URL}/${add_id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            memberId: address.memberId,
+            name: address.name,
+            phone: address.phone,
+            zipcode: address.zipcode,
+            address: address.address,
+            detailAddress: address.detailAddress,
+            isDefault: address.isDefault ? 1 : 0, // MySQL tinyint 매핑
+        }),
+    });
+
+    if (!response.ok) {
+        throw new Error('주소 수정 실패');
+    }
+    return response.json();
+};
+
+
+
+
+// 주소 삭제
+const deleteAddress = async (add_id) => {
+    console.log("삭제 요청 - add_id:", add_id); // 디버깅용
+
+    const response = await fetch(`${API_URL}/${add_id}`, {
+        method: 'DELETE',
+    });
+
+    if (!response.ok) {
+        throw new Error('주소 삭제 실패');
+    }
+    return response.json();
+};
+
+// 기본 배송지 설정
+const setDefaultAddress = async (add_id, memberId) => {
+    console.log("기본 배송지 설정 요청 - add_id:", add_id, "memberId:", memberId); // 디버깅용
+
+    const response = await fetch(`${API_URL}/${add_id}/set-default?member_id=${memberId}`, {
+        method: 'PUT',
+    });
+
+    if (!response.ok) {
+        throw new Error('기본 배송지 설정 실패');
+    }
+    return response.json();
+};
+
+// 주소 목록 조회
+const getAddressList = async (memberId) => {
+    const response = await fetch(`${API_URL}/list?member_id=${memberId}`);
+    
+    if (!response.ok) {
+        throw new Error('주소 목록 조회 실패');
+    }
+    return response.json();
+};
+
+
+
+
+
+const [memberId, setMemberId] = useState(44); // 실제 로그인 사용자 ID를 여기에 넣으세요.
+
+useEffect(() => {
+    const loadAddresses = async () => {
+        try {
+            const data = await getAddressList(memberId);
+            setAddresses(data);
+        } catch (error) {
+            console.error('주소 목록을 불러오는 중 오류 발생:', error);
+        }
+    };
+    loadAddresses();
+}, [memberId]);
+
+
+
 
 
     // 기본 배송지 상태 (ID로 구분)
@@ -66,29 +169,29 @@ function Page(props) {
         (address?.trim() || "") !== "" &&
         (detailAddress?.trim() || "") !== "";
 
-    const handleSetDefault = (id) => {
-        setAddresses((prev) =>
-            prev.map((addr) => ({
-                ...addr,
-                isDefault: addr.id === id,
-            }))
-        );
-    };
+    // const handleSetDefault = (id) => {
+    //     setAddresses((prev) =>
+    //         prev.map((addr) => ({
+    //             ...addr,
+    //             isDefault: addr.id === id,
+    //         }))
+    //     );
+    // };
 
     // 모달 열기 핸들러 (수정/추가 구분)
     const handleModalOpen = (address = null) => {
+        console.log("열린 주소 데이터:", address); // 디버깅용
+    
         if (address) {
-            // 수정모드
             setIsEditing(true);
-            setEditingAddressId(address.id);
+            setEditingAddressId(address.id || null); // add_id를 올바르게 설정
             setName(address.name || "");
             setPhone(address.phone || "");
             setZipcode(address.zipcode || "");
             setAddressInput(address.address || "");
             setDetailAddress(address.detailAddress || "");
-            setIsChecked(address.isDefault);
+            setIsChecked(address.isDefault || false);
         } else {
-            // 추가모드
             setIsEditing(false);
             setEditingAddressId(null);
             setName("");
@@ -100,7 +203,7 @@ function Page(props) {
         }
         setIsModalOpen(true);
     };
-
+    
     const handleModalClose = () => {
         setIsModalOpen(false); // 모달 닫기
         setIsEditing(false);
@@ -114,67 +217,149 @@ function Page(props) {
         setIsChecked(false);
     };
 
-    const handleSave = () => {
-        if (!isFormValid) return;
-        // 여기에 저장 로직 추가
-        // 예: setAddresses([...addresses, { id: ..., name, phone, zipcode, address, detailAddress }])
+    // const handleSave = () => {
+    //     if (!isFormValid) return;
+    //     // 여기에 저장 로직 추가
+    //     // 예: setAddresses([...addresses, { id: ..., name, phone, zipcode, address, detailAddress }])
 
-        if (isEditing && editingAddressId !== null) {
-            // 수정로직
-            setAddresses((prev) =>
-                prev.map((addr) =>
-                    addr.id === editingAddressId
-                        ? {
-                            ...addr,
-                            name,
-                            phone,
-                            zipcode,
-                            address,
-                            detailAddress,
-                            isDefault: isChecked,
-                        }
-                        : addr
-                )
-            );
-        } else {
-            // 추가 로직
-            const newId = addresses.length > 0 ? Math.max(...addresses.map(addr => addr.id)) + 1 : 1;
-            setAddresses([
-                ...addresses,
-                {
-                    id: newId,
-                    name,
-                    phone,
-                    zipcode,
-                    address,
-                    detailAddress,
-                    isDefault: isChecked,
-                },
-            ]);
-        }
-        // 기본 배송지 설정 : isChecked가 true인 경우
-        if (isChecked) {
-            handleSetDefault(isEditing ? editingAddressId : Math.max(...addresses.map(a => a.id)) + 1);
-        }
+    //     if (isEditing && editingAddressId !== null) {
+    //         // 수정로직
+    //         setAddresses((prev) =>
+    //             prev.map((addr) =>
+    //                 addr.id === editingAddressId
+    //                     ? {
+    //                         ...addr,
+    //                         name,
+    //                         phone,
+    //                         zipcode,
+    //                         address,
+    //                         detailAddress,
+    //                         isDefault: isChecked,
+    //                     }
+    //                     : addr
+    //             )
+    //         );
+    //     } else {
+    //         // 추가 로직
+    //         const newId = addresses.length > 0 ? Math.max(...addresses.map(addr => addr.id)) + 1 : 1;
+    //         setAddresses([
+    //             ...addresses,
+    //             {
+    //                 id: newId,
+    //                 name,
+    //                 phone,
+    //                 zipcode,
+    //                 address,
+    //                 detailAddress,
+    //                 isDefault: isChecked,
+    //             },
+    //         ]);
+    //     }
+    //     // 기본 배송지 설정 : isChecked가 true인 경우
+    //     if (isChecked) {
+    //         handleSetDefault(isEditing ? editingAddressId : Math.max(...addresses.map(a => a.id)) + 1);
+    //     }
 
-        handleModalClose();
+    //     handleModalClose();
+    // };
+
+
+   // 사용 예시:
+   const handleSave = async () => {
+    console.log("현재 editingAddressId 값:", editingAddressId); // 디버깅용
+    console.log("현재 form 데이터:", {
+        memberId,
+        name,
+        phone,
+        zipcode,
+        address,
+        detailAddress,
+        isDefault: isChecked,
+    });
+
+    if (!isFormValid) {
+        console.error("입력 값이 유효하지 않습니다.");
+        return;
+    }
+
+    const newAddress = {
+        memberId,
+        name,
+        phone,
+        zipcode,
+        address,
+        detailAddress,
+        isDefault: isChecked,
     };
 
-    // 삭제 핸들러
-    const handleDelete = (id) => {
-        if (confirm("정말 이 주소를 삭제하시겠습니까?")) {
-            const isDefault = addresses.find(addr => addr.id === id)?.isDefault;
-            setAddresses((prev) => prev.filter((addr) => addr.id !== id));
+    try {
+        if (isEditing && editingAddressId !== null) {
+            // 수정
+            console.log("수정 요청 - add_id:", editingAddressId); // 디버깅용
+            await updateAddress(editingAddressId, newAddress);
+        } else {
+            // 추가
+            console.log("새 주소 추가 요청"); // 디버깅용
+            await addAddress(newAddress);
+        }
 
-            // 기본 배송지가 삭제된 경우 다른 주소를 기본 배송지로 설정
-            if (isDefault && addresses.length > 1) {
-                const newDefault = addresses.find(addr => addr.id !== id);
-                if (newDefault) {
-                    handleSetDefault(newDefault.id);
-                }
+        const updatedAddresses = await getAddressList(memberId);
+        setAddresses(updatedAddresses);
+
+        handleModalClose();
+    } catch (error) {
+        console.error("주소 저장 중 오류 발생:", error.message);
+    }
+};
+
+    
+
+    // 삭제 핸들러
+    // const handleDelete = (id) => {
+    //     if (confirm("정말 이 주소를 삭제하시겠습니까?")) {
+    //         const isDefault = addresses.find(addr => addr.id === id)?.isDefault;
+    //         setAddresses((prev) => prev.filter((addr) => addr.id !== id));
+
+    //         // 기본 배송지가 삭제된 경우 다른 주소를 기본 배송지로 설정
+    //         if (isDefault && addresses.length > 1) {
+    //             const newDefault = addresses.find(addr => addr.id !== id);
+    //             if (newDefault) {
+    //                 handleSetDefault(newDefault.id);
+    //             }
+    //         }
+    //     }
+    // };
+
+    const handleDelete = async (id) => {
+        if (confirm('정말 이 주소를 삭제하시겠습니까?')) {
+            try {
+                await deleteAddress(id);
+    
+                // 목록 새로고침
+                const updatedAddresses = await getAddressList(memberId);
+                setAddresses(updatedAddresses);
+            } catch (error) {
+                console.error('주소 삭제 중 오류 발생:', error);
             }
         }
     };
+
+
+    const handleSetDefault = async (id) => {
+        try {
+            await setDefaultAddress(id, memberId);
+    
+            // 목록 새로고침
+            const updatedAddresses = await getAddressList(memberId);
+            setAddresses(updatedAddresses);
+        } catch (error) {
+            console.error('기본 배송지 설정 중 오류 발생:', error);
+        }
+    };
+    
+    
+
+
 
     // 다음 우편번호 팝업 호출 함수
     const sample4_execDaumPostcode = () => {
