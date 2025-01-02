@@ -20,28 +20,36 @@ function Page(props) {
     const [previewImages, setPreviewImages] = useState([]);
     const [modalType, setModalType] = useState(null);
     const { user } = useAuthStore();
-    const LOCAL_API_BASE_URL = "http://localhost:8080";
+    const LOCAL_API_BASE_URL = "http://localhost:8080/api";
 
 
 
     // 구매 내역 데이터 상태
     const [purchases, setPurchases] = useState([
         {
-            id: 1,
-            name: "상품 이름",
-            price: "80,000원",
-            description: "판매자이름/택배거래",
+            idx: 1,
+            trans_id:"aaa555",
+            name:"상품이름(글제목등..임시값)",
+            trans_price: "80,000원",
+            is_zup:"",
+            guest_id:"46",
+            host_id:"9",
+            pwr_id:"1",
             item_image: "/images/JH_itemImg.png",
-            order_date: "2023/12/01",
+            trans_date: "2025-01-02 00:00:00",
             status: "진행 중",
         },
         {
-            id: 2,
-            name: "상품 이름",
-            price: "100,000원",
-            description: "판매자이름/직거래",
+            idx: 2,
+            trans_id:"bbb555",
+            name:"상품이름(글제목등..임시값)",
+            trans_price: "100,000원",
+            is_zup:"",
+            guest_id:"9",
+            host_id:"46",
+            pwr_id:"2",
             item_image: "/images/JH_itemImg2.png",
-            order_date: "2023/11/25",
+            trans_date: "2025-01-02 12:00:00",
             status: "구매 완료",
         },
     ]);
@@ -193,7 +201,7 @@ function Page(props) {
                                                             <img alt="product_img" src={item.item_image} className='list_item_img' style={{ backgroundColor: "rgb(244, 244, 244)" }} />
                                                         </div>
                                                         <div className='list_item_title_wrap'>
-                                                            <p className='list_item_price'>{item.price}</p>
+                                                            <p className='list_item_price'>{item.trans_price}</p>
                                                             <p className='list_item_title'>{item.name}</p>
                                                             <p className='list_item_description'>
                                                                 <span>{item.description}</span>

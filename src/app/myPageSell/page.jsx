@@ -12,7 +12,7 @@ function Page(props) {
     const pathname = usePathname();
     const [activeTab, setActiveTab] = useState(initialTab);
     const { user, login } = useAuthStore();
-    const LOCAL_API_BASE_URL = "http://localhost:8080";
+    const LOCAL_API_BASE_URL = "http://localhost:8080/api";
     const [isLoading, setLoading] = useState(false);
     const [previewImages, setPreviewImages] = useState([]); // 미리보기 이미지 배열 추가
     //1. 회원 정보 통합으로 가져오기
