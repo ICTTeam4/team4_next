@@ -2,7 +2,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import './itemCard.css';
 
-const Page = ({ data }) => {
+const Page = ({ index, data }) => {
+  
+  // 안전한 접근을 위해 fileList와 fileName을 조건부로 처리
+  const fileName = data.fileList && data.fileList.length > 0 ? data.fileList[0].fileName : null;
 
   console.log(data.fileList); // fileList 배열 확인
   console.log(data.fileList[0]?.fileName); // 첫 번째 파일의 fileName 확인
@@ -58,8 +61,6 @@ const Page = ({ data }) => {
         </div>
       </Link>
     </>
-
-
   );
 };
 

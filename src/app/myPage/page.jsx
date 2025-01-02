@@ -4,10 +4,13 @@ import './mypage.css';
 import MyPageSideNav from '../components/MyPageSideNav';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import useAuthStore from '../../../store/authStore';
 
 function Page(props) {
     const pathname = usePathname();
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const { user } = useAuthStore();
 
     const handleModalOpen = () => {
         setIsModalOpen(true); // 모달 열기
@@ -32,8 +35,8 @@ function Page(props) {
                                     </div>
                                     <div className='user_info'>
                                         <div className='info_box'>
-                                            <strong className='name'>홍길동</strong>
-                                            <p className='email'>abcd1234@naver.com</p>
+                                            <strong className='name'>{user?.nickname ?? "닉네임 없음"}</strong>
+                                            <p className='email'>{user?.email ?? "이메일 없음"}</p>
                                         </div>
                                         <div className='info-buttons'>
                                             <Link href="/myPageProfileInfo" className='btn btn outlinegrey small' type="button">
