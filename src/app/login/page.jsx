@@ -1,7 +1,8 @@
 "use client";
-import { Button, TextField } from "@mui/material";
+import { createTheme, ThemeProvider, TextField } from "@mui/material";
 import React, { useState, useRef, useEffect } from "react";
-
+import './login.css';
+import styles from './login.module.css'; // CSS 모듈 import
 // zustand store 호출
 import useAuthStore from "../../../store/authStore";
 import { useRouter } from "next/navigation";
@@ -13,19 +14,15 @@ const LoginPage = () => {
   const router = useRouter(); // useRouter 초기화
   const { login } = useAuthStore(); // zustand login 함수 가져오기
 
-
   // 로딩 상태 관리
   const [isLoading, setIsLoading] = useState(false);
-
   // 로그인 처리
   const [credentials, setCredentials] = useState({ email: "", password: "" });
-
   // 입력값 변경 처리
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCredentials((prev) => ({ ...prev, [name]: value }));
   };
-
   // 로그인 요청 처리 -- 일반로그인
   const handleLogin = async () => {
     setIsLoading(true); // 로딩 상태 활성화
@@ -58,7 +55,6 @@ const LoginPage = () => {
       setIsLoading(false); // 로딩 상태 비활성화
     }
   };
-
   //로그아웃 처리  -- 헤더탑에서 완료됨
   // const handleLogout = () => {
   //   localStorage.removeItem("token"); // 토큰 제거
@@ -70,14 +66,14 @@ const LoginPage = () => {
   // URL 쿼리 파라미터에서 토큰 확인 후 처리
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
-     // INACTIVE=1 쿼리가 있으면 탈퇴된 계정 안내
-     const inactive = searchParams.get("INACTIVE");
-     if (inactive === "1") {
-       alert("탈퇴된 계정입니다. 더 이상 로그인할 수 없습니다.");
-       return;
-     }
+    // INACTIVE=1 쿼리가 있으면 탈퇴된 계정 안내
+    const inactive = searchParams.get("INACTIVE");
+    if (inactive === "1") {
+      alert("탈퇴된 계정입니다. 더 이상 로그인할 수 없습니다.");
+      return;
+    }
 
-   
+
     const token = searchParams.get("token");
     const username = searchParams.get("username");
     const email = searchParams.get("email");
@@ -91,7 +87,7 @@ const LoginPage = () => {
       alert("로그인 성공");
       // 사용자 정보 생성
       const user = {
-        username, email, name, provider,member_id,adv_agree
+        username, email, name, provider, member_id, adv_agree
 
       };
       localStorage.setItem("token", token); // JWT 토큰 저장
@@ -99,229 +95,159 @@ const LoginPage = () => {
       router.push("/"); // 홈으로 이동
     }
   }, [login, router]);
-
-
   // 이메일 입력 필드에 대한 참조 생성
   const emailInputRef = useRef(null);
-
   useEffect(() => {
     // 페이지 로드 시 이메일 입력 필드에 포커스
     if (emailInputRef.current) {
       emailInputRef.current.focus();
     }
   }, []);
-
   // 네이버 로그인
   const handleNaverLogin = () => {
     window.location.href = "http://localhost:8080/oauth2/authorization/naver";
   };
-
   // 카카오 로그인
   const handleKakaoLogin = () => {
     window.location.href = "http://localhost:8080/oauth2/authorization/kakao";
   };
-
   // 구글 로그인
   const handleGoogleLogin = () => {
     window.location.href = "http://localhost:8080/oauth2/authorization/google";
   };
 
+  // TextField 커스텀
+const theme = createTheme({
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiInput-underline:before': {
+            borderBottom: '2px solid #ccc', // 비활성 상태의 border
+          },
+          '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
+            borderBottom: '2px solid #000000', // 호버 상태의 border
+          },
+          '& .MuiInput-underline:after': {
+            borderBottom: '3px solid #000000', // 포커스 상태의 border
+          },
+        },
+      },
+    },
+  },
+});
   return (
-    <div style={{ textAlign: "center" }}>
-      <img
-        src="./images/HY_logo.png"
-        alt="Logo"
-        style={{ width: "300px", marginBottom: "40px", marginTop: "10px" }}
-      />
+    <div className="background_container">
+      <div className="all_container">
+        <div className="paper_card">
+          <div className={styles.container}>
+            <div className={styles.maxwidth_contain}>
+              <img
+                src="./images/HY_logo.png"
+                alt="Logo"
+                className={styles.logo}
+              />
 
-      <form
-        style={{
-          marginTop: "30px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <label
-          style={{
-            marginBottom: "20px",
-            fontSize: "14px",
-            width: "400px",
-            textAlign: "left",
-          }}
-        >
-          이메일 주소
-        </label>
-        <TextField
-          variant="standard"
-          name="email"
-          value={credentials.email}
-          onChange={handleChange}
-          type="text"
-          placeholder="예) ict@ict.com"
-          inputRef={emailInputRef}
-          style={{
-            width: "400px",
-            marginTop: "0px",
-            marginBottom: "20px",
-            border: "none",
-            borderBottom: "1px solid gray",
-            outline: "none",
-            backgroundColor: "transparent",
-          }}
-        />
+              <form
+                className={styles.formContainer}
+              >
+                <label
+                  className={styles.label}
+                >
+                  이메일 주소
+                </label>
+                <ThemeProvider theme={theme}>
+                  <TextField
+                    variant="standard"
+                    name="email"
+                    value={credentials.email}
+                    onChange={handleChange}
+                    type="text"
+                    placeholder="예) ict@ict.com"
+                    inputRef={emailInputRef}
+                    className={styles.textField}
+                  />
+                </ThemeProvider>
+                <label
+                  className={styles.label}
+                >
+                  비밀번호
+                </label>
+                <ThemeProvider theme={theme}>
+                  <TextField
+                    variant="standard"
+                    name="password"
+                    value={credentials.password}
+                    onChange={handleChange}
+                    type="password"
+                    className={styles.textField}
+                  />
+                </ThemeProvider>
+                {/* 로그인 버튼 */}
+                <button
+                  fullWidth
+                  variant="contained"
+                  disabled={!credentials.email || !credentials.password || isLoading}
+                  onClick={handleLogin}
+                  className={credentials.email || credentials.password ? `${styles.loginButton} ${styles.loginButtonDisabled}` : styles.loginButton}
+                >
+                  {isLoading ? "로그인 중..." : "로그인 버튼"}
+                </button>
 
-        <label
-          style={{
-            marginBottom: "20px",
-            fontSize: "14px",
-            width: "400px",
-            textAlign: "left",
-          }}
-        >
-          비밀번호
-        </label>
-        <TextField
-          variant="standard"
-          name="password"
-          value={credentials.password}
-          onChange={handleChange}
-          type="password"
-          style={{
-            width: "400px",
-            marginTop: "0px",
-            marginBottom: "20px",
-            border: "none",
-            borderBottom: "1px solid gray",
-            outline: "none",
-            backgroundColor: "transparent",
-          }}
-        />
+                <div
+                  className={styles.linkContainer}
+                >
+                  <a href="/register" className={styles.link}>
+                    회원가입
+                  </a>
+                  <a>|</a>
+                  <a href="/findid" className={styles.link}>
+                    아이디 찾기
+                  </a>
+                  <a>|</a>
+                  <a href="/findpw" className={styles.link}>
+                    비밀번호 찾기
+                  </a>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleNaverLogin}
+                  className={`${styles.snsLoginButton} ${styles.snsLoginButtonNaver}`}
+                >
+                  <img
+                    src="./images/HY_naverlogo.png"
+                    alt=""
+                  />
+                  네이버로 로그인
+                </button>
+                <button
+                  type="button"
+                  onClick={handleKakaoLogin}
+                  className={`${styles.snsLoginButton} ${styles.snsLoginButtonKakao}`}
+                >
+                  <img
+                    src="./images/HY_kakaologo.png"
+                    alt=""
+                  />
+                  카카오로 로그인
+                </button>
+                <button
+                  type="button"
+                  onClick={handleGoogleLogin}
+                  className={`${styles.snsLoginButton} ${styles.snsLoginButtonGoogle}`}
+                >
 
-        {/* 로그인 버튼 */}
-        <button
-          fullWidth
-          variant="contained"
-          disabled={!credentials.email || !credentials.password || isLoading}
-          onClick={handleLogin}
-          style={{
-            width: "400px",
-            padding: "10px",
-            backgroundColor:
-              !credentials.email || !credentials.password || isLoading
-                ? "lightgray"
-                : "#000",
-            marginTop: "20px",
-            color: "white",
-            borderRadius: "5px",
-            cursor:
-              !credentials.email || !credentials.password || isLoading
-                ? "not-allowed"
-                : "pointer",
-            marginBottom: "20px",
-          }}
-        >
-          {isLoading ? "로그인 중..." : "로그인 버튼"}
-        </button>
-
-        <div
-          style={{
-            justifyContent: "space-between",
-            margin: "10px",
-            marginBottom: "40px",
-            fontSize: "12px",
-            width: "400px",
-            display: "flex",
-          }}
-        >
-          <a href="/register" style={{ color: "black" }}>
-            회원가입
-          </a>
-          <a>|</a>
-          <a href="/findid" style={{ color: "black" }}>
-            아이디 찾기
-          </a>
-          <a>|</a>
-          <a href="/findpw" style={{ color: "black" }}>
-            비밀번호 찾기
-          </a>
+                  <img
+                    src="./images/HY_googlelogo.png"
+                    alt=""
+                  />
+                  구글로 로그인
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
-        <Button
-          type="button"
-          onClick={handleNaverLogin}
-          style={{
-            width: "400px",
-            border: "1px solid lightgray",
-            backgroundColor: "#fff",
-            marginBottom: "10px",
-            color: "black",
-            borderRadius: "5px",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            gap: "110px",
-          }}
-        >
-          <img
-            src="./images/HY_naverlogo.png"
-            style={{ width: "40px" }}
-            alt=""
-          />
-          네이버로 로그인
-        </Button>
-        <Button
-          type="button"
-          onClick={handleKakaoLogin}
-          style={{
-            width: "400px",
-            padding: "10px",
-            border: "1px solid lightgray",
-            backgroundColor: "#fff",
-            marginBottom: "10px",
-            color: "black",
-            borderRadius: "5px",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            gap: "115px",
-          }}
-        >
-          <img
-            src="./images/HY_kakaologo.png"
-            style={{ width: "30px", paddingLeft: "2px" }}
-            alt=""
-          />
-          카카오로 로그인
-        </Button>
-         <Button
-          type="button"
-          onClick={handleGoogleLogin}
-          style={{
-            width: "400px",
-            padding: "10px",
-            border: "1px solid lightgray",
-            backgroundColor: "#fff",
-            marginBottom: "10px",
-            color: "black",
-            borderRadius: "5px",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            gap: "120px",
-          }}
-        > 
-         
-          <img
-            src="./images/HY_googlelogo.png"
-            style={{ width: "30px", paddingLeft: "2px" }}
-            alt=""
-          />
-          구글로 로그인
-        </Button>
-      </form>
+      </div>
     </div>
   );
 };

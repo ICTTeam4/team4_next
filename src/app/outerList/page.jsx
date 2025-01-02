@@ -78,7 +78,7 @@ function OuterList() {
             )
           )}
         </div>
-      </div>
+      </div>  
     </>
   );
 }
