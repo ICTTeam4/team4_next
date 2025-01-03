@@ -10,7 +10,7 @@ function Page({ toggleSidebar, setSortOption }) {
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div className='filter_buttons_container'>
           <button className='filter-button' onClick={toggleSidebar}>카테고리</button>
-          <button className='filter-button' onClick={toggleSidebar}>사이즈</button>
+          {/* <button className='filter-button' onClick={toggleSidebar}>사이즈</button> */}
           <button className='filter-button' onClick={toggleSidebar}>가격대</button>
           <span style={{ margin: '0 20px 0px 20px', color: 'lightgray' }}>|</span>
           <button 

@@ -9,7 +9,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 const Chat = ({ isOpen, closeChat, initialRoomId, initialhostId }) => {
   const [isChatDetailOpen, setChatDetailOpen] = useState(false); // 채팅디테일 사이드바 상태관리 
   const [selectedChat, setSelectedChat] = useState(null);
-
+  const LOCAL_API_BASE_URL = "http://localhost:8080";
 
 
   // 초기 room_id가 있을 경우 바로 채팅 디테일 열기
@@ -35,7 +35,7 @@ const Chat = ({ isOpen, closeChat, initialRoomId, initialhostId }) => {
   };
 
 
-  // 채팅 데이터 예시
+  // 채팅 데이터 예시  // last message, last message의 date, 상대는 내가 아닌 상대...? room_id  .. 이미 user.member_id로 확인이 된상태여야함 
   const chats = [
     { room_id: 1, name: "닉네임1", date: "3월 17일", message: "어제 보기로 했던 그 영화 어땠어?" },
     { room_id: 2, name: "닉네임2", date: "3월 3일", message: "시장에 새로운 상품이 출시되었어요, 확인해보세요?" },

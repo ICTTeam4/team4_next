@@ -5,8 +5,10 @@ import { useState } from 'react';
 import FilterSidebarSecondSection from './filterSidebarSecondSection/page';
 import FilterActionButtonContainer from './filterActionButtonContainer/page';
 import FilterPrice from './filterPrice/page';
+// import { useRouter } from 'next/router';
 
-const Page = ({ isActive, toggleSidebar }) => {
+const Page = ({ isActive, toggleSidebar, getSelectedCategories,getSelectedSmallCategories,getPriceRange }) => {
+  // const router = useRouter();
   const categories = ['아우터', '상의', '하의', '신발', '가방', '패션 소품'];
   const categoryMapping = {
     '아우터': ['패딩', '코트', '바람막이', '자켓', '가디건', '블루종', '조끼', '아노락'],
@@ -18,6 +20,7 @@ const Page = ({ isActive, toggleSidebar }) => {
   };
 
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [priceRange, setPriceRange] = useState([0,500]);
   const [selectedSmallCategories, setSelectedSmallCategories] = useState([]);
   const [isCollapsed, setIsCollapsed] = useState(false); // 카테고리 숨김 상태
 
@@ -33,11 +36,17 @@ const Page = ({ isActive, toggleSidebar }) => {
     );
 
     // 대분류 선택 시, 소분류가 자동으로 선택되지 않도록 수정
+    // setSelectedSmallCategories((prev) =>
+    //   isCategorySelected
+    //     ? prev.filter((item) => !relatedSmallCategories.includes(item)) // 관련 소분류 제거
+    //     : prev
+    // );
     setSelectedSmallCategories((prev) =>
       isCategorySelected
         ? prev.filter((item) => !relatedSmallCategories.includes(item)) // 관련 소분류 제거
-        : prev
+        : [...prev, ...relatedSmallCategories]
     );
+    console.log(selectedSmallCategories);
   };
 
   // 소분류 선택 핸들러
@@ -49,6 +58,7 @@ const Page = ({ isActive, toggleSidebar }) => {
     );
   };
 
+
   // 전체 선택 핸들러
   const selectAll = () => {
     setSelectedCategories(categories);
@@ -59,6 +69,7 @@ const Page = ({ isActive, toggleSidebar }) => {
   const clearSelection = () => {
     setSelectedCategories([]);
     setSelectedSmallCategories([]);
+    setPriceRange([0,500]);
   };
 
   // 플러스/마이너스 버튼 토글 핸들러
@@ -71,6 +82,19 @@ const Page = ({ isActive, toggleSidebar }) => {
     clearSelection();
   };
 
+
+  const handleSubmit = () => {
+    if(!((selectedCategories.length == 0 && selectedSmallCategories.length ==0)&&(priceRange[0] == 0 && priceRange[1]==500))){
+
+      getSelectedCategories(selectedCategories);
+      getSelectedSmallCategories(selectedSmallCategories);
+      getPriceRange(priceRange);
+      console.log("if 스위치 내부");
+    } else {
+      window.location.reload();
+    }
+    toggleSidebar();
+  }
   return (
     <div>
       {/* 레이어 배경 */}
@@ -159,9 +183,11 @@ const Page = ({ isActive, toggleSidebar }) => {
             </ul>
           </div>
         </div>
-        <FilterSidebarSecondSection resetFilter={resetFilter} />
-        <FilterPrice resetFilter={resetFilter} />
-        <FilterActionButtonContainer resetFilter={resetFilter} />
+        {/* <FilterSidebarSecondSection resetFilter={resetFilter} /> */}
+        {/* <FilterPrice resetFilter={resetFilter} priceRange={priceRange} setPriceRange={setPriceRange} />
+        <FilterActionButtonContainer resetFilter={resetFilter} submitSelection={handleSubmit} /> */}
+        <FilterPrice resetFilter={resetFilter} priceRange={priceRange} setPriceRange={setPriceRange} />
+        <FilterActionButtonContainer resetFilter={resetFilter} submitSelection={handleSubmit} />
         <div></div>
         <div></div>
         <div></div>
