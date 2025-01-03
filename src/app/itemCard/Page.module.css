@@ -4,15 +4,25 @@
   margin-left: 5px;
 }
 
-.product_img img {
+.product_img {
   width: 234px;
   height: 234px;
 }
+.product_img img{
+  width: 234px;
+  height: 234px;
+}
+
+.product_img img.blur_image{
+  filter: blur(5px);
+}
+
 
 .product_info {
   text-align: left;
   margin: 9px 4px 0 4px;
 }
+
 /* 아이템 제조사 */
 .item_com {
   font-weight: bold;
@@ -29,7 +39,7 @@
   color: black;
 }
 
-.price_font{
+.price_font {
   color: gray;
 }
 
@@ -43,20 +53,37 @@
   font-weight: bold;
 }
 
+/* 상태 문구 오버레이 */
+.statusOverlay {
+  position: relative;
+  left: 50%;
+  bottom: 120px;
+  transform: translate(-50%, -50%);
+
+  /* 텍스트 스타일 */
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.2rem;
+
+  /* 배경 스타일 (반투명 검정) */
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-align: center;
+}
+
 /* 1250px 이하일 때 크기 줄이기 */
 @media (max-width: 1250px) {
   .product_card_container {
-    width: 200px; /* 가로 크기 줄임 */
-    height: 365px; /* 세로 크기 줄임 */
-  }
-
-  .product_img img {
     width: 200px;
-    height: 200px;
+    /* 가로 크기 줄임 */
+    height: 365px;
+    /* 세로 크기 줄임 */
   }
 
   .item_com {
-    font-size: 15px; /* 텍스트 크기도 조정 가능 */
+    font-size: 15px;
+    /* 텍스트 크기도 조정 가능 */
   }
 
   .date_font {
@@ -66,21 +93,20 @@
 
 @media (max-width: 660px) {
   .product_card_container {
-    width: 170px; /* 가로 크기 줄임 */
-    height: 300px; /* 세로 크기 줄임 */
+    width: 170px;
+    /* 가로 크기 줄임 */
+    height: 300px;
+    /* 세로 크기 줄임 */
     margin-left: 13px;
   }
 
-  .product_img img {
-    width: 170px;
-    height: 170px;
-  }
-
   .item_com {
-    font-size: 15px; /* 텍스트 크기도 조정 가능 */
+    font-size: 15px;
+    /* 텍스트 크기도 조정 가능 */
   }
 
   .date_font {
     font-size: 12px;
   }
+
 }

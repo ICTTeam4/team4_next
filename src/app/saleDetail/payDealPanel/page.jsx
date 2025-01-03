@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Typography, Grid, Box, Paper } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-function CustomPage({ nextButton, setNextButton }) {
+function CustomPage({ nextButton, setNextButton, data }) {
   const [selectedPayment, setSelectedPayment] = useState(null);
   const router = useRouter(); // 페이지 이동을 위한 history 객체 사용
   const [payUrl, setPayUrl] = useState("");
@@ -10,7 +10,13 @@ function CustomPage({ nextButton, setNextButton }) {
   const handlePaymentSelect = (payment) => {
     setSelectedPayment(payment);
   };
-
+  const queryParams = new URLSearchParams({
+    productName: data.title,
+    productPrice: data.sell_price,
+    productId: data.pwr_id, // 추가로 전달하고 싶은 데이터
+    productImg: data.fileList[0]?.fileName, // 추가로 전달하고 싶은 데이터
+    method: nextButton, // nextButton 값 추가
+  });
   const getButtonStyles = (payment) => {
     const defaultStyles = {
       color: '#000',
@@ -76,20 +82,20 @@ function CustomPage({ nextButton, setNextButton }) {
         console.log('카카오페이로 결제를 진행합니다.');
         // setNextButton(3)
         try {
-          const quantity = 2; // 수량
-          const pricePerItem = 2200; // 상품 단가
+          const quantity = 1; // 수량
+          const pricePerItem = data.sell_price; // 상품 단가
           const totalAmount = quantity * pricePerItem; // 총 금액
           const vatAmount = Math.floor(totalAmount / 1.1 * 0.1); // 부가세 계산
           const response = await axios.post("./payments/api/kakaoPay", {
             cid: "TC0ONETIME",
             partner_order_id: "partner_order_id",
             partner_user_id: "partner_user_id",
-            item_name: "초코파이",
+            item_name: data.title,
             quantity: quantity,
             total_amount: totalAmount, // 계산된 총 금액
             vat_amount: vatAmount, // 부가세 계산
             tax_free_amount: totalAmount - vatAmount, // 면세 금액
-            approval_url: "http://localhost:3000/orderdetail",
+            approval_url: `http://localhost:3000/orderdetail?${queryParams.toString()}`, // 쿼리 파라미터로 데이터 전달,
             fail_url: "http://localhost:3000/payments/kakaoPay/fail",
             cancel_url: "http://localhost:3000/payments/kakaoPay/cancel",
           });
@@ -107,12 +113,12 @@ function CustomPage({ nextButton, setNextButton }) {
         if (window.oPay) {
           window.oPay.open({
             merchantPayKey: '20241205TwZ68b',
-            productName: '전하윤 배채우기',
+            productName: data.title,
             productCount: '1',
-            totalPayAmount: '290000',
-            taxScopeAmount: '290000',
+            totalPayAmount: data.sell_price,
+            taxScopeAmount: data.sell_price,
             taxExScopeAmount: '0',
-            returnUrl: 'http://localhost:3000/orderdetail'
+            returnUrl: `http://localhost:3000/orderdetail?${queryParams.toString()}` // 쿼리 파라미터로 데이터 전달
           });
         } else {
           console.error('Naver Pay is not initialized.');
@@ -131,15 +137,15 @@ function CustomPage({ nextButton, setNextButton }) {
         try {
           const response = await axios.post('./payments/api/tossPay', {
             orderId: 'order-id-1234',
-            amount: 50000,
-            orderName: '테스트 상품',
+            amount: data.sell_price,
+            orderName: data.title,
           });
-          const { successUrl, failUrl } = response.data;
+          const { failUrl } = response.data;
           tossPayments.requestPayment('카드', {
-            amount: 50000,
+            amount: data.sell_price,
             orderId: 'order-id-1234',
-            orderName: '테스트 상품',
-            successUrl,
+            orderName: data.title,
+            successUrl: `http://localhost:3000/orderdetail?${queryParams.toString()}`, // 쿼리 파라미터로 데이터 전달
             failUrl,
           });
         } catch (error) {
@@ -176,15 +182,27 @@ function CustomPage({ nextButton, setNextButton }) {
                 fontSize: '12px',
               }}
             >
-              판매 이미지
+              <img
+                src={`http://localhost:8080/images/${data.fileList[0]?.fileName}`}
+                alt="판매 아이콘"
+                style={{
+                  width: '60px',
+                  height: '60px',
+                  border: '1px solid #ddd',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '12px',
+                }}
+              />
             </Box>
           </Grid>
           <Grid item xs={7} >
             <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-              판매 제목
+              {data.title}
             </Typography>
             <Typography variant="body2" sx={{ color: 'gray' }}>
-              17,000 원
+              {Number(data.sell_price).toLocaleString()}원
             </Typography>
           </Grid>
         </Grid>
@@ -224,7 +242,7 @@ function CustomPage({ nextButton, setNextButton }) {
             </Typography>
           </Grid>
           <Grid item>
-            <Typography variant="body1">17,000 원</Typography>
+            <Typography variant="body1">{Number(data.sell_price).toLocaleString()}원</Typography>
           </Grid>
         </Grid>
       </Paper>
