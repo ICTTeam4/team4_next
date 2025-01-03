@@ -7,6 +7,7 @@ import useAuthStore from "../../../store/authStore";
 import axios from 'axios';
 
 function Page(props) {
+    const [showSideNav, setShowSideNav] = useState(true); // 사이드바 보이기 여부 상태
     const searchParams = useSearchParams();
     const initialTab = searchParams.get('tab') || '전체';
     const pathname = usePathname();
@@ -21,39 +22,84 @@ function Page(props) {
     const [modalType, setModalType] = useState(null);
     const { user } = useAuthStore();
     const LOCAL_API_BASE_URL = "http://localhost:8080/api";
+    const [purchases, setPurchases] = useState([]); // 구매 내역 데이터 상태
 
+
+    const [loading, setLoading] = useState(true); // 로딩 상태
+    const [error, setError] = useState(null); // 에러 상태
+    useEffect(() => {
+        // 특정 조건에 따라 사이드바를 숨기거나 표시
+        if (pathname.includes("/myPageBuy") || pathname.includes("/myPageSell")) {
+            setShowSideNav(true); // 구매 내역, 판매 내역 페이지에서는 숨기기
+        } else {
+            setShowSideNav(false); // 그 외 페이지에서는 표시
+        }
+    }, [pathname]);
 
 
     // 구매 내역 데이터 상태
-    const [purchases, setPurchases] = useState([
-        {
-            idx: 1,
-            trans_id:"aaa555",
-            name:"상품이름(글제목등..임시값)",
-            trans_price: "80,000원",
-            is_zup:"",
-            guest_id:"46",
-            host_id:"9",
-            pwr_id:"1",
-            item_image: "/images/JH_itemImg.png",
-            trans_date: "2025-01-02 00:00:00",
-            status: "진행 중",
-        },
-        {
-            idx: 2,
-            trans_id:"bbb555",
-            name:"상품이름(글제목등..임시값)",
-            trans_price: "100,000원",
-            is_zup:"",
-            guest_id:"9",
-            host_id:"46",
-            pwr_id:"2",
-            item_image: "/images/JH_itemImg2.png",
-            trans_date: "2025-01-02 12:00:00",
-            status: "구매 완료",
-        },
-    ]);
+    // const [purchases, setPurchases] = useState([
+    //     {
+    //         idx: 1,
+    //         trans_id: "aaa555",
+    //         name: "상품이름(글제목등..임시값)",
+    //         trans_price: "80,000원",
+    //         is_zup: "",
+    //         guest_id: "46",
+    //         host_id: "9",
+    //         pwr_id: "1",
+    //         is_fixed: "1",
+    //         trans_method: "택배거래",
+    //         item_image: "/images/JH_itemImg.png",
+    //         trans_date: "2025-01-02 00:00:00",
+    //     },
+    //     {
+    //         idx: 2,
+    //         trans_id: "bbb555",
+    //         name: "상품이름(글제목등..임시값)",
+    //         trans_price: "100,000원",
+    //         is_zup: "",
+    //         guest_id: "9",
+    //         host_id: "46",
+    //         pwr_id: "2",
+    //         is_fixed: "0",
+    //         trans_method: "직거래",
+    //         item_image: "/images/JH_itemImg2.png",
+    //         trans_date: "2025-01-02 12:00:00",
+    //     },
+    // ]);
     // 별점 기능 추가
+
+    // DB에서 데이터 가져오기
+    useEffect(() => {
+        const fetchPurchases = async () => {
+            try {
+                console.log(user?.member_id);
+                const token = localStorage.getItem('token'); // 토큰 가져오기
+                const response = await axios.get(`http://localhost:8080/api/transaction/HayoonSearchPurchase`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // 인증 헤더 추가
+                    },
+                    params: {
+                        member_id: user?.member_id, // 사용자 ID 전달
+                    },
+                });
+
+                if (response.status === 200) {
+                    setPurchases(response.data); // 서버에서 가져온 데이터를 상태로 설정
+                    console.log(response.data);
+                } else {
+                    console.error("데이터를 가져오는 데 실패했습니다.");
+                }
+            } catch (error) {
+                console.error("데이터 가져오기 중 오류 발생:", error);
+            }
+        };
+
+        if (user?.member_id) {
+            fetchPurchases(); // 사용자 ID가 있을 때만 데이터 가져오기
+        }
+    }, [user]);
 
     const handleRating = (index) => setRating(index + 1);
     const handleReviewTextChange = (event) => setReviewText(event.target.value);
@@ -84,7 +130,7 @@ function Page(props) {
         if (activeTab === '전체') {
             return purchases;
         } else {
-            return purchases.filter(purchase => purchase.status === activeTab);
+            return purchases.filter(purchase => purchase.is_fixed === activeTab);
         }
     };
 
@@ -136,13 +182,15 @@ function Page(props) {
             setSubmitting(false);
         }
     };
-
+    // if (loading) return <p>로딩 중...</p>;
+    // if (error) return <p>{error}</p>;
 
     return (
 
         <div className='myPageBuy'>
             <div className='container my lg'>
-                <MyPageSideNav currentPath={pathname} />
+                {/* 사이드바 조건부 렌더링 */}
+                {showSideNav && <MyPageSideNav currentPath={pathname} />}
                 <div className='content_area my-page-content'>
                     <div className='my_purchase'>
                         <div className='content_title'>
@@ -166,21 +214,21 @@ function Page(props) {
                                             </a>
                                         </div>
                                         {/* '진행 중' 탭 */}
-                                        <div className={`tab_item ${activeTab === '진행 중' ? 'tab_on' : ''}`}
-                                            onClick={() => handleTabClick('진행 중')}>
+                                        <div className={`tab_item ${activeTab === '0' ? 'tab_on' : ''}`}
+                                            onClick={() => handleTabClick('0')}>
                                             <a href="#" className='tab_link'>
                                                 <dl className='tab_box'>
                                                     <dt className='title'>진행 중</dt>
-                                                    <dd className='count'>{purchases.filter(p => p.status === '진행 중').length}</dd>
+                                                    <dd className='count'>{purchases.filter(p => p.is_fixed === '0').length}</dd>
                                                 </dl>
                                             </a>
                                         </div>
-                                        <div className={`tab_item ${activeTab === '구매 완료' ? 'tab_on' : ''}`}
-                                            onClick={() => handleTabClick('구매 완료')}>
+                                        <div className={`tab_item ${activeTab === '1' ? 'tab_on' : ''}`}
+                                            onClick={() => handleTabClick('1')}>
                                             <a href="#" className='tab_link'>
                                                 <dl className='tab_box'>
                                                     <dt className='title'>구매 완료</dt>
-                                                    <dd className='count'>{purchases.filter(p => p.status === '구매 완료').length}</dd>
+                                                    <dd className='count'>{purchases.filter(p => p.is_fixed === '1').length}</dd>
                                                 </dl>
                                             </a>
                                         </div>
@@ -198,13 +246,22 @@ function Page(props) {
                                                 <a href="#">
                                                     <div className='purchase_list_product'>
                                                         <div className='list_item_img_wrap'>
-                                                            <img alt="product_img" src={item.item_image} className='list_item_img' style={{ backgroundColor: "rgb(244, 244, 244)" }} />
+                                                            {item.file_name !== "0" ? (
+                                                                <img
+                                                                    alt="product_img"
+                                                                    src={`http://localhost:8080/images/${item.file_name}`}
+                                                                    className='list_item_img'
+                                                                    style={{ backgroundColor: "rgb(244, 244, 244)" }}
+                                                                />
+                                                            ) : (
+                                                                <p style={{ textAlign: "center", color: "gray"}}>이미지 없음</p>
+                                                            )}
                                                         </div>
                                                         <div className='list_item_title_wrap'>
                                                             <p className='list_item_price'>{item.trans_price}</p>
-                                                            <p className='list_item_title'>{item.name}</p>
+                                                            <p className='list_item_title'>{item.title}</p>
                                                             <p className='list_item_description'>
-                                                                <span>{item.description}</span>
+                                                                <span>{item.trans_method}</span>
                                                             </p>
                                                         </div>
                                                     </div>
@@ -212,13 +269,14 @@ function Page(props) {
                                                 <div className='list_item_status'>
                                                     <div className='list_item_column column_secondary'>
                                                         <p className='text-lookup secondary_title display_paragraph'
-                                                            style={{ color: "rgba(34, 34, 34, 0.5)" }}>{item.order_date}</p>
+                                                            style={{ color: "rgba(34, 34, 34, 0.5)" }}>{item.trans_date}</p>
                                                     </div>
                                                     <div className='list_item_column column_last'>
-                                                        <p className='text-lookup last_title display_paragraph'
-                                                            style={{ color: "rgb(34, 34, 34)" }}>{item.status}</p>
+                                                        <p className='text-lookup last_title display_paragraph' style={{ color: "rgb(34, 34, 34)" }}>
+                                                            {item.is_fixed === '0' ? '진행 중' : '구매 완료'}
+                                                        </p>
                                                         {/* '진행 중' 상태일 때만 '구매 확정' 버튼 표시 */}
-                                                        {item.status === '진행 중' && (
+                                                        {item.is_fixed === '0' && (
                                                             <a
                                                                 className='text-lookup last_description display_paragraph action_named_action confirm_purchase'
                                                                 style={{ color: "red", cursor: "pointer" }}
@@ -228,7 +286,7 @@ function Page(props) {
                                                             </a>
                                                         )}
                                                         {/* '구매 완료' 상태일 때만 '후기 남기기' 버튼 표시 */}
-                                                        {item.status === '구매 완료' && (
+                                                        {item.is_fixed === '1' && (
                                                             <button
                                                                 className="review-btn"
                                                                 style={{ textAlign: 'right' }}
