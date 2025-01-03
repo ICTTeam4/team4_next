@@ -136,7 +136,7 @@ function ProductPage() {
   const handleSubmit = async () => {
     const API_URL = `http://localhost:8080/api/salespost/salesinsert`;
     const data = new FormData();
-    data.append("member_id", user.member_id);
+    data.append("member_id", formData.member_id);
     data.append("selling_area_id", formData.selling_area_id);
     data.append("title", formData.title);
     data.append("sell_price", formData.sell_price);
@@ -147,6 +147,7 @@ function ProductPage() {
     data.append("is_delivery", isDeliveryTransaction);
     data.append("longitude", longitude);
     data.append("latitude", latitude);
+    console.log("폼데이터 정보 확인 : " + data);
 
     if (images.length >= 1) {
       for (let i = 0; i < images.length; i++) {
@@ -168,6 +169,7 @@ function ProductPage() {
         }
       );
         if (response.data.success) {
+          console.log("success 체크중");
             alert(response.data.message);
             router.push("/");
         } else {
