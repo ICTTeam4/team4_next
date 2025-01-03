@@ -9,16 +9,15 @@ import axios from 'axios';
 import useAuthStore from '../../../store/authStore';
 import { useSearchParams } from 'next/navigation';
 
-function OuterList() {
+function Page() {
   const searchParams = useSearchParams();
-  const LOCAL_API_BASE_URL = process.env.NEXT_PUBLIC_LOCAL_API_BASE_URL
-  const API_URL = `${LOCAL_API_BASE_URL}/searchItems/outerList`; // OuterList API 엔드포인트
-  const { searchKeyword, category, searchBarActive } = useAuthStore(); // Zustand에서 검색 상태 가져오기
+  const LOCAL_API_BASE_URL = process.env.NEXT_PUBLIC_LOCAL_API_BASE_URL;
+  const API_URL = `${LOCAL_API_BASE_URL}/api/searchItems/outerList`; // OuterList API 엔드포인트
+  const { setKeyword } = useAuthStore(); // Zustand에서 검색 상태 관리
   const [isSidebarActive, setIsSidebarActive] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
-  const [loading, setLoading] = useState(true); // 로딩 상태
-  const [error, setError] = useState(null); // 에러 상태
- 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const query = searchParams.get('query') || '';
 
@@ -26,43 +25,55 @@ function OuterList() {
     setIsSidebarActive(!isSidebarActive);
   };
 
-  useEffect(() => {
-    const fetchSearchResults = async () => {
-      // 현재 카테고리가 "outerList"인지 확인
-      if (!searchKeyword || category !== "아우터") 
+  const fetchSearchResults = async () => {
+    setLoading(true);
+    setError(null);
 
-      setLoading(true);
-      setError(null);
+    try {
+      const response = await axios.get(API_URL, {
+        params: {
+          keyword: query,
+          category: '아우터', // OuterList의 고정 카테고리
+        },
+      });
 
-      try {
-        const response = await axios.get(API_URL , {
-          params: {
-            keyword: searchKeyword,
-            category: category, // OuterList의 고정 카테고리
-          },
-        });
-        console.log("주소 확인 :", API_URL);
-        console.log("검색 결과:", response.data);
-        setSearchResults(response.data.items || []);
-      } catch (err) {
-        console.error("검색 오류:", err.response || err.message);
-        setError(err.response ? err.response.data.message : err.message);
-      } finally {
-        setLoading(false);
+      console.log("API 요청 파라미터:", { keyword: query, category: "아우터" });
+      console.log("API 응답 데이터:", response.data);
+
+      if (response.data.success) {
+        const items = response.data.data || [];
+        const processedItems = items.map((item) => ({
+          ...item,
+          fileList: Array.isArray(item.fileList) ? item.fileList : [], // 안전하게 fileList 처리
+        }));
+        setSearchResults(processedItems);
+      } else {
+        console.error("API 실패:", response.data.message);
+        setError(response.data.message || "검색 결과가 없습니다.");
       }
-    };
+    } catch (err) {
+      console.error("검색 오류:", err.response?.status, err.response?.data || err.message);
+      setError("검색 결과를 가져오는 중 문제가 발생했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchSearchResults();
-  }, [searchKeyword, category]);
+  useEffect(() => {
+    if (query) {
+      setKeyword(query); // 검색어를 Zustand에 동기화
+      fetchSearchResults();
+    }
+  }, [query]);
 
   return (
     <>
       <MidCategoryBanner category="outList" />
       <FilterSidebar isActive={isSidebarActive} toggleSidebar={toggleSidebar} />
       <FilterButtonsSection toggleSidebar={toggleSidebar} />
-      {searchBarActive == true && <h3 style={{ textAlign: 'center', color: 'lightgray' }}>
+      <h3 style={{ textAlign: 'center', color: 'lightgray' }}>
         '아우터' 내 검색 결과 : "{query}"
-      </h3>}
+      </h3>
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '-10px' }}>
         <div className="main_list_container">
           {loading && <p>로딩 중입니다...</p>}
@@ -78,9 +89,9 @@ function OuterList() {
             )
           )}
         </div>
-      </div>  
+      </div>
     </>
   );
 }
 
-export default OuterList;
+export default Page;

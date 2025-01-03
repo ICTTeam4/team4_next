@@ -14,7 +14,7 @@ function Page() {
   const [isSidebarActive, setIsSidebarActive] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const {setKeyword} = useAuthStore(); // Zustand에서 검색어 가져오기
+  const { setKeyword } = useAuthStore(); // Zustand에서 검색어 가져오기
 
   const query = searchParams.get('query') || '';
   const status = searchParams.get('status') || '';
@@ -31,32 +31,33 @@ function Page() {
   };
 
   const fetchSearchResults = async (query) => {
-    setLoading(true);
-    setError(null);
-
+    setLoading(true); // 로딩 시작
     try {
-        const response = await axios.get(`http://localhost:8080/searchItems/itemSearchResult`, {
-            params: { keyword: query }, // keyword가 컨트롤러와 일치
-        });
-
-        console.log("응답 데이터:", response.data);
-
-        if (response.data.status === 'success') {
-            setSearchResults(response.data.items || []);
-        } else if (response.data.status === 'empty') {
-            console.log('검색 결과 없음');
-            setSearchResults([]);
-        } else {
-            console.error('알 수 없는 상태:', response.data);
-            setError('서버에서 알 수 없는 응답이 반환되었습니다.');
-        }
+      const response = await axios.get(`http://localhost:8080/api/searchItems/itemSearchResult`, {
+        params: { keyword: query },
+      });
+  
+      console.log("API 응답 데이터:", response.data.data);
+  
+      if (response.data.success) {
+        const items = response.data.data || [];
+        const processedItems = items.map((item) => ({
+          ...item,
+          fileList: Array.isArray(item.fileList) ? item.fileList : [], // 안전하게 fileList 처리
+        }));
+        setSearchResults(processedItems);
+      } else {
+        console.error("API 실패:", response.data.message);
+        setError(response.data.message || "서버에서 에러가 발생했습니다.");
+      }
     } catch (err) {
-        console.error("검색 오류:", err.response?.status, err.response?.data || err.message);
-        setError('검색 결과를 가져오는 중 문제가 발생했습니다.');
+      console.error("검색 오류:", err.response?.status, err.response?.data || err.message);
+      setError("검색 결과를 가져오는 중 문제가 발생했습니다.");
     } finally {
-        setLoading(false);
+      setLoading(false); // 로딩 종료
     }
-};
+  };
+  
 
   return (
     <div>
