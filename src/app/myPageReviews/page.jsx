@@ -140,6 +140,22 @@ const myReviewsAverageRating = useMemo(() => {
         return <p>로딩 중...</p>;
     }
 
+// 별점 렌더링 함수 수정
+const renderStars = (rating) => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+        stars.push(
+            <span
+                key={i}
+                className={`star ${i <= rating ? 'filled' : ''}`}
+            >
+                ★
+            </span>
+        );
+    }
+    return stars;
+};
+
 
     return (
         <div className='myPageReviews'>
@@ -219,14 +235,25 @@ const myReviewsAverageRating = useMemo(() => {
                                 >
                                     <div className="purchase_list_product">
                                         <div className="list_item_img_wrap">
-                                            <img
+                                            {/* <img
                                                 alt="product_img"
                                                 src="/images/JH_myPageReviewImg.png"
                                                 className="list_item_img"
-                                            />
+                                            /> */}
+                                              {renderStars(item.rate)}
                                         </div>
                                         <div className="list_item_title_wrap">
                                             <p className="list_item_price">{item.rate}</p>
+                                            <div className="list_item_img_wrap">
+                                        {item.file_url && (
+                                            <img
+                                            style={{width:'300px'}}
+                                                src={`http://localhost:8080${item.file_url}`}  //이미 /가 있어서 슬래시 없어야함..........
+                                                alt={item.file_name}
+                                                className="review-image"
+                                            />
+                                        )}
+                                    </div>
                                             <p className="list_item_title">{item.content}</p>
                                         </div>
                                     </div>
