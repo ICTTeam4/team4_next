@@ -971,3 +971,7 @@
     margin-top: 55px;
     padding: 5px 0;
 }
+.input-error {
+    border: 2px solid red;
+    background-color: #ffe6e6;
+}

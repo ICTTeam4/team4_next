@@ -2,14 +2,24 @@
 import { usePathname, useSearchParams } from 'next/navigation';
 import MyPageSideNav from '../components/MyPageSideNav';
 import './myPageSell.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import useAuthStore from "../../../store/authStore";
+import axios from 'axios';
 
 function Page(props) {
     const searchParams = useSearchParams();
     const initialTab = searchParams.get('tab') || '전체';
     const pathname = usePathname();
     const [activeTab, setActiveTab] = useState(initialTab);
-
+    const { user, login } = useAuthStore();
+    const LOCAL_API_BASE_URL = "http://localhost:8080/api";
+    const [isLoading, setLoading] = useState(false);
+    const [previewImages, setPreviewImages] = useState([]); // 미리보기 이미지 배열 추가
+    //1. 회원 정보 통합으로 가져오기
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        console.log('Saved Token:', token);
+    }, []);
 
     // 아이템 데이터
     const items = [
@@ -52,7 +62,8 @@ function Page(props) {
     const [rating, setRating] = useState(0); // 별점 상태
     const [images, setImages] = useState([]); // 이미지 상태
     const [selectedImage, setSelectedImage] = useState(null);
-
+    const [reviewText, setReviewText] = useState("");
+    const [submitting, setSubmitting] = useState(false);
     // 모달 열기
     const openModal = () => {
         setIsModalOpen(true);
@@ -67,16 +78,24 @@ function Page(props) {
     };
 
     // 별점 기능 추가
-    const handleRating = (index) => {
-        setRating(index + 1); // 클릭된 별까지 색칠 됩니다다
-    };
+
+    const handleRating = (index) => setRating(index + 1);
+    const handleReviewTextChange = (event) => setReviewText(event.target.value);
 
     // 이미지 업로드
-    const handleImageUpload = (event) => {
-        const files = Array.from(event.target.files);
-        const imageUrls = files.map((file) => URL.createObjectURL(file));
-        setImages([...images, ...imageUrls]);
+    const handleImageUpload = (e) => {
+        if (e.target.files.length > 0) {
+            const files = Array.from(e.target.files);
+
+            // Blob URL은 미리보기 용도로 생성
+            const previews = files.map(file => URL.createObjectURL(file));
+            setPreviewImages(prevUrls => [...prevUrls, ...previews]);
+
+            // 원본 파일 객체는 images 배열에 저장
+            setImages(prevImages => [...prevImages, ...files]);
+        }
     };
+
 
     // 이미지 상세 모달 열기
     const openImageModal = (image) => {
@@ -90,7 +109,45 @@ function Page(props) {
 
     // 이미지 삭제
     const deleteImage = (index) => {
-        setImages(images.filter((_, i) => i !== index));
+        setImages(images.filter((_, i) => i !== index)); // 원본 파일 삭제
+        setPreviewImages(previewImages.filter((_, i) => i !== index)); // 미리보기 이미지 삭제
+    };
+    const handleSubmitReview = async () => {
+        setSubmitting(true);
+        const formData = new FormData();
+        // 이미지가 있는 경우에만 추가
+        if (images.length > 0) {
+            images.forEach(image => formData.append('images', image));
+        }
+        formData.append('content', reviewText);
+        formData.append('rate', rating);
+        // user.member_id 추가
+        formData.append('member_id', user.member_id);
+        console.log('FormData values:');
+        formData.forEach((value, key) => {
+            console.log(`${key}:`, value);
+        });
+        try {
+            console.log('로그콘솔하윤' + localStorage.getItem('token'));
+            const token = localStorage.getItem('token');
+            const response = await axios.post(`${LOCAL_API_BASE_URL}/HayoonReview/submit`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`, // 토큰 포함
+                }
+            });
+            if (response.data.success) {
+                alert('리뷰 등록에 성공했습니다.');
+                setIsModalOpen(false);
+            } else {
+                alert('Failed to submit review.');
+            }
+        } catch (error) {
+            console.error('Error submitting review:', error);
+            alert('An error occurred while submitting your review.');
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     return (
@@ -186,59 +243,67 @@ function Page(props) {
             {isModalOpen && (
                 <div className="review_modal-overlay">
                     <div className="big_review_modal-content">
-                    <div className="review_modal-content">
-                        <button className="close-btn" onClick={closeModal}>&times;</button>
-                        <div style={{padding:'20px'}}><h3>리뷰 작성</h3></div>
-                        <div className="rating">
-                            {Array(5)
-                                .fill(0)
-                                .map((_, index) => (
-                                    <span
-                                        key={index}
-                                        onClick={() => handleRating(index)}
-                                        style={{
-                                            cursor: "pointer",
-                                            fontSize: "2rem",
-                                            color: index < rating ? "gold" : "lightgray",
-                                        }}>★</span>
-                                ))}
-                        </div>
-                        <div style={{paddingTop:'15px', paddingBottom:'20px'}}>
-                        <textarea placeholder="  판매자에게 전하고 싶은 후기를 남겨주세요." rows="5"></textarea>
-                        </div>
-                        {/* 사진 추가 영역 */}
-                        <div className="image-upload" >
-                            <label htmlFor="fileInput" style={{width:'80px', height:'31px', fontSize:'15px'}} >사진 추가</label>
-                            <input
-                            
-                                type="file"
-                                id="fileInput"
-                                multiple
-                                accept="image/*"
-                                onChange={handleImageUpload}
-                            />
-                        </div>
+                        <div className="review_modal-content">
+                            <button className="close-btn" onClick={closeModal}>&times;</button>
+                            <div style={{ padding: '20px' }}><h3>리뷰 작성</h3></div>
+                            <div className="rating">
+                                {Array(5)
+                                    .fill(0)
+                                    .map((_, index) => (
+                                        <span
+                                            key={index}
+                                            onClick={() => handleRating(index)}
+                                            style={{
+                                                cursor: "pointer",
+                                                fontSize: "2rem",
+                                                color: index < rating ? "gold" : "lightgray",
+                                            }}>★</span>
+                                    ))}
+                            </div>
+                            <div style={{ paddingTop: '15px', paddingBottom: '20px' }}>
+                                <textarea
+                                    placeholder="판매자에게 전하고 싶은 후기를 남겨주세요."
+                                    rows="5"
+                                    value={reviewText}
+                                    onChange={handleReviewTextChange}
+                                ></textarea>
+                            </div>
+                            {/* 사진 추가 영역 */}
+                            <div className="image-upload" >
+                                <label htmlFor="fileInput" style={{ width: '80px', height: '31px', fontSize: '15px' }} >사진 추가</label>
+                                <input
 
-                        {/* 사진 미리보기 */}
-                        <div className="image-preview" style={{ textAlign: 'left' }}>
-                            {images.map((image, index) => (
-                                <div key={index} className="image-container">
-                                    <img
-                                        src={image}
-                                        alt={`uploaded-${index}`}
-                                        onClick={() => openImageModal(image)}
-                                    />
-                                    <button className="delete-btn" onClick={() => deleteImage(index)}>&times;</button>
-                                </div>
-                            ))}
+                                    type="file"
+                                    id="fileInput"
+                                    multiple
+                                    accept="image/*"
+                                    onChange={handleImageUpload}
+                                />
+                            </div>
+
+                            {/* 사진 미리보기 */}
+                            <div className="image-preview" style={{ textAlign: 'left' }}>
+                                {previewImages.map((image, index) => (
+                                    <div key={index} className="image-container">
+                                        <img
+                                            src={image} // previewImages에서 가져온 URL 사용
+                                            alt={`uploaded-${index}`}
+                                            onClick={() => openImageModal(image)}
+                                        />
+                                        <button className="delete-btn" onClick={() => deleteImage(index)}>&times;</button>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* 모달 하단 버튼 */}
+                            <div className="modal-actions">
+                                <button className="cancel-btn" onClick={closeModal}>취 소</button>
+                                <a style={{ width: '20px', color: 'white' }}>.         .        .</a>
+                                <button className="submit-btn" onClick={handleSubmitReview} disabled={submitting}>
+                                    {submitting ? '제출 중...' : '작성하기'}
+                                </button>
+                            </div>
                         </div>
-                        {/* 모달 하단 버튼 */}
-                        <div className="modal-actions">
-                            <button className="cancel-btn" onClick={closeModal}>취 소</button>
-                            <a style={{width:'20px', color:'white'}}>.         .        .</a>
-                            <button className="submit-btn">작 성 하 기</button>
-                        </div>
-                    </div>
                     </div>
                 </div>
             )}

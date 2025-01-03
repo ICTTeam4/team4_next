@@ -1,10 +1,13 @@
 import Link from 'next/link';
 import styles from './Page.module.css'; // CSS 모듈 임포트
 
-const Page = ({ data }) => {
+const Page = ({ index, data }) => {
+  console.log("ItemCard 데이터:", data);
 
-  console.log(data.fileList); // fileList 배열 확인
-  console.log(data.fileList[0]?.fileName); // 첫 번째 파일의 fileName 확인
+  
+  // 안전한 접근을 위해 fileList와 fileName을 조건부로 처리
+  const fileName = data.fileList && data.fileList.length > 0 ? data.fileList[0].fileName : null;
+
 
   function formatTimeAgo(created_at) {
     const createdTime = new Date(created_at); // `created_at` 문자열을 Date 객체로 변환
@@ -69,8 +72,6 @@ const Page = ({ data }) => {
         </div>
       </Link>
     </>
-
-
   );
 };
 
