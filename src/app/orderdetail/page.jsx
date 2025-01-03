@@ -1,7 +1,9 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import './orderdetail.css';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import useAuthStore from '../../../store/authStore';
+import axios from 'axios';
 
 
 const OrderDetail = () => {
@@ -12,6 +14,21 @@ const OrderDetail = () => {
     setPrice(priceFromUrl);
   }, []);
 
+  const searchParams = useSearchParams();
+
+  const title = searchParams.get('productName');
+  const sell_price = searchParams.get('productPrice');
+  const pwr_id = searchParams.get('productId');
+  const img = searchParams.get('productImg');
+  const method = searchParams.get('method');
+
+  const user = useAuthStore((state) => state.user);
+
+  const member_id = user.member_id;
+
+  const [orderData, setOrderData] = useState(null); // 서버에서 받은 주문 데이터
+  const [loading, setLoading] = useState(false); // 로딩 상태
+  const [error, setError] = useState(null); // 에러 상태
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModal2Open, setIsModal2Open] = useState(false);
 
@@ -32,6 +49,95 @@ const OrderDetail = () => {
   // const handleChatClick = () => {
   //   Router.push("/chat"); // 버튼 클릭시 이동함
   // };
+  
+  // 데이터 전송 및 다시 가져오기 함수
+  const sendData = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+
+      // 로컬 스토리지에서 전송 여부 확인
+      const isSent = localStorage.getItem(`order_${pwr_id}`);
+      if (isSent === 'true') {
+        console.log('데이터가 이미 전송되었습니다.');
+        return;
+      }
+
+      // 랜덤한 trans_id 생성
+      const trans_id = Math.floor(Math.random() * 1000000); // 6자리 랜덤 번호
+
+      // method 값에 따라 trans_method 설정
+      const trans_method = method === '1' ? '택배거래' : method === '2' ? '직거래' : null;
+
+      // 서버로 데이터 전송
+      const response = await axios.post('http://localhost:8080/api/transaction/settransdetails', {
+        trans_id: trans_id, // 주문번호
+        trans_price: sell_price, // 판매 가격
+        pwr_id: pwr_id, // 게시글 ID
+        buyer_id: member_id, // 구매자 ID
+        trans_method: trans_method, // 거래 방법
+      });
+      console.log(response);
+
+      // 데이터 전송 성공 시 로컬 스토리지에 저장
+      localStorage.setItem(`order_${pwr_id}`, 'true');
+   
+    } catch (err) {
+      console.error('데이터 전송:', err);
+      setError('데이터 전송 실패');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchOrderData = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`http://localhost:8080/api/transaction/gettransdetails?pwr_id=${pwr_id}`);
+      setOrderData(response.data.data);
+      console.log("주문 데이터 조회 완료:", response.data.data);
+    } catch (error) {
+      console.error("주문 데이터 조회 실패:", error);
+      setError("주문 데이터 조회에 실패했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    // 페이지 로드 시 데이터 전송 및 조회
+    sendData();
+    fetchOrderData();
+  }, []);
+
+  if (loading) {
+    return <div>로딩 중...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+function formatDate(dateString) {
+  // 입력된 날짜 문자열을 Date 객체로 변환
+  const date = new Date(dateString);
+
+  // 연도 계산 (2자리로 변환)
+  const year = (date.getFullYear() % 100).toString().padStart(2, '0');
+  // 월 계산 (1부터 시작하므로 1을 더함)
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  // 일 계산
+  const day = date.getDate().toString().padStart(2, '0');
+  // 시간 계산
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+
+  // 원하는 형식으로 조합
+  return `${year}년 ${month}월 ${day}일 ${hours}:${minutes}`;
+}
+
+const formattedDate = formatDate(orderData.trans_date);
 
   return (
     <div className="order-detail">
@@ -41,8 +147,8 @@ const OrderDetail = () => {
         <h1 className="order-title" style={{ fontSize: 20 }}>주문 상세</h1>
       </div>
       <div className="order-info2">
-        <h3 className="order-date" style={{ color: 'black' }}>2024.12.25</h3>
-        <span className="order-number">주문번호 000000000000</span>
+        <h3 className="order-date" style={{ color: 'black' }}>{orderData.trans_date}</h3>
+        <span className="order-number">주문번호 {orderData.trans_id}</span>
       </div>
 
       {/* 결제 섹션 */}
@@ -52,10 +158,10 @@ const OrderDetail = () => {
           <p>구매자가 결제를 완료했어요.</p>
         </div>
         <div className="product-info">
-          <div className="product-img"></div>
+          <div className="product-img"><img src={`http://localhost:8080/images/${img}`} /></div>
           <div className="product-details">
-            <p className="product-name">상품이름</p>
-            <p className="product-price">80,000원, 이전으로부터 받은값 : {price}</p>
+            <p className="product-name">{title}</p>
+            <p className="product-price">{Number(sell_price).toLocaleString()}원</p>
           </div>
           <button className="cancel-btn" onClick={openModal2}>거래 취소하기</button>
         </div>
@@ -67,7 +173,7 @@ const OrderDetail = () => {
         <div className="sale-row">
           <div className="sale-item">
             <span2>상품 금액</span2>
-            <span2 className="bold">80,000원</span2>
+            <span2 className="bold">{Number(sell_price).toLocaleString()}원</span2>
           </div>
           <div className="vertical-bar"></div> {/* 수직 바 추가 */}
           <div className="sale-item">
@@ -78,7 +184,7 @@ const OrderDetail = () => {
         <div className="sale-row">
           <div className="sale-item">
             <span2>정산예정금액</span2>
-            <span2 className="bold">80,000원</span2>
+            <span2 className="bold">{Number(sell_price).toLocaleString()}원</span2>
           </div>
         </div>
       </section>
@@ -88,9 +194,9 @@ const OrderDetail = () => {
       <h2 style={{ fontSize: 20 }}>거래정보</h2>
       <section className="transaction-info">
 
-      <div className="order-header2">
-        <h3 className="order-number2" style={{ fontSize: 18 }}>주문번호 00000000</h3>
-        <p className="transaction-date" style={{textAlign:'right'}}>24년 12월 04일 08:50</p>
+        <div className="order-header2">
+          <h3 className="order-number2" style={{ fontSize: 18 }}>주문번호 {orderData.trans_id}</h3>
+          <p className="transaction-date" style={{ textAlign: 'right' }}>{formattedDate}</p>
 
         </div>
         <div className="transaction-details">
