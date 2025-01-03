@@ -12,6 +12,8 @@ import NaverPay from '../payments/naverPay/page';
 import TossPay from '../payments/tossPay/page';
 import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
+import ReactDOMServer from "react-dom/server";
+import CustomOverlay from "../components/CustomOverlay";
 
 const saleDetail = () => {
   const searchParams = useSearchParams();
@@ -81,90 +83,73 @@ const saleDetail = () => {
     }
   }, [id]);
 
-  // 휘주 지도 내용 시작
-  useEffect(() => {
-    if (isMapOpen) {
-      // 카카오맵 SDK 로드
-      const script = document.createElement('script');
-      script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=a60d0171befab6f49a92b0b129300f7c&autoload=false`;
-      script.onload = () => {
-        kakao.maps.load(() => {
-          // 맵을 생성할 위치
-          const container = document.getElementById('map');
-          const options = {
-            center: new kakao.maps.LatLng(37.5665, 126.9780), // 기본 좌표 (서울)
-            level: 3, // 지도 확대 레벨
-          };
-          // 지도 생성
-          const map = new kakao.maps.Map(container, options);
-          // 마커 추가
-          const markerPosition = new kakao.maps.LatLng(37.5665, 126.9780); // 마커 위치
-          const marker = new kakao.maps.Marker({
-            position: markerPosition,
-          });
-          marker.setMap(map);
-          // customOverlay 추가
-          const customOverlay = new kakao.maps.CustomOverlay({
-            position: markerPosition, // 오버레이 위치
-            content: `
-                        <div style="
-                          position: relative; 
-                          display: flex; 
-                          justify-content: center; 
-                          align-items: center; 
-                          flex-direction: column; 
-                          width: auto; 
-                          padding: 10px 15px; 
-                          border: 0px solid #888; 
-                          border-radius: 8px; 
-                          background-color: white; 
-                          box-shadow: 0px 2px 4px rgba(0.5, 0.5, 0.5, 0.5); 
-                          font-size: 13px; 
-                          text-align: center; 
-                          transform: translateY(-65px); /* 마커 위로 위치 조정 */
-                        ">
-                          <div>판매자 기본 거래 위치</div>
-                          <div 
-                            style="
-                              position: absolute; 
-                              top: 1px; 
-                              right: 1px; 
-                              cursor: pointer; 
-                              font-size: 8px; 
-                              color: black; 
-                              font-weight: bold;"
-                            onclick="closeCustomOverlay()">✖</div>
-                          <!-- 말풍선 꼬리 -->
-                          <div style="
-                            position: absolute; 
-                            bottom: -10px; 
-                            left: 50%; 
-                            transform: translateX(-50%); 
-                            width: 0; 
-                            height: 0; 
-                            border-left: 10px solid transparent; 
-                            border-right: 10px solid transparent; 
-                            border-top: 10px solid white; 
 
-                          "></div>
-                        </div>
-                      `,
-            map: map, // 오버레이를 지도에 추가
-          });
-          // 닫기 버튼 클릭 시 오버레이 닫기
-          window.closeCustomOverlay = () => {
-            customOverlay.setMap(null);
+  // 휘주 지도 시작
+  useEffect(() => {
+    if (isMapOpen && id) {
+      // 위에서 받은 id 정보에서 특정 정보를 가져와야함 (위도, 경도)
+      const fetchLocationAndRenderMap = async () => {
+        try {
+          // 서버에서 좌표 데이터 가져오기
+          const response = await axios.get(`http://localhost:8080/api/salespost/itemone?id=${id}`);
+          const { latitude, longitude } = response.data.data; // 좌표 데이터 추출
+          console.log("위도, 경도 데이터:", latitude, longitude);
+
+          // 카카오맵 SDK 로드
+          const script = document.createElement("script");
+          script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=a60d0171befab6f49a92b0b129300f7c&autoload=false`;
+          script.onload = () => {
+            kakao.maps.load(() => {
+              // 맵을 생성할 위치
+              const container = document.getElementById("map");
+              const options = {
+                center: new kakao.maps.LatLng(latitude, longitude), // 기본 좌표 (서울)
+                level: 3, // 지도 확대 레벨
+              };
+
+              // 지도 생성
+              const map = new kakao.maps.Map(container, options);
+
+              // 마커 추가
+              const markerPosition = new kakao.maps.LatLng(latitude, longitude); // 마커 위치
+              const marker = new kakao.maps.Marker({
+                position: markerPosition,
+              });
+              marker.setMap(map);
+
+              // CustomOverlay 컴포넌트를 HTML로 변환
+              const overlayContent = ReactDOMServer.renderToString(
+                <CustomOverlay closeOverlay={() => customOverlay.setMap(null)} />
+              );
+
+              // customOverlay 추가
+              const customOverlay = new kakao.maps.CustomOverlay({
+                position: markerPosition, // 오버레이 위치
+                content: overlayContent, // 변환된 HTML 문자열 전달
+                map: map, // 오버레이를 지도에 추가
+              });
+
+              // 닫기 버튼 클릭 시 오버레이 닫기
+              window.closeCustomOverlay = () => {
+                customOverlay.setMap(null);
+              };
+
+              // 마커 클릭 시 customOverlay 열기
+              kakao.maps.event.addListener(marker, "click", () => {
+                customOverlay.setMap(map); // 오버레이 지도에 표시
+              });
+            });
           };
-          // 마커 클릭 시 customOverlay 열기
-          kakao.maps.event.addListener(marker, 'click', () => {
-            customOverlay.setMap(map); // 오버레이 지도에 표시
-          });
-        });
+          document.head.appendChild(script);
+        } catch (err) {
+          console.error("Error fetching location data:", err);
+        }
       };
-      document.head.appendChild(script);
+
+      fetchLocationAndRenderMap();
     }
   }, [isMapOpen]); // isMapOpen이 true가 될 때 실행
-  // 휘주 지도 내용 끝
+  // 휘주 지도 끝
 
 
 

@@ -49,7 +49,7 @@ const useAuthStore = create(
             },
             resetKeyword: () => {
                 set({ searchKeyword: "" });
-                localStorage.removeItem("auth-storage");
+                // localStorage.removeItem("auth-storage");
             },
 
             isNotibarActive: false,
