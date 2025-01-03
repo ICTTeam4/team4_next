@@ -4,10 +4,14 @@ import "./registration.css";
 import axios from "axios";
 import Script from "next/script";
 import { useRouter } from "next/navigation";
+import useAuthStore from '../../../store/authStore';
 
 function ProductPage() {
   const router = useRouter();
+  const {user} = useAuthStore();
   const [images, setImages] = useState([]);
+  const [longitude, setLongitude] = useState("");
+  const [latitude, setLatitude] = useState("");
   const [isDeliveryTransaction, setIsDeliveryTransaction] = useState();
   const [isInPersonTransaction, setIsInPersonTransaction] = useState();
   const [zipCode, setZipcode] = useState();
@@ -132,7 +136,7 @@ function ProductPage() {
   const handleSubmit = async () => {
     const API_URL = `http://localhost:8080/api/salespost/salesinsert`;
     const data = new FormData();
-    data.append("member_id", formData.member_id);
+    data.append("member_id", user.member_id);
     data.append("selling_area_id", formData.selling_area_id);
     data.append("title", formData.title);
     data.append("sell_price", formData.sell_price);
@@ -141,6 +145,8 @@ function ProductPage() {
     data.append("sub_category", selectedSmallCategory);
     data.append("is_direct", isInPersonTransaction);
     data.append("is_delivery", isDeliveryTransaction);
+    data.append("longitude", longitude);
+    data.append("latitude", latitude);
 
     if (images.length >= 1) {
       for (let i = 0; i < images.length; i++) {
@@ -210,45 +216,60 @@ const sample4_execDaumPostcode = () => {
 
           setFormData({
             ...formData, // 기존 값 유지
-            ["selling_area_id"]: zipCode // 변경된 값만 업데이트
+            ["selling_area_id"]: data.zonecode // 변경된 값만 업데이트
           });
 
 
           // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
           if (roadAddr !== '') {
-              setAddressInput(roadAddr + extraRoadAddr);
+              // setAddressInput(roadAddr + extraRoadAddr);
               setFormData({
                 ...formData, // 기존 값 유지
-                ["selling_area_id"]: addressInput // 변경된 값만 업데이트
+                ["selling_area_id"]: (roadAddr + extraRoadAddr) // 변경된 값만 업데이트
               });
           }
       }
   }).open();
 }
 useEffect(()=> {
-  const geocoder = new daum.maps.services.Geocoder();
-
-                    geocoder.addressSearch(address, (result, status) =>{
-                        if(status === daum.maps.services.Status.OK){
-                            const { x, y } = result[0];
-
-                            console.log("x:" ,x,"y:",y)
-                        }else{
-                            console.log("실패패")
-                        }});
-
+  getPosition(addressInput);
 
 },[addressInput]);
 
-  return (
+const getPosition = async (address) => {
+  const url = `https://dapi.kakao.com/v2/local/search/address?query=${address}`;
+  try {
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `KakaoAK c511457645936818e2db5ecdc890dc9d`,
+      },
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const {x,y} = data.documents[0];
 
-    <div className="product-page">
-       {/* Daum 우편번호 스크립트 로드 */}
+      setLongitude(x);
+      setLatitude(y);
+
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+  return (
+    <>
        <Script
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fc85670f51b33ffbe7bd5977d1bc043c&libraries=services"
+        strategy="afterInteractive"
+        onLoad={() => console.log("Kakao Maps SDK Loaded")}
+      />       
+      <Script
                 src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
                 strategy='afterInteractive'
             />
-        <Script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c511457645936818e2db5ecdc890dc9d&libraries=services" strategy='afterInteractive'/>
+    <div className="product-page">
+       {/* Daum 우편번호 스크립트 로드 */}
 
       {/* <h3 style={{textAlign:'center', fontWeight:'30px'}}>판매등록</h3> */}
       <div className="image-upload">
@@ -413,6 +434,7 @@ useEffect(()=> {
       </ul>
       <button className="register-button" onClick={handleSubmit}>등 록</button>
     </div>
+    </>
   );
 }
 
