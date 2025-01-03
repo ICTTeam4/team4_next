@@ -35,6 +35,7 @@ function Page(props) {
                                     </div>
                                     <div className='user_info'>
                                         <div className='info_box'>
+
                                             <strong className='name'>{user?.nickname ?? "닉네임 없음"}</strong>
                                             <p className='email'>{user?.email ?? "이메일 없음"}</p>
                                         </div>
