@@ -165,6 +165,10 @@ const saleDetail = () => {
     openChatPanel();
   }
 
+  const isBlurNeeded =
+    detail.status === '판매완료';
+  console.log(detail.status);
+
 
 
 
@@ -173,7 +177,15 @@ const saleDetail = () => {
     <>
       <div className="container">
         <div className="imgBox">
-          <div className="images" > <SalesImgSlider fileName={encodeURIComponent(detail.fileList[0].fileName)} /> </div>
+          <div className={`images ${isBlurNeeded ? 'blur_image disabled' : ''}`} >
+            {/* <SalesImgSlider fileName={encodeURIComponent(detail.fileList[0].fileName)} /> */}
+            <SalesImgSlider data={detail} />
+          </div>
+          {isBlurNeeded && (
+            <div className="overlayMessage">
+              <p>{detail.status}</p>
+            </div>
+          )}
         </div>
         <div className="tradeInfoMenu">
           <div className="category">홈 &gt; {detail.sup_category} &gt; {detail.sub_category}</div>
@@ -194,7 +206,7 @@ const saleDetail = () => {
               </div>
             </div>
 
-            
+
 
 
           </div>
@@ -202,7 +214,7 @@ const saleDetail = () => {
             <div> 제품상태 <br /> <span className='tradeTitle'>중고</span></div>
             <div>거래방식 <br /> <span
               className='tradeTitle'>
-              {detail.is_direct === "1" ? "직거래" : ""} / {detail.is_delivery === "1" ? "택배거래" : ""}
+              {detail.is_direct === "1" ? "직거래 / " : ""} {detail.is_delivery === "1" ? "택배거래" : ""}
             </span></div>
             <div>배송비 <br /> <span className='tradeTitle'>포함</span></div>
             <div className='safeDeal'>안전거래 <br /> <span className='tradeTitle'>사용</span></div>
@@ -212,10 +224,16 @@ const saleDetail = () => {
           <div id="interaction-area">
             {isBookMarkOpen ? <Image src="/images/David_bookmark-black.png" onClick={closeBookMark} width={33} height={30} className="bookmark" id="bookmark" /> :
               <Image src="/images/David_bookmark-white.png" onClick={openBookMark} width={30} height={30} className="bookmark" id="bookmark" />}
-            <div className="purchase" onClick={openAlert}>구매하기</div>
+            <div className={`purchase ${isBlurNeeded ? 'disabled' : ''}`}
+            onClick={isBlurNeeded ? null : openAlert}>
+              구매하기
+              </div>
             <div className="chatting" onClick={openChatPanel}>채팅하기</div>
           </div>
-          <div className="tradeArea" onClick={openMap}>⊙ {detail.selling_area_id} 직거래 위치 제안</div>
+          <div 
+          className={`tradeArea ${isBlurNeeded ? 'disabled' : ''}`} 
+          onClick={isBlurNeeded ? null : openMap}>
+            ⊙ {detail.selling_area_id} 직거래 위치 제안</div>
         </div>
         <div className="salesDescription">
           <div className="descriptionTop">
@@ -323,9 +341,9 @@ const saleDetail = () => {
         {/* 슬라이드 패널 */}
         <div id="slidePanel" className={isPayOpen ? 'active' : ''}>
           {payButtonLevel === 0 ? (
-            <PayPanel nextButton={payButtonLevel} setNextButton={setPayButtonLevel} />
+            <PayPanel nextButton={payButtonLevel} setNextButton={setPayButtonLevel} data={detail} />
           ) : payButtonLevel === 1 || payButtonLevel === 2 ? (
-            <PayDealPanel nextButton={payButtonLevel} setNextButton={setPayButtonLevel} />
+            <PayDealPanel nextButton={payButtonLevel} setNextButton={setPayButtonLevel} data={detail}/>
           ) : null
           }
 

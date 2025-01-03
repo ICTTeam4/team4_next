@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button, Typography, Grid2, Box } from '@mui/material';
 
-function TransactionPage({ setNextButton }) {
+function TransactionPage({ setNextButton, data }) {
   const [selected, setSelected] = useState(null); // 선택된 거래방식 저장
   const containerRef = useRef(null);
-
   useEffect(() => {
     function handleOutsideClick(event) {
       if (containerRef.current && !containerRef.current.contains(event.target)) {
@@ -29,6 +28,14 @@ function TransactionPage({ setNextButton }) {
     }
   };
 
+  const handleSelect = (type) => {
+    if (type === 'parcel' && data.is_delivery === 1) {
+      setSelected('parcel'); // 택배 거래 가능 시 선택
+    } else if (type === 'direct' && data.is_direct === 1) {
+      setSelected('direct'); // 직거래 가능 시 선택
+    }
+  };
+
   return (
     <Grid2 container spacing={2} direction="column" alignItems="center" justifyContent="center" textAlign="center" style={{ minHeight: '90vh', padding: '20px', width: '100%' }} ref={containerRef}>
       <Grid2 item xs={12}>
@@ -50,8 +57,10 @@ function TransactionPage({ setNextButton }) {
             border: '1px solid lightgray',
             boxShadow: 'none',
             '&:hover': { backgroundColor: '#f0f0f0', boxShadow: 'none' },
+            opacity: data.is_delivery === "1" ? 1 : 0.5, // 선택 불가능 시 투명도 낮춤.
           }}
           onClick={() => setSelected('parcel')}
+          disabled = {data.is_delivery !== "1"} // 선택 불가능 시 비활성화
         >
           <Box sx={{ textAlign: 'center', width: '100%' }}>
             <Typography component="div" sx={{ fontSize: '20px', fontWeight: 'bold', mb: 1 }}>택배 거래</Typography>
@@ -73,8 +82,10 @@ function TransactionPage({ setNextButton }) {
             border: '1px solid lightgray',
             boxShadow: 'none',
             '&:hover': { backgroundColor: '#f0f0f0', boxShadow: 'none' },
+            opacity: data.is_direct === "1" ? 1 : 0.5, // 선택 불가능 시 투명도 낮춤.
           }}
           onClick={() => setSelected('direct')}
+          disabled={data.is_direct !== "1"} // 선택 불가능 시 비활성화
         >
           <Box sx={{ textAlign: 'center', width: '100%' }}>
             <Typography component="div" sx={{ fontSize: '20px', fontWeight: 'bold', mb: 1 }}>직거래</Typography>
