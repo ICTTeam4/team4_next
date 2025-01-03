@@ -2,30 +2,41 @@
 import { usePathname } from 'next/navigation';
 import MyPageSideNav from '../components/MyPageSideNav';
 import './myPageAccountInfo.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { noOptionsMessageCSS } from 'react-select';
 
+
+
 function Page(props) {
+
+    
     const pathname = usePathname();
     const [defaultId, setDefaultId] = useState(1); // 기본 정산 계좌 아이디디
+    const [accounts, setAccounts] = useState([]); // 서버 데이터 상태
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    
+    const API_URL = `${process.env.NEXT_PUBLIC_LOCAL_API_BASE_URL}/api/accounts`;
+console.log('API URL:', API_URL); // 확인용 로그
+
+
+
     // 정산 계좌 목록 (ID로 구분)
-    const [accounts, setAccounts] = useState([
-        {
-            id: 1,
-            bankName: "카카오뱅크",
-            accountNumber: "3333000000000",
-            accountHolderName: "홍길동",
-        },
-        {
-            id: 2,
-            bankName: "우리은행",
-            accountNumber: "1002000000000",
-            accountHolderName: "둘리",
-        },
-    ]);
+    // const [accounts, setAccounts] = useState([
+    //     {
+    //         id: 1,
+    //         bankName: "카카오뱅크",
+    //         accountNumber: "3333000000000",
+    //         accountHolderName: "홍길동",
+    //     },
+    //     {
+    //         id: 2,
+    //         bankName: "우리은행",
+    //         accountNumber: "1002000000000",
+    //         accountHolderName: "둘리",
+    //     },
+    // ]);
 
     // 새 계좌 추가 모달 내 입력 필드 값 상태 관리
     const [bankName, setBankName] = useState("");
@@ -46,6 +57,9 @@ function Page(props) {
         { value: "NH농협은행", label: "NH농협은행" },
         { value: "토스뱅크", label: "토스뱅크" },
     ];
+
+
+    
 
 
     const noArrowComponents = {
@@ -121,14 +135,104 @@ function Page(props) {
         accountNumber.trim() != "" &&
         accountHolderName.trim() !== "";
 
-    const handleSetDefaultAccount = (id) => {
-        setAccounts((prev) => {
-            const selected = prev.find((item) => item.id === id); // 선택된 주소 찾기
-            const others = prev.filter((item) => item.id !== id); // 나머지 주소들
-            return [selected, ...others]; // 선택된 주소를 맨 위로 배치
-        });
-        setDefaultId(id); // 기본 배송지 ID 업데이트
+    // const handleSetDefaultAccount = (id) => {
+    //     setAccounts((prev) => {
+    //         const selected = prev.find((item) => item.id === id); // 선택된 주소 찾기
+    //         const others = prev.filter((item) => item.id !== id); // 나머지 주소들
+    //         return [selected, ...others]; // 선택된 주소를 맨 위로 배치
+    //     });
+    //     setDefaultId(id); // 기본 배송지 ID 업데이트
+    // };
+
+
+    //계좌 목록 가져오기
+    const fetchAccounts = async () => {
+        try {
+            const response = await fetch(`${API_URL}?memberId=44`);
+            if (!response.ok) {
+                throw new Error("계좌 목록 조회 실패");
+            }
+            const data = await response.json();
+    
+            // 서버에서 데이터가 올바른 배열인지 확인
+            if (!Array.isArray(data)) {
+                console.error("API에서 배열이 반환되지 않았습니다.", data);
+                return [];
+            }
+    
+            // 기본 계좌를 맨 위로 정렬
+            const sortedData = data.sort((a, b) => b.isDefault - a.isDefault);
+    
+            // 상태를 갱신
+            setAccounts(sortedData);
+            return sortedData;
+        } catch (error) {
+            console.error("계좌 목록 조회 중 오류 발생:", error);
+            setAccounts([]);
+            return [];
+        }
     };
+    
+    
+    
+    
+    
+    
+    
+    // 컴포넌트 마운트 시 계좌 목록 불러오기
+    useEffect(() => {
+        const loadAccounts = async () => {
+            await fetchAccounts();
+        };
+        loadAccounts();
+    }, [pathname]); // pathname이 변경될 때마다 실행
+
+    // 기본 계좌 설정
+const setDefaultAccount = async (id) => {
+    const response = await fetch(`${API_URL}/${id}/set-default?memberId=44`, {
+        method: 'PUT',
+    });
+
+    if (!response.ok) {
+        throw new Error('기본 계좌 설정 실패');
+    }
+    return response.json();
+};
+
+const handleSetDefaultAccount = async (id) => {
+    try {
+        // 기본 계좌 설정 API 호출
+        const response = await fetch(`${API_URL}/${id}/set-default?memberId=44`, {
+            method: "PUT",
+        });
+
+        if (!response.ok) {
+            throw new Error("기본 정산 계좌 설정 실패");
+        }
+
+        // 서버에서 최신 계좌 목록 불러오기
+        const updatedAccounts = await fetchAccounts();
+
+        // 상태를 정렬하여 기본 계좌를 맨 위로 올림
+        const sortedAccounts = updatedAccounts.map((account) =>
+            account.id === id
+                ? { ...account, isDefault: 1 }
+                : { ...account, isDefault: 0 }
+        ).sort((a, b) => b.isDefault - a.isDefault);
+
+        setAccounts(sortedAccounts); // 상태 갱신
+        alert("기본 정산 계좌가 설정되었습니다.");
+    } catch (error) {
+        console.error("기본 정산 계좌 설정 중 오류 발생:", error);
+        alert("기본 정산 계좌 설정에 실패했습니다.");
+    }
+};
+
+
+
+
+
+
 
     const handleModalOpen = () => {
         setIsModalOpen(true); // 모달 열기
@@ -142,14 +246,76 @@ function Page(props) {
         setIsChecked(false);
     };
 
+
+
+    
+
     // 새 계좌 저장 로직
-    const handleSave = () => {
+    const addAccount = async (account) => {
+        const response = await fetch(`${API_URL}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(account),
+        });
+    
+        if (!response.ok) {
+            throw new Error('계좌 추가 실패');
+        }
+        return response.json();
+    };
+    
+    const handleSave = async () => {
         if (!isFormValid) return;
+    
+        const newAccount = {
+            bankName,
+            accountNumber,
+            accountHolderName,
+            isDefault: isChecked ? 1 : 0, // 기본 계좌 여부
+            member_id: 44, // 실제 로그인 사용자 ID 사용
+        };
+    
+        try {
+            await addAccount(newAccount); // 계좌 추가 요청
+            alert('계좌가 성공적으로 추가되었습니다.');
+            handleModalClose();
+    
+            // 새로고침
+            await fetchAccounts(); // 목록 새로고침
+        } catch (error) {
+            console.error('계좌 추가 중 오류 발생:', error);
+            alert('계좌 추가에 실패했습니다.');
+        }
+    };
+    
 
-        // 여기에 저장 서버 다녀오는 로직 추가
+    // 계좌 삭제
+const deleteAccount = async (id) => {
+    const response = await fetch(`${API_URL}/${id}`, {
+        method: 'DELETE',
+    });
 
-        handleModalClose();
+    if (!response.ok) {
+        throw new Error('계좌 삭제 실패');
     }
+    return response.json();
+};
+
+const handleDelete = async (id) => {
+    if (confirm('정말 이 계좌를 삭제하시겠습니까?')) {
+        try {
+            await deleteAccount(id);
+            alert('계좌가 삭제되었습니다.');
+            await fetchAccounts(); // 계좌 목록 새로고침
+        } catch (error) {
+            console.error('계좌 삭제 중 오류 발생:', error);
+            alert('계좌 삭제에 실패했습니다.');
+        }
+    }
+};
+ 
+
+
 
     return (
 
@@ -311,32 +477,42 @@ function Page(props) {
                                 {accounts.slice(0, 1).map((item) => (
                                     <div
                                         key={item.id}
-                                        className={`my_item ${defaultId === item.id ? "is_active" : ""}`}
+                                        className={`my_item ${item.isDefault ?  "is_active" : ""}`}
                                         default-mark="기본 정산 계좌"
                                     >
                                         <div className="info_bind">
                                             <div className="address_info">
                                                 <div className="name_box">
                                                     <span className="name">{item.bankName}</span>
-                                                    <span className="mark">기본 정산 계좌</span>
+                                                     <span className="mark">기본 정산 계좌</span>
+                                                    {/* <span className="mark">기본 정산 계좌</span> */}
                                                 </div>
-                                                <p className="phone">
+                                                {/* <p className="phone">
                                                     {item.accountNumber.split("-").map((part, index) => (
                                                         <span key={index}>
                                                             {part}
                                                             {index < 2 && <span className=""></span>}
                                                         </span>
                                                     ))}
-                                                </p>
+                                                </p> */}
+                                                <p className="phone">{item.accountNumber}</p>
+
                                                 <div className="address_box">
                                                     <span className="zipcode">{item.accountHolderName}</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="btn_bind">
-                                            <a href="#" className="btn outlinegrey small">
-                                                삭제
-                                            </a>
+                                        <a
+                                            href="#"
+                                            className="btn outlinegrey small"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleDelete(item.id); // 삭제 함수 호출
+                                            }}
+                                        >
+                                            삭제
+                                        </a>
                                         </div>
                                     </div>
                                 ))}
@@ -354,14 +530,16 @@ function Page(props) {
                                                 <div className="address_info">
                                                     <div className="name_box">
                                                         <span className="name">{item.bankName}</span>
+                                                        {item.isDefault === 1 && <span className="mark">기본 정산 계좌</span>}
                                                     </div>
                                                     <p className="phone">
-                                                        {item.accountNumber.split("-").map((part, index) => (
+                                                        {/* {item.accountNumber.split("-").map((part, index) => (
                                                             <span key={index}>
                                                                 {part}
                                                                 {index < 2 && <span className=""></span>}
                                                             </span>
-                                                        ))}
+                                                        ))} */}
+                                                        {item.accountNumber}
                                                     </p>
                                                     <div className="address_box">
                                                         <span className="zipcode">{item.accountHolderName}</span>
@@ -379,7 +557,14 @@ function Page(props) {
                                                 >
                                                     기본 정산 계좌
                                                 </a>
-                                                <a href="#" className="btn outlinegrey small">
+                                                <a
+                                                    href="#"
+                                                    className="btn outlinegrey small"
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        handleDelete(item.id); // 삭제 함수 호출
+                                                    }}
+                                                >
                                                     삭제
                                                 </a>
                                             </div>

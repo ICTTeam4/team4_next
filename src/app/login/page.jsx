@@ -13,6 +13,7 @@ const LoginPage = () => {
   const API_URL = `${LOCAL_API_BASE_URL}/members/login`;
   const router = useRouter(); // useRouter 초기화
   const { login } = useAuthStore(); // zustand login 함수 가져오기
+  //const { user } = useAuthStore(); // zustand login 함수 가져오기
 
   // 로딩 상태 관리
   const [isLoading, setIsLoading] = useState(false);
@@ -33,6 +34,7 @@ const LoginPage = () => {
         alert("일반회원 로그인 성공!");
         //login(response.data.data, response.data.token); // Zustand에 사용자 정보 저장
 
+
         // 사용자 정보 저장
         const user = {
           member_id: response.data.data.member_id,
@@ -43,6 +45,7 @@ const LoginPage = () => {
         };
         console.log("닉네임 확인:", user.nickname); // 로그로 닉네임 확인  
         login(user, response.data.token); // Zustand에 사용자 정보 저장
+
 
         router.push("/"); // 리디렉션
       } else {
@@ -73,6 +76,14 @@ const LoginPage = () => {
       return;
     }
 
+   //로그아웃 처리  -- 현재 안되는거같음..
+    const handleLogout = () => {
+     localStorage.removeItem("token"); // 토큰 제거
+     setIsLoggedIn(false); // 상태 업데이트
+    alert("로그아웃되었습니다.");
+     window.location.reload(); // 페이지 리로드 또는 라우팅
+   };  
+
 
     const token = searchParams.get("token");
     const username = searchParams.get("username");
@@ -95,6 +106,7 @@ const LoginPage = () => {
       router.push("/"); // 홈으로 이동
     }
   }, [login, router]);
+
   // 이메일 입력 필드에 대한 참조 생성
   const emailInputRef = useRef(null);
   useEffect(() => {

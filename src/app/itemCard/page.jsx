@@ -3,12 +3,12 @@ import Link from 'next/link';
 import './itemCard.css';
 
 const Page = ({ index, data }) => {
+  console.log("ItemCard 데이터:", data);
+
   
   // 안전한 접근을 위해 fileList와 fileName을 조건부로 처리
   const fileName = data.fileList && data.fileList.length > 0 ? data.fileList[0].fileName : null;
 
-  console.log(data.fileList); // fileList 배열 확인
-  console.log(data.fileList[0]?.fileName); // 첫 번째 파일의 fileName 확인
 
   function formatTimeAgo(created_at) {
     const createdTime = new Date(created_at); // `created_at` 문자열을 Date 객체로 변환
@@ -47,6 +47,7 @@ const Page = ({ index, data }) => {
               alt="판매 아이콘"
               style={{ borderRadius: '12px' }}
             />
+
           </div>
           <div className='product_info'>
             <div className='info_top'>
@@ -56,6 +57,7 @@ const Page = ({ index, data }) => {
             <div className='info_bottom'>
               <span className='price_font'>{Number(data.sell_price).toLocaleString()}원</span>
               <p className='date_font'>{formatTimeAgo(data.created_at)}</p>
+              
             </div>
           </div>
         </div>
