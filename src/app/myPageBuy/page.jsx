@@ -254,11 +254,11 @@ function Page(props) {
                                                                     style={{ backgroundColor: "rgb(244, 244, 244)" }}
                                                                 />
                                                             ) : (
-                                                                <p style={{ textAlign: "center", color: "gray"}}>이미지 없음</p>
+                                                                <p style={{ textAlign: "center", color: "gray" }}>이미지 없음</p>
                                                             )}
                                                         </div>
                                                         <div className='list_item_title_wrap'>
-                                                            <p className='list_item_price'>{item.trans_price}</p>
+                                                            <p className='list_item_price'>{Number(item.trans_price).toLocaleString()} 원</p>
                                                             <p className='list_item_title'>{item.title}</p>
                                                             <p className='list_item_description'>
                                                                 <span>{item.trans_method}</span>
@@ -268,8 +268,17 @@ function Page(props) {
                                                 </a>
                                                 <div className='list_item_status'>
                                                     <div className='list_item_column column_secondary'>
-                                                        <p className='text-lookup secondary_title display_paragraph'
-                                                            style={{ color: "rgba(34, 34, 34, 0.5)" }}>{item.trans_date}</p>
+                                                        <p className='text-lookup secondary_title display_paragraph' style={{ color: "rgba(34, 34, 34, 0.5)" }}>
+                                                            {new Date(item.trans_date).toLocaleString('ko-KR', {
+                                                                year: 'numeric',
+                                                                month: 'long',
+                                                                day: 'numeric',
+                                                                hour: '2-digit',
+                                                                minute: '2-digit',
+                                                                second: '2-digit',
+                                                                hour12: false // 24시간 형식 설정
+                                                            })}
+                                                        </p>
                                                     </div>
                                                     <div className='list_item_column column_last'>
                                                         <p className='text-lookup last_title display_paragraph' style={{ color: "rgb(34, 34, 34)" }}>
