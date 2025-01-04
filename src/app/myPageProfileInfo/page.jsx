@@ -152,6 +152,7 @@ function Page(props) {
 
 // 페이지 로드 시 최신 유저 정보 가져오기
 useEffect(() => {
+    console.log("하윤서치 유저이름과 유저이메일"+user?.name,user?.email);
     if (user && user.email) {
         fetchUserData(); // 유저가 유효할 경우 데이터 가져오기
     } else {
