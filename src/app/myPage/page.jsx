@@ -2,15 +2,31 @@
 import './mypage.css';
 import MyPageSideNav from '../components/MyPageSideNav';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import useAuthStore from '../../../store/authStore';
 import PurchaseHistory from '../myPageBuy/page'; // 구매 내역 컴포넌트
 import SellHistory from '../myPageSell/page'; // 판매 내역 컴포넌트
 import { Link } from '@mui/material';
 
+import axios from 'axios';
 
 function Page(props) {
     const pathname = usePathname();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [list, setList] = useState([]);
+    const [loading, setLoading] = useState();
+
     const { user } = useAuthStore();
+
+    const member_id = user.member_id;
+
+    const handleModalOpen = () => {
+        setIsModalOpen(true); // 모달 열기
+    };
+
+    const handleModalClose = () => {
+        setIsModalOpen(false); // 모달 닫기
+    };
 
     return (
         <div className='myPage'>
