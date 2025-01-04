@@ -25,27 +25,6 @@ function Page(props) {
         setIsModalOpen(false); // 모달 닫기
     };
 
-    const getBuyData = async () => {
-        try {
-            setLoading(true); // 로딩 상태 시작
-            const response = await axios.get(`http://localhost:8080/api/transaction/getbuydata?member_id=${member_id}`); // axios를 활용한 API 호출
-            console.log(response);
-            const data = response.data.data;
-            setList(data);
-            console.log(data);
-            setList(data); // 원본 데이터 저장
-        } catch (err) {
-            console.error("Error fetching data:", err);
-        } finally {
-            setLoading(false); // 로딩 상태 종료
-        }
-    };
-
-    // 데이터 로드 (최초 실행)
-    useEffect(() => {
-        getBuyData();
-    }, []);
-
     return (
         <div className='myPage'>
             <div className='container my lg'>
