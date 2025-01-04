@@ -83,21 +83,25 @@ function Page(props) {
     console.log("Filtered List:", filteredVOs);
   }, [selectedCategories, selectedSmallCategories, list, priceRange]);
 
-  // 정렬 로직
-  const sortedList = [...list].sort((a, b) => {
-    if (sortOption === 'latest') {
-      return new Date(b.created_at) - new Date(a.created_at);
-    }
-    if (sortOption === 'popular') {
-      return (b.view_count || 0) - (a.view_count || 0);
-    }
-    if (sortOption === 'lowPrice') {
-      return (a.sell_price || 0) - (b.sell_price || 0);
-    }
-    if (sortOption === 'highPrice') {
-      return (b.sell_price || 0) - (a.sell_price || 0);
-    }
-  });
+  const [sortedList, setSortedList] = useState([]);
+
+  useEffect(() => {
+    const sorted = [...filteredList].sort((a, b) => {
+      if (sortOption === 'latest') {
+        return new Date(b.created_at) - new Date(a.created_at);
+      }
+      if (sortOption === 'popular') {
+        return (b.view_count || 0) - (a.view_count || 0);
+      }
+      if (sortOption === 'lowPrice') {
+        return (a.sell_price || 0) - (b.sell_price || 0);
+      }
+      if (sortOption === 'highPrice') {
+        return (b.sell_price || 0) - (a.sell_price || 0);
+      }
+    });
+    setSortedList(sorted);
+  }, [filteredList, sortOption]);
 
   // 로딩 중 화면
   if (loading) {
@@ -117,10 +121,12 @@ function Page(props) {
       <FilterButtonsSection toggleSidebar={toggleSidebar} setSortOption={setSortOption} />
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '-10px' }}>
         <div className='main_list_container'>
-          {filteredList.length === 0 ? (
+          {/* {filteredList.length === 0 ? ( */}
+          {sortedList.length === 0 ? (
             <div style={{ textAlign: "center" }}>등록된 게시물이 없습니다.</div>
           ) : (
-            filteredList.map((item) => <ItemCard key={item.id} data={item} />)
+            /* filteredList.map((item) => <ItemCard key={item.id} data={item} />) */
+            sortedList.map((item) => <ItemCard key={item.id} data={item} />)
           )}
         </div>
       </div>
