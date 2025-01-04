@@ -207,56 +207,60 @@ function Page(props) {
 
                         <div className='purchase_list_display'>
                             {filteredItems.length > 0 ? (
-                                filteredItems.map(item => (
-                                    <div key={item.idx} className='purchase_list_display_item'>
-                                        <div className='purchase_list_product'>
-                                            <div className='list_item_img_wrap'>
-                                                {item.file_name !== "0" ? (
-                                                    <img
-                                                        alt="product_img"
-                                                        src={`http://localhost:8080/images/${item.file_name}`}
-                                                        className='list_item_img'
-                                                        style={{ backgroundColor: "rgb(244, 244, 244)" }}
-                                                    />
-                                                ) : (
-                                                    <p style={{ textAlign: "center", color: "gray" }}>이미지 없음</p>
-                                                )}
+                                filteredItems
+                                    .slice() // 원본 배열 보호
+                                    .sort((a, b) => b.idx - a.idx) // idx를 기준으로 최신순 정렬
+                                    .map(item => (
+                                        <div key={item.idx} className='purchase_list_display_item'>
+                                            <div className='purchase_list_product'>
+                                                <div className='list_item_img_wrap'>
+                                                    {item.file_name !== "0" ? (
+                                                        <img
+                                                            alt="product_img"
+                                                            src={`http://localhost:8080/images/${item.file_name}`}
+                                                            className='list_item_img'
+                                                            style={{ backgroundColor: "rgb(244, 244, 244)" }}
+                                                        />
+                                                    ) : (
+                                                        <p style={{ textAlign: "center", color: "gray" }}>이미지 없음</p>
+                                                    )}
+                                                </div>
+                                                <div className='list_item_title_wrap'>
+                                                    <p className='list_item_price'>{Number(item.trans_price).toLocaleString()} 원</p>
+                                                    <p className='list_item_title'>{item.title}</p>
+                                                    <p className='list_item_description'>{item.trans_method}</p>
+                                                </div>
                                             </div>
-                                            <div className='list_item_title_wrap'>
-                                                <p className='list_item_price'>{Number(item.trans_price).toLocaleString()} 원</p>
-                                                <p className='list_item_title'>{item.title}</p>
-                                                <p className='list_item_description'>{item.trans_method}</p>
+                                            <div className='list_item_status'>
+                                                <div className='list_item_column column_secondary'>
+                                                    <p className='text-lookup secondary_title display_paragraph' style={{ color: "rgba(34, 34, 34, 0.5)" }}>
+                                                        {new Date(item.trans_date).toLocaleString('ko-KR', {
+                                                            year: 'numeric',
+                                                            month: 'long',
+                                                            day: 'numeric',
+                                                            hour: '2-digit',
+                                                            minute: '2-digit',
+                                                            second: '2-digit',
+                                                            hour12: false // 24시간 형식 설정
+                                                        })}
+                                                    </p>
+                                                </div>
+                                                <div className='list_item_column column_last'>
+                                                    <p className='text-lookup last_title display_paragraph' style={{ color: "rgb(34, 34, 34)" }}>
+                                                        {item.is_fixed === '0' ? '진행 중' : '구매 완료'}
+                                                    </p>
+                                                    {item.is_fixed === '1' && (
+                                                        <button className="review-btn" onClick={openModal} style={{ textAlign: 'right' }}>후기 남기기</button>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className='list_item_status'>
-                                            <div className='list_item_column column_secondary'>
-                                                <p className='text-lookup secondary_title display_paragraph' style={{ color: "rgba(34, 34, 34, 0.5)" }}>
-                                                    {new Date(item.trans_date).toLocaleString('ko-KR', {
-                                                        year: 'numeric',
-                                                        month: 'long',
-                                                        day: 'numeric',
-                                                        hour: '2-digit',
-                                                        minute: '2-digit',
-                                                        second: '2-digit',
-                                                        hour12: false // 24시간 형식 설정
-                                                    })}
-                                                </p>
-                                            </div>
-                                            <div className='list_item_column column_last'>
-                                                <p className='text-lookup last_title display_paragraph' style={{ color: "rgb(34, 34, 34)" }}>
-                                                    {item.is_fixed === '0' ? '진행 중' : '구매 완료'}
-                                                </p>
-                                                {item.is_fixed === '1' && (
-                                                    <button className="review-btn" onClick={openModal} style={{ textAlign: 'right' }}>후기 남기기</button>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))
+                                    ))
                             ) : (
                                 <p className='nothing_at_all'>해당 카테고리에 맞는 판매 내역이 없습니다.</p>
                             )}
                         </div>
+
                     </div>
                 </div>
             </div>

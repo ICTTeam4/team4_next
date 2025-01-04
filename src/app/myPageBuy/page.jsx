@@ -180,9 +180,10 @@ function Page(props) {
             alert('리뷰 등록 중 오류가 발생했습니다.');
         } finally {
             setSubmitting(false);
+
         }
     };
-    // if (loading) return <p>로딩 중...</p>;
+
     // if (error) return <p>{error}</p>;
 
     return (
@@ -241,80 +242,84 @@ function Page(props) {
                             <div>
                                 <div>
                                     {filteredPurchases.length > 0 ? (
-                                        filteredPurchases.map(item => (
-                                            <div key={item.id} className='purchase_list_display_item' style={{ backgroundColor: "rgb(255, 255, 255)" }}>
-                                                <a href="#">
-                                                    <div className='purchase_list_product'>
-                                                        <div className='list_item_img_wrap'>
-                                                            {item.file_name !== "0" ? (
-                                                                <img
-                                                                    alt="product_img"
-                                                                    src={`http://localhost:8080/images/${item.file_name}`}
-                                                                    className='list_item_img'
-                                                                    style={{ backgroundColor: "rgb(244, 244, 244)" }}
-                                                                />
-                                                            ) : (
-                                                                <p style={{ textAlign: "center", color: "gray" }}>이미지 없음</p>
-                                                            )}
+                                        filteredPurchases
+                                            .slice() // 원본 배열 보호
+                                            .sort((a, b) => b.idx - a.idx) // idx를 기준으로 최신순 정렬
+                                            .map(item => (
+                                                <div key={item.id} className='purchase_list_display_item' style={{ backgroundColor: "rgb(255, 255, 255)" }}>
+                                                    <a href="#">
+                                                        <div className='purchase_list_product'>
+                                                            <div className='list_item_img_wrap'>
+                                                                {item.file_name !== "0" ? (
+                                                                    <img
+                                                                        alt="product_img"
+                                                                        src={`http://localhost:8080/images/${item.file_name}`}
+                                                                        className='list_item_img'
+                                                                        style={{ backgroundColor: "rgb(244, 244, 244)" }}
+                                                                    />
+                                                                ) : (
+                                                                    <p style={{ textAlign: "center", color: "gray" }}>이미지 없음</p>
+                                                                )}
+                                                            </div>
+                                                            <div className='list_item_title_wrap'>
+                                                                <p className='list_item_price'>{Number(item.trans_price).toLocaleString()} 원</p>
+                                                                <p className='list_item_title'>{item.title}</p>
+                                                                <p className='list_item_description'>
+                                                                    <span>{item.trans_method}</span>
+                                                                </p>
+                                                            </div>
                                                         </div>
-                                                        <div className='list_item_title_wrap'>
-                                                            <p className='list_item_price'>{Number(item.trans_price).toLocaleString()} 원</p>
-                                                            <p className='list_item_title'>{item.title}</p>
-                                                            <p className='list_item_description'>
-                                                                <span>{item.trans_method}</span>
+                                                    </a>
+                                                    <div className='list_item_status'>
+                                                        <div className='list_item_column column_secondary'>
+                                                            <p className='text-lookup secondary_title display_paragraph' style={{ color: "rgba(34, 34, 34, 0.5)" }}>
+                                                                {new Date(item.trans_date).toLocaleString('ko-KR', {
+                                                                    year: 'numeric',
+                                                                    month: 'long',
+                                                                    day: 'numeric',
+                                                                    hour: '2-digit',
+                                                                    minute: '2-digit',
+                                                                    second: '2-digit',
+                                                                    hour12: false // 24시간 형식 설정
+                                                                })}
                                                             </p>
                                                         </div>
-                                                    </div>
-                                                </a>
-                                                <div className='list_item_status'>
-                                                    <div className='list_item_column column_secondary'>
-                                                        <p className='text-lookup secondary_title display_paragraph' style={{ color: "rgba(34, 34, 34, 0.5)" }}>
-                                                            {new Date(item.trans_date).toLocaleString('ko-KR', {
-                                                                year: 'numeric',
-                                                                month: 'long',
-                                                                day: 'numeric',
-                                                                hour: '2-digit',
-                                                                minute: '2-digit',
-                                                                second: '2-digit',
-                                                                hour12: false // 24시간 형식 설정
-                                                            })}
-                                                        </p>
-                                                    </div>
-                                                    <div className='list_item_column column_last'>
-                                                        <p className='text-lookup last_title display_paragraph' style={{ color: "rgb(34, 34, 34)" }}>
-                                                            {item.is_fixed === '0' ? '진행 중' : '구매 완료'}
-                                                        </p>
-                                                        {/* '진행 중' 상태일 때만 '구매 확정' 버튼 표시 */}
-                                                        {item.is_fixed === '0' && (
-                                                            <a
-                                                                className='text-lookup last_description display_paragraph action_named_action confirm_purchase'
-                                                                style={{ color: "red", cursor: "pointer" }}
-                                                                onClick={() => handleModalOpen('confirm')} // 'confirm' 모달 열기
-                                                            >
-                                                                구매 확정
-                                                            </a>
-                                                        )}
-                                                        {/* '구매 완료' 상태일 때만 '후기 남기기' 버튼 표시 */}
-                                                        {item.is_fixed === '1' && (
-                                                            <button
-                                                                className="review-btn"
-                                                                style={{ textAlign: 'right' }}
-                                                                onClick={() => handleModalOpen('review', item.id)} // 'review' 모달 열기
-                                                            >
-                                                                후기 남기기
-                                                            </button>
-                                                        )}
+                                                        <div className='list_item_column column_last'>
+                                                            <p className='text-lookup last_title display_paragraph' style={{ color: "rgb(34, 34, 34)" }}>
+                                                                {item.is_fixed === '0' ? '진행 중' : '구매 완료'}
+                                                            </p>
+                                                            {/* '진행 중' 상태일 때만 '구매 확정' 버튼 표시 */}
+                                                            {item.is_fixed === '0' && (
+                                                                <a
+                                                                    className='text-lookup last_description display_paragraph action_named_action confirm_purchase'
+                                                                    style={{ color: "red", cursor: "pointer" }}
+                                                                    onClick={() => handleModalOpen('confirm')} // 'confirm' 모달 열기
+                                                                >
+                                                                    구매 확정
+                                                                </a>
+                                                            )}
+                                                            {/* '구매 완료' 상태일 때만 '후기 남기기' 버튼 표시 */}
+                                                            {item.is_fixed === '1' && (
+                                                                <button
+                                                                    className="review-btn"
+                                                                    style={{ textAlign: 'right' }}
+                                                                    onClick={() => handleModalOpen('review', item.id)} // 'review' 모달 열기
+                                                                >
+                                                                    후기 남기기
+                                                                </button>
+                                                            )}
 
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ))
+                                            ))
                                     ) : (
                                         <p className='nothing_at_all'>해당 카테고리에 해당하는 구매 내역이 없습니다.</p>
                                     )}
                                 </div>
                             </div>
                         </div>
+
                         {/* 모달 */}
                         {isModalOpen && (
                             <div className='layer lg'>

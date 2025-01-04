@@ -55,10 +55,10 @@ function Page(props) {
     };
     const groupReviews = (reviews) => {
         const groupedReviews = {};
-    
+
         reviews.forEach((review) => {
             const { review_id, file_url, file_name, ...rest } = review;
-    
+
             if (!groupedReviews[review_id]) {
                 groupedReviews[review_id] = {
                     ...rest,
@@ -66,15 +66,15 @@ function Page(props) {
                     files: [] // 파일 정보를 배열로 저장
                 };
             }
-    
+
             if (file_url && file_name) {
                 groupedReviews[review_id].files.push({ file_url, file_name });
             }
         });
-    
+
         return Object.values(groupedReviews);
     };
-    
+
 
 
     // user가 로드된 후 리뷰 데이터를 가져옴
@@ -251,51 +251,61 @@ function Page(props) {
                         </div>
                         {/* 후기 리스트 */}
                         <div>
-                            {filteredReviews.map((item) => (
-                                <a
-                                    key={item.review_id}
-                                    href="#"
-                                    className="purchase_list_display_item"
-                                    style={{ backgroundColor: "rgb(255, 255, 255)" }}
-                                >
-                                    <div className="purchase_list_product">
-                                        <div className="list_item_img_wrap">
-                                            {/* <img
-                                                alt="product_img"
-                                                src="/images/JH_myPageReviewImg.png"
-                                                className="list_item_img"
-                                            /> */}
-                                            {renderStars(item.rate)}
-                                        </div>
-                                        <div className="list_item_title_wrap">
-                                            <p className="list_item_price">{item.rate}</p>
+                            {filteredReviews
+                                .slice() // 원본 배열 보호
+                                .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // 최신순 정렬
+                                .map((item) => (
+                                    <a
+                                        key={item.review_id}
+                                        href="#"
+                                        className="purchase_list_display_item"
+                                        style={{ backgroundColor: "rgb(255, 255, 255)" }}
+                                    >
+                                        <div className="purchase_list_product">
                                             <div className="list_item_img_wrap">
-                                                {item.files.map((file, index) => (
-                                                    <img
-                                                    style={{width:'400px'}}
-                                                        key={index}
-                                                        src={`http://localhost:8080${file.file_url}`}
-                                                        alt={file.file_name}
-                                                        className="review-image"
-                                                    />
-                                                ))}
+                                                {/* Render stars */}
+                                                {renderStars(item.rate)}
                                             </div>
-                                            <p className="list_item_title">{item.content}</p>
+                                            <div className="list_item_title_wrap">
+                                                <div className="list_item_img_wrap">
+                                                    {item.files.map((file, index) => (
+                                                        <img
+                                                            style={{ width: '400px' }}
+                                                            key={index}
+                                                            src={`http://localhost:8080${file.file_url}`}
+                                                            alt={file.file_name}
+                                                            className="review-image"
+                                                        />
+                                                    ))}
+                                                </div>
+                                                <p className="list_item_title">{item.content}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="list_item_status">
-                                        <div className="list_item_column column_last">
-                                            <p className="before_purchase_confirmation">
-                                                {item.member_id} / {item.created_at}
-                                            </p>
+                                        <div className="list_item_status">
+                                            <div className="list_item_column column_last" style={{ width: '200px' }}>
+                                                <p className="before_purchase_confirmation" style={{ marginBottom: '4px' }}>
+                                                    {item.nickname}
+                                                </p>
+                                                <p className="before_purchase_confirmation">
+                                                    {new Date(item.created_at).toLocaleString('ko-KR', {
+                                                        year: 'numeric',
+                                                        month: 'long',
+                                                        day: 'numeric',
+                                                        hour: '2-digit',
+                                                        minute: '2-digit',
+                                                        second: '2-digit',
+                                                        hour12: false,
+                                                    })}
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
-                            ))}
+                                    </a>
+                                ))}
                             {filteredReviews.length === 0 && (
-                                <p className='nothing_at_all'>해당 카테고리에 후기가 없습니다.</p>
+                                <p className="nothing_at_all">해당 카테고리에 후기가 없습니다.</p>
                             )}
                         </div>
+
                     </div>
                 </div>
             </div>
