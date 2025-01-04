@@ -81,6 +81,7 @@ const saleDetail = () => {
     }
   }, [id]);
 
+
   // 휘주 지도 내용 시작
   useEffect(() => {
     if (isMapOpen) {
@@ -348,29 +349,6 @@ const saleDetail = () => {
             <div className="sellerData">
               <div>안전거래 수 <br /> <span className='tradeTitle'>2</span></div>
               <div>거래 후기 수 <br /> <span className='tradeTitle'>10</span></div>
-            </div>
-            <div className="sellerRecent">
-              <div className="sellerGoods">
-                <Link href="/saleDetail/test">
-                  <div className="sellerGoodsImg"></div>
-                  <div className="sellerGoodsTitle">제목</div>
-                  <div className="sellerGoodsPrice">가격</div>
-                </Link>
-              </div>
-              <div className="sellerGoods">
-                <Link href="/saleDetail">
-                  <div className="sellerGoodsImg"></div>
-                  <div className="sellerGoodsTitle">제목</div>
-                  <div className="sellerGoodsPrice">가격</div>
-                </Link>
-              </div>
-              <div className="sellerGoods">
-                <Link href="/saleDetail">
-                  <div className="sellerGoodsImg"></div>
-                  <div className="sellerGoodsTitle">제목</div>
-                  <div className="sellerGoodsPrice">가격</div>
-                </Link>
-              </div>
             </div>
           </div>
         </div>
