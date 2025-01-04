@@ -12,8 +12,8 @@ function ProductPage() {
   const [images, setImages] = useState([]);
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
-  const [isDeliveryTransaction, setIsDeliveryTransaction] = useState();
-  const [isInPersonTransaction, setIsInPersonTransaction] = useState();
+  const [isDeliveryTransaction, setIsDeliveryTransaction] = useState(false);
+  const [isInPersonTransaction, setIsInPersonTransaction] = useState(false);
   const [zipCode, setZipcode] = useState();
   const [addressInput, setAddressInput] = useState();
   const [uploadImages, setuploadImages] = useState([]);
@@ -370,7 +370,6 @@ const getPosition = async (address) => {
             <input
               id="check1-delivery"
               type="checkbox"
-              name=""
               className="blind"
               checked={isDeliveryTransaction}
               onChange={(e) => setIsDeliveryTransaction(e.target.checked)}
@@ -402,7 +401,6 @@ const getPosition = async (address) => {
             <input
               id="check1-inperson"
               type="checkbox"
-              name=""
               className="blind"
               checked={isInPersonTransaction}
               onChange={(e) => setIsInPersonTransaction(e.target.checked)}

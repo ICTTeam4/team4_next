@@ -220,7 +220,7 @@ function Page(props) {
                                                 type="button"
                                                 onClick={() => setShowNewPassword(!showNewPassword)}
                                                 className="btn btn_modify outlinegrey small"
-                                                style={{ whiteSpace: "nowrap" }}
+                                                style={{ whiteSpace: "nowrap", top: "10px" }}
                                             >
                                                 {showNewPassword ? "숨기기" : "보기"}
                                             </button>
@@ -229,6 +229,7 @@ function Page(props) {
                                             <div style={{ alignSelf: "flex-end" }}>
                                                 <button
                                                     type="button"
+                                                    style={{top: "55px"}}
                                                     className="btn btn_modify outlinegrey small"
                                                     onClick={async () => {
                                                         if (!newPassword.trim()) {
