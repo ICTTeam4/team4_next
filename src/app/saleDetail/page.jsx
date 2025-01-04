@@ -294,7 +294,13 @@ const saleDetail = () => {
             <div> 제품상태 <br /> <span className='tradeTitle'>중고</span></div>
             <div>거래방식 <br /> <span
               className='tradeTitle'>
-              {detail.is_direct === "1" ? "직거래 / " : ""} {detail.is_delivery === "1" ? "택배거래" : ""}
+              {detail.is_direct === "1" && detail.is_delivery === "1"
+                ? "직거래 / 택배거래"
+                : detail.is_direct === "1"
+                  ? "직거래"
+                  : detail.is_delivery === "1"
+                    ? "택배거래"
+                    : ""}
             </span></div>
             <div>배송비 <br /> <span className='tradeTitle'>포함</span></div>
             <div className='safeDeal'>안전거래 <br /> <span className='tradeTitle'>사용</span></div>
@@ -303,14 +309,14 @@ const saleDetail = () => {
             {isBookMarkOpen ? <Image src="/images/David_bookmark-black.png" onClick={closeBookMark} width={33} height={30} className="bookmark" id="bookmark" /> :
               <Image src="/images/David_bookmark-white.png" onClick={openBookMark} width={30} height={30} className="bookmark" id="bookmark" />}
             <div className={`purchase ${isBlurNeeded ? 'disabled' : ''}`}
-            onClick={isBlurNeeded ? null : openAlert}>
+              onClick={isBlurNeeded ? null : openAlert}>
               구매하기
-              </div>
+            </div>
             <div className="chatting" onClick={openChatPanel}>채팅하기</div>
           </div>
-          <div 
-          className={`tradeArea ${isBlurNeeded ? 'disabled' : ''}`} 
-          onClick={isBlurNeeded ? null : openMap}>
+          <div
+            className={`tradeArea ${isBlurNeeded ? 'disabled' : ''}`}
+            onClick={isBlurNeeded ? null : openMap}>
             ⊙ {detail.selling_area_id} 직거래 위치 제안</div>
         </div>
         <div className="salesDescription">
@@ -453,7 +459,7 @@ const saleDetail = () => {
           {payButtonLevel === 0 ? (
             <PayPanel nextButton={payButtonLevel} setNextButton={setPayButtonLevel} data={detail} />
           ) : payButtonLevel === 1 || payButtonLevel === 2 ? (
-            <PayDealPanel nextButton={payButtonLevel} setNextButton={setPayButtonLevel} data={detail}/>
+            <PayDealPanel nextButton={payButtonLevel} setNextButton={setPayButtonLevel} data={detail} />
           ) : null
           }
           현재상태 :  {payButtonLevel}
