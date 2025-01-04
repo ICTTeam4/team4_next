@@ -55,7 +55,7 @@ function ProductPage() {
 
   
   const [formData, setFormData] = useState({
-    member_id: '1',
+    member_id: user.member_id,
     selling_area_id: '',
     title: '',
     sell_price: '',
