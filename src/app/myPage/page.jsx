@@ -41,26 +41,9 @@ function Page(props) {
         }
     };
 
-    const getCountBuyTotal = async () => {
-        try {
-            setLoading(true); // 로딩 상태 시작
-            const response = await axios.get(`http://localhost:8080/api/transaction/getcountbuytotal?member_id=${member_id}`); // axios를 활용한 API 호출
-            console.log(response);
-            const data = response.data.data;
-            setList(data);
-            console.log(data);
-            setList(data); // 원본 데이터 저장
-        } catch (err) {
-            console.error("Error fetching data:", err);
-        } finally {
-            setLoading(false); // 로딩 상태 종료
-        }
-    };
-
     // 데이터 로드 (최초 실행)
     useEffect(() => {
         getBuyData();
-        getCountBuyData();
     }, []);
 
     return (
