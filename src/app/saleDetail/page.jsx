@@ -12,8 +12,10 @@ import NaverPay from '../payments/naverPay/page';
 import TossPay from '../payments/tossPay/page';
 import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
+import useAuthStore from '../../../store/authStore';
 
 const saleDetail = () => {
+  const { user } = useAuthStore();
   const searchParams = useSearchParams();
   // 상태 관리
   const [data, setData] = useState(null);
@@ -28,6 +30,7 @@ const saleDetail = () => {
   const [isMapOpen, setIsMapOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [payButtonLevel, setPayButtonLevel] = useState(0);  // 결제 단계 관리
+  const [chatMessages, setChatMessages] = useState([]);
   // URL 파라미터 (id)
   const id = searchParams.get("id");
   // API 경로
@@ -206,23 +209,57 @@ const saleDetail = () => {
     setIsAlertOpen(false);
   }
 
-  const openChatPanel = () => {
-    // setIsChatOpen(true); //테스트로 만드신거다 보니  일단 지금은 주석처리했습니다! 실제론 db로직 구현 필요.
-    // 후에 db 로직 짤땐 room_id가 있으면 검사하거나, 파라미터에 실제 게시자 id를 넘기거나 추가해줘야함.
-    // open-chat 이벤트 발생 시킴 -> 임시 채팅방 id 지정. room_id: 888 ( 999는 임시 관리자 채팅방id.  )
-    // axios.get(url,
-    //   params: {
-    //    "buyer_id": member_id
-    //    "pwr_id": pwr_id
-    //     })
-    // if data.success {setRoomId}
-    //   else : 오류가 났습니다.
-    // setHost_id(member_id)
-    axios.get(API_URL, { id }, {
-      headers: { "Content-Type": "application/json" },
-    })
-    window.dispatchEvent(new CustomEvent('open-chat', { detail: { room_id: 888, host_id: 123 } }));
-  }
+  const openChatPanel = async () => {
+    // API URL
+    const CHAT_API_URL = "http://localhost:8080/api/chat/room";
+  
+    if (!user || !detail) {
+      console.error("유저 정보 또는 상세 정보가 없습니다.");
+      return;
+    }
+  
+    try {
+      console.log("하윤서치채팅준비용",user.member_id,detail.pwr_id)
+        // LocalStorage에서 토큰 가져오기
+        const token = localStorage.getItem("token");
+      // API 요청
+      const response = await axios.get(CHAT_API_URL, {
+        params: {
+          buyer_id: user.member_id,
+          pwr_id: detail.pwr_id,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+  
+      // 요청 성공 시 room_id 받아오기 (새로 생성되는경우에도 받아옴.  이유는 채팅목록과, 바로 채팅하기 구분하기 위해서 여기서 roomid유무 따짐)
+      if (response.data && response.data.success) {
+        console.log("채팅메세지"+JSON.stringify(response.data.data))
+        const roomId = response.data.data[0]?.room_id;
+    
+  
+        // 이벤트 발생
+        window.dispatchEvent(
+          new CustomEvent("open-chat", {
+            detail: {
+              room_id: roomId,
+              host_id: user.member_id,
+              messages: response.data.data
+            },
+          })
+        );
+  
+        console.log("채팅방 열림:", roomId);
+      } else {
+        console.error("채팅방 생성 실패:", response.data);
+      }
+    } catch (error) {
+      console.error("채팅방 요청 오류:", error);
+    }
+  };
+  
 
   const closeChatPanel = () => {
     setIsChatOpen(false);

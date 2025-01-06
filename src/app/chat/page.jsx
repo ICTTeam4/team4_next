@@ -6,11 +6,10 @@ import { Button } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
-const Chat = ({ isOpen, closeChat, initialRoomId, initialhostId }) => {
+const Chat = ({ isOpen, closeChat, initialRoomId, initialhostId, messages }) => {
   const [isChatDetailOpen, setChatDetailOpen] = useState(false); // 채팅디테일 사이드바 상태관리 
   const [selectedChat, setSelectedChat] = useState(null);
   const LOCAL_API_BASE_URL = "http://localhost:8080";
-
 
   // 초기 room_id가 있을 경우 바로 채팅 디테일 열기
   useEffect(() => {
@@ -113,7 +112,7 @@ const Chat = ({ isOpen, closeChat, initialRoomId, initialhostId }) => {
                 }}
               />
             </Button>
-            <Page room_id={selectedChat.room_id} host_id={selectedChat.host_id} closeChat={closeChat} closeDetail={closeChatDetail} />
+            <Page room_id={selectedChat.room_id} host_id={selectedChat.host_id} closeChat={closeChat} closeDetail={closeChatDetail}messages={messages} />
           </div>
         </div>
       )}

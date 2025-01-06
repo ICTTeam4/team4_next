@@ -12,28 +12,23 @@ import * as StompJs from '@stomp/stompjs'; // 추가: STOMP WebSocket 라이브�
 import SockJS from 'sockjs-client'; // 추가: SockJS WebSocket 폴리필..??
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-
-const Page = ({ room_id, host_id }) => {
-  const previewRef = useRef(null); //사진,동영상 미리보기 플로팅 상태관리
+import useAuthStore from '../../../../store/authStore';
+const Page = ({ room_id, host_id, messages: initialMessages }) => {
   const [message, setMessage] = useState(''); //입력창  처음엔 비어있음. 
-  const messagesEndRef = useRef(null); // 추가: 메시지 끝부분 참조
+  const [messages, setMessages] = useState(initialMessages || []);
   const [files, setFiles] = useState([]);   //미리보기..?  아직  실제업로드 구현 안됨 ( 12-21 기준)
   const [previewUrls, setPreviewUrls] = useState([]);    //파일 관련미리보기쪽임...  
+  const previewRef = useRef(null); //사진,동영상 미리보기 플로팅 상태관리
+  const messagesEndRef = useRef(null); // 추가: 메시지 끝부분 참조
   // 추가: WebSocket 클라이언트 초기화
   const [stompClient, setStompClient] = useState(null);
-  const [messages, setMessages] = useState([  // 임의로 메세지 더미 넣어둠.    
+  const { user } = useAuthStore();
+  const userName = user.member_id; // 추가: 사용자 이름 설정 임의값.
+  const roomId = room_id;
 
-    { id: 1, message: 'gdgd', name: 'user', read: true, timestamp: '오후 5:27' },
-    { id: 2, message: '안녕하세요! ', name: 'other', read: false, timestamp: '오후 5:29' },
-    { id: 3, message: '안녕하세요!', name: 'user', read: false, timestamp: '오후 5:29' },
-    { id: 4, message: '안녕하세요!', name: 'other', read: false, timestamp: '오후 5:29' }
-  ]);
-  const userName = "user"; // 추가: 사용자 이름 설정 임의값.
-  const roomId = "erer"
+  console.log("최종메세지들" + JSON.stringify(initialMessages));
 
-
-
-  useEffect(() => { 
+  useEffect(() => {
     // WebSocket 연결 설정
     const socket = new SockJS('http://localhost:8080/gs-guide-websocket'); // 서버 WebSocket 엔드포인트
     const client = new StompJs.Client({
@@ -50,6 +45,7 @@ const Page = ({ room_id, host_id }) => {
       // 메시지 수신 구독
       client.subscribe(`/topic/chat/${roomId}`, (message) => {
         const receivedMessage = JSON.parse(message.body);
+        console.log('Received Message:', receivedMessage); // 구조 확인
         setMessages((prevMessages) => [...prevMessages, receivedMessage]); // 수신된 메시지 추가
       });
     };
@@ -71,9 +67,12 @@ const Page = ({ room_id, host_id }) => {
   const sendMessage = () => {
 
     const newMessage = {
-      name: userName, // 사용자 이름
-      message: message, // 입력 메시지
+      room_id:roomId,
+      member_id: userName, // 사용자 이름
+      content: message, // 입력 메시지
     };
+
+    console.log("Sending message :", newMessage);
 
     // WebSocket을 통해 서버로 메시지 전송
     if (stompClient && stompClient.connected) {
@@ -169,20 +168,20 @@ const Page = ({ room_id, host_id }) => {
             key={index}
             sx={{
               margin: '10px',
-             
-              marginLeft: msg.name === 'user' ? 'auto' : '10px',
-              marginRight: msg.name === 'user' ? '10px' : 'auto',
+
+              marginLeft: String(msg.member_id) === String(user.member_id) ? 'auto' : '10px',
+              marginRight: String(msg.member_id) === String(user.member_id) ? '10px' : 'auto',
               maxWidth: { xs: '100%', sm: '70%' },
-              alignSelf: msg.name === 'user' ? 'flex-end' : 'flex-start',
+              alignSelf: msg.member_id ===  user.member_id ? 'flex-end' : 'flex-start',
               // border: '1px solid rgba(0, 0, 0, 0.1)',
               borderRadius: '8px', // 더 부드러운 테두리
               padding: '8px', // 박스 안쪽 여백
               marginBottom: '20px', // 메시지 간의 간격
             }}
           >
-            <Paper elevation={6} style={{ padding: '12px', backgroundColor: msg.name === 'user' ? '#f1f1ea' : '#ebf0f5'}} sx={{
+            <Paper elevation={6} style={{ padding: '12px', backgroundColor: msg.member_id ===  user.member_id ? '#f1f1ea' : '#ebf0f5' }} sx={{
               padding: '10px',
-              backgroundColor: msg.name === 'user' ? '#e0f7fa' : '#ffffff', // Paper에도 배경색 적용
+              backgroundColor: msg.member_id ===  user.member_id ? '#e0f7fa' : '#ffffff', // Paper에도 배경색 적용
               borderRadius: '4px', // Paper의 모서리도 둥글게
             }}>
               <Typography
@@ -194,18 +193,18 @@ const Page = ({ room_id, host_id }) => {
                   lineHeight: '1.5', // 텍스트 가독성 향상
                 }}
               >
-                {msg.message || 'No message'}
+                {msg.content || 'No message'}
               </Typography>
               <Typography
                 color="textSecondary"
                 style={{
                   fontSize: '14px',
-                  textAlign: msg.name === 'user' ? 'right' : 'left',
+                  textAlign: msg.member_id ===  user.member_id ? 'right' : 'left',
                   marginTop: '8px', // 텍스트와 타임스탬프 간 간격
                 }}
               >
                 {msg.timestamp || ''}{' '}
-                {msg.read && msg.name === 'user' ? (
+                {msg.read && msg.member_id ===  user.member_id ? (
                   <Check style={{ fontSize: 'small' }} />
                 ) : (
                   ''
@@ -241,9 +240,13 @@ const Page = ({ room_id, host_id }) => {
             type="text"
             placeholder="메시지를 입력해 주세요."
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={(e) => {
+              console.log("Input value:", e.target.value);
+              setMessage(e.target.value);
+            }}
             onKeyDown={(e) => e.key === 'Enter' ? sendMessage() : null}
           />
+
         </div>
         <div className="input-right">
           <button className="send-button" onClick={sendMessage}>

@@ -9,7 +9,7 @@ import ChatCheck from './chatCheck/page';
 import { useRouter } from 'next/navigation';
 import useAuthStore from '../../../store/authStore';
 
-const Page = ({ room_id, host_id, closeChat, closeDetail }) => {
+const Page = ({ room_id, host_id,messages, closeChat, closeDetail }) => {
   const {user} = useAuthStore();
   const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -119,7 +119,7 @@ const Page = ({ room_id, host_id, closeChat, closeDetail }) => {
       )}
 
       {/* 조건부 렌더링 */}
-      {activePage === 'chatRoom' && <ChatRoom room_id={room_id} host_id={host_id} />}
+      {activePage === 'chatRoom' && <ChatRoom room_id={room_id} host_id={host_id} messages={messages} />}
       {activePage === 'chatBlock' && <ChatBlock room_id={room_id} host_id={host_id} />}
       {activePage === 'chatReport' && <ChatReport room_id={room_id} host_id={host_id} />}
       {activePage === 'chatCheck' && <ChatCheck room_id={room_id} host_id={host_id} />}
