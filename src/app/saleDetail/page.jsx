@@ -359,7 +359,7 @@ const saleDetail = () => {
           <div className="sellerContainer">
             <div className="sellerProfile">
               <div className="sellerNickname">
-                <Link href="/salepage" className='sellerFont'>{sellerData.nickname}</Link>
+                <Link href="/salepage" className='sellerFont'>{sellerData?.nickname || '로딩 중...'}</Link>
               </div>
               <Link href="/salepage">
                 <div className="sellerImg" ></div>
