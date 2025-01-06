@@ -24,7 +24,7 @@ const Page = ({ room_id, host_id }) => {
   const [messages, setMessages] = useState([  // 임의로 메세지 더미 넣어둠.    
 
     { id: 1, message: 'gdgd', name: 'user', read: true, timestamp: '오후 5:27' },
-    { id: 2, message: '안녕하세요! asdfasdffasdfdsafasdfsadfsdafsdafsdafsadfdsafasdfasdfsdfasdfasdfasfdasdfsdfasdfsaffdssdfasdfsfdsafasdfdsfsafasfsffs11111', name: 'other', read: false, timestamp: '오후 5:29' },
+    { id: 2, message: '안녕하세요! ', name: 'other', read: false, timestamp: '오후 5:29' },
     { id: 3, message: '안녕하세요!', name: 'user', read: false, timestamp: '오후 5:29' },
     { id: 4, message: '안녕하세요!', name: 'other', read: false, timestamp: '오후 5:29' }
   ]);
