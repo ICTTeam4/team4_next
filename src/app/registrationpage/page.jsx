@@ -261,11 +261,7 @@ const getPosition = async (address) => {
 
   return (
     <>
-       <Script
-        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fc85670f51b33ffbe7bd5977d1bc043c&libraries=services"
-        strategy="afterInteractive"
-        onLoad={() => console.log("Kakao Maps SDK Loaded")}
-      />       
+             
       <Script
                 src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
                 strategy='afterInteractive'
