@@ -230,6 +230,17 @@ const saleDetail = () => {
     // setIsChatOpen(true); //테스트로 만드신거다 보니  일단 지금은 주석처리했습니다! 실제론 db로직 구현 필요.
     // 후에 db 로직 짤땐 room_id가 있으면 검사하거나, 파라미터에 실제 게시자 id를 넘기거나 추가해줘야함.
     // open-chat 이벤트 발생 시킴 -> 임시 채팅방 id 지정. room_id: 888 ( 999는 임시 관리자 채팅방id.  )
+    // axios.get(url,
+    //   params: {
+    //    "buyer_id": member_id
+    //    "pwr_id": pwr_id
+    //     })
+    // if data.success {setRoomId}
+    //   else : 오류가 났습니다.
+    // setHost_id(member_id)
+    axios.get(API_URL, { id }, {
+      headers: { "Content-Type": "application/json" },
+    })
     window.dispatchEvent(new CustomEvent('open-chat', { detail: { room_id: 888, host_id: 123 } }));
   }
 

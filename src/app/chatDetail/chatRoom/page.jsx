@@ -24,11 +24,12 @@ const Page = ({ room_id, host_id }) => {
   const [messages, setMessages] = useState([  // 임의로 메세지 더미 넣어둠.    
 
     { id: 1, message: 'gdgd', name: 'user', read: true, timestamp: '오후 5:27' },
-    { id: 2, message: '안녕하세요! asdfasdffasdfdsafasdfsadfsdafsdafsdafsadfdsafasdfasdfsdfasdfasdfasfdasdfsdfasdfsaffdssdfasdfsfdsafasdfdsfsafasfsffs11111', name: 'other', read: false, timestamp: '오후 5:29' },
+    { id: 2, message: '안녕하세요! ', name: 'other', read: false, timestamp: '오후 5:29' },
     { id: 3, message: '안녕하세요!', name: 'user', read: false, timestamp: '오후 5:29' },
     { id: 4, message: '안녕하세요!', name: 'other', read: false, timestamp: '오후 5:29' }
   ]);
   const userName = "user"; // 추가: 사용자 이름 설정 임의값.
+  const roomId = "erer"
 
 
 
@@ -45,9 +46,9 @@ const Page = ({ room_id, host_id }) => {
 
     client.onConnect = () => {
       console.log('WebSocket Connected');
-
+      console.log("연결됨!");
       // 메시지 수신 구독
-      client.subscribe('/topic/greetings', (message) => {
+      client.subscribe(`/topic/chat/${roomId}`, (message) => {
         const receivedMessage = JSON.parse(message.body);
         setMessages((prevMessages) => [...prevMessages, receivedMessage]); // 수신된 메시지 추가
       });
@@ -77,7 +78,7 @@ const Page = ({ room_id, host_id }) => {
     // WebSocket을 통해 서버로 메시지 전송
     if (stompClient && stompClient.connected) {
       stompClient.publish({
-        destination: '/app/hello', // 서버 MessageMapping 경로
+        destination: `/app/chat/${roomId}`, // 서버 MessageMapping 경로
         body: JSON.stringify(newMessage),
       });
     }
@@ -241,7 +242,7 @@ const Page = ({ room_id, host_id }) => {
             placeholder="메시지를 입력해 주세요."
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' ? sendMessage() : null}
+            onKeyDown={(e) => e.key === 'Enter' ? sendMessage() : null}
           />
         </div>
         <div className="input-right">
