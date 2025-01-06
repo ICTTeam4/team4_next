@@ -1,12 +1,21 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./registration.css";
 import axios from "axios";
+import Script from "next/script";
+import { useRouter } from "next/navigation";
+import useAuthStore from '../../../store/authStore';
 
 function ProductPage() {
+  const router = useRouter();
+  const {user} = useAuthStore();
   const [images, setImages] = useState([]);
+  const [longitude, setLongitude] = useState("");
+  const [latitude, setLatitude] = useState("");
   const [isDeliveryTransaction, setIsDeliveryTransaction] = useState();
   const [isInPersonTransaction, setIsInPersonTransaction] = useState();
+  const [zipCode, setZipcode] = useState();
+  const [addressInput, setAddressInput] = useState();
   const [uploadImages, setuploadImages] = useState([]);
   const [isDropdownActive, setIsDropdownActive] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("카테고리");
@@ -54,17 +63,6 @@ function ProductPage() {
     is_direct: false,
     is_delivery: false
 });
-// const handleCheckChange = (event) => {
-//   const { name, checked } = event.target; // name: 체크박스 이름, checked: 체크 여부
-//   let tinyInt = 0;
-//   if (checked) {
-//     tinyInt = 1;
-//   }
-//   setFormData({
-//     ...formData, // 기존 상태 유지
-//     [name]: tinyInt, // 변경된 체크 상태 업데이트
-//   });
-// };
 
   const convertDataURLToFile = async (dataURL, fileName) => {
     const response = await axios.get(dataURL,{
@@ -135,18 +133,10 @@ function ProductPage() {
       [name]: value // 변경된 값만 업데이트
     });
   };
-  // member_id: '1',
-  // selling_area_id: '',
-  // title: '',
-  // sell_price: '',
-  // description: '',
-  // category_id: selectedCategory,
-  // is_direct: 'false',
-  // is_delivery: 'false'
   const handleSubmit = async () => {
     const API_URL = `http://localhost:8080/api/salespost/salesinsert`;
     const data = new FormData();
-    data.append("member_id", formData.member_id);
+    data.append("member_id", user.member_id);
     data.append("selling_area_id", formData.selling_area_id);
     data.append("title", formData.title);
     data.append("sell_price", formData.sell_price);
@@ -155,12 +145,8 @@ function ProductPage() {
     data.append("sub_category", selectedSmallCategory);
     data.append("is_direct", isInPersonTransaction);
     data.append("is_delivery", isDeliveryTransaction);
-    // if (formData.file) {
-    //     data.append("file", formData.file);
-    // }
-    // images.forEach((image, index) => {
-    //   data.append("files", image); // 파일 추가
-    // });
+    data.append("longitude", longitude);
+    data.append("latitude", latitude);
 
     if (images.length >= 1) {
       for (let i = 0; i < images.length; i++) {
@@ -181,12 +167,12 @@ function ProductPage() {
             }
         }
       );
-        // if (response.data.success) {
-        //     alert(response.data.message);
-        //     router.push("/");
-        // } else {
-        //     alert(response.data.message);
-        // }
+        if (response.data.success) {
+            alert(response.data.message);
+            router.push("/");
+        } else {
+            alert(response.data.message);
+        }
     } catch (error) {
       // console.error('오류 발생:', error.name);   // 오류 이름
       // console.error('오류 메시지:', error.message); // 오류 메시지
@@ -194,9 +180,97 @@ function ProductPage() {
     }
 }
 
-  return (
 
+const sample4_execDaumPostcode = () => {
+  if (!daum?.Postcode) {
+      alert('우편번호 스크립트가 아직 로드되지 않았습니다.');
+      return;
+  }
+  new daum.Postcode({
+      oncomplete: function (data) {
+          // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+          // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+          // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+          const roadAddr = data.roadAddress; // 도로명 주소 변수
+          let extraRoadAddr = ''; // 참고 항목 변수
+
+          // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+          // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+          if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+              extraRoadAddr += data.bname;
+          }
+          // 건물명이 있고, 공동주택일 경우 추가한다.
+          if (data.buildingName !== '' && data.apartment === 'Y') {
+              extraRoadAddr += (extraRoadAddr !== '' ? ',' + `${data.buildingName}` : data.buildingName);
+          }
+          // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+          if (extraRoadAddr !== '') {
+              extraRoadAddr = `(${extraRoadAddr})`;
+          }
+
+          // 우편번호와 주소 정보를 해당 필드에 넣는다.
+
+          setZipcode(data.zonecode);
+          setAddressInput(roadAddr + extraRoadAddr);
+
+          setFormData({
+            ...formData, // 기존 값 유지
+            ["selling_area_id"]: data.zonecode // 변경된 값만 업데이트
+          });
+
+
+          // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
+          if (roadAddr !== '') {
+              // setAddressInput(roadAddr + extraRoadAddr);
+              setFormData({
+                ...formData, // 기존 값 유지
+                ["selling_area_id"]: (roadAddr + extraRoadAddr) // 변경된 값만 업데이트
+              });
+          }
+      }
+  }).open();
+}
+useEffect(()=> {
+  getPosition(addressInput);
+
+},[addressInput]);
+
+const getPosition = async (address) => {
+  const url = `https://dapi.kakao.com/v2/local/search/address?query=${address}`;
+  try {
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `KakaoAK c511457645936818e2db5ecdc890dc9d`,
+      },
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const {x,y} = data.documents[0];
+
+      setLongitude(x);
+      setLatitude(y);
+
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+  return (
+    <>
+       <Script
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fc85670f51b33ffbe7bd5977d1bc043c&libraries=services"
+        strategy="afterInteractive"
+        onLoad={() => console.log("Kakao Maps SDK Loaded")}
+      />       
+      <Script
+                src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
+                strategy='afterInteractive'
+            />
     <div className="product-page">
+       {/* Daum 우편번호 스크립트 로드 */}
+
       {/* <h3 style={{textAlign:'center', fontWeight:'30px'}}>판매등록</h3> */}
       <div className="image-upload">
 
@@ -290,7 +364,7 @@ function ProductPage() {
       <p style={{ textAlign: "left" }}>  *  선호하는 직거래 위치</p>
       <div className="location">
         <input type="text" placeholder="  우편 번호를 입력하세요" onChange={handleChange} value={formData.selling_area_id} name="selling_area_id"  />
-        <button className="postal-info">우편번호</button>
+        <button className="postal-info" onClick={sample4_execDaumPostcode}>우편번호</button>
       </div>
       <ul style={{ padding: '0px' }}>
         <li>
@@ -360,6 +434,7 @@ function ProductPage() {
       </ul>
       <button className="register-button" onClick={handleSubmit}>등 록</button>
     </div>
+    </>
   );
 }
 

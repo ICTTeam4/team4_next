@@ -103,6 +103,29 @@ display: inline-flexbox;
 
 }
 
+.images.disabled {
+  pointer-events: none; /* 클릭 불가능 */
+  position: relative; /* 자식 요소를 위한 기준 */
+}
+
+.blur_image{
+  filter: blur(5px);
+}
+
+.overlayMessage {
+  position: relative;
+  bottom: 46%;
+  left: 45%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.6); /* 반투명 배경 */
+  color: #fff;
+  font-size: 1.2rem;
+  text-align: center;
+  padding: 10px 20px;
+  border-radius: 12px;
+  margin-right: 80px;
+}
+
 .salesInfo{
   display: grid;
   grid-template-columns: 1fr ;
@@ -214,6 +237,13 @@ display: inline-flexbox;
   border : 1px solid black ;
   color: black;
 }
+
+.purchase.disabled {
+  pointer-events: none; /* 클릭 차단 */
+  cursor: not-allowed; /* 마우스 포인터 변경 */
+  opacity: 0.5; /* 시각적으로 비활성화 */
+}
+
 .purchase:hover{
   cursor: pointer;
 }
@@ -240,6 +270,11 @@ display: inline-flexbox;
 }
 .tradeArea:hover{
   cursor: pointer;
+}
+.tradeArea.disabled {
+  pointer-events: none; /* 클릭 차단 */
+  cursor: not-allowed; /* 마우스 포인터 변경 */
+  opacity: 0.5; /* 시각적으로 비활성화 */
 }
 .share {
   width: 23px;

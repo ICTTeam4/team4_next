@@ -35,7 +35,8 @@ function Page(props) {
                                     </div>
                                     <div className='user_info'>
                                         <div className='info_box'>
-                                            <strong className='name'>{user?.nickname ?? "닉네임 없음"}</strong>
+                                            {/* DB상 nickname이지만, 소셜로그인은  현재 security거친 zustand상의 'nickname'은 user.name임, 구분필요함 (25.01.02 하윤) */}
+                                            <strong className='name'>{user?.nickname ?? user?.name ?? "닉네임 없음"}</strong>
                                             <p className='email'>{user?.email ?? "이메일 없음"}</p>
                                         </div>
                                         <div className='info-buttons'>
@@ -109,7 +110,7 @@ function Page(props) {
                                                         </p>
                                                         <p className='text-lookup last_description display_paragraph action_named_action'
                                                             onClick={handleModalOpen}
-                                                            style={{marginTop:'5px'}}
+                                                            style={{ marginTop: '5px' }}
                                                         >구매 확정</p>
                                                         {isModalOpen && (
                                                             <div className='layer lg'>
@@ -279,9 +280,9 @@ function Page(props) {
                                                     <div className='list_item_column column_last'>
                                                         <p className='text-lookup last_title display_paragraph'
                                                             style={{ color: "rgb(34, 34, 34)" }}>판매 중</p>
-                                                            <p className='list_item_description'>
-                                                                <span className='post_up'>UP 하기</span>
-                                                            </p>
+                                                        <p className='list_item_description'>
+                                                            <span className='post_up'>UP 하기</span>
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>

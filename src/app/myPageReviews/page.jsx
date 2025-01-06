@@ -2,144 +2,160 @@
 import { usePathname } from 'next/navigation';
 import MyPageSideNav from '../components/MyPageSideNav';
 import './myPageReviews.css';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import useAuthStore from "../../../store/authStore";
+import axios from 'axios';
 
 function Page(props) {
+    const { user, login } = useAuthStore();
     const pathname = usePathname();
-
+    const LOCAL_API_BASE_URL = "http://localhost:8080/api";
+    // 후기 데이터
+    const [reviews, setReviews] = useState([]);
+    const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
+    //1. 회원 정보 통합으로 가져오기
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        console.log('Saved Token:', token);
+    }, []);
     // 탭 상태
     const [activeTab, setActiveTab] = useState('전체');
-
     // 탭 클릭 시 상태 업데이트
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     }
-
-    // 후기 데이터
-    const [reviews, setReviews] = useState([
-        {
-            id: 1,
-            rating: 4.9,
-            content: "물건 잘 받았습니다. 친절한 거래 감사드립니다!",
-            writer: "내이름",
-            time: "2분 전",
-            type: "mine",      // 내 후기
-        },
-        {
-            id: 2,
-            rating: 4.8,
-            content: "깔끔하고 친절한 거래 감사드립니다! 다음에 또 거래해요!",
-            writer: "구매자이름",
-            time: "10분 전",
-            type: "buyer",     // 구매자 후기
-        },
-        {
-            id: 3,
-            rating: 5.0,
-            content: "정말 좋았습니다! 빠른 거래 감사합니다!",
-            writer: "판매자이름",
-            time: "어제",
-            type: "seller",    // 판매자 후기
-        },
-        {
-            id: 4,
-            rating: 4.7,
-            content: "감사합니다!",
-            writer: "판매자이름",
-            time: "3일 전",
-            type: "seller",    // 판매자 후기
-        },
-    ]);
-
-    // 전체 후기 개수
-    const totalCount = useMemo(() => reviews.length, [reviews]);
-
-    // 판매자 후기 개수
-    const sellerCount = useMemo(
-        () => reviews.filter((k) => k.type === 'seller').length,
-        [reviews]
-    );
-
-    // 구매자 후기 개수
-    const buyerCount = useMemo(
-        () => reviews.filter((k) => k.type === 'buyer').length,
-        [reviews]
-    );
-    // 내 후기 개수
-    const mineCount = useMemo(
-        () => reviews.filter((k) => k.type === 'mine').length,
-        [reviews]
-    );
-
-    // 탭별로 후기 필터링
-    const filteredReviews = reviews.filter((review) => {
-        if (activeTab === "전체") {
-            return true; // 모든 후기
+ // 서버에서 모든 리뷰 데이터를 한 번에 가져오는 함수
+ const fetchReviews = async () => {
+    console.log("fetchReviews 함수 호출됨");
+    setIsLoading(true); // 로딩 시작
+    try {
+        if (!user?.member_id) {
+            console.error("User ID is missing");
+            setIsLoading(false); // 로딩 종료
+            return;
         }
-        if (activeTab === "판매자후기") {
-            return review.type === "seller";
+
+        const params = { member_id: user.member_id };
+
+        const response = await axios.get(`${LOCAL_API_BASE_URL}/HayoonReview/list`, { params });
+
+        if (response.data.success) {
+            setReviews(response.data.data);
+            console.log("데이터 확인:", response.data.data);
+        } else {
+            console.error("Failed to fetch reviews:", response.data.message);
         }
-        if (activeTab === "구매자후기") {
-            return review.type === "buyer";
+    } catch (error) {
+        console.error("Error fetching reviews:", error);
+    } finally {
+        setIsLoading(false); // 로딩 종료
+    }
+};
+    
+ // user가 로드된 후 리뷰 데이터를 가져옴
+ useEffect(() => {
+    if (user?.member_id) {
+        fetchReviews();
+    }
+}, [user]);
+// 중복 데이터 제거 함수
+const uniqueReviews = (reviews) => {
+    const seen = new Set();
+    return reviews.filter((review) => {
+        if (seen.has(review.review_id)) {
+            return false;
         }
-        if (activeTab === "내후기") {
-            return review.type === "mine";
-        }
-        return false;
+        seen.add(review.review_id);
+        return true;
     });
+};
+  // 탭별로 필터링된 리뷰 가져오기
+  const filteredReviews = useMemo(() => {
+    switch (activeTab) {
+        case "전체":
+            return uniqueReviews(reviews); // 중복 제거 후 모든 리뷰 표시
+        case "판매자후기":
+            return reviews.filter(
+                (review) =>
+                    review.type === "seller" && review.member_id !== Number(user?.member_id)
+            );
+        case "구매자후기":
+            return reviews.filter(
+                (review) =>
+                    review.type === "buyer" && review.member_id !== Number(user?.member_id)
+            );
+        case "내후기":
+            return reviews.filter(
+                (review) =>
+                    review.type === "mine" && review.member_id === Number(user?.member_id)
+            );
+        default:
+            return [];
+    }
+}, [activeTab, reviews, user]);
 
-    // 상점 평점(전체 후기)의 평균 계산 (선택 사항)
-    const averageRating = useMemo(() => {
-        if (reviews.length === 0) return 0;
-        const sum = reviews.reduce((acc, cur) => acc + cur.rating, 0);
-        return (sum / reviews.length).toFixed(1);
-    }, [reviews]);
+useEffect(() => {
+    console.log("멤버아이디확인", user?.member_id);
+    console.log("전체 리뷰 데이터 확인:", reviews);
+}, [activeTab]);
 
-    // 모달 팝업창 ( 리뷰 쓰는 곳)
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [rating, setRating] = useState(0); // 별점 상태
-    const [images, setImages] = useState([]); // 이미지 상태
-    const [selectedImage, setSelectedImage] = useState(null);
 
-    // 모달 열기
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
+const buyerAverageRating = useMemo(() => {
+    const buyerReviews = filteredReviews.filter((review) => review.type === "buyer");
+    if (buyerReviews.length === 0) return 0;
 
-    // 모달 닫기 (상태 초기화)
-    const closeModal = () => {
-        setIsModalOpen(false);  // 모달 닫기
-        setRating(0);           // 별점 초기화
-        setImages([]);          // 이미지 초기화
-        setSelectedImage(null); // 선택된 이미지 초기화
-    };
+    const sum = buyerReviews.reduce((acc, cur) => acc + cur.rate, 0);
+    return (sum / buyerReviews.length).toFixed(1);
+}, [reviews]);
 
-    // 별점 기능 추가
-    const handleRating = (index) => {
-        setRating(index + 1); // 클릭된 별까지 색칠 됩니다다
-    };
+const sellerAverageRating = useMemo(() => {
+    const sellerReviews = filteredReviews.filter((review) => review.type === "seller");
+    if (sellerReviews.length === 0) return 0;
 
-    // 이미지 업로드
-    const handleImageUpload = (event) => {
-        const files = Array.from(event.target.files);
-        const imageUrls = files.map((file) => URL.createObjectURL(file));
-        setImages([...images, ...imageUrls]);
-    };
+    const sum = sellerReviews.reduce((acc, cur) => acc + cur.rate, 0);
+    return (sum / sellerReviews.length).toFixed(1);
+}, [reviews]);
 
-    // 이미지 상세 모달 열기
-    const openImageModal = (image) => {
-        setSelectedImage(image);
-    };
+const overallAverageRating = useMemo(() => {
+    if (filteredReviews.length === 0) return 0;
 
-    // 이미지 상세 모달 닫기
-    const closeImageModal = () => {
-        setSelectedImage(null);
-    };
+    const sum = filteredReviews.reduce((acc, cur) => acc + cur.rate, 0);
+    return (sum / filteredReviews.length).toFixed(1);
+}, [reviews]);
 
-    // 이미지 삭제
-    const deleteImage = (index) => {
-        setImages(images.filter((_, i) => i !== index));
-    };
+const myReviewsAverageRating = useMemo(() => {
+    const myReviews = filteredReviews.filter((review) => review.member_id === Number(user?.member_id));
+    if (myReviews.length === 0) return 0;
+
+    const sum = myReviews.reduce((acc, cur) => acc + cur.rate, 0);
+    return (sum / myReviews.length).toFixed(1);
+}, [reviews, user]);
+
+
+
+// 중복 검사 없이 각 탭 조건에 따라 독립적으로 데이터 유지
+
+      // 로딩 상태 표시
+      if (isLoading) {
+        return <p>로딩 중...</p>;
+    }
+
+// 별점 렌더링 함수 수정
+const renderStars = (rating) => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+        stars.push(
+            <span
+                key={i}
+                className={`star ${i <= rating ? 'filled' : ''}`}
+            >
+                ★
+            </span>
+        );
+    }
+    return stars;
+};
+
 
     return (
         <div className='myPageReviews'>
@@ -152,8 +168,7 @@ function Page(props) {
                                 <h3>거래 후기</h3>
                             </div>
                         </div>
-                        {/* 타이틀 끝 */}
-                        {/* 탭 영역역 */}
+                        {/* 탭 영역 */}
                         <div className='purchase_list sell history'>
                             <div>
                                 <div className='sell history'>
@@ -164,8 +179,8 @@ function Page(props) {
                                             onClick={() => handleTabClick('전체')}>
                                             <a href="#" className='tab_link'>
                                                 <dl className='tab_box'>
-                                                    <dd className='count'>{averageRating}</dd>
-                                                    <dt className='title'>상점 평점</dt>
+                                                    <dd className='count'>{overallAverageRating}</dd>
+                                                    <dt className='title'>전체</dt>
                                                 </dl>
                                             </a>
                                         </div>
@@ -176,7 +191,7 @@ function Page(props) {
                                             onClick={() => handleTabClick('판매자후기')}>
                                             <a href="#" className='tab_link'>
                                                 <dl className='tab_box'>
-                                                    <dd className='count'>{sellerCount}</dd>
+                                                    <dd className='count'>{sellerAverageRating}</dd>
                                                     <dt className='title'>판매자 후기</dt>
                                                 </dl>
                                             </a>
@@ -188,17 +203,19 @@ function Page(props) {
                                             onClick={() => handleTabClick('구매자후기')}>
                                             <a href="#" className='tab_link'>
                                                 <dl className='tab_box'>
-                                                    <dd className='count'>{buyerCount}</dd>
+                                                    <dd className='count'>{buyerAverageRating}</dd>
                                                     <dt className='title'>구매자 후기</dt>
                                                 </dl>
                                             </a>
                                         </div>
+
                                         {/* 내 후기 탭 */}
-                                        <div className={`tab_item ${activeTab === '내후기' ? 'tab_on' : ''}`}
+                                        <div
+                                            className={`tab_item ${activeTab === '내후기' ? 'tab_on' : ''}`}
                                             onClick={() => handleTabClick('내후기')}>
                                             <a href="#" className='tab_link'>
                                                 <dl className='tab_box'>
-                                                    <dd className='count'>{mineCount}</dd>
+                                                    <dd className='count'>{myReviewsAverageRating}</dd>
                                                     <dt className='title'>내 후기</dt>
                                                 </dl>
                                             </a>
@@ -207,121 +224,55 @@ function Page(props) {
                                 </div>
                             </div>
                         </div>
-                        {/* 탭 영역 끝 */}
-
-                        {/* 실제 후기 리스트 */}
+                        {/* 후기 리스트 */}
                         <div>
                             {filteredReviews.map((item) => (
                                 <a
-                                    key={item.id}
+                                    key={item.review_id}
                                     href="#"
                                     className="purchase_list_display_item"
                                     style={{ backgroundColor: "rgb(255, 255, 255)" }}
                                 >
                                     <div className="purchase_list_product">
                                         <div className="list_item_img_wrap">
-                                            <img
+                                            {/* <img
                                                 alt="product_img"
                                                 src="/images/JH_myPageReviewImg.png"
                                                 className="list_item_img"
-                                            />
+                                            /> */}
+                                              {renderStars(item.rate)}
                                         </div>
                                         <div className="list_item_title_wrap">
-                                            <p className="list_item_price">{item.rating}</p>
+                                            <p className="list_item_price">{item.rate}</p>
+                                            <div className="list_item_img_wrap">
+                                        {item.file_url && (
+                                            <img
+                                            style={{width:'300px'}}
+                                                src={`http://localhost:8080${item.file_url}`}  //이미 /가 있어서 슬래시 없어야함..........
+                                                alt={item.file_name}
+                                                className="review-image"
+                                            />
+                                        )}
+                                    </div>
                                             <p className="list_item_title">{item.content}</p>
                                         </div>
                                     </div>
                                     <div className="list_item_status">
                                         <div className="list_item_column column_last">
                                             <p className="before_purchase_confirmation">
-                                                {item.writer} / {item.time}
+                                                {item.member_id} / {item.created_at}
                                             </p>
-                                            {/* 내 후기라면 표시 */}
-                                            {item.type === "mine" && (
-                                                <p
-                                                    className="text-lookup last_title display_paragraph"
-                                                    style={{ color: "rgb(34, 34, 34)" }}
-                                                >
-                                                    내 후기
-                                                </p>
-                                            )}
                                         </div>
                                     </div>
                                 </a>
                             ))}
-                            {/* 후기 없을 때 처리(선택 사항) */}
                             {filteredReviews.length === 0 && (
                                 <p className='nothing_at_all'>해당 카테고리에 후기가 없습니다.</p>
                             )}
-
                         </div>
                     </div>
                 </div>
             </div>
-            {/* 모달 팝업 */}
-            {isModalOpen && (
-                <div className="review_modal-overlay">
-                    <div className="review_modal-content">
-                        <button className="close-btn" onClick={closeModal}>&times;</button>
-                        <h3>리뷰 작성</h3>
-                        <div className="rating">
-                            {Array(5)
-                                .fill(0)
-                                .map((_, index) => (
-                                    <span
-                                        key={index}
-                                        onClick={() => handleRating(index)}
-                                        style={{
-                                            cursor: "pointer",
-                                            fontSize: "2rem",
-                                            color: index < rating ? "gold" : "lightgray",
-                                        }}>★</span>
-                                ))}
-                        </div>
-                        <textarea placeholder="판매자에게 전하고 싶은 후기를 남겨주세요." rows="5"></textarea>
-                        {/* 사진 추가 영역 */}
-                        <div className="image-upload" style={{ textAlign: 'left' }}>
-                            <label htmlFor="fileInput" style={{ textAlign: 'left' }}>사진 추가</label>
-                            <input
-                                type="file"
-                                id="fileInput"
-                                multiple
-                                accept="image/*"
-                                onChange={handleImageUpload}
-                            />
-                        </div>
-
-                        {/* 사진 미리보기 */}
-                        <div className="image-preview" style={{ textAlign: 'left' }}>
-                            {images.map((image, index) => (
-                                <div key={index} className="image-container">
-                                    <img
-                                        src={image}
-                                        alt={`uploaded-${index}`}
-                                        onClick={() => openImageModal(image)}
-                                    />
-                                    <button className="delete-btn" onClick={() => deleteImage(index)}>&times;</button>
-                                </div>
-                            ))}
-                        </div>
-                        {/* 모달 하단 버튼 */}
-                        <div className="modal-actions">
-                            <button className="cancel-btn" onClick={closeModal}>취소</button>
-                            <button className="submit-btn">작성하기</button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* 상세 이미지 모달 */}
-            {selectedImage && (
-                <div className="image-modal-overlay" onClick={closeImageModal}>
-                    <div className="image-modal-content">
-                        <span className="image-modal-close" onClick={closeImageModal}> &times; </span>
-                        <img src={selectedImage} alt="Detailed View" />
-                    </div>
-                </div>
-            )}
         </div>
     );
 }

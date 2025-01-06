@@ -13,8 +13,8 @@ function Page(props) {
         {
             id: 1,
             bank_name: "카카오뱅크",
-            account_number: "3333000000000",
-            account_holder_name: "홍길동",
+            account_number: "3333096133333",
+            account_holder_name: "전영빈",
         },
     ]);
 
