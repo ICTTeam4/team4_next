@@ -322,8 +322,12 @@ const saleDetail = () => {
                     ? "택배거래"
                     : ""}
             </span></div>
-            <div>배송비 <br /> <span className='tradeTitle'>포함</span></div>
-            <div className='safeDeal'>안전거래 <br /> <span className='tradeTitle'>사용</span></div>
+            <div
+            style={{borderRight: "none"}}
+            >배송비 <br /> <span 
+            className='tradeTitle'
+            
+            >포함</span></div>
           </div>
           <div id="interaction-area">
             {isBookMarkOpen ? <Image src="/images/David_bookmark-black.png" onClick={closeBookMark} width={33} height={30} className="bookmark" id="bookmark" /> :

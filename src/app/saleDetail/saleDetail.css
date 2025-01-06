@@ -163,7 +163,7 @@ display: inline-flexbox;
   display: grid;
   padding: 30px 0px;
   width: 100%;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   border: 1px solid gainsboro;
   border-radius: 10px;
 }
