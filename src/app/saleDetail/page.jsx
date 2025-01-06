@@ -20,6 +20,7 @@ const saleDetail = () => {
   const [detail, setDetail] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [sellerData, setSellerData] = useState(null);
   // 모달, 슬라이드 패널 등
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isBookMarkOpen, setIsBookMarkOpen] = useState(false);
@@ -32,6 +33,8 @@ const saleDetail = () => {
   const id = searchParams.get("id");
   // API 경로
   const API_URL = `http://localhost:8080/api/salespost/upviewcount`;
+
+
   useEffect(() => {
     console.log(">>> useEffect 실행됨");
     if (!id) return;
@@ -80,6 +83,23 @@ const saleDetail = () => {
         });
     }
   }, [id]);
+
+  3.// 판매고객 조회
+  useEffect(() => {
+  const getSellerData = async () => {
+    try {
+      console.log(id);
+      const response = await axios.get(`http://localhost:8080/members/getpostmemberdetail?pwr_id=${id}`);
+      setSellerData(response.data.data);
+      console.log("주문고객 데이터 조회 완료:", response.data.data);
+    } catch (error) {
+      console.error("주문고객 데이터 조회 실패:", error);
+      setError("주문고객 데이터 조회에 실패했습니다.");
+    }
+  }
+  getSellerData();
+
+}, [id]);
 
   // 휘주 지도 내용 시작
   useEffect(() => {
@@ -313,8 +333,12 @@ const saleDetail = () => {
                     ? "택배거래"
                     : ""}
             </span></div>
-            <div>배송비 <br /> <span className='tradeTitle'>포함</span></div>
-            <div className='safeDeal'>안전거래 <br /> <span className='tradeTitle'>사용</span></div>
+            <div
+            style={{borderRight: "none"}}
+            >배송비 <br /> <span 
+            className='tradeTitle'
+            
+            >포함</span></div>
           </div>
           <div id="interaction-area">
             {isBookMarkOpen ? <Image src="/images/David_bookmark-black.png" onClick={closeBookMark} width={33} height={30} className="bookmark" id="bookmark" /> :
@@ -350,7 +374,7 @@ const saleDetail = () => {
           <div className="sellerContainer">
             <div className="sellerProfile">
               <div className="sellerNickname">
-                <Link href="/salepage" className='sellerFont'>판매자 닉네임</Link>
+                <Link href="/salepage" className='sellerFont'>{sellerData?.nickname || '로딩 중...'}</Link>
               </div>
               <Link href="/salepage">
                 <div className="sellerImg" ></div>
@@ -360,29 +384,6 @@ const saleDetail = () => {
               <div>안전거래 수 <br /> <span className='tradeTitle'>2</span></div>
               <div>거래 후기 수 <br /> <span className='tradeTitle'>10</span></div>
             </div>
-            {/* <div className="sellerRecent">
-              <div className="sellerGoods">
-                <Link href="/saleDetail/test">
-                  <div className="sellerGoodsImg"></div>
-                  <div className="sellerGoodsTitle">제목</div>
-                  <div className="sellerGoodsPrice">가격</div>
-                </Link>
-              </div>
-              <div className="sellerGoods">
-                <Link href="/saleDetail">
-                  <div className="sellerGoodsImg"></div>
-                  <div className="sellerGoodsTitle">제목</div>
-                  <div className="sellerGoodsPrice">가격</div>
-                </Link>
-              </div>
-              <div className="sellerGoods">
-                <Link href="/saleDetail">
-                  <div className="sellerGoodsImg"></div>
-                  <div className="sellerGoodsTitle">제목</div>
-                  <div className="sellerGoodsPrice">가격</div>
-                </Link>
-              </div>
-            </div> */}
           </div>
         </div>
         <div className="relatedGoods">

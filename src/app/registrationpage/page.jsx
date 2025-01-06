@@ -55,7 +55,7 @@ function ProductPage() {
 
   
   const [formData, setFormData] = useState({
-    member_id: '1',
+    member_id: user.member_id,
     selling_area_id: '',
     title: '',
     sell_price: '',
@@ -357,8 +357,8 @@ const getPosition = async (address) => {
         )}
       </div>
    
-      <input type="text" className="price" placeholder="가격" onChange={handleChange} value={formData.sell_price} name="sell_price" />
-      <textarea className="product-explain" placeholder="상품 설명" onChange={handleChange} value={formData.description} name="description" ></textarea>
+      <input type="text" className="price" placeholder="배송비를 포함한 가격을 입력해 주세요." onChange={handleChange} value={formData.sell_price} name="sell_price" />
+      <textarea className="product-explain" placeholder="상품설명" onChange={handleChange} value={formData.description} name="description" ></textarea>
       <p style={{ textAlign: "left" }}>  *  선호하는 직거래 위치</p>
       <div className="location">
         <input type="text" placeholder="  우편 번호를 입력하세요" onChange={handleChange} value={formData.selling_area_id} name="selling_area_id"  />
