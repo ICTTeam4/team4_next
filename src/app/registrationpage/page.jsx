@@ -12,8 +12,8 @@ function ProductPage() {
   const [images, setImages] = useState([]);
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
-  const [isDeliveryTransaction, setIsDeliveryTransaction] = useState();
-  const [isInPersonTransaction, setIsInPersonTransaction] = useState();
+  const [isDeliveryTransaction, setIsDeliveryTransaction] = useState(false);
+  const [isInPersonTransaction, setIsInPersonTransaction] = useState(false);
   const [zipCode, setZipcode] = useState();
   const [addressInput, setAddressInput] = useState();
   const [uploadImages, setuploadImages] = useState([]);
@@ -55,7 +55,7 @@ function ProductPage() {
 
   
   const [formData, setFormData] = useState({
-    member_id: '1',
+    member_id: user.member_id,
     selling_area_id: '',
     title: '',
     sell_price: '',
@@ -136,7 +136,7 @@ function ProductPage() {
   const handleSubmit = async () => {
     const API_URL = `http://localhost:8080/api/salespost/salesinsert`;
     const data = new FormData();
-    data.append("member_id", user.member_id);
+    data.append("member_id", formData.member_id);
     data.append("selling_area_id", formData.selling_area_id);
     data.append("title", formData.title);
     data.append("sell_price", formData.sell_price);
@@ -147,6 +147,7 @@ function ProductPage() {
     data.append("is_delivery", isDeliveryTransaction);
     data.append("longitude", longitude);
     data.append("latitude", latitude);
+    console.log("폼데이터 정보 확인 : " + data);
 
     if (images.length >= 1) {
       for (let i = 0; i < images.length; i++) {
@@ -168,6 +169,7 @@ function ProductPage() {
         }
       );
         if (response.data.success) {
+          console.log("success 체크중");
             alert(response.data.message);
             router.push("/");
         } else {
@@ -259,11 +261,7 @@ const getPosition = async (address) => {
 
   return (
     <>
-       <Script
-        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fc85670f51b33ffbe7bd5977d1bc043c&libraries=services"
-        strategy="afterInteractive"
-        onLoad={() => console.log("Kakao Maps SDK Loaded")}
-      />       
+             
       <Script
                 src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
                 strategy='afterInteractive'
@@ -359,8 +357,8 @@ const getPosition = async (address) => {
         )}
       </div>
    
-      <input type="text" className="price" placeholder="가격" onChange={handleChange} value={formData.sell_price} name="sell_price" />
-      <textarea className="product-explain" placeholder="상품 설명" onChange={handleChange} value={formData.description} name="description" ></textarea>
+      <input type="text" className="price" placeholder="배송비를 포함한 가격을 입력해 주세요." onChange={handleChange} value={formData.sell_price} name="sell_price" />
+      <textarea className="product-explain" placeholder="상품설명" onChange={handleChange} value={formData.description} name="description" ></textarea>
       <p style={{ textAlign: "left" }}>  *  선호하는 직거래 위치</p>
       <div className="location">
         <input type="text" placeholder="  우편 번호를 입력하세요" onChange={handleChange} value={formData.selling_area_id} name="selling_area_id"  />
@@ -372,7 +370,6 @@ const getPosition = async (address) => {
             <input
               id="check1-delivery"
               type="checkbox"
-              name=""
               className="blind"
               checked={isDeliveryTransaction}
               onChange={(e) => setIsDeliveryTransaction(e.target.checked)}
@@ -404,7 +401,6 @@ const getPosition = async (address) => {
             <input
               id="check1-inperson"
               type="checkbox"
-              name=""
               className="blind"
               checked={isInPersonTransaction}
               onChange={(e) => setIsInPersonTransaction(e.target.checked)}

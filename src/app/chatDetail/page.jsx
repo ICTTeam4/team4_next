@@ -7,8 +7,10 @@ import ChatBlock from './chatBlock/page';
 import ChatReport from './chatReport/page';
 import ChatCheck from './chatCheck/page';
 import { useRouter } from 'next/navigation';
+import useAuthStore from '../../../store/authStore';
 
 const Page = ({ room_id, host_id, closeChat, closeDetail }) => {
+  const {user} = useAuthStore();
   const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfilePopupOpen, setIsProfilePopupOpen] = useState(false);
