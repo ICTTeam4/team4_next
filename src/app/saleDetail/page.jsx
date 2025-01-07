@@ -63,6 +63,7 @@ const saleDetail = () => {
   useEffect(() => {
     // 서버 사이드 렌더링 방지
     if (typeof window === 'undefined') return;
+
     if (!id) return;
 
     // localStorage에서 "이미 뷰 카운트를 올린 적이 있는지" 체크
@@ -292,7 +293,7 @@ const saleDetail = () => {
           <div className="salesInfo">
             <div className="itemName">
               <div className="item"> <span className='goodsName' >{detail.title}</span> </div>
-              <Image src="/images/David_share.png" onClick={openShare} width={50} height={50} className="share" />
+              <Image src="/images/David_share.png" alt="이미지" onClick={openShare} width={50} height={50} className="share" />
             </div>
             <div className="itemPrice"><span className='infoTitle priceInfo'>{Number(detail.sell_price).toLocaleString()}원</span></div>
             <div className="detailData"><div>{formatTimeAgo(detail.created_at)}</div>
@@ -314,11 +315,11 @@ const saleDetail = () => {
             <div> 제품상태 <br /> <span className='tradeTitle'>중고</span></div>
             <div>거래방식 <br /> <span
               className='tradeTitle'>
-              {detail.is_direct === "1" && detail.is_delivery === "1"
+              {String(detail.is_direct) === "1" && String(detail.is_delivery) === "1"
                 ? "직거래 / 택배거래"
-                : detail.is_direct === "1"
+                : String(detail.is_direct) === "1"
                   ? "직거래"
-                  : detail.is_delivery === "1"
+                  : String(detail.is_delivery) === "1"
                     ? "택배거래"
                     : ""}
             </span></div>
@@ -330,8 +331,8 @@ const saleDetail = () => {
             >포함</span></div>
           </div>
           <div id="interaction-area">
-            {isBookMarkOpen ? <Image src="/images/David_bookmark-black.png" onClick={closeBookMark} width={33} height={30} className="bookmark" id="bookmark" /> :
-              <Image src="/images/David_bookmark-white.png" onClick={openBookMark} width={30} height={30} className="bookmark" id="bookmark" />}
+            {isBookMarkOpen ? <Image src="/images/David_bookmark-black.png" alt="이미지" onClick={closeBookMark} width={33} height={30} className="bookmark" id="bookmark" /> :
+              <Image src="/images/David_bookmark-white.png" alt="이미지" onClick={openBookMark} width={30} height={30} className="bookmark" id="bookmark" />}
             <div className={`purchase ${isBlurNeeded ? 'disabled' : ''}`}
               onClick={isBlurNeeded ? null : openAlert}>
               구매하기
@@ -356,7 +357,7 @@ const saleDetail = () => {
             <span className='infoTitle'>
               <Link href="/salepage" className='infoTitle'>판매자 정보</Link></span>
             <Link href="/salepage">
-              <Image src="/images/David_arrow.png" className='navigation' width="20" height="20" />
+              <Image src="/images/David_arrow.png" alt="이미지" className='navigation' width="20" height="20" />
             </Link>
           </div>
           {/* <hr className='hr' /> */}
