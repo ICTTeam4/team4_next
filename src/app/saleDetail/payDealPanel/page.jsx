@@ -57,7 +57,7 @@ function CustomPage({ nextButton, setNextButton, data }) {
 
     useEffect(() => {
       if (payUrl) {
-        window.location.href = payUrl; // payUrl이 설정되면 자동으로 리디렉션 .  카카오페이용 
+        window.location.href = payUrl; // payUrl이 설정되면 자동으로 리디렉션 .  카카오페이용 gettransdetails
       }
     }, [payUrl]); // payUrl이 변경될 때마다 실행
 
