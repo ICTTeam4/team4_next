@@ -25,6 +25,7 @@ function Page(props) {
     const LOCAL_API_BASE_URL = "http://localhost:8080/api";
     const [purchases, setPurchases] = useState([]); // 구매 내역 데이터 상태
     const [selectedPwrId, setSelectedPwrId] = useState(null);
+    const [reviewedPwrIds, setReviewedPwrIds] = useState([]); // 리뷰된 pwr_id 상태
     const member_id = user.member_id;
     const [loading, setLoading] = useState(true); // 로딩 상태
     const [error, setError] = useState(null); // 에러 상태
@@ -37,7 +38,7 @@ function Page(props) {
         }
     }, [pathname]);
 
-    
+
     // DB에서 데이터 가져오기
     useEffect(() => {
         const fetchPurchases = async () => {
@@ -63,11 +64,23 @@ function Page(props) {
                 console.error("데이터 가져오기 중 오류 발생:", error);
             }
         };
-
+        fetchPurchases();
         if (user.member_id) {
-            fetchPurchases(); // 사용자 ID가 있을 때만 데이터 가져오기
         }
     }, [user]);
+
+    // DB에서 리뷰된 pwr_id 가져오기
+    const fetchReviewedPwrIds = async () => {
+        try {
+            const response = await axios.get(`${LOCAL_API_BASE_URL}/HayoonReview/getreviewpwr`);
+            if (response.status === 200) {
+                setReviewedPwrIds(response.data.data); // 리뷰된 pwr_id 상태 업데이트
+                console.log(reviewedPwrIds);
+            }
+        } catch (error) {
+            console.error("리뷰된 pwr_id 가져오기 중 오류:", error);
+        }
+    };
 
     const handleRating = (index) => setRating(index + 1);
     const handleReviewTextChange = (event) => setReviewText(event.target.value);
@@ -163,6 +176,7 @@ function Page(props) {
             if (response.data.success) {
                 alert('리뷰 등록에 성공했습니다.');
                 setIsModalOpen(false);
+                window.location.reload(); // 페이지 새로고침
             } else {
                 alert('리뷰 등록에 실패했습니다.');
             }
@@ -203,6 +217,17 @@ function Page(props) {
         }
     };
 
+       // 초기 데이터 로드
+       useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            await Promise.all([fetchReviewedPwrIds()]);
+            setLoading(false);
+        };
+        fetchData();
+    }, []);
+
+    if (loading) return <p>로딩 중...</p>;
     // if (error) return <p>{error}</p>;
     return (
 
@@ -317,7 +342,7 @@ function Page(props) {
                                                                 </a>
                                                             )}
                                                             {/* '구매 완료' 상태일 때만 '후기 남기기' 버튼 표시 */}
-                                                            {item.is_fixed === '1' && (
+                                                            {item.is_fixed === '1' && !reviewedPwrIds.includes(item.pwr_id) && (
                                                                 <button
                                                                     className="review-btn"
                                                                     style={{ textAlign: 'right' }}
@@ -326,7 +351,10 @@ function Page(props) {
                                                                     후기 남기기
                                                                 </button>
                                                             )}
-
+                                                            {/* 후기 작성 완료 상태 표시 */}
+                                                            {reviewedPwrIds.includes(item.pwr_id) && (
+                                                                <p className="review-status">후기 작성 완료</p>
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </div>
