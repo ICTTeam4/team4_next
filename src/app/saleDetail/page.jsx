@@ -12,11 +12,14 @@ import NaverPay from '../payments/naverPay/page';
 import TossPay from '../payments/tossPay/page';
 import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
+import useAuthStore from '../../../store/authStore';
 import ReactDOMServer from "react-dom/server";
 import CustomOverlay from "../components/CustomOverlay";
 import WeatherSection from '../components/WeatherSection';
 
+
 const saleDetail = () => {
+  const {user} = useAuthStore()
   const searchParams = useSearchParams();
   // 상태 관리
   const [data, setData] = useState(null);
@@ -32,9 +35,9 @@ const saleDetail = () => {
   const [isMapOpen, setIsMapOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [payButtonLevel, setPayButtonLevel] = useState(0);  // 결제 단계 관리
+  const [member_id, setMember_id] = useState(null);
   const [latitude, setLatitude] = useState(null); // 날씨용
   const [longitude, setLongitude] = useState(null); // 날씨용
-
 
   // URL 파라미터 (id)
   const id = searchParams.get("id");
@@ -346,6 +349,76 @@ const saleDetail = () => {
   // 휘주 날씨 끝
 
 
+
+
+  //북마크 누를 시 찜 이동 (영빈)
+
+  useEffect(() => {
+    const fetchBookmarkStatus = async () => {
+      if (!user?.member_id || !detail?.id) return;
+
+      try {
+        const response = await axios.get(`http://localhost:8080/api/wishlist/check`, {
+          params: { memberId: user.member_id, pwr_id: detail.id },
+        });
+        setIsBookMarkOpen(response.data);
+      } catch (error) {
+        console.error("찜 상태 확인 중 오류:", error);
+      }
+    };
+
+    if (detail?.id) fetchBookmarkStatus();
+  }, [user?.member_id, detail?.id]);
+
+
+
+  const handleBookmarkToggle = async () => {
+    console.log("Handle bookmark toggle...");
+    console.log("member_id:", user?.member_id); // 추가
+    console.log("pwr_id:", detail?.pwr_id);        // 추가
+  
+    if (!user?.member_id) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+  
+    try {
+      if (isBookMarkOpen) {
+        // 이미 찜한 상태 -> 찜 취소 요청
+        await axios.delete(`http://localhost:8080/api/wishlist/delete`, {
+          data: {
+            member_id: user.member_id,
+            pwr_id: detail.pwr_id,
+          },
+          headers: { "Content-Type": "application/json" },
+        });
+        alert("찜이 취소되었습니다.");
+      } else {
+        // 찜하지 않은 상태 -> 찜하기 요청
+        await axios.post(`http://localhost:8080/api/wishlist/add`, {
+           member_id: user.member_id,
+           pwr_id: detail.pwr_id,
+           
+        }, {
+          headers: { "Content-Type": "application/json" },
+        });
+        alert("찜이 완료되었습니다.");
+      }
+  
+      // 상태 토글
+      setIsBookMarkOpen(!isBookMarkOpen);
+    } catch (error) {
+      console.error("찜 상태 변경 중 오류:", error);
+      alert("찜 상태 변경 중 문제가 발생했습니다.");
+    }
+  };
+  
+
+
+
+
+//북마크 끝
+
   // 로딩/에러 처리
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>오류 발생: {error}</div>;
@@ -499,12 +572,27 @@ const saleDetail = () => {
             >포함</span></div>
           </div>
           <div id="interaction-area">
-            {isBookMarkOpen ? <Image src="/images/David_bookmark-black.png" alt="이미지" onClick={closeBookMark} width={33} height={30} className="bookmark" id="bookmark" /> :
-              <Image src="/images/David_bookmark-white.png" alt="이미지" onClick={openBookMark} width={30} height={30} className="bookmark" id="bookmark" />}
-            <div className={`purchase ${isBlurNeeded ? 'disabled' : ''}`}
-              onClick={isBlurNeeded ? null : openAlert}>
-              구매하기
-            </div>
+          {isBookMarkOpen ? (
+                  <Image
+                  src="/images/David_bookmark-black.png"
+                  onClick={handleBookmarkToggle}
+                  width={30}
+                  height={30}
+                  className="bookmark"
+                  alt="찜됨"
+                />
+                  ) : (
+                    <Image
+              src="/images/David_bookmark-white.png"
+              onClick={handleBookmarkToggle}
+              width={30}
+              height={30}
+              className="bookmark"
+              alt="찜 안됨"
+            />
+                  )}
+            <div className="purchase" onClick={openAlert}>구매하기</div>
+
             <div className="chatting" onClick={openChatPanel}>채팅하기</div>
           </div>
           <div
