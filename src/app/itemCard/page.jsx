@@ -1,8 +1,7 @@
-import Image from 'next/image';
 import Link from 'next/link';
-import './itemCard.css';
+import styles from './Page.module.css'; // CSS 모듈 임포트
 
-const Page = ({ index, data }) => {
+const Page = ({ data }) => {
   console.log("ItemCard 데이터:", data);
 
   
@@ -28,6 +27,11 @@ const Page = ({ index, data }) => {
       return `${days}일 전`;
     }
   }
+
+  const isBlurNeeded =
+    data.status === '판매완료';
+  console.log(data.status);
+
   return (
     <>
       <Link
@@ -40,24 +44,29 @@ const Page = ({ index, data }) => {
 
         }}
       >
-        <div className="product_card_container">
-          <div className='product_img'>
+        <div className={styles.product_card_container}>
+          {/* 이미지 영역 */}
+          <div className={styles.product_img} >
             <img
               src={`http://localhost:8080/images/${data.fileList[0]?.fileName}`}
               alt="판매 아이콘"
               style={{ borderRadius: '12px' }}
+              className={isBlurNeeded ? styles.blur_image : ''}
             />
-
+            {isBlurNeeded && (
+              <div className={styles.statusOverlay}>
+                {data.status}
+              </div>
+            )}
           </div>
-          <div className='product_info'>
-            <div className='info_top'>
-              <span className='item_com'>{data.name}</span>
-              <p className='item_title'>{data.title}</p>
+          <div className={styles.product_info}>
+            <div className={styles.info_top}>
+              <span className={styles.item_com}>{data.name}</span>
+              <p className={styles.item_title}>{data.title}</p>
             </div>
-            <div className='info_bottom'>
-              <span className='price_font'>{Number(data.sell_price).toLocaleString()}원</span>
-              <p className='date_font'>{formatTimeAgo(data.created_at)}</p>
-              
+            <div className={styles.info_bottom}>
+              <span className={styles.price_font}>{Number(data.sell_price).toLocaleString()}원</span>
+              <p className={styles.date_font}>{formatTimeAgo(data.created_at)}</p>
             </div>
           </div>
         </div>

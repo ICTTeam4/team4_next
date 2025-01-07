@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import './salesImgSlider.css'
 
-function page({fileName}) {
+function page({data}) {
 
-  const decodeFileName = decodeURIComponent(fileName);
-  console.log(decodeFileName);
-  const mainImage = `http://localhost:8080/images/${fileName}`;
+  const mainImage = `http://localhost:8080/images/`;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const images = [ mainImage ];
+  const images = data.fileList.map((file)=> {
+    return mainImage+file.fileName;
+  });
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);

@@ -53,7 +53,7 @@ const useAuthStore = create(
             },
             resetKeyword: () => {
                 set({ searchKeyword: "" });
-                localStorage.removeItem("auth-storage");
+                // localStorage.removeItem("auth-storage");    //로그인풀리는문제 수정
             },
 
 

@@ -116,9 +116,11 @@ function Page(props) {
         }
     };
 
+
     useEffect(() => {
         if (user && user.email) {
             fetchUserData(); // 유저가 유효할 경우 데이터 가져오기
+
         } else {
             console.error("로그인이 필요합니다.");
         }
