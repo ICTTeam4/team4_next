@@ -14,13 +14,35 @@ function Page(props) {
 
     const [isEditing, setIsEditing] = useState(false); // 프로필 변경 상태 관리
     const [editingField, setEditingField] = useState(null); // 현재 수정 중인 필드
-    const [profileName, setProfileName] = useState(localStorage.getItem("profileName") || user?.nickname || "사용자 닉네임"); // 로컬스토리지에서 가져옴
-    const [userName, setUserName] = useState(localStorage.getItem("userName") || user?.name || "사용자 이름"); // 로컬스토리지에서 가져옴
-    const [profileImage, setProfileImage] = useState(localStorage.getItem("profileImage") || user?.profile_image || "/images/JH_userImg.png"); // 로컬스토리지에서 가져옴
+    
+    // const [profileName, setProfileName] = useState(localStorage.getItem("profileName") || user?.nickname || "사용자 닉네임"); // 로컬스토리지에서 가져옴
+    //const [userName, setUserName] = useState(localStorage.getItem("userName") || user?.name || "사용자 이름"); // 로컬스토리지에서 가져옴
+    //const [profileImage, setProfileImage] = useState(localStorage.getItem("profileImage") || user?.profile_image || "/images/JH_userImg.png"); // 로컬스토리지에서 가져옴
+    const [profileName, setProfileName] = useState(user?.nickname || "사용자 닉네임"); // 초기값 설정
+    const [userName, setUserName] = useState(user?.name || "사용자 이름");
+    const [profileImage, setProfileImage] = useState(user?.profile_image || "/images/JH_userImg.png");    
 
     const profileNameInputRef = useRef(null);
     const userNameInputRef = useRef(null);
     const fileInputRef = useRef(null); // 파일 입력 ref 추가
+
+
+    useEffect(() => {
+        if (user) {
+            // 로그인한 사용자의 상태에 따라 닉네임 초기화
+            setProfileName(user.nickname || "사용자 닉네임");
+            setUserName(user.name || "사용자 이름");
+             //setProfileImage(user.profile_image || "/images/JH_userImg.png");
+             if (user.profile_image) {
+                setProfileImage(user.profile_image.startsWith("http")
+                    ? user.profile_image // 절대 경로 그대로 사용
+                    : `${API_BASE_URL}${user.profile_image}`); // 상대 경로 처리
+            } else {
+                setProfileImage("/images/JH_userImg.png"); // 기본 이미지
+            }
+        }
+    }, [user]); // user 상태가 변경될 때 실행
+    
 
     // 로컬 스토리지에 데이터 저장 함수
     const saveToLocalStorage = (key, value) => {
@@ -49,7 +71,7 @@ function Page(props) {
                 });
 
                 if (response.status === 200 && response.data.status === "success") {
-                    saveToLocalStorage("profileName", profileName); // 로컬스토리지에 저장
+                    // saveToLocalStorage("profileName", profileName); // 로컬스토리지에 저장
                     login({ ...user, nickname: profileName }, user.token); // Zustand 상태 업데이트
                     alert("닉네임이 성공적으로 변경되었습니다.");
                 } else {
@@ -135,8 +157,12 @@ function Page(props) {
             });
 
             if (response.data.status === "success") {
-                const imageUrl = `${response.data.imageUrl}`;
-                saveToLocalStorage("profileImage", imageUrl);
+                const imageUrl = response.data.imageUrl.startsWith("http")
+                ? response.data.imageUrl
+                : `${API_BASE_URL}${response.data.imageUrl}`;
+
+
+
                 setProfileImage(imageUrl);
                 login({ ...user, profile_image: imageUrl }, user.token);
                 alert("프로필 이미지가 성공적으로 변경되었습니다.");
@@ -189,7 +215,12 @@ function Page(props) {
                             />
                             <div className='profile_thumb'>
                                 <img
-                                    src={`http://localhost:8080${profileImage}`}
+                                    //src={`http://localhost:8080${profileImage}`}
+                                    src={
+                                        profileImage.startsWith("http") // profileImage가 절대 경로인지 확인
+                                            ? profileImage // 이미 절대 경로라면 그대로 사용
+                                            : `${API_BASE_URL}${profileImage}` // 상대 경로라면 BASE_URL 추가
+                                    }
                                     alt="사용자 이미지"
                                     className="thumb_img"
                                 />
@@ -221,8 +252,8 @@ function Page(props) {
                                                 <input
                                                     ref={profileNameInputRef}
                                                     type="text"
-                                                    value={tempProfileName}
-                                                    onChange={(e) => setTempProfileName(e.target.value)}
+                                                    value={profileName}
+                                                    onChange={(e) => setProfileName(e.target.value)}
                                                     placeholder="나만의 프로필 이름"
                                                     autoComplete="off"
                                                     maxLength="25"
