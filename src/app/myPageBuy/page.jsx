@@ -15,6 +15,7 @@ function Page(props) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const [selectedItemId, setSelectedItemId] = useState(null);
+    const [detail, setDetail] = useState(null);
     const [reviewText, setReviewText] = useState('');
     const [rating, setRating] = useState(0);
     const [images, setImages] = useState([]);
@@ -23,8 +24,8 @@ function Page(props) {
     const { user } = useAuthStore();
     const LOCAL_API_BASE_URL = "http://localhost:8080/api";
     const [purchases, setPurchases] = useState([]); // 구매 내역 데이터 상태
-
-
+    const [selectedPwrId, setSelectedPwrId] = useState(null);
+    const member_id = user.member_id;
     const [loading, setLoading] = useState(true); // 로딩 상태
     const [error, setError] = useState(null); // 에러 상태
     useEffect(() => {
@@ -36,52 +37,19 @@ function Page(props) {
         }
     }, [pathname]);
 
-
-    // 구매 내역 데이터 상태
-    // const [purchases, setPurchases] = useState([
-    //     {
-    //         idx: 1,
-    //         trans_id: "aaa555",
-    //         name: "상품이름(글제목등..임시값)",
-    //         trans_price: "80,000원",
-    //         is_zup: "",
-    //         guest_id: "46",
-    //         host_id: "9",
-    //         pwr_id: "1",
-    //         is_fixed: "1",
-    //         trans_method: "택배거래",
-    //         item_image: "/images/JH_itemImg.png",
-    //         trans_date: "2025-01-02 00:00:00",
-    //     },
-    //     {
-    //         idx: 2,
-    //         trans_id: "bbb555",
-    //         name: "상품이름(글제목등..임시값)",
-    //         trans_price: "100,000원",
-    //         is_zup: "",
-    //         guest_id: "9",
-    //         host_id: "46",
-    //         pwr_id: "2",
-    //         is_fixed: "0",
-    //         trans_method: "직거래",
-    //         item_image: "/images/JH_itemImg2.png",
-    //         trans_date: "2025-01-02 12:00:00",
-    //     },
-    // ]);
-    // 별점 기능 추가
-
+    
     // DB에서 데이터 가져오기
     useEffect(() => {
         const fetchPurchases = async () => {
             try {
-                console.log(user?.member_id);
+                console.log(user.member_id);
                 const token = localStorage.getItem('token'); // 토큰 가져오기
                 const response = await axios.get(`http://localhost:8080/api/transaction/HayoonSearchPurchase`, {
                     headers: {
                         Authorization: `Bearer ${token}`, // 인증 헤더 추가
                     },
                     params: {
-                        member_id: user?.member_id, // 사용자 ID 전달
+                        member_id: user.member_id, // 사용자 ID 전달
                     },
                 });
 
@@ -96,7 +64,7 @@ function Page(props) {
             }
         };
 
-        if (user?.member_id) {
+        if (user.member_id) {
             fetchPurchases(); // 사용자 ID가 있을 때만 데이터 가져오기
         }
     }, [user]);
@@ -112,10 +80,31 @@ function Page(props) {
     }
 
     // 모달 열기
-    const handleModalOpen = (type, itemId = null) => {
+    const handleModalOpen = (type, pwr_id) => {
         setModalType(type); // 모달 유형 설정
-        if (itemId) {
-            setSelectedItemId(itemId); // 선택된 아이템 ID 저장
+        console.log("pwr_id", pwr_id);
+        setSelectedPwrId(pwr_id);
+        if (pwr_id) {
+            console.log("아이템아이디2: ", pwr_id)
+            setSelectedItemId(pwr_id); // 선택된 아이템 ID 저장
+            /* seller_id 가져오기 */
+            const getData = async () => {
+                try {
+                    setLoading(true); // 로딩 상태 시작
+                    // (1) 서버에서 데이터 가져오기
+                    const response = await axios.get(`http://localhost:8080/api/transaction/gettransdetails?pwr_id=${pwr_id}`);
+                    console.log(response);
+                    const data = response.data.data;
+                    console.log(data);
+                    setDetail(data);
+                } catch (err) {
+                    console.error("Error fetching data:", err);
+                    setError(err.message);
+                } finally {
+                    setLoading(false); // 로딩 상태 종료
+                }
+            };
+            getData();
         }
         setIsModalOpen(true); // 모달 열기
     };
@@ -151,13 +140,15 @@ function Page(props) {
     };
 
     // 리뷰 제출
-    const handleSubmitReview = async (itemId) => {
+    const handleSubmitReview = async () => {
         setSubmitting(true);
         const formData = new FormData();
-        formData.append('member_id', user.member_id);
-        formData.append('item_id', itemId);
+        formData.append('member_id', member_id);
+        formData.append('pwr_id', selectedItemId);
         formData.append('content', reviewText);
         formData.append('rate', rating);
+        formData.append('seller_id', detail.seller_id);
+        formData.append('buyer_id', detail.buyer_id);
         images.forEach(image => formData.append('images', image));
 
         try {
@@ -184,8 +175,35 @@ function Page(props) {
         }
     };
 
-    // if (error) return <p>{error}</p>;
+    //  구매확정 요청
+    const handleConfirm = async () => {
+        try {
+            const response = await axios.post(
+                `http://localhost:8080/api/transaction/updateisfixed`, // 쿼리 파라미터 사용
+                { pwr_id: selectedPwrId },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
 
+            if (response.status === 200) {
+                const data = response.data;
+                if (data.message === '조회수 증가 완료') {
+                    alert('구매 확정이 완료되었습니다.');
+                    window.location.reload(); // 페이지 새로고침
+                } else {
+                    alert('구매 확정 처리에 실패했습니다.');
+                }
+            }
+        } catch (error) {
+            console.error('구매 확정 요청 중 오류 발생:', error);
+            alert('구매 확정 요청 중 오류가 발생했습니다.');
+        }
+    };
+
+    // if (error) return <p>{error}</p>;
     return (
 
         <div className='myPageBuy'>
@@ -246,7 +264,7 @@ function Page(props) {
                                             .slice() // 원본 배열 보호
                                             .sort((a, b) => b.idx - a.idx) // idx를 기준으로 최신순 정렬
                                             .map(item => (
-                                                <div key={item.id} className='purchase_list_display_item' style={{ backgroundColor: "rgb(255, 255, 255)" }}>
+                                                <div key={item.idx} className='purchase_list_display_item' style={{ backgroundColor: "rgb(255, 255, 255)" }}>
                                                     <a href="#">
                                                         <div className='purchase_list_product'>
                                                             <div className='list_item_img_wrap'>
@@ -293,7 +311,7 @@ function Page(props) {
                                                                 <a
                                                                     className='text-lookup last_description display_paragraph action_named_action confirm_purchase'
                                                                     style={{ color: "red", cursor: "pointer" }}
-                                                                    onClick={() => handleModalOpen('confirm')} // 'confirm' 모달 열기
+                                                                    onClick={() => handleModalOpen('confirm', item.pwr_id)} // 'confirm' 모달 열기
                                                                 >
                                                                     구매 확정
                                                                 </a>
@@ -303,7 +321,7 @@ function Page(props) {
                                                                 <button
                                                                     className="review-btn"
                                                                     style={{ textAlign: 'right' }}
-                                                                    onClick={() => handleModalOpen('review', item.id)} // 'review' 모달 열기
+                                                                    onClick={() => handleModalOpen('review', item.pwr_id)} // 'review' 모달 열기
                                                                 >
                                                                     후기 남기기
                                                                 </button>
@@ -345,7 +363,7 @@ function Page(props) {
                                                     <p className='Fraud_Prevention'>사기 피해 방지를 위해 반드시 상품을 수령한 후<br /> 상품 상태를 확인 후에 구매확정 해주세요.<br /> </p>
                                                 </div>
                                                 <div className="layer_btn">
-                                                    <button className="btn solid medium" onClick={handleModalClose}>확인</button>
+                                                    <button className="btn solid medium" onClick={handleConfirm}>확인</button>
                                                     <button className="btn solid_cancel medium" onClick={handleModalClose}>취소</button>
                                                 </div>
                                             </div>

@@ -24,6 +24,7 @@ const OrderDetail = () => {
   const pwr_id = searchParams.get('productId');
   const img = searchParams.get('productImg');
   const method = searchParams.get('method');
+  const seller_id = searchParams.get('sellerId');
 
   const user = useAuthStore((state) => state.user);
   const member_id = user.member_id;
@@ -77,6 +78,7 @@ const OrderDetail = () => {
         pwr_id: pwr_id, // 게시글 ID
         buyer_id: member_id, // 구매자 ID
         trans_method: trans_method, // 거래 방법
+        seller_id: seller_id,
       });
 
       // 데이터 전송 성공 시 로컬 스토리지에 저장

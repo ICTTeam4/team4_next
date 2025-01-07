@@ -101,13 +101,13 @@ function Page(props) {
       }
     });
     setSortedList(sorted);
+    console.log("SortedList", sortedList);
   }, [filteredList, sortOption]);
 
   // 로딩 중 화면
   if (loading) {
     return <div style={{ textAlign: "center", padding: "20px" }}>Loading...</div>;
   }
-
   return (
     <>
       <VideoBanner />
@@ -121,12 +121,10 @@ function Page(props) {
       <FilterButtonsSection toggleSidebar={toggleSidebar} setSortOption={setSortOption} />
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '-10px' }}>
         <div className='main_list_container'>
-          {/* {filteredList.length === 0 ? ( */}
           {sortedList.length === 0 ? (
             <div style={{ textAlign: "center" }}>등록된 게시물이 없습니다.</div>
           ) : (
-            /* filteredList.map((item) => <ItemCard key={item.id} data={item} />) */
-            sortedList.map((item) => <ItemCard key={item.id} data={item} />)
+            sortedList.map((item) => <ItemCard key={item.pwr_id} data={item} />)
           )}
         </div>
       </div>
