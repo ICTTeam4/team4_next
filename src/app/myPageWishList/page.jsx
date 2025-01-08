@@ -5,6 +5,7 @@ import "./myPageWishList.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import useAuthStore from "../../../store/authStore";
+import { useRouter } from "next/navigation";
 
 function Page() {
   const pathname = usePathname();
@@ -15,6 +16,8 @@ function Page() {
   const [member_id, setMember_id] = useState(null);
   const [filteredItems, setFilteredItems] = useState([]); // 초기값 빈 배열
   const [totalItems, setTotalItems] = useState(0);
+  const router = useRouter();
+  
 
   // 사용자 ID 설정
   useEffect(() => {
@@ -121,33 +124,9 @@ useEffect(() => {
   
 
   
-  // 찜 삭제 처리
-  // const handleDeleteItem = async (pwr_id) => {
-  //   if (!member_id) {
-  //     alert("로그인이 필요합니다.");
-  //     return;
-  //   }
-  
-  //   try {
-  //     console.log("찜한 상품 삭제 요청:", { member_id, pwr_id });
-  
-  //     // 관심 상품 삭제 API 호출
-  //     await axios.delete("http://localhost:8080/api/wishlist/delete", {
-  //       data: { member_id, pwr_id },
-  //       headers: { "Content-Type": "application/json" },
-  //     });
-  
-  //     // 상태 업데이트
-  //     setItems((prevItems) =>
-  //       prevItems.filter((item) => item?.pwr_id !== pwr_id)
-  //     );
-  
-  //     console.log("찜한 상품 삭제 완료");
-  //     alert("찜한 상품이 삭제되었습니다.");
-  //   } catch (error) {
-  //     console.error("찜한 상품 삭제 중 오류 발생:", error);
-  //   }
-  // };
+  const handleProductClick = (item) => {
+    router.push(`saleDetail?id=${item.pwr_id}`);
+  };
 
 
   const handleDeleteItem = async (pwr_id, category) => {
@@ -251,7 +230,7 @@ useEffect(() => {
                         key={item.pwr_id}
                         className="purchase_list_display_item"
                         style={{ backgroundColor: "rgb(255, 255, 255)" }}
-                        //  onClick={(item)} // 상품 클릭 시 API 호출
+                        onClick={() => handleProductClick(item)}  // 상품 클릭 시 API 호출
                       >
                         <a href="#">
                           <div className="purchase_list_product">
