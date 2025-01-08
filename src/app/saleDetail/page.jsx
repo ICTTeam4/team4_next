@@ -40,6 +40,7 @@ const saleDetail = () => {
   const [member_id, setMember_id] = useState(null);
   const [latitude, setLatitude] = useState(null); // 날씨용
   const [longitude, setLongitude] = useState(null); // 날씨용
+  const [memberId, setMemberId] = useState(null); // 날씨용
 
   // URL 파라미터 (id)
   const id = searchParams.get("id");
@@ -68,6 +69,7 @@ const saleDetail = () => {
     };
 
     getData();
+
 
   }, [id]);
 
@@ -99,20 +101,25 @@ const saleDetail = () => {
 
   3.// 판매고객 조회
   useEffect(() => {
-  const getSellerData = async () => {
-    try {
-      console.log(id);
-      const response = await axios.get(`http://localhost:8080/members/getpostmemberdetail?pwr_id=${id}`);
-      setSellerData(response.data.data);
-      console.log("주문고객 데이터 조회 완료:", response.data.data);
-    } catch (error) {
-      console.error("주문고객 데이터 조회 실패:", error);
-      setError("주문고객 데이터 조회에 실패했습니다.");
+    const getSellerData = async () => {
+      try {
+        console.log(id);
+        const response = await axios.get(`http://localhost:8080/members/getpostmemberdetail?pwr_id=${id}`);
+        console.log(response);
+        setSellerData(response.data.data);
+        const memberId = response.data.data.member_id;
+        console.log("Member ID:", memberId);
+        console.log("주문고객 데이터 조회 완료:", response.data.data);
+      } catch (error) {
+        console.error("주문고객 데이터 조회 실패:", error);
+        setError("주문고객 데이터 조회에 실패했습니다.");
+      }
     }
-  }
-  getSellerData();
+    getSellerData();
 
-}, [id]);
+  }, [id]);
+
+  // const memberID = sellerData.member_id;
 
   // 휘주 지도 내용 시작
   useEffect(() => {
@@ -553,10 +560,6 @@ const saleDetail = () => {
     detail.status === '판매완료';
   console.log(detail.status);
 
-
-
-
-
   return (
     <>
       <div className="container">
@@ -589,10 +592,6 @@ const saleDetail = () => {
                 </img>찜수</div>
               </div>
             </div>
-
-
-
-
           </div>
           <div className="tradeInfo">
             <div> 제품상태 <br /> <span className='tradeTitle'>중고</span></div>
@@ -607,10 +606,10 @@ const saleDetail = () => {
                     : ""}
             </span></div>
             <div
-            style={{borderRight: "none"}}
-            >배송비 <br /> <span 
-            className='tradeTitle'
-            
+              style={{ borderRight: "none" }}
+            >배송비 <br /> <span
+              className='tradeTitle'
+
             >포함</span></div>
           </div>
           <div id="interaction-area">
@@ -653,19 +652,52 @@ const saleDetail = () => {
         <div className="sellerInfo">
           <div className='sellerHeader'>
             <span className='infoTitle'>
-              <Link href="/salepage" className='infoTitle'>판매자 정보</Link></span>
-            <Link href="/salepage">
-              <Image src="/images/David_arrow.png" alt="이미지" className='navigation' width="20" height="20" />
+              <Link
+                prefetch={false}
+                href={{
+                  pathname: "/salepage",
+                  query: {
+                    id: sellerData.member_id,
+                  },
+                }}
+                className='infoTitle'>판매자 정보</Link></span>
+            <Link
+              prefetch={false}
+              href={{
+                pathname: "/salepage",
+                query: {
+                  id: sellerData.member_id,
+                },
+              }}
+            >
+              <Image src="/images/David_arrow.png" className='navigation' width="20" height="20" />
             </Link>
           </div>
           {/* <hr className='hr' /> */}
           <div className="sellerContainer">
             <div className="sellerProfile">
               <div className="sellerNickname">
-                <Link href="/salepage" className='sellerFont'>{sellerData?.nickname || '로딩 중...'}</Link>
+                <Link
+                  prefetch={false}
+                  href={{
+                    pathname: "/salepage",
+                    query: {
+                      id: sellerData.member_id,
+                    },
+                  }}
+                  className='sellerFont'>{sellerData?.nickname || '로딩 중...'}</Link>
               </div>
-              <Link href="/salepage">
-                <div className="sellerImg" ></div>
+              
+              <Link
+                prefetch={false}
+                href={{
+                  pathname: "/salepage",
+                  query: {
+                    id: sellerData.member_id,
+                  },
+                }}
+              >
+                <img src="/images/default_profile.png" width="60" height="60" className='user_profile_pic'/>
               </Link>
             </div>
             <div className="sellerData">
