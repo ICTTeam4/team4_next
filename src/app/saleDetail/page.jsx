@@ -12,11 +12,14 @@ import NaverPay from '../payments/naverPay/page';
 import TossPay from '../payments/tossPay/page';
 import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
+import useAuthStore from '../../../store/authStore';
 import ReactDOMServer from "react-dom/server";
 import CustomOverlay from "../components/CustomOverlay";
 import WeatherSection from '../components/WeatherSection';
 
+
 const saleDetail = () => {
+  const {user} = useAuthStore()
   const searchParams = useSearchParams();
   // 상태 관리
   const [data, setData] = useState(null);
@@ -32,9 +35,11 @@ const saleDetail = () => {
   const [isMapOpen, setIsMapOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [payButtonLevel, setPayButtonLevel] = useState(0);  // 결제 단계 관리
+  const [chatMessages, setChatMessages] = useState([]);
+  const [chatLoading,setChatLoading] = useState(true);
+  const [member_id, setMember_id] = useState(null);
   const [latitude, setLatitude] = useState(null); // 날씨용
   const [longitude, setLongitude] = useState(null); // 날씨용
-
 
   // URL 파라미터 (id)
   const id = searchParams.get("id");
@@ -346,8 +351,79 @@ const saleDetail = () => {
   // 휘주 날씨 끝
 
 
+
+
+  //북마크 누를 시 찜 이동 (영빈)
+
+  useEffect(() => {
+    const fetchBookmarkStatus = async () => {
+      if (!user?.member_id || !detail?.id) return;
+
+      try {
+        const response = await axios.get(`http://localhost:8080/api/wishlist/check`, {
+          params: { memberId: user.member_id, pwr_id: detail.id },
+        });
+        setIsBookMarkOpen(response.data);
+      } catch (error) {
+        console.error("찜 상태 확인 중 오류:", error);
+      }
+    };
+
+    if (detail?.id) fetchBookmarkStatus();
+  }, [user?.member_id, detail?.id]);
+
+
+
+  const handleBookmarkToggle = async () => {
+    console.log("Handle bookmark toggle...");
+    console.log("member_id:", user?.member_id); // 추가
+    console.log("pwr_id:", detail?.pwr_id);        // 추가
+  
+    if (!user?.member_id) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+  
+    try {
+      if (isBookMarkOpen) {
+        // 이미 찜한 상태 -> 찜 취소 요청
+        await axios.delete(`http://localhost:8080/api/wishlist/delete`, {
+          data: {
+            member_id: user.member_id,
+            pwr_id: detail.pwr_id,
+          },
+          headers: { "Content-Type": "application/json" },
+        });
+        alert("찜이 취소되었습니다.");
+      } else {
+        // 찜하지 않은 상태 -> 찜하기 요청
+        await axios.post(`http://localhost:8080/api/wishlist/add`, {
+           member_id: user.member_id,
+           pwr_id: detail.pwr_id,
+           
+        }, {
+          headers: { "Content-Type": "application/json" },
+        });
+        alert("찜이 완료되었습니다.");
+      }
+  
+      // 상태 토글
+      setIsBookMarkOpen(!isBookMarkOpen);
+    } catch (error) {
+      console.error("찜 상태 변경 중 오류:", error);
+      alert("찜 상태 변경 중 문제가 발생했습니다.");
+    }
+  };
+  
+
+
+
+
+//북마크 끝
+
   // 로딩/에러 처리
   if (loading) return <div>로딩 중...</div>;
+  
   if (error) return <div>오류 발생: {error}</div>;
   if (!detail) return <div>데이터가 없습니다.</div>;
 
@@ -384,23 +460,56 @@ const saleDetail = () => {
     setIsAlertOpen(false);
   }
 
-  const openChatPanel = () => {
-    // setIsChatOpen(true); //테스트로 만드신거다 보니  일단 지금은 주석처리했습니다! 실제론 db로직 구현 필요.
-    // 후에 db 로직 짤땐 room_id가 있으면 검사하거나, 파라미터에 실제 게시자 id를 넘기거나 추가해줘야함.
-    // open-chat 이벤트 발생 시킴 -> 임시 채팅방 id 지정. room_id: 888 ( 999는 임시 관리자 채팅방id.  )
-    // axios.get(url,
-    //   params: {
-    //    "buyer_id": member_id
-    //    "pwr_id": pwr_id
-    //     })
-    // if data.success {setRoomId}
-    //   else : 오류가 났습니다.
-    // setHost_id(member_id)
-    axios.get(API_URL, { id }, {
-      headers: { "Content-Type": "application/json" },
-    })
-    window.dispatchEvent(new CustomEvent('open-chat', { detail: { room_id: 888, host_id: 123 } }));
-  }
+  const openChatPanel = async () => {
+    // API URL
+    const CHAT_API_URL = "http://localhost:8080/api/chat/room";
+
+    if (!user || !detail) {
+      console.error("유저 정보 또는 상세 정보가 없습니다.");
+      return;
+    }
+  
+    try {
+      console.log("하윤서치채팅준비용",user.member_id,detail.pwr_id)
+        // LocalStorage에서 토큰 가져오기
+        const token = localStorage.getItem("token");
+      // API 요청
+      const response = await axios.get(CHAT_API_URL, {
+        params: {
+          buyer_id: user.member_id,
+          pwr_id: detail.pwr_id,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+  
+      // 요청 성공 시 room_id 받아오기 (새로 생성되는경우에도 받아옴.  이유는 채팅목록과, 바로 채팅하기 구분하기 위해서 여기서 roomid유무 따짐)
+      if (response.data && response.data.success) {
+        console.log("채팅메세지000"+JSON.stringify(response.data))
+        const roomId = response.data.data[0]?.room_id;
+    
+        // 이벤트 발생
+        window.dispatchEvent(
+          new CustomEvent("open-chat2", {
+            detail: {
+              room_id: roomId,
+              host_id: user.member_id,
+              messages: response.data.content
+            },
+          })
+        );
+  
+        console.log("채팅방 열림:", roomId);
+      } else {
+        console.error("채팅방 생성 실패:", response.data);
+      }
+    } catch (error) {
+      console.error("채팅방 요청 오류:", error);
+    }
+  };
+  
 
   const closeChatPanel = () => {
     setIsChatOpen(false);
@@ -499,12 +608,27 @@ const saleDetail = () => {
             >포함</span></div>
           </div>
           <div id="interaction-area">
-            {isBookMarkOpen ? <Image src="/images/David_bookmark-black.png" alt="이미지" onClick={closeBookMark} width={33} height={30} className="bookmark" id="bookmark" /> :
-              <Image src="/images/David_bookmark-white.png" alt="이미지" onClick={openBookMark} width={30} height={30} className="bookmark" id="bookmark" />}
-            <div className={`purchase ${isBlurNeeded ? 'disabled' : ''}`}
-              onClick={isBlurNeeded ? null : openAlert}>
-              구매하기
-            </div>
+          {isBookMarkOpen ? (
+                  <Image
+                  src="/images/David_bookmark-black.png"
+                  onClick={handleBookmarkToggle}
+                  width={30}
+                  height={30}
+                  className="bookmark"
+                  alt="찜됨"
+                />
+                  ) : (
+                    <Image
+              src="/images/David_bookmark-white.png"
+              onClick={handleBookmarkToggle}
+              width={30}
+              height={30}
+              className="bookmark"
+              alt="찜 안됨"
+            />
+                  )}
+            <div className="purchase" onClick={openAlert}>구매하기</div>
+
             <div className="chatting" onClick={openChatPanel}>채팅하기</div>
           </div>
           <div
@@ -599,12 +723,6 @@ const saleDetail = () => {
           ) : null
           }
           현재상태 :  {payButtonLevel}
-        </div>
-        <div id="slidePanel" className={isChatOpen ? 'active' : ''}>
-          <div className="content">
-            <h2>채팅</h2>
-            <p>여기에 내용을 추가하세요.</p>
-          </div>
         </div>
       </div>
     </>

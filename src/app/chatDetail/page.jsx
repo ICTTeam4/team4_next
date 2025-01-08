@@ -8,15 +8,52 @@ import ChatReport from './chatReport/page';
 import ChatCheck from './chatCheck/page';
 import { useRouter } from 'next/navigation';
 import useAuthStore from '../../../store/authStore';
+import axios from 'axios';
 
-const Page = ({ room_id, host_id, closeChat, closeDetail }) => {
+const Page = ({ room_id, host_id,messages: initialMessages, closeChat, closeDetail }) => {
   const {user} = useAuthStore();
-  const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfilePopupOpen, setIsProfilePopupOpen] = useState(false);
   const [activePage, setActivePage] = useState('chatRoom');
+  const [messages, setMessages] = useState(initialMessages || []); // 초기 메시지 상태
   const dropdownRef = useRef(null);
   const profileRef = useRef(null);
+
+console.log("여긴채팅방입니다",messages);
+console.log("현재 채팅방 메시지:", messages);
+
+// 최신 채팅 목록 가져오기 함수
+const fetchChatRooms = async () => {
+  try {
+    const token = localStorage.getItem('token'); // 토큰 가져오기
+    console.log("fetchChatRooms 진짜새거로실행");
+    const response = await axios.get(`http://localhost:8080/api/chat/roomList`, {
+      params: {
+        member_id: user?.member_id,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`, // 인증 헤더 추가
+        'Cache-Control': 'no-cache', // 캐싱 방지
+      },
+    });
+
+    console.log("채팅방 목록 데이터 2222:", response.data);
+
+    // 메시지 상태 업데이트
+    setMessages(response.data || []); // 데이터 없으면 빈 배열로 초기화
+  } catch (error) {
+    console.error("채팅방 목록을 불러오는 중 오류 발생:", error);
+    setMessages([]); // 오류 발생 시 메시지를 빈 배열로 설정
+  }
+};
+
+ // room_id가 변경될 때 메시지 가져오기
+ useEffect(() => {
+  if (room_id) {
+    fetchChatRooms();
+  }
+}, []);
+
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -47,7 +84,10 @@ const Page = ({ room_id, host_id, closeChat, closeDetail }) => {
     };
   }, []);
 
-
+  useEffect(() => {
+    console.log("messages 상태 업데이트:", messages);
+  }, [messages]);
+  
 
   return (
     <div className="chat-detail-page">
@@ -119,7 +159,7 @@ const Page = ({ room_id, host_id, closeChat, closeDetail }) => {
       )}
 
       {/* 조건부 렌더링 */}
-      {activePage === 'chatRoom' && <ChatRoom room_id={room_id} host_id={host_id} />}
+      {activePage === 'chatRoom' && <ChatRoom key={room_id} room_id={room_id} host_id={host_id} messages={messages} />}
       {activePage === 'chatBlock' && <ChatBlock room_id={room_id} host_id={host_id} />}
       {activePage === 'chatReport' && <ChatReport room_id={room_id} host_id={host_id} />}
       {activePage === 'chatCheck' && <ChatCheck room_id={room_id} host_id={host_id} />}
