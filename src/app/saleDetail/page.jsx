@@ -657,7 +657,7 @@ const saleDetail = () => {
                 href={{
                   pathname: "/salepage",
                   query: {
-                    id: sellerData.member_id,
+                    id: sellerData?.member_id,
                   },
                 }}
                 className='infoTitle'>판매자 정보</Link></span>
@@ -666,7 +666,7 @@ const saleDetail = () => {
               href={{
                 pathname: "/salepage",
                 query: {
-                  id: sellerData.member_id,
+                  id: sellerData?.member_id,
                 },
               }}
             >
