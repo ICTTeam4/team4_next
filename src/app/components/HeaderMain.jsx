@@ -5,11 +5,12 @@ import './css/HeaderMain.css';
 import Page from '../chat/page';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import useAuthStore from '../../../store/authStore';
+import axios from 'axios';
 
 const HeaderMain = () => {
   // 휘주 수정본 구역 시작
   const [showNotification, setShowNotification] = useState(false); // 알림 상태
-  const {searchKeyword, setSearchKeyword, setKeyword, setCategory} = useAuthStore(); // Zustand에서 검색 상태 관리
+  const { searchKeyword, setSearchKeyword, setKeyword, setCategory,user } = useAuthStore(); // Zustand에서 검색 상태 관리
   const [showSearchBar, setShowSearchBar] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -18,24 +19,37 @@ const HeaderMain = () => {
   const [isChatOpen, setChatOpen] = useState(false); // 채팅 사이드바 상태 관리
   const [initialRoomId, setInitialRoomId] = useState(null); // 초기 room_id 상태
   const [initialhostId, setInitialHostId] = useState(null); // 초기 글쓴이 아이디, 관리자, 판매자 공통 로직
-
+  const [messages, setMessages] = useState([]); // 초기값을 빈 배열로 설정
+  const [chats,setChats]=useState(null);
+  
   useEffect(() => {
-    // 이벤트 리스너 등록
-    const handleOpenChat = (event) => {
-      setInitialRoomId(event.detail.room_id); // room_id 설정
-      setInitialHostId(event.detail.host_id); // room_id 설정    
-      setChatOpen(true);
+    const handleOpenChat = async (event) => {
+      console.log("이벤트리스너 룸아이디(헤더메인)", event.detail.room_id);
+    
+      try {
+        // 최신 메시지 가져오기
+        await fetchChatRooms();
+    
+        // 최신 메시지 반영 후 상태 업데이트
+        setInitialRoomId(event.detail.room_id);
+        setInitialHostId(event.detail.host_id);
+        setMessages(event.detail.messages);
+        setChatOpen(true);
+      } catch (error) {
+        console.error("채팅 열기 중 오류 발생:", error);
+      }
     };
-
+    
+  
     window.addEventListener('open-chat', handleOpenChat);
-
-    // 컴포넌트 언마운트 시 이벤트 리스너 제거
+  
+    // 이벤트 리스너 제거
     return () => {
       window.removeEventListener('open-chat', handleOpenChat);
     };
   }, []);
-
   
+
 
   const closeChat = () => {
     if (isChatOpen) {
@@ -47,6 +61,7 @@ const HeaderMain = () => {
 
   const toggleChat = () => {
     setChatOpen(true);
+    fetchChatRooms();
   };
 
   const imgStyle = {
@@ -58,58 +73,58 @@ const HeaderMain = () => {
     marginLeft: '-6px',
   };
 
-// 휘주 수정본 구역 시작
+  // 휘주 수정본 구역 시작
 
 
-const handleChange = (event) => {
-  const value = event.target.value;
-  console.log("헤더메인에 입력된 검색어 : ", value); // 입력된 검색어 확인
-  setKeyword(value); // 상태 업데이트
-};
+  const handleChange = (event) => {
+    const value = event.target.value;
+    console.log("헤더메인에 입력된 검색어 : ", value); // 입력된 검색어 확인
+    setKeyword(value); // 상태 업데이트
+  };
 
-const handleKeyDown = (event) => {
-  if (event.key === "Enter") {
-    handleSearch(); // 엔터 키로 검색 실행
-  }
-};
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearch(); // 엔터 키로 검색 실행
+    }
+  };
 
-const handleSearch = () => {
-  if (searchKeyword.trim() === "") {
-    alert("검색어를 입력해주세요!");
-    return;
-  }
+  const handleSearch = () => {
+    if (searchKeyword.trim() === "") {
+      alert("검색어를 입력해주세요!");
+      return;
+    }
 
-  // 현재 경로에 따라 검색 요청을 다르게 처리
-  const isCategoryPage = [
-    "/outerList",
-    "/topList",
-    "/bottomList",
-    "/shoesList",
-    "/bagsList",
-    "/accessoriesList",
-  ].includes(pathname);
-  
-  if (isCategoryPage) {
-    setCategory(pathname); // 현재 카테고리 주스탠드에 저장
-    // 카테고리 페이지 내에서 검색
-    router.push(`${pathname}?query=${encodeURIComponent(searchKeyword)}`);
-  } else {
-    setCategory(""); // 쥬스탠드 카테고리 초기화 (전체 리스트)
-    // 일반 검색 (itemSearchResult로 이동)
-    router.push(`/itemSearchResult?query=${encodeURIComponent(searchKeyword)}&status=success`);
-  }
-};
+    // 현재 경로에 따라 검색 요청을 다르게 처리
+    const isCategoryPage = [
+      "/outerList",
+      "/topList",
+      "/bottomList",
+      "/shoesList",
+      "/bagsList",
+      "/accessoriesList",
+    ].includes(pathname);
 
-useEffect(() => {
-  const queryFromURL = searchParams.get("query") || "";
-  if (queryFromURL) {
-    console.log("URL에서 가져온 검색어 : ", queryFromURL); // URL 검색어 확인
-    setKeyword(queryFromURL); // URL에서 검색어 가져오기
-    setShowSearchBar(true); // 검색창 활성화
-  } else {
-    setShowSearchBar(false); // 검색창 숨김
-  }
-}, [searchParams]);
+    if (isCategoryPage) {
+      setCategory(pathname); // 현재 카테고리 주스탠드에 저장
+      // 카테고리 페이지 내에서 검색
+      router.push(`${pathname}?query=${encodeURIComponent(searchKeyword)}`);
+    } else {
+      setCategory(""); // 쥬스탠드 카테고리 초기화 (전체 리스트)
+      // 일반 검색 (itemSearchResult로 이동)
+      router.push(`/itemSearchResult?query=${encodeURIComponent(searchKeyword)}&status=success`);
+    }
+  };
+
+  useEffect(() => {
+    const queryFromURL = searchParams.get("query") || "";
+    if (queryFromURL) {
+      console.log("URL에서 가져온 검색어 : ", queryFromURL); // URL 검색어 확인
+      setKeyword(queryFromURL); // URL에서 검색어 가져오기
+      setShowSearchBar(true); // 검색창 활성화
+    } else {
+      setShowSearchBar(false); // 검색창 숨김
+    }
+  }, [searchParams]);
 
 
 
@@ -118,29 +133,56 @@ useEffect(() => {
     router.push('/searchPage');
   };
 
+
+  // 휘주 수정본 구역 끝
+
+  //하윤 채팅목록용
+  const fetchChatRooms = async () => {
+    try {
+      const token = localStorage.getItem('token'); // 토큰 가져오기
+      console.log("fetchchatroom실행");
+      const response = await axios.get(`http://localhost:8080/api/chat/roomList`, {
+        params: {
+          member_id: user?.member_id,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`, // 인증 헤더 추가
+        }
+      });
   
-// 휘주 수정본 구역 끝
+      // 데이터 구조 확인
+      console.log("채팅방 목록 데이터 헤더메인:", response.data);
+  
+      // 메시지 상태 업데이트
+      setMessages(response.data || []); // 데이터 없으면 빈 배열로 초기화
+    } catch (error) {
+      console.error("채팅방 목록을 불러오는 중 오류 발생:", error);
+      setMessages([]); // 오류 발생 시 빈 배열로 설정
+    }
+  };
+  
+  
   return (
     <div className='max_width_container'>
-      
+
       {/* 전체 화면을 덮는 오버레이 */}
       {isChatOpen && <div className="chatoverlay" onClick={closeChat}></div>}
       <div className="header_main">
         <div className="main_inner">
-         {/* 휘주 수정본 구역 시작 */}
-        {showSearchBar && (
-          <div className="center">
-            <input
-              type="text"
-              className="searchBar"
-              value={searchKeyword}
-              onChange={handleChange}
-              onKeyDown={handleKeyDown}
-              placeholder="브랜드, 상품, 프로필, 태그 등"
-            />
-          </div>
-        )}
-        {/* 휘주 수정본 구역 끝 */}
+          {/* 휘주 수정본 구역 시작 */}
+          {showSearchBar && (
+            <div className="center">
+              <input
+                type="text"
+                className="searchBar"
+                value={searchKeyword}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+                placeholder="브랜드, 상품, 프로필, 태그 등"
+              />
+            </div>
+          )}
+          {/* 휘주 수정본 구역 끝 */}
           <div className="right">
             <div className="gnb_area">
               {/* 네비게이션 메뉴 */}
@@ -171,17 +213,17 @@ useEffect(() => {
                   </li>
                   {/* 검색 버튼 */}
                   <li className="gnb_item">
-                <button className="btn_search" onClick={handleSearchClick}>
-                  <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" width="30" height="30">
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M15.571 16.631a8.275 8.275 0 111.06-1.06l4.5 4.498-1.061 1.06-4.499-4.498zm1.478-6.357a6.775 6.775 0 11-13.55 0 6.775 6.775 0 0113.55 0z"
-                      fill="#222"
-                    ></path>
-                  </svg>
-                </button>
-              </li>
+                    <button className="btn_search" onClick={handleSearchClick}>
+                      <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" width="30" height="30">
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M15.571 16.631a8.275 8.275 0 111.06-1.06l4.5 4.498-1.061 1.06-4.499-4.498zm1.478-6.357a6.775 6.775 0 11-13.55 0 6.775 6.775 0 0113.55 0z"
+                          fill="#222"
+                        ></path>
+                      </svg>
+                    </button>
+                  </li>
 
                   {/* 장바구니 버튼 => 마이페이지로 변경*/}
                   <li className="gnb_item">
@@ -202,9 +244,9 @@ useEffect(() => {
           </div>
         </div >
         {/* 채팅 사이드바 */}
-          <div className={`chat_sidebar ${isChatOpen ? 'open' : ''}`} onClick={(e) => e.stopPropagation()}>
-            <Page isOpen={isChatOpen} closeChat={closeChat} initialRoomId={initialRoomId} initialhostId={initialhostId} />
-          </div>
+        <div className={`chat_sidebar ${isChatOpen ? 'open' : ''}`} onClick={(e) => e.stopPropagation()}>
+          <Page isOpen={isChatOpen} closeChat={closeChat} initialRoomId={initialRoomId} initialhostId={initialhostId} messages={messages}/>
+        </div>
       </div>
     </div>
   );
