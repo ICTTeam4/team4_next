@@ -470,12 +470,14 @@ const saleDetail = () => {
     }
   
     try {
-      console.log("하윤서치채팅준비용",user.member_id,detail.pwr_id)
+      console.log("하윤서치채팅준비용",user.member_id,detail.pwr_id,sellerData.member_id)
         // LocalStorage에서 토큰 가져오기
         const token = localStorage.getItem("token");
       // API 요청
+    
       const response = await axios.get(CHAT_API_URL, {
         params: {
+          seller_id: sellerData.member_id,
           buyer_id: user.member_id,
           pwr_id: detail.pwr_id,
         },
@@ -486,15 +488,17 @@ const saleDetail = () => {
       });
   
       // 요청 성공 시 room_id 받아오기 (새로 생성되는경우에도 받아옴.  이유는 채팅목록과, 바로 채팅하기 구분하기 위해서 여기서 roomid유무 따짐)
+      //잘 받아옴. 메세지들. 
       if (response.data && response.data.success) {
-        console.log("채팅메세지000"+JSON.stringify(response.data))
-        const roomId = response.data.data[0]?.room_id;
+        console.log("saildetail에서 받은것"+JSON.stringify(response.data))
+        const roomId = response.data.message;
     
-        // 이벤트 발생
+        // 이벤트 발생 //지금은 host guest 바뀐상태입니다.. 추후 변경하도록하겠습니다... (변수명이 너무많이쓰여서... )
         window.dispatchEvent(
-          new CustomEvent("open-chat2", {
+          new CustomEvent("open-chat", {
             detail: {
               room_id: roomId,
+              guest_id: sellerData.member_id,
               host_id: user.member_id,
               messages: response.data.content
             },
