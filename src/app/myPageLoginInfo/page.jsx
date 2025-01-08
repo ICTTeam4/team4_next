@@ -19,7 +19,7 @@ function Page(props) {
     const [isPasswordError, setIsPasswordError] = useState(false);
     const [passwordMessage, setPasswordMessage] = useState("");
     const [showNewPassword, setShowNewPassword] = useState(false);
-    const [advAgree, setAdvAgree] = useState(false); // 광고성 정보 수신 기본값 false
+    const [advAgree, setAdvAgree] = useState(null); // 광고성 정보 수신 기본값 false
     const LOCAL_API_BASE_URL = "http://localhost:8080";
 
     /** 
@@ -52,6 +52,7 @@ function Page(props) {
                 console.error("회원 정보를 가져오는 중 오류 발생:", error);
             } finally {
                 setLoading(false);
+                console.log("Updated advAgree:", advAgree);
             }
         };
 
