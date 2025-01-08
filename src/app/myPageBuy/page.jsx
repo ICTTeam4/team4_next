@@ -69,13 +69,13 @@ function Page(props) {
         }
     }, [user]);
 
-    // DB에서 리뷰된 pwr_id 가져오기
+    // DB에서 리뷰된 구매내역 pwr_id 가져오기
     const fetchReviewedPwrIds = async () => {
         try {
-            const response = await axios.get(`${LOCAL_API_BASE_URL}/HayoonReview/getreviewpwr`);
+            const response = await axios.get(`${LOCAL_API_BASE_URL}/HayoonReview/getreviewpwr?member_id=${member_id}`);
             if (response.status === 200) {
                 setReviewedPwrIds(response.data.data); // 리뷰된 pwr_id 상태 업데이트
-                console.log(reviewedPwrIds);
+                console.log("리스폰스데이타:", response.data.data);
             }
         } catch (error) {
             console.error("리뷰된 pwr_id 가져오기 중 오류:", error);
