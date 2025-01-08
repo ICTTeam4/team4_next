@@ -46,9 +46,9 @@ function WeatherSection({ latitude, longitude }) {
           <div className="weatherDay" key={index}>
             <span>{index === 0 ? '오늘' : `${index}일 뒤`}</span>
             <span>
-              {weather.value === '1' ? '☀️ 맑음' :
-                weather.value === '3' ? '⛅ 구름많음' :
-                  weather.value === '4' ? '🌧️ 비' : '❓'}
+              {weather.value === '1' ? '☀️' :
+                weather.value === '3' ? '⛅' :
+                  weather.value === '4' ? '🌧️' : '❓'}
             </span>
           </div>
         ))}

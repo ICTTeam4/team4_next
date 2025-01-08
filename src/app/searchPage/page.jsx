@@ -108,11 +108,11 @@ const handleSearch = async () => {
           <div className="recentSearchContainer">
             <p>인기 검색어</p>
             <p style={{ fontSize: '14px', color: 'gray', marginTop: '5px' }}>
-              2024.12.13 12:00:00 기준
+              2025-01-13 12:00:00 기준
             </p>
             <div className='search_rank_container'>
               <ul>
-                <li>테스트</li>
+                <li></li>
               </ul>
             </div>
           </div>
