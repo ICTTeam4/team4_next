@@ -5,11 +5,12 @@ import './css/HeaderMain.css';
 import Page from '../chat/page';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import useAuthStore from '../../../store/authStore';
+import axios from 'axios';
 
 const HeaderMain = () => {
   // 휘주 수정본 구역 시작
   const [showNotification, setShowNotification] = useState(false); // 알림 상태
-  const { searchKeyword, setSearchKeyword, setKeyword, setCategory } = useAuthStore(); // Zustand에서 검색 상태 관리
+  const { searchKeyword, setSearchKeyword, setKeyword, setCategory,user } = useAuthStore(); // Zustand에서 검색 상태 관리
   const [showSearchBar, setShowSearchBar] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -18,25 +19,36 @@ const HeaderMain = () => {
   const [isChatOpen, setChatOpen] = useState(false); // 채팅 사이드바 상태 관리
   const [initialRoomId, setInitialRoomId] = useState(null); // 초기 room_id 상태
   const [initialhostId, setInitialHostId] = useState(null); // 초기 글쓴이 아이디, 관리자, 판매자 공통 로직
-  const [messages, setMessages] =  useState(null);
+  const [messages, setMessages] = useState([]); // 초기값을 빈 배열로 설정
+  const [chats,setChats]=useState(null);
+  
   useEffect(() => {
-    // 이벤트 리스너 등록
-    const handleOpenChat = (event) => {
-      console.log("이벤트리스너 룸아이디(헤더메인)" + event.detail.room_id)
-      setInitialRoomId(event.detail.room_id); // room_id 설정
-      setInitialHostId(event.detail.host_id); // host_id 설정
-      setMessages(event.detail.messages); // 메세지 전송.    
-      setChatOpen(true);
+    const handleOpenChat = async (event) => {
+      console.log("이벤트리스너 룸아이디(헤더메인)", event.detail.room_id);
+    
+      try {
+        // 최신 메시지 가져오기
+        await fetchChatRooms();
+    
+        // 최신 메시지 반영 후 상태 업데이트
+        setInitialRoomId(event.detail.room_id);
+        setInitialHostId(event.detail.host_id);
+        setMessages(event.detail.messages);
+        setChatOpen(true);
+      } catch (error) {
+        console.error("채팅 열기 중 오류 발생:", error);
+      }
     };
-
+    
+  
     window.addEventListener('open-chat', handleOpenChat);
-
-    // 컴포넌트 언마운트 시 이벤트 리스너 제거
+  
+    // 이벤트 리스너 제거
     return () => {
       window.removeEventListener('open-chat', handleOpenChat);
     };
   }, []);
-
+  
 
 
   const closeChat = () => {
@@ -49,6 +61,7 @@ const HeaderMain = () => {
 
   const toggleChat = () => {
     setChatOpen(true);
+    fetchChatRooms();
   };
 
   const imgStyle = {
@@ -122,6 +135,33 @@ const HeaderMain = () => {
 
 
   // 휘주 수정본 구역 끝
+
+  //하윤 채팅목록용
+  const fetchChatRooms = async () => {
+    try {
+      const token = localStorage.getItem('token'); // 토큰 가져오기
+      console.log("fetchchatroom실행");
+      const response = await axios.get(`http://localhost:8080/api/chat/roomList`, {
+        params: {
+          member_id: user?.member_id,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`, // 인증 헤더 추가
+        }
+      });
+  
+      // 데이터 구조 확인
+      console.log("채팅방 목록 데이터 헤더메인:", response.data);
+  
+      // 메시지 상태 업데이트
+      setMessages(response.data || []); // 데이터 없으면 빈 배열로 초기화
+    } catch (error) {
+      console.error("채팅방 목록을 불러오는 중 오류 발생:", error);
+      setMessages([]); // 오류 발생 시 빈 배열로 설정
+    }
+  };
+  
+  
   return (
     <div className='max_width_container'>
 
@@ -205,7 +245,7 @@ const HeaderMain = () => {
         </div >
         {/* 채팅 사이드바 */}
         <div className={`chat_sidebar ${isChatOpen ? 'open' : ''}`} onClick={(e) => e.stopPropagation()}>
-          <Page isOpen={isChatOpen} closeChat={closeChat} initialRoomId={initialRoomId} initialhostId={initialhostId} messages={messages} />
+          <Page isOpen={isChatOpen} closeChat={closeChat} initialRoomId={initialRoomId} initialhostId={initialhostId} messages={messages}/>
         </div>
       </div>
     </div>

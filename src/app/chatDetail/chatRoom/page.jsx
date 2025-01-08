@@ -29,6 +29,7 @@ const Page = ({ room_id, host_id, messages: initialMessages }) => {
   console.log("최종메세지들" + JSON.stringify(initialMessages));
 
   useEffect(() => {
+    if (!roomId) return;
     // WebSocket 연결 설정
     const socket = new SockJS('http://localhost:8080/gs-guide-websocket'); // 서버 WebSocket 엔드포인트
     const client = new StompJs.Client({
@@ -61,7 +62,7 @@ const Page = ({ room_id, host_id, messages: initialMessages }) => {
     return () => {
       client.deactivate();
     };
-  }, []);
+  }, [roomId]);
 
   // 메시지 전송 함수 수정
   const sendMessage = () => {

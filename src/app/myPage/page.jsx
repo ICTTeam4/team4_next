@@ -18,7 +18,7 @@ function Page(props) {
 
     const { user } = useAuthStore();
 
-    const member_id = user.member_id;
+    const member_id = user?.member_id;
 
     const handleModalOpen = () => {
         setIsModalOpen(true); // 모달 열기

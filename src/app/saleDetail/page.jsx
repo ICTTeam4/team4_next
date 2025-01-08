@@ -31,6 +31,7 @@ const saleDetail = () => {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [payButtonLevel, setPayButtonLevel] = useState(0);  // 결제 단계 관리
   const [chatMessages, setChatMessages] = useState([]);
+  const [chatLoading,setChatLoading] = useState(true);
   // URL 파라미터 (id)
   const id = searchParams.get("id");
   // API 경로
@@ -173,6 +174,7 @@ const saleDetail = () => {
 
   // 로딩/에러 처리
   if (loading) return <div>로딩 중...</div>;
+  
   if (error) return <div>오류 발생: {error}</div>;
   if (!detail) return <div>데이터가 없습니다.</div>;
 
@@ -212,7 +214,7 @@ const saleDetail = () => {
   const openChatPanel = async () => {
     // API URL
     const CHAT_API_URL = "http://localhost:8080/api/chat/room";
-  
+
     if (!user || !detail) {
       console.error("유저 정보 또는 상세 정보가 없습니다.");
       return;
@@ -236,17 +238,16 @@ const saleDetail = () => {
   
       // 요청 성공 시 room_id 받아오기 (새로 생성되는경우에도 받아옴.  이유는 채팅목록과, 바로 채팅하기 구분하기 위해서 여기서 roomid유무 따짐)
       if (response.data && response.data.success) {
-        console.log("채팅메세지"+JSON.stringify(response.data.data))
+        console.log("채팅메세지000"+JSON.stringify(response.data))
         const roomId = response.data.data[0]?.room_id;
     
-  
         // 이벤트 발생
         window.dispatchEvent(
-          new CustomEvent("open-chat", {
+          new CustomEvent("open-chat2", {
             detail: {
               room_id: roomId,
               host_id: user.member_id,
-              messages: response.data.data
+              messages: response.data.content
             },
           })
         );
@@ -511,12 +512,6 @@ const saleDetail = () => {
           ) : null
           }
           현재상태 :  {payButtonLevel}
-        </div>
-        <div id="slidePanel" className={isChatOpen ? 'active' : ''}>
-          <div className="content">
-            <h2>채팅</h2>
-            <p>여기에 내용을 추가하세요.</p>
-          </div>
         </div>
       </div>
     </>
