@@ -10,6 +10,13 @@ const Page = ({props}) => {
   const handleToggleNotibar = () => {
     setIsNotibarActive(); // 상태 토글
   };
+  useEffect(()=>{
+    const sse = new EventSource("http://localhost:8080/api/connect");
+    sse.addEventListener('connect', (e) => {
+      const { data: receivedConnectData } = e;
+      console.log('알림 정보 받기: ',receivedConnectData);  // "connected!"
+    });
+  },[])
 
   return (
     
