@@ -112,7 +112,7 @@ function Page(props) {
             case "내후기":
                 return reviews.filter(
                     (review) =>
-                        review.type === "mine" && review.member_id === Number(user?.member_id)
+                        review.member_id === Number(user?.member_id)
                 );
             default:
                 return [];
@@ -126,44 +126,37 @@ function Page(props) {
 
 
     const buyerAverageRating = useMemo(() => {
-        const buyerReviews = filteredReviews.filter((review) => review.type === "buyer");
+        const buyerReviews = reviews.filter((review) => review.type === "buyer");
         if (buyerReviews.length === 0) return 0;
-
         const sum = buyerReviews.reduce((acc, cur) => acc + cur.rate, 0);
         return (sum / buyerReviews.length).toFixed(1);
     }, [reviews]);
 
     const sellerAverageRating = useMemo(() => {
-        const sellerReviews = filteredReviews.filter((review) => review.type === "seller");
+        const sellerReviews = reviews.filter((review) => review.type === "seller");
         if (sellerReviews.length === 0) return 0;
-
         const sum = sellerReviews.reduce((acc, cur) => acc + cur.rate, 0);
         return (sum / sellerReviews.length).toFixed(1);
     }, [reviews]);
 
     const overallAverageRating = useMemo(() => {
-        if (filteredReviews.length === 0) return 0;
+        // 현재 사용자의 리뷰를 제외한 전체 리뷰를 필터링
+        const reviewsExcludingUser = reviews.filter(review => review.member_id !== Number(user?.member_id));
 
-        const sum = filteredReviews.reduce((acc, cur) => acc + cur.rate, 0);
-        return (sum / filteredReviews.length).toFixed(1);
-    }, [reviews]);
+        if (reviewsExcludingUser.length === 0) return 0;
 
-    const myReviewsAverageRating = useMemo(() => {
-        const myReviews = filteredReviews.filter((review) => review.member_id === Number(user?.member_id));
-        if (myReviews.length === 0) return 0;
+        const sum = reviewsExcludingUser.reduce((acc, cur) => acc + cur.rate, 0);
+        return (sum / reviewsExcludingUser.length).toFixed(1);
+    }, [reviews, user]);
 
-        const sum = myReviews.reduce((acc, cur) => acc + cur.rate, 0);
-        return (sum / myReviews.length).toFixed(1);
+    const myReviewsCount = useMemo(() => {
+        return reviews.filter((review) => review.member_id === Number(user?.member_id)).length;
     }, [reviews, user]);
 
 
 
     // 중복 검사 없이 각 탭 조건에 따라 독립적으로 데이터 유지
 
-    // 로딩 상태 표시
-    if (isLoading) {
-        return <p>로딩 중...</p>;
-    }
 
     // 별점 렌더링 함수 수정
     const renderStars = (rating) => {
@@ -180,6 +173,11 @@ function Page(props) {
         }
         return stars;
     };
+
+    // 로딩 상태 표시
+    if (isLoading) {
+        return <p>로딩 중...</p>;
+    }
 
 
     return (
@@ -240,7 +238,7 @@ function Page(props) {
                                             onClick={() => handleTabClick('내후기')}>
                                             <a href="#" className='tab_link'>
                                                 <dl className='tab_box'>
-                                                    <dd className='count'>{myReviewsAverageRating}</dd>
+                                                    <dd className='count'>{myReviewsCount}</dd>
                                                     <dt className='title'>내 후기</dt>
                                                 </dl>
                                             </a>
@@ -284,7 +282,7 @@ function Page(props) {
                                         <div className="list_item_status">
                                             <div className="list_item_column column_last" style={{ width: '200px' }}>
                                                 <p className="before_purchase_confirmation" style={{ marginBottom: '4px' }}>
-                                                    {item.nickname}
+                                                {item.member_id === Number(user?.member_id) ? '내 후기' : item.nickname}
                                                 </p>
                                                 <p className="before_purchase_confirmation">
                                                     {new Date(item.created_at).toLocaleString('ko-KR', {

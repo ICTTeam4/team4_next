@@ -122,20 +122,26 @@ text-align: center;
 }
 
 .profile-image{
-  margin-right: 200px;
-  width: 350px;
-  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 150px;
+  width: 250px;
+  height: 250px;
   border-radius: 15px;
   object-fit: cover;
   border: 1px solid #ddd;
 }
 
 .profile-image img {
-  width: 350px;
-  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 250px;
+  height: 250px;
   border-radius: 15px;
   object-fit: cover;
-  border: 2px solid #ddd;
+  border: 2px solid #ffffff;
 }
 
 

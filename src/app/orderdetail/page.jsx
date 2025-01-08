@@ -87,7 +87,7 @@ const OrderDetail = () => {
     } catch (err) {
       console.error('데이터 전송:', err);
       setError('데이터 전송 실패');
-    } 
+    }
   };
 
   // 주문내역 조회
@@ -125,10 +125,12 @@ const OrderDetail = () => {
         pwr_id: pwr_id, // 게시글 ID
       });
       console.log(response);
+
     } catch (err) {
       console.error('데이터 전송:', err);
       setError('데이터 전송 실패');
-    } 
+    }
+
   };
 
   useEffect(() => {
@@ -158,6 +160,20 @@ const OrderDetail = () => {
   }
 
   const formattedDate = formatDate(orderData?.trans_date);
+
+  useEffect(() => {
+    // 새로고침 플래그 확인
+    const hasRefreshed = localStorage.getItem("hasRefreshed");
+
+    if (!hasRefreshed) {
+      // 새로고침이 아직 수행되지 않았다면
+      localStorage.setItem("hasRefreshed", "true"); // 새로고침 플래그 설정
+      window.location.reload(); // 새로고침
+    }else{
+      // 새로고침 후 플래그 초기화
+      localStorage.removeItem("hasRefreshed");
+    }
+  }, []);
 
   return (
     <div className="order-detail">
@@ -229,7 +245,7 @@ const OrderDetail = () => {
           <p>
             <strong>운송장</strong>
             <button className="register-btn" onClick={openModal}>
-            운송장 등록하기
+              운송장 등록하기
             </button>
           </p>
         </div>

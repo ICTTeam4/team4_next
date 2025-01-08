@@ -56,7 +56,7 @@
   padding: 10px;
   display: grid;
   grid-template-columns: repeat(2, 600px);
-  grid-template-rows: 600px 350px 350px;
+  grid-template-rows: 600px 500px 350px;
   justify-content: center;
   grid-template-areas: 
   "img trademenu"
@@ -581,4 +581,10 @@ display: inline-flexbox;
 }
 .safeDeal{
   border-right: none !important;
+}
+
+.user_profile_pic{
+  margin-top: 20px;
+  margin-right: 50px;
+
 }
