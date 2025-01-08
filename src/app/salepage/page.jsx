@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import "./salepage.css";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
+import SalePageTabSlider from './salepagetabslider/page';
+import ReviewList from './reviewlist/page';
 
 const Page = () => {
   const searchParams = useSearchParams();
@@ -11,6 +13,7 @@ const Page = () => {
   const [activeTab, setActiveTab] = useState("전체"); // 현재 활성 탭 상태
   const [saleData, setSaleData] = useState({});
   const [saleTabData, setSaleTabData] = useState({});
+  const [list, setList] = useState([]);
   // const API_URL = `http://localhost:8080/api/salepage`;
 
   // 데이터 로드 (최초 실행)
@@ -77,108 +80,44 @@ const Page = () => {
     setActiveTab(tab); // 활성 탭 상태 업데이트
   };
 
-  // 각 탭별 콘텐츠 컴포넌트
-  // const renderContent = () => {
-  //   switch (activeTab) {
-  //     case "전체":
-  //       return (
-  //         <div className="product-grid">
-  //           <div className="product-border">
-  //             <div className="product-image">
-  //               <img src="/images/HY_cup1.jpg" alt="제품 이미지" />
-  //             </div>
-  //             <div className="product-title">
-  //               <h4>커피잔</h4>
-  //               <p>140,500원</p>
-  //               <h5>4시간 전</h5>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       );
-  //     case "판매중":
-  //       return (
-  //         <div className="product-grid">
-  //           <div className="product-border">
-  //             <div className="product-image">
-  //               <img src="/images/HJ_car2.jpg" alt="제품 이미지" />
-  //             </div>
-  //             <div className="product-title">
-  //               <h4>판매중 상품</h4>
-  //               <p>100,000원</p>
-  //               <h5>2시간 전</h5>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       );
-  //     case "판매완료":
-  //       return (
-  //         <div className="product-grid">
-  //           <div className="product-border">
-  //             <div className="product-image">
-  //               <img src="/images/HY_cup1.jpg" alt="제품 이미지" />
-  //             </div>
-  //             <div className="product-title">
-  //               <h4>판매완료 상품</h4>
-  //               <p>300,000원</p>
-  //               <h5>1주일 전</h5>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       );
-  //     case "거래후기":
-  //       return (
-  //         <div className="trade-review">
-  //           <div className="review-item">
-  //             <div className="profile-section">
-  //               <img
-  //                 src="/images/human.jpg"
-  //                 alt="프로필 이미지"
-  //                 className="profile-image2"
-  //               />
-  //             </div>
-  //             <div className="content-section">
-  //               <div className="title-section">
-  //                 <span className="title">후기 제목</span>
-  //                 <span className="rating">⭐️⭐️⭐️⭐️</span>
-  //               </div>
-  //               <div className="review-content">후기 내용</div>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       );
-  //     default:
-  //       return null;
-  //   }
-  // };
-
+  //각 탭별 콘텐츠 컴포넌트
   const renderContent = () => {
-    // 선택한 탭에 따라 데이터 필터링
-    const filteredData =
-      activeTab === "전체"
-        ? saleTabData // "전체"는 모든 데이터를 보여줌
-        : saleTabData.filter((item) => item.status === activeTab);
-
-    return (
-      <div className="product-grid">
-        {filteredData.map((item) => (
-          <div key={item.pwr_id} className="product-border">
-            <div className="product-image">
-              <img
-                src={item.file_name || "/images/default_image.png"}
-                alt="제품 이미지"
-              />
-            </div>
-            <div className="product-title">
-              <h4>{item.title || "상품명 없음"}</h4>
-              <p>{item.sell_price ? `${item.sell_price}원` : "가격 없음"}</p>
-              <h5>{item.created_at || "등록일 없음"}</h5>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
+    switch (activeTab) {
+      case "전체":
+      return <SalePageTabSlider id={id} />;
+    case "판매중":
+      return <SalePageTabSlider id={id} status="판매중" />;
+    case "판매완료":
+      return <SalePageTabSlider id={id} status="판매완료" />;
+      case "거래후기":
+        return <ReviewList id={id} review="review" />;
+        
+        // (
+          // <div className="trade-review">
+          //   <div className="review-item">
+          //     <div className="profile-section">
+          //       <img
+          //         src="/images/human.jpg"
+          //         alt="프로필 이미지"
+          //         className="profile-image2"
+          //       />
+          //     </div>
+          //     <div className="content-section">
+          //       <div className="title-section">
+          //         <span className="title">후기 제목</span>
+          //         <span className="rating">⭐️⭐️⭐️⭐️</span>
+          //       </div>
+          //       <div className="review-content">후기 내용</div>
+          //     </div>
+          //   </div>
+          // </div>
+        // );
+      default:
+        return null;
+    }
   };
 
+ 
   return (
     <div className="sell-profile">
       <div className="profile-header">

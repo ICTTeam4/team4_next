@@ -582,3 +582,9 @@ display: inline-flexbox;
 .safeDeal{
   border-right: none !important;
 }
+
+.user_profile_pic{
+  margin-top: 20px;
+  margin-right: 50px;
+
+}

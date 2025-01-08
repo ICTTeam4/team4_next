@@ -20,6 +20,17 @@ function Page(props) {
     const API_URL = `${process.env.NEXT_PUBLIC_LOCAL_API_BASE_URL}/api/accounts`;
 console.log('API URL:', API_URL); // 확인용 로그
 
+// 로컬 스토리지에 데이터 저장
+const saveToLocalStorage = (key, value) => {
+    localStorage.setItem(key, JSON.stringify(value));
+};
+
+//로컬 데이터 불러오기
+const loadFromLocalStorage = (key, defaultValue = []) => {
+    const storedData = localStorage.getItem(key);
+    return storedData ? JSON.parse(storedData) : defaultValue;
+};
+
 
 
     // 정산 계좌 목록 (ID로 구분)
@@ -165,6 +176,10 @@ console.log('API URL:', API_URL); // 확인용 로그
     
             // 상태를 갱신
             setAccounts(sortedData);
+
+              // 로컬 스토리지에 계좌 정보 저장
+        saveToLocalStorage("accounts", sortedData);
+
             return sortedData;
         } catch (error) {
             console.error("계좌 목록 조회 중 오류 발생:", error);
@@ -180,12 +195,34 @@ console.log('API URL:', API_URL); // 확인용 로그
     
     
     // 컴포넌트 마운트 시 계좌 목록 불러오기
+    // useEffect(() => {
+    //     const loadAccounts = async () => {
+    //         await fetchAccounts();
+    //     };
+    //     loadAccounts();
+    // }, [pathname]); // pathname이 변경될 때마다 실행
+
     useEffect(() => {
         const loadAccounts = async () => {
-            await fetchAccounts();
+            // 로컬 스토리지에서 계좌 목록 로드
+            const savedAccounts = loadFromLocalStorage("accounts");
+    
+            if (savedAccounts.length > 0) {
+                setAccounts(savedAccounts);
+            } else {
+                // 로컬 스토리지에 데이터가 없으면 API 호출
+                const fetchedAccounts = await fetchAccounts();
+                saveToLocalStorage("accounts", fetchedAccounts); // API 데이터 저장
+            }
         };
+    
         loadAccounts();
-    }, [pathname]); // pathname이 변경될 때마다 실행
+    }, [pathname]);
+    
+
+
+    // 계좌 목록 불러오기 끝
+
 
     // 기본 계좌 설정
 const setDefaultAccount = async (id) => {
@@ -211,15 +248,18 @@ const handleSetDefaultAccount = async (id) => {
         }
 
         // 서버에서 최신 계좌 목록 불러오기
-        const updatedAccounts = await fetchAccounts();
-
+        // const updatedAccounts = await fetchAccounts();
+        const updatedAccounts = await fetchAccounts(); // 서버에서 최신 계좌 목록 불러오기
+        
+        
         // 상태를 정렬하여 기본 계좌를 맨 위로 올림
         const sortedAccounts = updatedAccounts.map((account) =>
             account.id === id
-                ? { ...account, isDefault: 1 }
-                : { ...account, isDefault: 0 }
-        ).sort((a, b) => b.isDefault - a.isDefault);
-
+        ? { ...account, isDefault: 1 }
+        : { ...account, isDefault: 0 }
+    ).sort((a, b) => b.isDefault - a.isDefault);
+    
+        saveToLocalStorage("accounts", updatedAccounts); // 로컬 스토리지에 저장
         setAccounts(sortedAccounts); // 상태 갱신
         alert("기본 정산 계좌가 설정되었습니다.");
     } catch (error) {
@@ -281,7 +321,9 @@ const handleSetDefaultAccount = async (id) => {
             handleModalClose();
     
             // 새로고침
-            await fetchAccounts(); // 목록 새로고침
+            // await fetchAccounts(); // 목록 새로고침
+            const updatedAccounts = await fetchAccounts(); // 목록 새로고침
+            saveToLocalStorage("accounts", updatedAccounts); // 로컬 스토리지에 저장
         } catch (error) {
             console.error('계좌 추가 중 오류 발생:', error);
             alert('계좌 추가에 실패했습니다.');
@@ -306,7 +348,10 @@ const handleDelete = async (id) => {
         try {
             await deleteAccount(id);
             alert('계좌가 삭제되었습니다.');
-            await fetchAccounts(); // 계좌 목록 새로고침
+            // await fetchAccounts(); // 계좌 목록 새로고침
+            const updatedAccounts = await fetchAccounts(); // 계좌 목록 새로고침
+            saveToLocalStorage("accounts", updatedAccounts); // 로컬 스토리지에 저장
+
         } catch (error) {
             console.error('계좌 삭제 중 오류 발생:', error);
             alert('계좌 삭제에 실패했습니다.');
