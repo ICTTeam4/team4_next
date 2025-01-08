@@ -11,6 +11,7 @@ function Page() {
   const { user } = useAuthStore();
   const [activeFilter, setActiveFilter] = useState("찜 한 상품"); // 초기 필터 설정
   const [items, setItems] = useState([]);
+  const [recentItems, setRecentItems] = useState([]); // 최근 본 상품 데이터 추가
   const [member_id, setMember_id] = useState(null);
   const [filteredItems, setFilteredItems] = useState([]); // 초기값 빈 배열
   const [totalItems, setTotalItems] = useState(0);
@@ -31,108 +32,166 @@ function Page() {
       console.log("member_id가 없습니다. 로그인 필요.");
       return;
     }
-  
+
     console.log("member_id 확인:", user.member_id);
-  
+
     const fetchWishlist = async () => {
       try {
         const response = await axios.get("http://localhost:8080/api/wishlist/list", {
           params: { memberId: user.member_id },
         });
-  
-        console.log("API 응답 데이터:", response.data);
-  
-        // 응답 데이터가 배열인지 확인
-        const wishlistData = response.data;
-        // console.log("Wishlist 응답 데이터:", wishlistData);
-        
-        if (Array.isArray(wishlistData) && wishlistData.length > 0) {
-          const wishlist = wishlistData.map((item) => ({
-            ...item,
-            category: "찜 한 상품", // 기본 카테고리 추가
-          }));
-  
-          console.log("Wishlist 데이터 (생성 후):", wishlist);
-          setItems(wishlist);
-        } else {
-          console.log("Wishlist 데이터가 비어 있습니다.");
-          setItems([]); // 데이터가 없으면 빈 배열로 설정
-        }
+
+        console.log("Wishlist API 응답 데이터:", response.data);
+
+        const wishlist = response.data.map((item) => ({
+          ...item,
+          category: "찜 한 상품", // 기본 카테고리 추가
+        }));
+
+        setItems(wishlist);
       } catch (error) {
-        console.error("API 요청 실패:", error);
-        setItems([]); // 오류 발생 시 빈 배열로 설정
+        console.error("Wishlist API 요청 실패:", error);
+        setItems([]);
       }
     };
-  
+
     fetchWishlist();
   }, [user?.member_id]);
-//     try {
-//       // 실제 API 호출 대신 테스트 데이터를 사용
-//       const response = {
-//         data: {
-//           data: [
-//             { pwr_id: 76, member_id: '44', created_at: '2025-01-07', fileList: [{ fileName: 'example.png' }] },
-//           ],
-//         },
-//       };
 
-//       console.log("API 응답 데이터 (테스트):", response.data);
 
-//       const wishlist = Array.isArray(response.data?.data)
-//         ? response.data.data.map((item) => ({
-//             ...item,
-//             category: "찜 한 상품", // 기본 카테고리 추가
-//           }))
-//         : [];
 
-//       console.log("Wishlist 데이터:", wishlist);
-//       setItems(wishlist);
-//     } catch (error) {
-//       console.error("API 요청 실패:", error);
-//       setItems([]);
-//     }
-//   };
 
-//   fetchWishlist();
-// }, [user?.member_id]);
-  
 
-  // items 업데이트 후 filteredItems 업데이트
-  useEffect(() => {
-    console.log("items 상태 업데이트:", items);
-  
-    if (items.length > 0) {
-      const filtered = items.filter((item) => item.category === activeFilter);
-      console.log("필터링된 데이터:", filtered);
-  
-      setFilteredItems(filtered);
-      setTotalItems(filtered.length);
-    } else {
-      console.log("items가 비어 있습니다.");
-      setFilteredItems([]);
-      setTotalItems(0);
-    }
-  }, [items, activeFilter]);
 
-  // 찜 삭제 처리
-  const handleDeleteItem = async (pwr_id) => {
-    if (!member_id) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
+// 최근 본 상품 불러오기
+useEffect(() => {
+  if (!user?.member_id) {
+    console.log("member_id가 없습니다. 로그인 필요.");
+    return;
+  }
 
+  console.log("@최근 본 member_id@ 확인:", user.member_id);
+
+  const fetchRecentViews = async () => {
     try {
+      const response = await axios.get("http://localhost:8080/api/recent-view/list", {
+        params: { member_id: user.member_id },
+      });
+      console.log("최근 본 API 응답 데이터:", response.data);
+
+      const recentview = response.data.map((item) => ({
+        ...item,
+        category: "최근 본 상품", // 기본 카테고리 추가
+      }));
+
+      setRecentItems(recentview);
+    } catch (error) {
+      console.error("recentview API 요청 실패:", error);
+      setRecentItems([]);
+    }
+  };
+
+  fetchRecentViews();
+}, [user?.member_id]);
+
+useEffect(() => {
+  console.log("최근 본 상품 데이터:", recentItems);
+}, [recentItems]);
+
+
+
+
+
+  useEffect(() => {
+    let filtered = [];
+    console.log("현재 제발!!!!!!!! activeFilter:", activeFilter);
+    if (activeFilter === "찜 한 상품") {
+      filtered = items; // 찜 한 상품만 보여줌
+    } else if (activeFilter === "최근 본 상품") {
+      console.log("필터링된 최근 본 상품@@@@@@@@@:", filtered);
+      filtered = recentItems; // 최근 본 상품만 보여줌
+    }
+    
+
+    console.log("필터링된 아이템@@@@:", filtered); // 디버깅: 필터링된 결과 확인
+    setFilteredItems(filtered);
+    setTotalItems(filtered.length);
+  }, [activeFilter, items, recentItems]);
+  
+  
+
+  
+  // 찜 삭제 처리
+  // const handleDeleteItem = async (pwr_id) => {
+  //   if (!member_id) {
+  //     alert("로그인이 필요합니다.");
+  //     return;
+  //   }
+  
+  //   try {
+  //     console.log("찜한 상품 삭제 요청:", { member_id, pwr_id });
+  
+  //     // 관심 상품 삭제 API 호출
+  //     await axios.delete("http://localhost:8080/api/wishlist/delete", {
+  //       data: { member_id, pwr_id },
+  //       headers: { "Content-Type": "application/json" },
+  //     });
+  
+  //     // 상태 업데이트
+  //     setItems((prevItems) =>
+  //       prevItems.filter((item) => item?.pwr_id !== pwr_id)
+  //     );
+  
+  //     console.log("찜한 상품 삭제 완료");
+  //     alert("찜한 상품이 삭제되었습니다.");
+  //   } catch (error) {
+  //     console.error("찜한 상품 삭제 중 오류 발생:", error);
+  //   }
+  // };
+
+
+  const handleDeleteItem = async (pwr_id, category) => {
+  if (!member_id) {
+    alert("로그인이 필요합니다.");
+    return;
+  }
+
+  try {
+    console.log("삭제 요청:", { member_id, pwr_id, category });
+
+    if (category === "찜 한 상품") {
+      // 찜 한 상품 삭제 API 호출
       await axios.delete("http://localhost:8080/api/wishlist/delete", {
         data: { member_id, pwr_id },
         headers: { "Content-Type": "application/json" },
       });
 
-      setItems((prevItems) => prevItems.filter((item) => item.pwr_id !== pwr_id));
-      alert("찜한 상품이 삭제되었습니다.");
-    } catch (error) {
-      console.error("찜한 상품 삭제 중 오류 발생:", error);
+      // 상태 업데이트
+      setItems((prevItems) => prevItems.filter((item) => item?.pwr_id !== pwr_id));
+      console.log("찜 한 상품 삭제 완료");
+    } else if (category === "최근 본 상품") {
+
+      // 최근 본 상품 삭제 API 호출
+      await axios.delete("http://localhost:8080/api/recent-view/delete", {
+        data: { member_id, pwr_id },
+        headers: { "Content-Type": "application/json" },
+      });
+
+      // 상태 업데이트
+      setRecentItems((prevItems) => prevItems.filter((item) => item?.pwr_id !== pwr_id));
+      console.log("최근 본 상품 삭제 완료");
     }
-  };
+
+    alert(`${category}이(가) 삭제되었습니다.`);
+  } catch (error) {
+    console.error(`${category} 삭제 중 오류 발생:`, error);
+  }
+};
+
+
+  
+  
+
 
   return (
     <div className="myPageWishList">
@@ -165,7 +224,10 @@ function Page() {
                       <p className="text-group">
                         <span className="title">{filter}</span>
                         <span className="num">
-                          {items.filter((item) => item.category === filter).length || 0}
+                        {[
+                            ...items,
+                            ...recentItems,
+                          ].filter((item) => item && item.category === filter).length || 0}
                         </span>
                       </p>
                     </button>
@@ -189,6 +251,7 @@ function Page() {
                         key={item.pwr_id}
                         className="purchase_list_display_item"
                         style={{ backgroundColor: "rgb(255, 255, 255)" }}
+                        //  onClick={(item)} // 상품 클릭 시 API 호출
                       >
                         <a href="#">
                           <div className="purchase_list_product">
@@ -212,7 +275,7 @@ function Page() {
                         </a>
                         <p
                           className="text-lookup last_description display_paragraph action_named_action wish_delete"
-                          onClick={() => handleDeleteItem(item.pwr_id)}
+                          onClick={() => handleDeleteItem(item.pwr_id, item.category)}
                           style={{ cursor: "pointer" }}
                         >
                           삭제
@@ -220,7 +283,7 @@ function Page() {
                       </div>
                     ))
                   ) : (
-                    <p>찜한 상품이 없습니다.</p>
+                    <p>{activeFilter}이(가) 없습니다.</p>
                   )}
                 </div>
               </div>

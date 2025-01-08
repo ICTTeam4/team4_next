@@ -6,8 +6,10 @@ import FilterButtonsSection from '../filterButtonsSection/page';
 import FilterSidebar from '../filterSidebar/page';
 import VideoBanner from "../videoBanner/page";
 import axios from 'axios';
+import useAuthStore from "../../../store/authStore";
 
 function Page(props) {
+  const { user } = useAuthStore();
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState([]); // 전체 데이터
   const [sortOption, setSortOption] = useState('latest'); // 최신순
@@ -22,10 +24,15 @@ function Page(props) {
     setIsSidebarActive(!isSidebarActive);
   };
 
+  
+
   const getData = async () => {
     try {
       setLoading(true); // 로딩 상태 시작
       const response = await axios.get(API_URL); // axios를 활용한 API 호출
+      console.log("최근 본 !!!!API 응답 데이터:", response.data); // API 응답 전체 확인
+      console.log("최근 본 !!!! API 응답 리스트 데이터:", response.data.data); // list 데이터 확인
+  
       console.log(response);
       const data = response.data.data;
       setList(data); // 원본 데이터 저장
@@ -43,6 +50,80 @@ function Page(props) {
   const getSmallCategoriesFromFilter = (categories) => {
     setSelectedSmallCategories(categories); // 선택된 카테고리 업데이트
   };
+
+
+  //영빈 최근 본 상품 구현
+  useEffect(() => {
+    if (!user?.member_id) {
+      console.log("로그인 정보가 로드되지 않았습니다. 기다리는 중...");
+      return;
+    }
+  
+    console.log("로그인된 사용자:", user); // user가 올바르게 설정되었는지 확인
+  }, [user]);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem("authToken");
+      if (token) {
+        try {
+          const response = await axios.get("http://localhost:8080/api/auth", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          useAuthStore.setState({ user: response.data }); // user 상태 업데이트
+          console.log("사용자 정보 로드 성공:", response.data);
+        } catch (error) {
+          console.error("사용자 정보 로드 실패:", error);
+        }
+      }
+    };
+  
+    fetchUserData();
+  }, []);
+
+
+  const handleProductClick = async (item) => {
+    if (!user || !user.member_id) {
+      console.error("로그인된 사용자가 없습니다. member_id가 null입니다.");
+      alert("로그인이 필요합니다.");
+      return;
+    }
+    try {
+      console.log("상품 클릭 - 최근 본 상품 추가 요청:", item);
+      console.log("상품 클릭 - 최근 본 상품 추가 요청:", item);
+      console.log("현재 user 정보:", user); // user가 제대로 전달되는지 확인
+      console.log("현재 member_id:", user?.member_id); // member_id 상태 확인
+
+      // 로컬스토리지에서 기존 최근 본 상품 가져오기
+      const existingRecentViews = JSON.parse(localStorage.getItem("recentViews")) || [];
+  
+      // 중복 제거 후 새로운 상품 추가
+      const updatedRecentViews = [
+        item,
+        ...existingRecentViews.filter((v) => v.pwr_id !== item.pwr_id),
+      ].slice(0, 10);
+  
+      // 로컬스토리지 업데이트
+      localStorage.setItem("recentViews", JSON.stringify(updatedRecentViews));
+  
+      // 백엔드에 API 호출
+      // if (user?.member_id) {
+      //   const response = await axios.post("http://localhost:8080/api/recent-view", {
+      //     memberId: user.member_id,
+      //     pwrId: item.pwr_id,
+      //   });
+      const response = await axios.post("http://localhost:8080/api/recent-view", {
+        member_id: user.member_id,
+        pwr_id: item.pwr_id,
+  
+      });
+      console.log("최근 본 상품 저장 성공:", response.data);
+    } catch (error) {
+      console.error("상품 클릭 - 최근 본 상품 저장 중 오류 발생:", error);
+    }
+  };
+
+  // 끝끝
 
   // 데이터 로드 (최초 실행)
   useEffect(() => {
@@ -124,8 +205,15 @@ function Page(props) {
           {sortedList.length === 0 ? (
             <div style={{ textAlign: "center" }}>등록된 게시물이 없습니다.</div>
           ) : (
-            sortedList.map((item) => <ItemCard key={item.pwr_id} data={item} />)
-          )}
+          //   sortedList.map((item) => <ItemCard key={item.pwr_id} data={item} />)
+          // )}
+          sortedList.map((item) => (
+            
+            <div key={item.pwr_id} onClick={() => handleProductClick(item)}>
+              <ItemCard data={item} />
+            </div>
+          ))
+        )}
         </div>
       </div>
     </>

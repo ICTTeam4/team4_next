@@ -378,6 +378,7 @@ const saleDetail = () => {
     console.log("Handle bookmark toggle...");
     console.log("member_id:", user?.member_id); // 추가
     console.log("pwr_id:", detail?.pwr_id);        // 추가
+    console.log("찜하기 요청 시작");
   
     if (!user?.member_id) {
       alert("로그인이 필요합니다.");
@@ -405,6 +406,7 @@ const saleDetail = () => {
           headers: { "Content-Type": "application/json" },
         });
         alert("찜이 완료되었습니다.");
+        console.log("찜하기 요청 완료");
       }
   
       // 상태 토글
