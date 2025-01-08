@@ -21,6 +21,10 @@ function Page(props) {
     const [previewImages, setPreviewImages] = useState([]);
     const [selectedImage, setSelectedImage] = useState(null);
     const [submitting, setSubmitting] = useState(false);
+    const [selectedPwrId, setSelectedPwrId] = useState(null);
+    const [reviewedPwrIds, setReviewedPwrIds] = useState([]); // 리뷰된 pwr_id 상태
+    const [detail, setDetail] = useState(null);
+    const [loading, setLoading] = useState(true); // 로딩 상태
     const [purchases, setPurchases] = useState([]); // 판매 내역 데이터 상태
     const [showSideNav, setShowSideNav] = useState(true); // 사이드바 보이기 여부 상태
     const member_id = user.member_id;
@@ -33,38 +37,6 @@ function Page(props) {
         }
     }, [pathname]);
 
-    // // 판매 내역 데이터 상태
-    // const [purchases, setPurchases] = useState([
-    //     {
-    //         idx: 1,
-    //         trans_id: "aaa555",
-    //         name: "상품이름(글제목등..임시값)",
-    //         trans_price: "80,000원",
-    //         is_zup: "",
-    //         guest_id: "46",
-    //         host_id: "9",
-    //         pwr_id: "1",
-    //         is_fixed: "1",
-    //         trans_method: "택배거래",
-    //         item_image: "/images/JH_itemImg.png",
-    //         trans_date: "2025-01-02 00:00:00",
-    //     },
-    //     {
-    //         idx: 2,
-    //         trans_id: "bbb555",
-    //         name: "상품이름(글제목등..임시값)",
-    //         trans_price: "100,000원",
-    //         is_zup: "",
-    //         guest_id: "9",
-    //         host_id: "46",
-    //         pwr_id: "2",
-    //         is_fixed: "0",
-    //         trans_method: "직거래",
-    //         item_image: "/images/JH_itemImg2.png",
-    //         trans_date: "2025-01-02 12:00:00",
-    //     },
-    // ]);
-    // DB에서 진행중인 판매내역 데이터 가져오기
     useEffect(() => {
         const fetchPurchases = async () => {
             try {
@@ -95,6 +67,21 @@ function Page(props) {
         }
     }, [member_id]);
 
+    // DB에서 리뷰된 판매내역 pwr_id 가져오기
+    const fetchReviewedPwrIds = async () => {
+        console.log("멤버아이디:", member_id);
+        try {
+            const response = await axios.get(`${LOCAL_API_BASE_URL}/HayoonReview/getsellreviewpwr?member_id=${member_id}`);
+            if (response.status === 200) {
+                setReviewedPwrIds(response.data.data); // 리뷰된 pwr_id 상태 업데이트
+                console.log("리스폰스데이타:", response.data.data);
+            }
+        } catch (error) {
+            console.error("리뷰된 pwr_id 가져오기 중 오류:", error);
+        }
+    };
+
+
     const filteredItems = activeTab === '전체'
         ? purchases
         : purchases.filter((item) =>
@@ -105,7 +92,26 @@ function Page(props) {
         setActiveTab(tab);
     };
 
-    const openModal = () => {
+    const openModal = (pwr_id) => {
+        console.log(pwr_id);
+        setSelectedPwrId(pwr_id);
+        /* buyer_id 가져오기 */
+        const getData = async () => {
+            try {
+                setLoading(true); // 로딩 상태 시작
+                // (1) 서버에서 데이터 가져오기
+                const response = await axios.get(`http://localhost:8080/api/transaction/gettransdetails?pwr_id=${pwr_id}`);
+                const data = response.data.data;
+                console.log(data);
+                setDetail(data);
+            } catch (err) {
+                console.error("Error fetching data:", err);
+                setError(err.message);
+            } finally {
+                setLoading(false); // 로딩 상태 종료
+            }
+        };
+        getData();
         setIsModalOpen(true);
     };
 
@@ -135,6 +141,7 @@ function Page(props) {
         setPreviewImages(previewImages.filter((_, i) => i !== index));
     };
 
+    // 리뷰 제출
     const handleSubmitReview = async () => {
         setSubmitting(true);
         const formData = new FormData();
@@ -142,9 +149,12 @@ function Page(props) {
         if (images.length > 0) {
             images.forEach(image => formData.append('images', image));
         }
+        formData.append('member_id', member_id);
+        formData.append('pwr_id', selectedPwrId);
         formData.append('content', reviewText);
         formData.append('rate', rating);
-        formData.append('member_id', member_id);
+        formData.append('seller_id', detail.seller_id);
+        formData.append('buyer_id', detail.buyer_id);
 
         try {
             const token = localStorage.getItem('token');
@@ -157,6 +167,7 @@ function Page(props) {
             if (response.data.success) {
                 alert('리뷰 등록에 성공했습니다.');
                 closeModal();
+                window.location.reload(); // 페이지 새로고침
             } else {
                 alert('리뷰 등록에 실패했습니다.');
             }
@@ -167,7 +178,17 @@ function Page(props) {
             setSubmitting(false);
         }
     };
+    // 초기 데이터 로드
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            await Promise.all([fetchReviewedPwrIds()]);
+            setLoading(false);
+        };
+        fetchData();
+    }, []);
 
+    if (loading) return <p>로딩 중...</p>;
     return (
         <div className='myPageSell'>
             <div className='container my lg'>
@@ -262,8 +283,16 @@ function Page(props) {
                                                     <p className='text-lookup last_title display_paragraph' style={{ color: "rgb(34, 34, 34)" }}>
                                                         {item.status === '판매중' ? '진행 중' : '판매 완료'}
                                                     </p>
-                                                    {item.status === '판매완료' && (
-                                                        <button className="review-btn" onClick={openModal} style={{ textAlign: 'right' }}>후기 남기기</button>
+                                                    {item.status === '판매완료' && !reviewedPwrIds.includes(Number(item.pwr_id)) && (
+                                                        <button
+                                                            className="review-btn"
+                                                            onClick={() => openModal(item.pwr_id)}
+                                                            style={{ textAlign: 'right' }}
+                                                        >후기 남기기</button>
+                                                    )}
+                                                    {/* 후기 작성 완료 상태 표시 */}
+                                                    {reviewedPwrIds.includes(Number(item.pwr_id)) && (
+                                                        <p className="review-status">후기 작성 완료</p>
                                                     )}
                                                 </div>
                                             </div>
