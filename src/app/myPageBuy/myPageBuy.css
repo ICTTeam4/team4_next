@@ -881,6 +881,11 @@
     padding: 20px;
 }
 
+.review-status {
+    font-size: 13px;
+    color:#A7A7A7;
+}
+
 .sale-list {
     display: flex;
     flex-direction: column;
