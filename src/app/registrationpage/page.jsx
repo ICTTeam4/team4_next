@@ -136,7 +136,7 @@ function ProductPage() {
   const handleSubmit = async () => {
     const API_URL = `http://localhost:8080/api/salespost/salesinsert`;
     const data = new FormData();
-    data.append("member_id", formData.member_id);
+    data.append("member_id", user.member_id? user.member_id : "1");
     data.append("selling_area_id", formData.selling_area_id);
     data.append("title", formData.title);
     data.append("sell_price", formData.sell_price);
