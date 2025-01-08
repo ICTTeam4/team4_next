@@ -21,8 +21,9 @@ function Page(props) {
     const [previewImages, setPreviewImages] = useState([]);
     const [selectedImage, setSelectedImage] = useState(null);
     const [submitting, setSubmitting] = useState(false);
-    const [purchases, setPurchases] = useState([]); // 구매 내역 데이터 상태
+    const [purchases, setPurchases] = useState([]); // 판매 내역 데이터 상태
     const [showSideNav, setShowSideNav] = useState(true); // 사이드바 보이기 여부 상태
+    const member_id = user.member_id;
     useEffect(() => {
         // 특정 조건에 따라 사이드바를 숨기거나 표시
         if (pathname.includes("/myPageBuy") || pathname.includes("/myPageSell")) {
@@ -63,24 +64,24 @@ function Page(props) {
     //         trans_date: "2025-01-02 12:00:00",
     //     },
     // ]);
-    // DB에서 데이터 가져오기
+    // DB에서 진행중인 판매내역 데이터 가져오기
     useEffect(() => {
         const fetchPurchases = async () => {
             try {
-                console.log(user?.member_id);
+                console.log(member_id);
                 const token = localStorage.getItem('token'); // 토큰 가져오기
-                const response = await axios.get(`http://localhost:8080/api/transaction/HayoonSearchSell`, {
+                const response = await axios.get(`http://localhost:8080/api/salespost/getsellpostlist`, {
                     headers: {
                         Authorization: `Bearer ${token}`, // 인증 헤더 추가
                     },
                     params: {
-                        member_id: user?.member_id, // 사용자 ID 전달
+                        member_id: member_id, // 사용자 ID 전달
                     },
                 });
 
                 if (response.status === 200) {
-                    setPurchases(response.data); // 서버에서 가져온 데이터를 상태로 설정
-                    console.log(response.data);
+                    console.log("response.data.data", response.data.data);
+                    setPurchases(response.data.data); // 서버에서 가져온 데이터를 상태로 설정
                 } else {
                     console.error("데이터를 가져오는 데 실패했습니다.");
                 }
@@ -89,14 +90,16 @@ function Page(props) {
             }
         };
 
-        if (user?.member_id) {
+        if (member_id) {
             fetchPurchases(); // 사용자 ID가 있을 때만 데이터 가져오기
         }
-    }, [user]);
+    }, [member_id]);
 
     const filteredItems = activeTab === '전체'
         ? purchases
-        : purchases.filter(item => item.is_fixed === activeTab);
+        : purchases.filter((item) =>
+            activeTab === "0" ? item.status === "판매중" : item.status === "판매완료"
+        );
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -141,7 +144,7 @@ function Page(props) {
         }
         formData.append('content', reviewText);
         formData.append('rate', rating);
-        formData.append('member_id', user.member_id);
+        formData.append('member_id', member_id);
 
         try {
             const token = localStorage.getItem('token');
@@ -194,7 +197,11 @@ function Page(props) {
                                                         <dd className='count'>
                                                             {tab === '전체'
                                                                 ? purchases.length
-                                                                : purchases.filter(item => item.is_fixed === tab).length}
+                                                                : purchases.filter((item) =>
+                                                                    tab === "0"
+                                                                        ? item.status === "판매중"
+                                                                        : item.status === "판매완료"
+                                                                ).length}
                                                         </dd>
                                                     </dl>
                                                 </a>
@@ -209,15 +216,15 @@ function Page(props) {
                             {filteredItems.length > 0 ? (
                                 filteredItems
                                     .slice() // 원본 배열 보호
-                                    .sort((a, b) => b.idx - a.idx) // idx를 기준으로 최신순 정렬
+                                    .sort((a, b) => b.pwr_id - a.pwr_id) // idx를 기준으로 최신순 정렬
                                     .map(item => (
-                                        <div key={item.idx} className='purchase_list_display_item'>
+                                        <div key={item.pwr_id} className='purchase_list_display_item'>
                                             <div className='purchase_list_product'>
                                                 <div className='list_item_img_wrap'>
-                                                    {item.file_name !== "0" ? (
+                                                    {item.fileList !== "0" ? (
                                                         <img
                                                             alt="product_img"
-                                                            src={`http://localhost:8080/images/${item.file_name}`}
+                                                            src={`http://localhost:8080/images/${item.fileList[0].fileName}`}
                                                             className='list_item_img'
                                                             style={{ backgroundColor: "rgb(244, 244, 244)" }}
                                                         />
@@ -226,15 +233,21 @@ function Page(props) {
                                                     )}
                                                 </div>
                                                 <div className='list_item_title_wrap'>
-                                                    <p className='list_item_price'>{Number(item.trans_price).toLocaleString()} 원</p>
+                                                    <p className='list_item_price'>{Number(item.sell_price).toLocaleString()} 원</p>
                                                     <p className='list_item_title'>{item.title}</p>
-                                                    <p className='list_item_description'>{item.trans_method}</p>
+                                                    <p className='list_item_description'>{item.is_direct === "1" && item.is_delivery === "1"
+                                                        ? "직거래 / 택배거래"
+                                                        : item.is_direct === "1"
+                                                            ? "직거래"
+                                                            : item.is_delivery === "1"
+                                                                ? "택배거래"
+                                                                : ""}</p>
                                                 </div>
                                             </div>
                                             <div className='list_item_status'>
                                                 <div className='list_item_column column_secondary'>
                                                     <p className='text-lookup secondary_title display_paragraph' style={{ color: "rgba(34, 34, 34, 0.5)" }}>
-                                                        {new Date(item.trans_date).toLocaleString('ko-KR', {
+                                                        {new Date(item.created_at).toLocaleString('ko-KR', {
                                                             year: 'numeric',
                                                             month: 'long',
                                                             day: 'numeric',
@@ -247,9 +260,9 @@ function Page(props) {
                                                 </div>
                                                 <div className='list_item_column column_last'>
                                                     <p className='text-lookup last_title display_paragraph' style={{ color: "rgb(34, 34, 34)" }}>
-                                                        {item.is_fixed === '0' ? '진행 중' : '구매 완료'}
+                                                        {item.status === '판매중' ? '진행 중' : '판매 완료'}
                                                     </p>
-                                                    {item.is_fixed === '1' && (
+                                                    {item.status === '판매완료' && (
                                                         <button className="review-btn" onClick={openModal} style={{ textAlign: 'right' }}>후기 남기기</button>
                                                     )}
                                                 </div>

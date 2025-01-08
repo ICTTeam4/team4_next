@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import styles from './Page.module.css'; // CSS 모듈 임포트
 
-const Page = ({ index, data }) => {
+const Page = ({ data }) => {
   console.log("ItemCard 데이터:", data);
 
   

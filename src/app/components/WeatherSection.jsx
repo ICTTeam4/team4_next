@@ -1,35 +1,42 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './css/WeatherSection.css';
 
-function WeatherSection() {
+function WeatherSection({ latitude, longitude }) {
   const [weatherData, setWeatherData] = useState([]);
 
   const fetchWeatherData = async () => {
+    if (!latitude || !longitude) return; // 위치 정보가 없으면 실행 중지
+    console.log("111111");
+    console.log("잘 들어왔나? latitude || longitude : ", latitude, longitude);
+
     try {
-      // 기상청 API URL 및 키
-      const apiKey = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
-      const baseDate = new Date().toISOString().slice(0, 10).replace(/-/g, ''); // YYYYMMDD 형식
-      const baseTime = '0500'; // 5시 기준 발표
-      const nx = '60'; // 예: 위도
-      const ny = '127'; // 예: 경도
-      
-      const url = `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=${apiKey}&numOfRows=100&pageNo=1&base_date=${baseDate}&base_time=${baseTime}&nx=${nx}&ny=${ny}&dataType=JSON`;
+      console.log("2222222");
 
-      const response = await fetch(url);
-      const data = await response.json();
+      const response = await axios.get('http://localhost:8080/api/weatherinfo/forecast', {
+        params: { latitude, longitude },
+      });
 
-      if (data.response.body.items.item) {
-        const filteredData = data.response.body.items.item.filter(item => item.category === 'SKY'); // 하늘상태만 필터링
-        setWeatherData(filteredData.slice(0, 6)); // 필요한 데이터만 자르기
+      console.log("333333");
+
+
+
+      const data = response.data;
+      console.log("data : ", data);
+      if (data.length === 0) {
+        console.error('날씨 데이터를 불러올 수 없습니다.');
+        return;
       }
+
+      setWeatherData(data.slice(0, 6)); // 필요한 데이터만
     } catch (error) {
-      console.error('날씨 정보 에러 : ', error);
+      console.error('날씨 정보 에러:', error);
     }
   };
 
   useEffect(() => {
     fetchWeatherData();
-  }, []);
+  }, [latitude, longitude]);
 
   return (
     <div className="weatherSection">
@@ -39,16 +46,15 @@ function WeatherSection() {
           <div className="weatherDay" key={index}>
             <span>{index === 0 ? '오늘' : `${index}일 뒤`}</span>
             <span>
-              {weather.fcstValue === '1' ? '☀️ 맑음' :
-               weather.fcstValue === '3' ? '⛅ 구름많음' :
-               weather.fcstValue === '4' ? '🌧️ 비' : '❓'}
+              {weather.value === '1' ? '☀️ 맑음' :
+                weather.value === '3' ? '⛅ 구름많음' :
+                  weather.value === '4' ? '🌧️ 비' : '❓'}
             </span>
           </div>
         ))}
       </div>
     </div>
   );
-
 }
 
 export default WeatherSection;
