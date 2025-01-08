@@ -7,14 +7,14 @@ import { useRouter } from 'next/navigation';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import useAuthStore from '../../../store/authStore';
 import axios from 'axios';
-const Chat = ({ isOpen, closeChat, initialRoomId, initialhostId, messages }) => {
+const Chat = ({ isOpen, closeChat, initialRoomId, initialguestId, initialhostId,  messages = [] }) => {
   const [isChatDetailOpen, setChatDetailOpen] = useState(false); // 채팅디테일 사이드바 상태관리 
   const { user } = useAuthStore();
   const [selectedChat, setSelectedChat] = useState(null);
+  const [chats, setChats] = useState(messages); // messages를 chats로 초기화
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const LOCAL_API_BASE_URL = "http://localhost:8080";
   // `chats2`를 chats로 설정
-  const [chats, setChats] = useState(messages); // messages를 chats로 초기화
 
 
 
@@ -34,18 +34,22 @@ const Chat = ({ isOpen, closeChat, initialRoomId, initialhostId, messages }) => 
 
 
   useEffect(() => {
-    if (chats.length === 0 && !loading) {
-      setLoading(true);
-    } else if (chats.length > 0 && loading) {
-      setLoading(false);
+    if (Array.isArray(chats) && chats.length > 0) {
+      setLoading(false); // chats가 있을 경우 로딩 완료
+    } else {
+      setLoading(true); // chats가 비어있으면 로딩 중
     }
-  }, [chats, loading]);
+  }, [chats]);
   // 안정화위해서 2차 체크
   useEffect(() => {
     if (Array.isArray(messages) && messages.length > 0) {
-      setChats(messages);
+      setChats(messages); // messages를 chats로 설정
+      setLoading(false); // 로딩 완료
     }
   }, [messages]);
+
+
+  
 
   // 초기 room_id가 있을 경우 바로 채팅 디테일 열기
   useEffect(() => {
@@ -74,7 +78,38 @@ const Chat = ({ isOpen, closeChat, initialRoomId, initialhostId, messages }) => 
   ? chats.filter((chat) => chat.room_id === selectedChat.room_id)
   : [];
 
-
+  useEffect(() => {
+    const fetchChatRooms = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`${LOCAL_API_BASE_URL}/api/chat/messageListForAll`, {
+          params: {
+            room_id:initialRoomId
+           },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        if (response.data && response.data.success) {
+          console.log("채팅방 목록 불러오기 성공:", response.data);
+          setChats(response.data.data); // chats에 데이터 설정
+          setLoading(false); // 로딩 완료
+        } else {
+          console.error("채팅방 목록 불러오기 실패:", response.data);
+          
+        }
+      } catch (error) {
+        console.error("채팅방 목록 불러오기 중 오류:", error);
+      }
+    };
+  
+    // chats가 없으면 서버에서 데이터를 가져옵니다.
+    if (chats.length === 0) {
+      fetchChatRooms();
+    }
+  }, [chats]);
+  
 
 
   return (
