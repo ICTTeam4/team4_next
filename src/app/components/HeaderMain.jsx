@@ -10,7 +10,7 @@ import axios from 'axios';
 const HeaderMain = () => {
   // 휘주 수정본 구역 시작
   const [showNotification, setShowNotification] = useState(false); // 알림 상태
-  const { searchKeyword, setSearchKeyword, setKeyword, setCategory,user } = useAuthStore(); // Zustand에서 검색 상태 관리
+  const { searchKeyword, setSearchKeyword, setKeyword, setCategory, user } = useAuthStore(); // Zustand에서 검색 상태 관리
   const [showSearchBar, setShowSearchBar] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
