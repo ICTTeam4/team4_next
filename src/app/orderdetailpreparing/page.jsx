@@ -106,7 +106,7 @@ const OrderDetail = () => {
         </div>
         <div className="transaction-details">
           <p>
-            <strong>판매자</strong> 판판매자이름
+            <strong>판매자</strong> 판매자이름
           </p>
           <p>
             <strong>거래방법</strong> 일반택배(선불)
