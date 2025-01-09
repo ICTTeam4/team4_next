@@ -37,7 +37,8 @@ const Page = () => {
               {navItems.map((item, index) => {
                 // 경로를 전체 경로로 변환한 후 비교
                 const fullPath = getFullPath(item.path);
-                const isSelected = pathname === item.path || pathname === fullPath;
+                // const isSelected = pathname === item.path || pathname === fullPath;
+                const isSelected = pathname === item.path;
 
                 return (
                   <li

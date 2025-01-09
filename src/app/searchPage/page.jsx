@@ -100,7 +100,10 @@ const handleSearch = async () => {
             <div className='recnt_button_container'>
               <ul>
                 <li>
-                  <button className='recnt_button' onClick={goList}>테스트 &times;</button>
+                  <button className='recnt_button' onClick={goList}>폴라티 &times;</button>
+                  <button className='recnt_button' onClick={goList}>아우터 &times;</button>
+                  <button className='recnt_button' onClick={goList}>티셔츠 &times;</button>
+                  <button className='recnt_button' onClick={goList}>맨투맨 &times;</button>
                 </li>
               </ul>
             </div>
@@ -112,7 +115,16 @@ const handleSearch = async () => {
             </p>
             <div className='search_rank_container'>
               <ul>
-                <li></li>
+                <li>니트</li>
+                <li>패딩</li>
+                <li>후드티</li>
+                <li>맨투맨</li>
+                <li>목도리</li>
+                <li>무스탕</li>
+                <li>롱패딩</li>
+                <li>비니</li>
+                <li>코트</li>
+                <li>코듀로이</li>
               </ul>
             </div>
           </div>
