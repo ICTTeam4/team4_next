@@ -153,6 +153,14 @@ function Page(props) {
         return reviews.filter((review) => review.member_id === Number(user?.member_id)).length;
     }, [reviews, user]);
 
+    const buyerReviewCount = useMemo(() => {
+        return reviews.filter((review) => review.type === "buyer").length;
+    }, [reviews]);
+    
+    const sellerReviewCount = useMemo(() => {
+        return reviews.filter((review) => review.type === "seller").length;
+    }, [reviews]);
+
 
 
     // 중복 검사 없이 각 탭 조건에 따라 독립적으로 데이터 유지
@@ -214,7 +222,7 @@ function Page(props) {
                                             onClick={() => handleTabClick('판매자후기')}>
                                             <a href="#" className='tab_link'>
                                                 <dl className='tab_box'>
-                                                    <dd className='count'>{sellerAverageRating}</dd>
+                                                    <dd className='count'>{sellerReviewCount}</dd>
                                                     <dt className='title'>판매자 후기</dt>
                                                 </dl>
                                             </a>
@@ -226,7 +234,7 @@ function Page(props) {
                                             onClick={() => handleTabClick('구매자후기')}>
                                             <a href="#" className='tab_link'>
                                                 <dl className='tab_box'>
-                                                    <dd className='count'>{buyerAverageRating}</dd>
+                                                    <dd className='count'>{buyerReviewCount}</dd>
                                                     <dt className='title'>구매자 후기</dt>
                                                 </dl>
                                             </a>
