@@ -80,9 +80,12 @@ function ProductPage() {
     }));
   };
 
+  const member_id = user.member_id;
+  console.log(member_id);
+
   const [formData, setFormData] = useState({
     pwr_id: '',
-    member_id: user?.member_id || '',
+    member_id: member_id || '',
     selling_area_id: '',
     title: '',
     sell_price: '',

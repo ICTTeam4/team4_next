@@ -525,18 +525,13 @@
 
 .myPageBuy .list_item_status .list_item_column {
     margin-left: 10px;
-    width: 134px;
+    width: 140px;
 }
 
 .myPageBuy .list_item_status .column_last {
     align-self: center;
     display: flex;
     flex-direction: column;
-}
-
-.myPageBuy .list_item_status .list_item_column {
-    margin-left: 10px;
-    width: 134px;
 }
 
 .myPageBuy .list_item_status .column_last .last_title {
