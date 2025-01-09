@@ -173,7 +173,7 @@ function ProductPage() {
             alert(response.data.message);
             router.push("/");
         } else {
-            alert(response.data.message);
+            alert("에러 " + error);
         }
     } catch (error) {
       // console.error('오류 발생:', error.name);   // 오류 이름
