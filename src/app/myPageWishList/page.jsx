@@ -5,6 +5,7 @@ import "./myPageWishList.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import useAuthStore from "../../../store/authStore";
+import { useRouter } from "next/navigation";
 
 function Page() {
   const pathname = usePathname();
@@ -15,6 +16,19 @@ function Page() {
   const [member_id, setMember_id] = useState(null);
   const [filteredItems, setFilteredItems] = useState([]); // 초기값 빈 배열
   const [totalItems, setTotalItems] = useState(0);
+  const router = useRouter();
+  
+  const [showSideNav, setShowSideNav] = useState(true); // 사이드바 보이기 여부 상태
+
+  useEffect(() => {
+    // 특정 조건에 따라 사이드바를 숨기거나 표시
+    if (pathname.includes("/myPageWishList")) {
+        setShowSideNav(true); // 구매 내역, 판매 내역 페이지에서는 숨기기
+    } else {
+        setShowSideNav(false); // 그 외 페이지에서는 표시
+    }
+}, [pathname]);
+  
 
   // 사용자 ID 설정
   useEffect(() => {
@@ -121,33 +135,9 @@ useEffect(() => {
   
 
   
-  // 찜 삭제 처리
-  // const handleDeleteItem = async (pwr_id) => {
-  //   if (!member_id) {
-  //     alert("로그인이 필요합니다.");
-  //     return;
-  //   }
-  
-  //   try {
-  //     console.log("찜한 상품 삭제 요청:", { member_id, pwr_id });
-  
-  //     // 관심 상품 삭제 API 호출
-  //     await axios.delete("http://localhost:8080/api/wishlist/delete", {
-  //       data: { member_id, pwr_id },
-  //       headers: { "Content-Type": "application/json" },
-  //     });
-  
-  //     // 상태 업데이트
-  //     setItems((prevItems) =>
-  //       prevItems.filter((item) => item?.pwr_id !== pwr_id)
-  //     );
-  
-  //     console.log("찜한 상품 삭제 완료");
-  //     alert("찜한 상품이 삭제되었습니다.");
-  //   } catch (error) {
-  //     console.error("찜한 상품 삭제 중 오류 발생:", error);
-  //   }
-  // };
+  const handleProductClick = (item) => {
+    router.push(`saleDetail?id=${item.pwr_id}`);
+  };
 
 
   const handleDeleteItem = async (pwr_id, category) => {
@@ -196,7 +186,7 @@ useEffect(() => {
   return (
     <div className="myPageWishList">
       <div className="container my lg">
-        <MyPageSideNav currentPath={pathname} />
+      {showSideNav && <MyPageSideNav currentPath={pathname} />}
         <div className="content_area my-page-content">
           <div className="content_title border">
             <div className="title">
@@ -251,7 +241,7 @@ useEffect(() => {
                         key={item.pwr_id}
                         className="purchase_list_display_item"
                         style={{ backgroundColor: "rgb(255, 255, 255)" }}
-                        //  onClick={(item)} // 상품 클릭 시 API 호출
+                        onClick={() => handleProductClick(item)}  // 상품 클릭 시 API 호출
                       >
                         <a href="#">
                           <div className="purchase_list_product">
@@ -275,7 +265,7 @@ useEffect(() => {
                         </a>
                         <p
                           className="text-lookup last_description display_paragraph action_named_action wish_delete"
-                          onClick={() => handleDeleteItem(item.pwr_id, item.category)}
+                          onClick={(e) => {e.stopPropagation(); handleDeleteItem(item.pwr_id, item.category)}}
                           style={{ cursor: "pointer" }}
                         >
                           삭제
