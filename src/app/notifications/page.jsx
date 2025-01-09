@@ -7,16 +7,51 @@ import useAuthStore from '../../../store/authStore';
 
 const Page = ({props}) => {
   const {isNotibarActive, setIsNotibarActive} = useAuthStore();
+  const [number,setNumber] =useState(1);
   const handleToggleNotibar = () => {
     setIsNotibarActive(); // 상태 토글
   };
   useEffect(()=>{
-    const sse = new EventSource("http://localhost:8080/api/connect");
+    const sse = new EventSource("http://localhost:8080/api/connect/99");
     sse.addEventListener('connect', (e) => {
       const { data: receivedConnectData } = e;
-      console.log('알림 정보 받기: ',receivedConnectData);  // "connected!"
+      console.log('connect알림 정보 받기: ',receivedConnectData);  // "connected!"
     });
+    sse.addEventListener('update', (e) => {
+      const { data: receivedConnectData } = e;
+      console.log('update알림 정보 받기: ',receivedConnectData);  // "connected!"
+    });
+    sse.onmessage = function(event) {
+      console.log("메세지 가져오는지 확인:"+event.data); // 서버로부터 받은 데이터 (SSE 이벤트)
+    };
   },[])
+
+  useEffect(()=> {
+    sendMessage();
+  },[]);
+  
+  const sendMessage = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/broadcast/99?message=${encodeURIComponent("클릭했음!-------------------")}`, {
+        method: 'GET'
+      });
+  
+      // 응답 처리
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result.message);
+      } else {
+        console.log('Error sending message.if');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      console.log('Error sending message.catch');
+    }
+  };
+  const plus = () => {
+    setNumber(number+1);
+    console.log(number);
+  }
 
   return (
     
@@ -34,7 +69,7 @@ const Page = ({props}) => {
               <img src="/images/HJ_close.png" className="noti_close_button" />
             </button>
             <div className="noti_title">
-              <h2><p>알림</p></h2>
+              <h2><p>알림</p> <button onClick={sendMessage} >메시지</button><button onClick={plus} >+</button> </h2>
             </div>
           </div>
         </div>
