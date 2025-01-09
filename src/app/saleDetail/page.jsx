@@ -40,6 +40,7 @@ const saleDetail = () => {
   const [member_id, setMember_id] = useState(null);
   const [latitude, setLatitude] = useState(null); // 날씨용
   const [longitude, setLongitude] = useState(null); // 날씨용
+  const [memberId, setMemberId] = useState(null); // 날씨용
 
   // URL 파라미터 (id)
   const id = searchParams.get("id");
@@ -68,6 +69,7 @@ const saleDetail = () => {
     };
 
     getData();
+
 
   }, [id]);
 
@@ -99,20 +101,25 @@ const saleDetail = () => {
 
   3.// 판매고객 조회
   useEffect(() => {
-  const getSellerData = async () => {
-    try {
-      console.log(id);
-      const response = await axios.get(`http://localhost:8080/members/getpostmemberdetail?pwr_id=${id}`);
-      setSellerData(response.data.data);
-      console.log("주문고객 데이터 조회 완료:", response.data.data);
-    } catch (error) {
-      console.error("주문고객 데이터 조회 실패:", error);
-      setError("주문고객 데이터 조회에 실패했습니다.");
+    const getSellerData = async () => {
+      try {
+        console.log(id);
+        const response = await axios.get(`http://localhost:8080/members/getpostmemberdetail?pwr_id=${id}`);
+        console.log(response);
+        setSellerData(response.data.data);
+        const memberId = response.data.data.member_id;
+        console.log("Member ID:", memberId);
+        console.log("주문고객 데이터 조회 완료:", response.data.data);
+      } catch (error) {
+        console.error("주문고객 데이터 조회 실패:", error);
+        setError("주문고객 데이터 조회에 실패했습니다.");
+      }
     }
-  }
-  getSellerData();
+    getSellerData();
 
-}, [id]);
+  }, [id]);
+
+  // const memberID = sellerData.member_id;
 
   // 휘주 지도 내용 시작
   useEffect(() => {
@@ -378,6 +385,7 @@ const saleDetail = () => {
     console.log("Handle bookmark toggle...");
     console.log("member_id:", user?.member_id); // 추가
     console.log("pwr_id:", detail?.pwr_id);        // 추가
+    console.log("찜하기 요청 시작");
   
     if (!user?.member_id) {
       alert("로그인이 필요합니다.");
@@ -405,6 +413,7 @@ const saleDetail = () => {
           headers: { "Content-Type": "application/json" },
         });
         alert("찜이 완료되었습니다.");
+        console.log("찜하기 요청 완료");
       }
   
       // 상태 토글
@@ -470,12 +479,14 @@ const saleDetail = () => {
     }
   
     try {
-      console.log("하윤서치채팅준비용",user.member_id,detail.pwr_id)
+      console.log("하윤서치채팅준비용",user.member_id,detail.pwr_id,sellerData.member_id)
         // LocalStorage에서 토큰 가져오기
         const token = localStorage.getItem("token");
       // API 요청
+    
       const response = await axios.get(CHAT_API_URL, {
         params: {
+          seller_id: sellerData.member_id,
           buyer_id: user.member_id,
           pwr_id: detail.pwr_id,
         },
@@ -486,15 +497,17 @@ const saleDetail = () => {
       });
   
       // 요청 성공 시 room_id 받아오기 (새로 생성되는경우에도 받아옴.  이유는 채팅목록과, 바로 채팅하기 구분하기 위해서 여기서 roomid유무 따짐)
+      //잘 받아옴. 메세지들. 
       if (response.data && response.data.success) {
-        console.log("채팅메세지000"+JSON.stringify(response.data))
-        const roomId = response.data.data[0]?.room_id;
+        console.log("saildetail에서 받은것"+JSON.stringify(response.data))
+        const roomId = response.data.message;
     
-        // 이벤트 발생
+        // 이벤트 발생 //지금은 host guest 바뀐상태입니다.. 추후 변경하도록하겠습니다... (변수명이 너무많이쓰여서... )
         window.dispatchEvent(
-          new CustomEvent("open-chat2", {
+          new CustomEvent("open-chat", {
             detail: {
               room_id: roomId,
+              guest_id: sellerData.member_id,
               host_id: user.member_id,
               messages: response.data.content
             },
@@ -547,10 +560,6 @@ const saleDetail = () => {
     detail.status === '판매완료';
   console.log(detail.status);
 
-
-
-
-
   return (
     <>
       <div className="container">
@@ -583,10 +592,6 @@ const saleDetail = () => {
                 </img>찜수</div>
               </div>
             </div>
-
-
-
-
           </div>
           <div className="tradeInfo">
             <div> 제품상태 <br /> <span className='tradeTitle'>중고</span></div>
@@ -601,10 +606,10 @@ const saleDetail = () => {
                     : ""}
             </span></div>
             <div
-            style={{borderRight: "none"}}
-            >배송비 <br /> <span 
-            className='tradeTitle'
-            
+              style={{ borderRight: "none" }}
+            >배송비 <br /> <span
+              className='tradeTitle'
+
             >포함</span></div>
           </div>
           <div id="interaction-area">
@@ -647,19 +652,52 @@ const saleDetail = () => {
         <div className="sellerInfo">
           <div className='sellerHeader'>
             <span className='infoTitle'>
-              <Link href="/salepage" className='infoTitle'>판매자 정보</Link></span>
-            <Link href="/salepage">
-              <Image src="/images/David_arrow.png" alt="이미지" className='navigation' width="20" height="20" />
+              <Link
+                prefetch={false}
+                href={{
+                  pathname: "/salepage",
+                  query: {
+                    id: sellerData.member_id,
+                  },
+                }}
+                className='infoTitle'>판매자 정보</Link></span>
+            <Link
+              prefetch={false}
+              href={{
+                pathname: "/salepage",
+                query: {
+                  id: sellerData.member_id,
+                },
+              }}
+            >
+              <Image src="/images/David_arrow.png" className='navigation' width="20" height="20" />
             </Link>
           </div>
           {/* <hr className='hr' /> */}
           <div className="sellerContainer">
             <div className="sellerProfile">
               <div className="sellerNickname">
-                <Link href="/salepage" className='sellerFont'>{sellerData?.nickname || '로딩 중...'}</Link>
+                <Link
+                  prefetch={false}
+                  href={{
+                    pathname: "/salepage",
+                    query: {
+                      id: sellerData.member_id,
+                    },
+                  }}
+                  className='sellerFont'>{sellerData?.nickname || '로딩 중...'}</Link>
               </div>
-              <Link href="/salepage">
-                <div className="sellerImg" ></div>
+              
+              <Link
+                prefetch={false}
+                href={{
+                  pathname: "/salepage",
+                  query: {
+                    id: sellerData.member_id,
+                  },
+                }}
+              >
+                <img src="/images/default_profile.png" width="60" height="60" className='user_profile_pic'/>
               </Link>
             </div>
             <div className="sellerData">

@@ -10,7 +10,7 @@ import axios from 'axios';
 const HeaderMain = () => {
   // 휘주 수정본 구역 시작
   const [showNotification, setShowNotification] = useState(false); // 알림 상태
-  const { searchKeyword, setSearchKeyword, setKeyword, setCategory,user } = useAuthStore(); // Zustand에서 검색 상태 관리
+  const { searchKeyword, setSearchKeyword, setKeyword, setCategory, user } = useAuthStore(); // Zustand에서 검색 상태 관리
   const [showSearchBar, setShowSearchBar] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -19,6 +19,7 @@ const HeaderMain = () => {
   const [isChatOpen, setChatOpen] = useState(false); // 채팅 사이드바 상태 관리
   const [initialRoomId, setInitialRoomId] = useState(null); // 초기 room_id 상태
   const [initialhostId, setInitialHostId] = useState(null); // 초기 글쓴이 아이디, 관리자, 판매자 공통 로직
+  const [initialguestId, setInitialGuestId] = useState(null); // 초기 판매자 아이디, 관리자, 판매자 공통 로직 (거꾸로되어잇음 ㅠ)
   const [messages, setMessages] = useState([]); // 초기값을 빈 배열로 설정
   const [chats,setChats]=useState(null);
   
@@ -28,10 +29,11 @@ const HeaderMain = () => {
     
       try {
         // 최신 메시지 가져오기
-        await fetchChatRooms();
+         await fetchChatRooms();
     
         // 최신 메시지 반영 후 상태 업데이트
         setInitialRoomId(event.detail.room_id);
+        setInitialGuestId(event.detail.guest_id);  // 이거 판매자임... ㅠㅠ
         setInitialHostId(event.detail.host_id);
         setMessages(event.detail.messages);
         setChatOpen(true);
@@ -55,6 +57,7 @@ const HeaderMain = () => {
     if (isChatOpen) {
       setChatOpen(false);
       setInitialRoomId(null); //roomid 초기화
+      setInitialGuestId(null); //hostid 초기화
       setInitialHostId(null); //hostid 초기화
     }
   };
@@ -143,7 +146,7 @@ const HeaderMain = () => {
       console.log("fetchchatroom실행");
       const response = await axios.get(`http://localhost:8080/api/chat/roomList`, {
         params: {
-          member_id: user?.member_id,
+          member_id: user?.member_id
         },
         headers: {
           Authorization: `Bearer ${token}`, // 인증 헤더 추가
@@ -245,7 +248,7 @@ const HeaderMain = () => {
         </div >
         {/* 채팅 사이드바 */}
         <div className={`chat_sidebar ${isChatOpen ? 'open' : ''}`} onClick={(e) => e.stopPropagation()}>
-          <Page isOpen={isChatOpen} closeChat={closeChat} initialRoomId={initialRoomId} initialhostId={initialhostId} messages={messages}/>
+          <Page isOpen={isChatOpen} closeChat={closeChat} initialRoomId={initialRoomId} initialhostId={initialhostId} initialguestId={initialguestId} messages={messages}/>
         </div>
       </div>
     </div>
