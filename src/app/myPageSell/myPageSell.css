@@ -316,6 +316,34 @@
     vertical-align: middle;
 }
 
+/* 텍스트 스타일 버튼 */
+.action-buttons {
+    display: flex; /* 버튼들을 가로로 정렬 */
+    gap: 15px; /* 버튼 간 간격 */
+    margin-top: 10px; /* 위쪽 여백 */
+}
+
+.action-buttons button {
+    background: none; /* 배경색 없음 */
+    border: none; /* 테두리 없음 */
+    color: #808080; /* 텍스트 색상 */
+    font-size: 13px; /* 글자 크기 */
+    padding: 0; /* 여백 제거 */
+    cursor: pointer; /* 마우스 커서 변경 */
+    transition: color 0.2s ease; /* 색상 변화 효과 */
+}
+
+/* 버튼 호버 효과 */
+.action-buttons button:hover {
+    color: #ebebeb; /* 호버 시 텍스트 색상 변경 */
+    text-decoration: none; /* 호버 시 밑줄 제거 */
+}
+
+/* 버튼 클릭 시 효과 */
+.action-buttons button:active {
+    color: #a7a7a7; /* 클릭 시 더 어두운 색상 */
+}
+
 .myPageSell .lg .shortcut-grid,
 .myPageSell .md .shortcut-grid {
     border: 1px solid #ebebeb;
@@ -527,18 +555,13 @@
 
 .myPageSell .list_item_status .list_item_column {
     margin-left: 10px;
-    width: 134px;
+    width: 140px;
 }
 
 .myPageSell .list_item_status .column_last {
     align-self: center;
     display: flex;
     flex-direction: column;
-}
-
-.myPageSell .list_item_status .list_item_column {
-    margin-left: 10px;
-    width: 134px;
 }
 
 .myPageSell .list_item_status .column_last .last_title {

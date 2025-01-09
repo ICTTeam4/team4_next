@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import useAuthStore from '../../../store/authStore';
 import PurchaseHistory from '../myPageBuy/page'; // 구매 내역 컴포넌트
 import SellHistory from '../myPageSell/page'; // 판매 내역 컴포넌트
+import WishList  from '../myPageWishList/page';// 관심 페이지지
 import { Link } from '@mui/material';
 
 import axios from 'axios';
@@ -15,6 +16,7 @@ function Page(props) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [list, setList] = useState([]);
     const [loading, setLoading] = useState();
+    const [wishlist, setWishlist] = useState([]);
 
     const { user } = useAuthStore();
 
@@ -27,6 +29,7 @@ function Page(props) {
     const handleModalClose = () => {
         setIsModalOpen(false); // 모달 닫기
     };
+    
 
     return (
         <div className='myPage'>
@@ -69,8 +72,19 @@ function Page(props) {
                                     <SellHistory />
                                 </div>
                             </div>
+
+
                             {/* 관심 상품 */}
                             <div>
+                                <div>
+                                    <WishList />
+                                </div>
+                            </div>
+
+
+
+                            {/* 관심 상품 */}
+                            {/* <div>
                                 <div className='my_home_title'>
                                     <h3 className='title'>관심 상품</h3>
                                 </div>
@@ -112,7 +126,7 @@ function Page(props) {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                             {/* 관심상품 끝 */}
                         </div>
                     </div>

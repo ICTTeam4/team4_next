@@ -174,7 +174,7 @@ function ProductPage() {
             alert(response.data.message);
             router.push("/");
         } else {
-            alert(response.data.message);
+            alert("에러 " + error);
         }
     } catch (error) {
       // console.error('오류 발생:', error.name);   // 오류 이름
@@ -300,8 +300,8 @@ const getPosition = async (address) => {
 
         <label htmlFor="file-input" className="upload-button">
           <span className="camera-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30">
-            <path d="M20 4h-3.2l-1.2-2h-6.4l-1.2 2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.89 2 1.99 2h16c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.89-2-1.99-2z" fill="none" stroke="gray" stroke-width="2" />
-            <circle cx="12" cy="12" r="4" fill="none" stroke="gray" stroke-width="2" />
+            <path d="M20 4h-3.2l-1.2-2h-6.4l-1.2 2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.89 2 1.99 2h16c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.89-2-1.99-2z" fill="none" stroke="gray" strokeWidth="2" />
+            <circle cx="12" cy="12" r="4" fill="none" stroke="gray" strokeWidth="2" />
           </svg>
           </span>
           <span className="add-icon">+</span>

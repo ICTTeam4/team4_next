@@ -64,9 +64,9 @@ function Page() {
     <div>
       <FilterSidebar isActive={isSidebarActive} toggleSidebar={toggleSidebar} />
       <FilterButtonsSection toggleSidebar={toggleSidebar} />
-      <h3 style={{ textAlign: 'center', color: 'lightgray' }}>
+      {/* <h3 style={{ textAlign: 'center', color: 'lightgray' }}>
         검색 결과 : "{query}"
-      </h3>
+      </h3> */}
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '-10px' }}>
         <div className="main_list_container">
           {loading && <p>로딩 중입니다...</p>}

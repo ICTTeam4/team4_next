@@ -1,5 +1,5 @@
 "use client";
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import MyPageSideNav from '../components/MyPageSideNav';
 import './myPageSell.css';
 import { useEffect, useState } from 'react';
@@ -12,6 +12,7 @@ function Page(props) {
     const pathname = usePathname();
     const { user } = useAuthStore();
     const LOCAL_API_BASE_URL = "http://localhost:8080/api";
+    const router = useRouter();
 
     const [activeTab, setActiveTab] = useState(initialTab);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -87,6 +88,40 @@ function Page(props) {
         : purchases.filter((item) =>
             activeTab === "0" ? item.status === "판매중" : item.status === "판매완료"
         );
+
+    // 수정 버튼 누를 시
+    const handleEdit = (pwr_id) => {
+        console.log("수정 버튼 클릭:", pwr_id);
+        // editSalesPost 페이지로 이동, pwr_id 전달
+        router.push(`/editSalesPost?pwr_id=${pwr_id}`);
+    };
+
+    // 삭제 버튼 누를 시
+    const handleDelete = async (pwr_id) => {
+        console.log("삭제버튼pwr_id: ", pwr_id);
+        if (!window.confirm("정말로 삭제하시겠습니까?")) {
+            return; // 사용자 확인 취소 시 종료
+        }
+        try {
+            const token = localStorage.getItem('token'); // 인증 토큰 가져오기
+            const response = await axios.delete(`${LOCAL_API_BASE_URL}/salespost/salesdelete?pwr_id=${pwr_id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`, // 인증 헤더 추가
+                },
+            });
+    
+            if (response.status === 200 && response.data.success) {
+                alert('삭제가 완료되었습니다.');
+                // 삭제된 항목을 상태에서 제거
+                window.location.reload(); // 페이지 새로고침
+            } else {
+                alert('삭제에 실패했습니다.');
+            }
+        } catch (error) {
+            console.error("삭제 요청 중 오류 발생:", error);
+            alert('삭제 중 오류가 발생했습니다.');
+        }
+    };
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -245,7 +280,7 @@ function Page(props) {
                                                     {item.fileList !== "0" ? (
                                                         <img
                                                             alt="product_img"
-                                                            src={`http://localhost:8080/images/${item.fileList[0].fileName}`}
+                                                            src={`http://localhost:8080/images/${item.fileList[0]?.fileName}`}
                                                             className='list_item_img'
                                                             style={{ backgroundColor: "rgb(244, 244, 244)" }}
                                                         />
@@ -293,6 +328,35 @@ function Page(props) {
                                                     {/* 후기 작성 완료 상태 표시 */}
                                                     {reviewedPwrIds.includes(Number(item.pwr_id)) && (
                                                         <p className="review-status">후기 작성 완료</p>
+                                                    )}
+
+                                                    {/* 상태에 따른 버튼 표시 */}
+                                                    {item.status === '판매중' && (
+                                                        <div className="action-buttons">
+                                                            <button
+                                                                className="edit-btn"
+                                                                onClick={() => handleEdit(item.pwr_id)}
+                                                                style={{ marginRight: '6px' }}
+                                                            >
+                                                                수정
+                                                            </button>
+                                                            <button
+                                                                className="delete-btn"
+                                                                onClick={() => handleDelete(item.pwr_id)}
+                                                            >
+                                                                삭제
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                    {item.status === '판매완료' && (
+                                                        <div className="action-buttons">
+                                                            <button
+                                                                className="delete-btn"
+                                                                onClick={() => handleDelete(item.pwr_id)}
+                                                            >
+                                                                삭제
+                                                            </button>
+                                                        </div>
                                                     )}
                                                 </div>
                                             </div>
