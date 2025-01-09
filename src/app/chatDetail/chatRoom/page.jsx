@@ -13,7 +13,8 @@ import SockJS from 'sockjs-client'; // 추가: SockJS WebSocket 폴리필..??
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import useAuthStore from '../../../../store/authStore';
-const Page = ({ room_id, host_id, messages: initialMessages }) => {
+import axios from 'axios';
+const Page = ({ room_id, host_id, messages: initialMessages, title, directtitle, hostName, price }) => {
   const [message, setMessage] = useState(''); //입력창  처음엔 비어있음. 
   const [messages, setMessages] = useState(initialMessages || []);
   const [files, setFiles] = useState([]);   //미리보기..?  아직  실제업로드 구현 안됨 ( 12-21 기준)
@@ -25,9 +26,9 @@ const Page = ({ room_id, host_id, messages: initialMessages }) => {
   const { user } = useAuthStore();
   const userName = user.member_id; // 추가: 사용자 이름 설정 임의값.
   const roomId = room_id;
-
+  console.log("받은 title:", title);
   console.log("최종메세지들" + JSON.stringify(initialMessages));
-
+  const [productPhoto, setProductPhoto] = useState(''); //게시물 사진 가져오기.(채팅마다달라서 여기서해야함)
   useEffect(() => {
     if (!roomId) return;
     // WebSocket 연결 설정
@@ -68,7 +69,7 @@ const Page = ({ room_id, host_id, messages: initialMessages }) => {
   const sendMessage = () => {
 
     const newMessage = {
-      room_id:roomId,
+      room_id: roomId,
       member_id: userName, // 사용자 이름
       content: message, // 입력 메시지
     };
@@ -114,14 +115,48 @@ const Page = ({ room_id, host_id, messages: initialMessages }) => {
       previewRef.current.scrollTo({ left: newScrollPosition, behavior: 'smooth' });
     }
   };
+
+
+  //게시물사진받아오기
+  useEffect(() => {
+   
+    const fetchProductPhoto = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/chat/getPostPhoto`, {
+          params:  {room_id: roomId } , // room_id를 서버에 전달
+        });
+        
+        if (response.data) {
+          setProductPhoto(response.data.photoUrl); // 서버에서 받은 사진 URL 설정
+          console.log("사진링크체크",productPhoto);
+        } else {
+          console.error('사진 URL을 찾을 수 없습니다.');
+        }
+      } catch (error) {
+        console.error('사진 가져오는 중 오류 발생:', error);
+      }
+    };
+    fetchProductPhoto();
+    // if (room_id) {
+    //   fetchProductPhoto();
+    // }
+  }, [room_id]);
+
   return (
     <div className="chat-room-page">
       {/* 상품 정보 */}
       <section className="product-info">
-        <div className="product-photo"><img src='../images/HY_cup1.jpg' /></div>
+        <div className="product-photo">
+          {productPhoto ? (
+            <img src={`http://localhost:8080/images/${productPhoto}`} alt="게시물 사진" />
+          ) : (
+            <p>No Image</p>
+          )}
+        </div>
         <div className="product-details">
-          <h4>8,000원</h4>
-          <p>찻잔 세트 싸게 팝니다</p>
+          <h3>{title}</h3>
+          <h4>{new Intl.NumberFormat().format(Number(price))} 원</h4>
+
         </div>
       </section>
       {/* 파일 미리보기 플로팅 */}
@@ -173,16 +208,16 @@ const Page = ({ room_id, host_id, messages: initialMessages }) => {
               marginLeft: String(msg.member_id) === String(user.member_id) ? 'auto' : '10px',
               marginRight: String(msg.member_id) === String(user.member_id) ? '10px' : 'auto',
               maxWidth: { xs: '100%', sm: '70%' },
-              alignSelf: msg.member_id ===  user.member_id ? 'flex-end' : 'flex-start',
+              alignSelf: msg.member_id === user.member_id ? 'flex-end' : 'flex-start',
               // border: '1px solid rgba(0, 0, 0, 0.1)',
               borderRadius: '8px', // 더 부드러운 테두리
               padding: '8px', // 박스 안쪽 여백
               marginBottom: '20px', // 메시지 간의 간격
             }}
           >
-            <Paper elevation={6} style={{ padding: '12px', backgroundColor: msg.member_id ===  user.member_id ? '#f1f1ea' : '#ebf0f5' }} sx={{
+            <Paper elevation={6} style={{ padding: '12px', backgroundColor: msg.member_id === user.member_id ? '#f1f1ea' : '#ebf0f5' }} sx={{
               padding: '10px',
-              backgroundColor: msg.member_id ===  user.member_id ? '#e0f7fa' : '#ffffff', // Paper에도 배경색 적용
+              backgroundColor: msg.member_id === user.member_id ? '#e0f7fa' : '#ffffff', // Paper에도 배경색 적용
               borderRadius: '4px', // Paper의 모서리도 둥글게
             }}>
               <Typography
@@ -200,12 +235,12 @@ const Page = ({ room_id, host_id, messages: initialMessages }) => {
                 color="textSecondary"
                 style={{
                   fontSize: '14px',
-                  textAlign: msg.member_id ===  user.member_id ? 'right' : 'left',
+                  textAlign: msg.member_id === user.member_id ? 'right' : 'left',
                   marginTop: '8px', // 텍스트와 타임스탬프 간 간격
                 }}
               >
                 {msg.timestamp || ''}{' '}
-                {msg.read && msg.member_id ===  user.member_id ? (
+                {msg.read && msg.member_id === user.member_id ? (
                   <Check style={{ fontSize: 'small' }} />
                 ) : (
                   ''

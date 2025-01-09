@@ -8,7 +8,8 @@ import ChatCheck from './chatCheck/page';
 import useAuthStore from '../../../store/authStore';
 import axios from 'axios';
 
-const Page = ({ room_id, host_id, messages: initialMessages, closeChat, closeDetail }) => {
+const Page = ({ room_id, host_id, messages: initialMessages, closeChat, closeDetail,
+  title,directtitle,directhostName,price }) => {
   const { user } = useAuthStore();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfilePopupOpen, setIsProfilePopupOpen] = useState(false);
@@ -16,11 +17,16 @@ const Page = ({ room_id, host_id, messages: initialMessages, closeChat, closeDet
   const [messages, setMessages] = useState(initialMessages || []); // 초기 메시지 상태
   const dropdownRef = useRef(null);
   const profileRef = useRef(null);
+  const [hostnames, setHostnames] = useState({}); // room_id별 hostname 저장
+  const [hostName, setHostName] = useState(directhostName || ""); // 동적 호스트 이름 상태 추가
+  const [hostPhoto, setHostPhoto] = useState(null);
+
 
   // room_id 변경 시 메시지 가져오기
   useEffect(() => {
     if (room_id) {
       fetchChatRooms();
+      fetchHostname(room_id);
     }
   }, [room_id]);
 
@@ -71,15 +77,61 @@ const Page = ({ room_id, host_id, messages: initialMessages, closeChat, closeDet
   }, []);
 
   // 현재 room_id에 맞는 메시지 필터링
-  const filteredMessages = messages.filter((msg) => msg.room_id === room_id);
+  const filteredMessages = messages ? messages.filter((msg) => msg.room_id === room_id) : [];
+
+ 
+  // 호스트 이름,프로필사진 같이  가져오기 함수
+  const fetchHostname = async (roomId) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/api/chat/getHostName`, {
+        params: { room_id: roomId },
+      });
+         console.log("이름바꾸기시도중");
+      if (response.data) {
+        setHostName(response.data.hostname); // 동적으로 호스트 이름 업데이트
+        setHostPhoto(response.data.profile_image); // 프로필 이미지 설정
+        console.log("이름바꾸기성공?"+response.data.hostname);
+        console.log("사진바꾸기성공?"+response.data.profile_image);
+      } else {
+        setHostName("Unknown Host"); // 기본값 설정
+        setHostPhoto(null);
+      }
+    } catch (error) {
+      console.error(`Hostname 가져오기 중 오류 발생 (room_id: ${roomId}):`, error);
+      setHostName("Unknown Host"); // 오류 시 기본값 반환
+      setHostPhoto(null);
+    }
+  };
+
+  
+  // 외부 클릭 감지
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setIsProfilePopupOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+
+  
+  
 
   return (
     <div className="chat-detail-page">
       {/* 상단 헤더 */}
       <header className="chat-detail-header">
         <div className="chat-detail-info">
-          <div className="chat-detail-photo"><img src='../images/HY_profile2.jpg' /></div>
-          <div className="chat-detail-user">닉네임</div>
+          <div className="chat-detail-photo"><img src={`http://localhost:8080${hostPhoto}`}/></div>
+          <div className="chat-detail-user">{hostName}</div>
         </div>
         <div className="chat-detail-actions">
           <Button
@@ -146,6 +198,10 @@ const Page = ({ room_id, host_id, messages: initialMessages, closeChat, closeDet
           room_id={room_id}
           host_id={host_id}
           messages={filteredMessages}
+          title={title}
+          directtitle={directtitle}
+          hostName={directhostName}
+          price={price}
         />
       )}
       {activePage === 'chatBlock' && <ChatBlock room_id={room_id} host_id={host_id} />}
