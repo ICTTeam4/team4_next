@@ -18,6 +18,17 @@ function Page() {
   const [totalItems, setTotalItems] = useState(0);
   const router = useRouter();
   
+  const [showSideNav, setShowSideNav] = useState(true); // 사이드바 보이기 여부 상태
+
+  useEffect(() => {
+    // 특정 조건에 따라 사이드바를 숨기거나 표시
+    if (pathname.includes("/myPageWishList")) {
+        setShowSideNav(true); // 구매 내역, 판매 내역 페이지에서는 숨기기
+    } else {
+        setShowSideNav(false); // 그 외 페이지에서는 표시
+    }
+}, [pathname]);
+  
 
   // 사용자 ID 설정
   useEffect(() => {
@@ -175,7 +186,7 @@ useEffect(() => {
   return (
     <div className="myPageWishList">
       <div className="container my lg">
-        <MyPageSideNav currentPath={pathname} />
+      {showSideNav && <MyPageSideNav currentPath={pathname} />}
         <div className="content_area my-page-content">
           <div className="content_title border">
             <div className="title">
@@ -254,7 +265,7 @@ useEffect(() => {
                         </a>
                         <p
                           className="text-lookup last_description display_paragraph action_named_action wish_delete"
-                          onClick={() => handleDeleteItem(item.pwr_id, item.category)}
+                          onClick={(e) => {e.stopPropagation(); handleDeleteItem(item.pwr_id, item.category)}}
                           style={{ cursor: "pointer" }}
                         >
                           삭제
