@@ -70,9 +70,9 @@ function Page(props) {
                                 </div>
                             </div>
                             {/* 관심 상품 */}
-                            <div>
+                            <div style={{padding: "40px 40px 50px"}}>
                                 <div className='my_home_title'>
-                                    <h3 className='title'>관심 상품</h3>
+                                    <h3>관심 상품</h3>
                                 </div>
                                 <div className='interest_product'>
                                     <div className='product_list'>

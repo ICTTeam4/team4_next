@@ -17,6 +17,8 @@ function CustomPage({ nextButton, setNextButton, data }) {
     productImg: data.fileList[0]?.fileName, // 추가로 전달하고 싶은 데이터
     method: nextButton, // nextButton 값 추가
     sellerId: data.member_id,
+    supCategory: data.sup_category,
+    subCategory: data.sub_category,
   });
 
   console.log("쿼리파람스", queryParams.toString());
