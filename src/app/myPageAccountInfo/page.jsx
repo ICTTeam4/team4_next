@@ -15,6 +15,7 @@ function Page(props) {
     const [defaultId, setDefaultId] = useState(1); // 기본 정산 계좌 아이디디
     const [accounts, setAccounts] = useState([]); // 서버 데이터 상태
     const [isModalOpen, setIsModalOpen] = useState(false);
+    
 
     
     const API_URL = `${process.env.NEXT_PUBLIC_LOCAL_API_BASE_URL}/api/accounts`;
@@ -30,6 +31,38 @@ const loadFromLocalStorage = (key, defaultValue = []) => {
     const storedData = localStorage.getItem(key);
     return storedData ? JSON.parse(storedData) : defaultValue;
 };
+
+
+
+
+// const handleSetDefaultAccount = async (id) => {
+//     try {
+//       const response = await fetch(`${API_URL}/${id}/set-default?memberId=44`, {
+//         method: "PUT",
+//       });
+  
+//       if (!response.ok) {
+//         throw new Error("기본 정산 계좌 설정 실패");
+//       }
+  
+//       // 서버에서 최신 계좌 목록 가져오기
+//       const updatedAccounts = await fetchAccounts();
+  
+//       // 상태 업데이트
+//       setAccounts(updatedAccounts); // Zustand 상태 업데이트
+//       saveToLocalStorage("accounts", updatedAccounts); // 로컬 스토리지 업데이트
+  
+//       const newDefaultAccount = updatedAccounts.find((account) => account.id === id);
+//       setDefaultAccount(newDefaultAccount); // Zustand 상태에 기본 계좌 반영
+//       alert("기본 정산 계좌가 설정되었습니다.");
+//     } catch (error) {
+//       console.error("기본 정산 계좌 설정 중 오류 발생:", error);
+//       alert("기본 정산 계좌 설정에 실패했습니다.");
+//     }
+//   };
+
+
+
 
 
 
@@ -238,7 +271,6 @@ const setDefaultAccount = async (id) => {
 
 const handleSetDefaultAccount = async (id) => {
     try {
-        // 기본 계좌 설정 API 호출
         const response = await fetch(`${API_URL}/${id}/set-default?memberId=44`, {
             method: "PUT",
         });
@@ -247,20 +279,18 @@ const handleSetDefaultAccount = async (id) => {
             throw new Error("기본 정산 계좌 설정 실패");
         }
 
-        // 서버에서 최신 계좌 목록 불러오기
-        // const updatedAccounts = await fetchAccounts();
-        const updatedAccounts = await fetchAccounts(); // 서버에서 최신 계좌 목록 불러오기
-        
-        
-        // 상태를 정렬하여 기본 계좌를 맨 위로 올림
+        // 서버에서 최신 계좌 목록 가져오기
+        const updatedAccounts = await fetchAccounts();
+
+        // 기본 계좌를 상단으로 이동
         const sortedAccounts = updatedAccounts.map((account) =>
             account.id === id
-        ? { ...account, isDefault: 1 }
-        : { ...account, isDefault: 0 }
-    ).sort((a, b) => b.isDefault - a.isDefault);
-    
-        saveToLocalStorage("accounts", updatedAccounts); // 로컬 스토리지에 저장
-        setAccounts(sortedAccounts); // 상태 갱신
+                ? { ...account, isDefault: 1 }
+                : { ...account, isDefault: 0 }
+        ).sort((a, b) => b.isDefault - a.isDefault);
+
+        saveToLocalStorage("accounts", sortedAccounts); // 로컬 스토리지에 저장
+        setAccounts(sortedAccounts); // 상태 업데이트
         alert("기본 정산 계좌가 설정되었습니다.");
     } catch (error) {
         console.error("기본 정산 계좌 설정 중 오류 발생:", error);
