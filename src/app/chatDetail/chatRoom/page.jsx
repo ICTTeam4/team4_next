@@ -21,8 +21,10 @@ const Page = ({ room_id, host_id, messages: initialMessages, title, directtitle,
   const [previewUrls, setPreviewUrls] = useState([]);    //파일 관련미리보기쪽임...  
   const previewRef = useRef(null); //사진,동영상 미리보기 플로팅 상태관리
   const messagesEndRef = useRef(null); // 추가: 메시지 끝부분 참조
+  const [loaded, setLoaded] = useState(false); // State to track if the image is loaded
   // 추가: WebSocket 클라이언트 초기화
   const [stompClient, setStompClient] = useState(null);
+  const [retryCount, setRetryCount] = useState(0);
   const { user } = useAuthStore();
   const userName = user.member_id; // 추가: 사용자 이름 설정 임의값.
   const roomId = room_id;
@@ -33,53 +35,94 @@ const Page = ({ room_id, host_id, messages: initialMessages, title, directtitle,
   const dynamicPrice = price || chatListPrice || null;
   const [showEmojiPicker, setShowEmojiPicker] = useState(false); // 이모티콘 창 표시 여부 상태 추가
   const emojiPickerRef = useRef(null); // 이모티콘 창 닫기 처리를 위한 ref
+
+  // 채팅 메시지 목록을 DB에서 다시 가져오는 함수
+  const fetchChatRooms = async () => {
+    try {
+      const token = localStorage.getItem('token'); // 로그인 토큰 (예시)
+      console.log("fetchChatRooms 호출됨");
+
+      const response = await axios.get(`http://localhost:8080/api/chat/messageListForAll`, {
+        params: {
+          member_id: user.member_id, // 현재 로그인된 사용자
+          room_id: roomId,           // 현재 채팅방 ID
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Cache-Control': 'no-cache',
+        },
+      });
+
+      console.log("채팅방 목록 데이터:", response.data);
+
+      // room_id에 해당하는 메시지만 필터링
+      const filteredMessages = response.data.filter((msg) => msg.room_id === roomId);
+      console.log("필터링된 메시지:", filteredMessages);
+
+      // 메시지 상태 업데이트
+      setMessages(filteredMessages || []);
+    } catch (error) {
+      console.error("채팅방 목록을 불러오는 중 오류 발생:", error);
+      setMessages([]);
+    }
+  };
+
+
+
   useEffect(() => {
     if (!roomId) return;
     // WebSocket 연결 설정
-    const socket = new SockJS('http://localhost:8080/gs-guide-websocket'); // 서버 WebSocket 엔드포인트
+    const socket = new SockJS('http://localhost:8080/gs-guide-websocket');
     const client = new StompJs.Client({
       webSocketFactory: () => socket,
       debug: (str) => console.log(str),
-      reconnectDelay: 5000, // 재연결 딜레이
-      heartbeatIncoming: 4000, // 하트비트 수신 주기
-      heartbeatOutgoing: 4000, // 하트비트 송신 주기
+      reconnectDelay: 5000,
+      heartbeatIncoming: 4000,
+      heartbeatOutgoing: 4000,
     });
 
     client.onConnect = () => {
       console.log('WebSocket Connected');
       console.log("연결됨!");
-      // 메시지 수신 구독
-      client.subscribe(`/topic/chat/${roomId}`, (message) => {
-        const receivedMessage = JSON.parse(message.body);
 
-        // 파일 메시지인지 확인하고 절대 경로로 변경
-        if (receivedMessage.content.startsWith('/images/')) {
-          receivedMessage.has_file = "1"; // 파일 메시지로 표시
-          receivedMessage.content = `http://localhost:8080${receivedMessage.content}`; // 절대 경로로 변경
+      // 메시지 수신 구독
+      client.subscribe(`/topic/chat/${roomId}`, async (message) => {
+        const receivedMessage = JSON.parse(message.body);
+        console.log("대체메세지뭐로오는데", receivedMessage);
+
+        // 파일 메시지인지 확인
+        if (
+          typeof receivedMessage.content === 'string' &&
+          receivedMessage.content.startsWith('/images')
+        ) {
+          receivedMessage.has_file = "1";
+          receivedMessage.content = `http://localhost:8080${receivedMessage.content}?v=${Date.now()}`;
           console.log("마지막사진경로제발제발", receivedMessage.content);
 
+          // 여기서 파일이 있는 메시지면 DB 다시 가져오기
+          await fetchChatRooms();
         } else {
-          receivedMessage.has_file = "0"; // 일반 텍스트 메시지
+          receivedMessage.has_file = "0";
         }
 
-        setMessages((prevMessages) => [...prevMessages, receivedMessage]); // 상태 업데이트
+
+        setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+        await fetchChatRooms();
       });
-
-
     };
 
     client.onStompError = (frame) => {
       console.error('STOMP Error', frame.headers['message'], frame.body);
     };
 
-    client.activate(); // WebSocket 활성화
+    client.activate();
     setStompClient(client);
 
-    // 컴포넌트 언마운트 시 WebSocket 종료
     return () => {
       client.deactivate();
     };
   }, [roomId]);
+
 
   // 메시지 전송 함수 수정
   const sendMessage = async () => {
@@ -116,6 +159,10 @@ const Page = ({ room_id, host_id, messages: initialMessages, title, directtitle,
     setMessage('');
     setPreviewUrls([]);
     setFiles([]);
+
+    // 4) **DB에서 최신 메시지 가져오기 (fetchChatRooms)**
+    await fetchChatRooms();
+
   };
 
 
@@ -217,7 +264,7 @@ const Page = ({ room_id, host_id, messages: initialMessages, title, directtitle,
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: repeat(`${rows}, 1fr`), // 5개씩
+          gridTemplateColumns: `repeat(${rows}, 1fr)`, // 5개씩
           gap: "5px",
           padding: "10px",
           background: "#fff",
@@ -263,6 +310,13 @@ const Page = ({ room_id, host_id, messages: initialMessages, title, directtitle,
     }
   }, [messages]);
 
+  const handleImageError = () => {
+    if (retryCount < 3) { // 최대 3번만 시도
+      setTimeout(() => {
+        setRetryCount(retryCount + 1);
+      }, 2000); // 2초 뒤 재시도
+    }
+  };
   return (
     <div className="chat-room-page">
       {/* 상품 정보 */}
@@ -312,13 +366,14 @@ const Page = ({ room_id, host_id, messages: initialMessages, title, directtitle,
 
       {/* 메시지 창 */}
       <main
-        className="chat-messages"
-        style={{
-          paddingBottom: '50px',
-          paddingTop: previewUrls.length > 0 ? '20px' : '20px',
-          maxHeight: 'calc(100vh - 250px)',
-          overflowY: 'auto',
-        }}
+       className="chat-messages"
+       style={{
+         // 헤더와 입력창 높이를 합산해서 적절히 뺀다 가정
+         maxHeight: 'calc(100vh - 300px)', 
+         // 예: 헤더 60px + 입력창 100px + 여백 40px 등
+         overflowY: 'auto',
+         padding: '0 1rem',
+       }}
       >
         {messages
           .filter((msg) => msg.content)
@@ -337,7 +392,7 @@ const Page = ({ room_id, host_id, messages: initialMessages, title, directtitle,
               }}
             >
               <Paper
-                elevation={6}
+                elevation={3}
                 style={{
                   padding: '12px',
                   backgroundColor: msg.member_id === user.member_id ? '#f1f1ea' : '#ebf0f5',
@@ -348,17 +403,23 @@ const Page = ({ room_id, host_id, messages: initialMessages, title, directtitle,
                   borderRadius: '4px',
                 }}
               >
-                {msg.content && msg.content.startsWith('/images/') ? (
-                  <img
-                    src={`http://localhost:8080${msg.content}`}
-                    alt="Uploaded"
-                    style={{
-                      maxWidth: '200px',
-                      maxHeight: '200px',
-                      objectFit: 'cover',
-                      borderRadius: '8px',
-                    }}
-                  />
+                {msg.has_file === "1" ? (
+                  <>
+                    {!loaded && <p>이미지 로딩 중...</p>}
+                    <img
+                      src={`http://localhost:8080${msg.content}?v=${Date.now()}&retry=${retryCount}`}
+                      alt="Uploaded"
+                      onError={handleImageError}
+                      onLoad={() => setLoaded(true)} // Set loaded to true when the image is loaded
+                      key={`http://localhost:8080${msg.content}`}
+                      style={{
+                        maxWidth: '200px',
+                        maxHeight: '200px',
+                        objectFit: 'cover',
+                        borderRadius: '8px',
+                      }}
+                    />
+                  </>
                 ) : (
                   <Typography
                     variant="body2"
