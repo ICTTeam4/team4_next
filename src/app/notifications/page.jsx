@@ -8,50 +8,34 @@ import axios from 'axios';
 
 const Page = ({ props }) => {
   const { isNotibarActive, setIsNotibarActive } = useAuthStore();
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState(null);
   const [number, setNumber] = useState(1);
   const handleToggleNotibar = () => {
     setIsNotibarActive(); // 상태 토글
   };
   useEffect(() => {
-    const sse = new EventSource("http://localhost:8080/api/connect/99");
+    const sse = new EventSource(`http://localhost:8080/api/connect/${user?.member_id}`);
     sse.addEventListener('connect', (e) => {
       const { data: receivedConnectData } = e;
-      console.log('connect알림 정보 받기: ', receivedConnectData);  // "connected!"
+      console.log('connect알림 정보 받기: ', JSON.parse(receivedConnectData).data);  // "connected!"
+      setNotifications(JSON.parse(receivedConnectData).data);
     });
     sse.addEventListener('update', (e) => {
+      console.log("가져와지는지 확인")
       const receivedConnectData = JSON.parse(e.data); // 데이터를 JSON 객체로 변환
       console.log('update알림 정보 받기: ', receivedConnectData); // 변환된 객체 출력
-
-      const oneNoti = {
-        pwr_id: receivedConnectData.pwr_id,
-        member_id: receivedConnectData.member_id,
-        is_read: receivedConnectData.is_read,
-        type: receivedConnectData.type
-      };
-
-      setNotifications((prev) => [
-        ...prev, // 이전 알림들을 유지
-        oneNoti // 새 알림 추가z
-      ]);
-
-      
+      setNotifications(receivedConnectData);
     });
-    // sse.onmessage = function(event) {
-    //   console.log("메세지 가져오는지 확인:"+event.data); // 서버로부터 받은 데이터 (SSE 이벤트)
-    // };
   }, [])
 
   useEffect(()=>{
     console.log("notifications"+ JSON.stringify(notifications)); // 업데이트된 알림 개수
   },[notifications])
-  useEffect(() => {
-    sendMessage();
-  }, []);
+
 
   const sendMessage = async () => {
     try {
-      const response = await axios(`http://localhost:8080/api/broadcast/99?message=${encodeURIComponent("클릭했음!-------------------")}`, {
+      const response = await axios(`http://localhost:8080/api/broadcast/${user?.member_id}?sender_id=${encodeURIComponent("11")}&pwr_id=${encodeURIComponent("100")}&nickname=${encodeURIComponent("홍길동")}&title=${encodeURIComponent("제목1")}`, {
         method: 'GET'
       });
     } catch (error) {
@@ -63,6 +47,27 @@ const Page = ({ props }) => {
     setNumber(number + 1);
     console.log(number);
   }
+  const getTimeDifference = (time) => {
+    const now = new Date();
+    const past = new Date(time);
+    const diff = Math.floor((now - past) / 1000);  // 초 단위 차이
+
+    if (diff < 60) return `${diff}초 전`;
+    if (diff < 3600) return `${Math.floor(diff / 60)}분 전`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)}시간 전`;
+    return `${Math.floor(diff / 86400)}일 전`;
+  };
+  const setIsDeleted = async  (noti_id) => {
+    try {
+      // 서버에 삭제 요청 보내기 (DELETE 요청)
+      await axios.get(`http://localhost:8080/api/deletenoti/${noti_id}`);
+  
+      // 클라이언트 측에서도 즉시 반영
+      setNotifications((prev) => prev.filter(item => item.noti_id !== noti_id));
+    } catch (error) {
+      console.error('알림 삭제 실패:', error);
+    }
+  } 
 
   return (
 
@@ -80,7 +85,7 @@ const Page = ({ props }) => {
               <img src="/images/HJ_close.png" className="noti_close_button" />
             </button>
             <div className="noti_title">
-              <h2><p>알림</p> <button onClick={sendMessage} >메시지</button><button onClick={plus} >+</button> </h2>
+              <h2><p>알림</p></h2>
             </div>
           </div>
         </div>
@@ -90,12 +95,12 @@ const Page = ({ props }) => {
           <div>
             {/* 카테고리 버튼 */}
             <ul className="noti_big_category_container">
-              <li className="noti_big_category">
+              {/* <li className="noti_big_category">
                 <button className='noti_button'>전체</button>
                 <button className='noti_button'>거래</button>
                 <button className='noti_button'>관심</button>
                 <button className='noti_button'>판매</button>
-              </li>
+              </li> */}
             </ul>
           </div>
           <div className={styles.filterContent}>
@@ -109,24 +114,24 @@ const Page = ({ props }) => {
           <div className="noti_section">
             <div className="noti_section_top">
 
-              { notifications ? notifications.map((item) => { return <div>
+              {Array.isArray(notifications) && notifications.length > 0 
+  ? notifications.filter(item => item.is_deleted == "0").map((item) => { return <div>
               <div className='noti_one_block'>
                 <table>
                   <tbody>
-                    <tr><th></th><th></th><th></th></tr>
-                    <tr><td></td><td>pwr_id : {item.pwr_id} </td><td></td></tr>
+                    <tr><td onClick={() => setIsDeleted(item.noti_id)} style={{ cursor: 'pointer' }}>x</td><td> {item.name}이 당신의 게시물을 북마크 했습니다.</td><td></td></tr>
                     <tr>
                       <td><img src='/images/HJ_notice_img.png' /></td>
-                      <td style={{ width: '180px' }}>내용이 들어갑니다</td>
-                      <td style={{ width: '90px' }}><img src='/images/HJ_car1.jpg' /></td>
+                      <td style={{ width: '180px' }}></td>
+                      <td style={{ width: '90px' }}><img src={`http://localhost:8080/images/${item.file_name}`} /></td>
                     </tr>
-                    <tr><td></td><td>2시간 전</td><td></td></tr>
+                    <tr><td></td><td>{getTimeDifference(item.created_at)}</td><td></td></tr>
                   </tbody>
                 </table>
               </div>
               <hr style={{ border: '1px', height: '1px', backgroundColor: 'rgba(0,0,0,0.1)', margin: '0px' }} />
               </div>
-              }): <div>ddd</div>  
+              }): <div>알림이 없습니다.</div>  
             }
             
             </div>

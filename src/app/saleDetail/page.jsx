@@ -142,6 +142,7 @@ const saleDetail = () => {
   const [latitude, setLatitude] = useState(null); // 날씨용
   const [longitude, setLongitude] = useState(null); // 날씨용
   const [memberId, setMemberId] = useState(null); // 날씨용
+  const [fileName,setFileName] = useState("");
 
   // URL 파라미터 (id)
   const id = searchParams.get("id");
@@ -485,6 +486,8 @@ const saleDetail = () => {
 
 
   const handleBookmarkToggle = async () => {
+    console.log("-------------" +JSON.stringify(detail?.fileList[0].fileName));
+    setFileName(detail?.fileList[0].fileName);
     console.log("Handle bookmark toggle...");
     console.log("member_id:", user?.member_id); // 추가
     console.log("pwr_id:", detail?.pwr_id);        // 추가
@@ -517,6 +520,7 @@ const saleDetail = () => {
           headers: { "Content-Type": "application/json" },
         });
         alert("찜이 완료되었습니다.");
+        sendMessage();
         setLikeCount((prev) => prev + 1); // 찜수 증가
         console.log("찜하기 요청 완료");
       }
@@ -528,7 +532,18 @@ const saleDetail = () => {
       alert("찜 상태 변경 중 문제가 발생했습니다.");
     }
   };
-  
+    const sendMessage = async () => {
+      
+      // console.log("detail 확인 : " + detail.data);
+      try {
+        const response = await axios(`http://localhost:8080/api/broadcast/${user?.member_id}?sender_id=${encodeURIComponent(user?.member_id)}&pwr_id=${encodeURIComponent(detail?.pwr_id)}&nickname=${encodeURIComponent(detail?.nickname)}&title=${encodeURIComponent(detail?.title)}&file_name=${encodeURIComponent(detail?.fileList[0].fileName)}`, {
+          method: 'GET'
+        });
+      } catch (error) {
+        console.error('Error:', error);
+        console.log('Error sending message.catch');
+      }
+    };
 
 
 
