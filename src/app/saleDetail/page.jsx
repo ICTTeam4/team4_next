@@ -70,7 +70,6 @@ function ReportModal({ isOpen, onClose, onSubmit }) {
 }
 
 
-
 const saleDetail = () => {
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
@@ -83,12 +82,42 @@ const saleDetail = () => {
     const closeReportModal = () => {
       setIsReportModalOpen(false);
     };
-  
+
+
+
     // 신고 제출
-    const handleReportSubmit = (reason) => {
+    const handleReportSubmit = async (reason) => {
+      console.log("user:", user);
+      console.log("detail:", id);
+      console.log("reson:", reason);
       alert(`신고 사유: ${reason}`);
-      // 여기에 신고 내용을 서버로 전송하는 API 로직을 추가하세요.
+      if (!user?.member_id) {
+        alert("로그인이 필요합니다.");
+        return;
+      }
+    
+      const reportData = {
+        member_id: user.member_id,  // 신고자 ID
+        pwr_id: id,               // 신고 대상 게시물 ID
+        report_reason: reason,       // 신고 사유
+       
+
+      };
+    
+      try {
+        const response = await axios.post('http://localhost:8080/api/report', reportData, {
+          headers: { 'Content-Type': 'application/json' }
+        });
+        if (response.status === 200) {
+          alert(response.data); // "신고가 성공적으로 접수되었습니다!" 메시지 출력
+        }
+        closeReportModal(); // 모달 닫기
+      } catch (error) {
+        console.error("신고 처리 중 오류:", error);
+        alert("신고 처리 중 문제가 발생했습니다.");
+      }
     };
+
 //신고 끝
 
   const {user} = useAuthStore()
@@ -768,7 +797,7 @@ const saleDetail = () => {
                 href={{
                   pathname: "/salepage",
                   query: {
-                    id: sellerData.member_id,
+                    id: sellerData?.member_id,
                   },
                 }}
                 className='infoTitle'>판매자 정보</Link></span>
@@ -777,7 +806,7 @@ const saleDetail = () => {
               href={{
                 pathname: "/salepage",
                 query: {
-                  id: sellerData.member_id,
+                  id: sellerData?.member_id,
                 },
               }}
             >
@@ -793,7 +822,7 @@ const saleDetail = () => {
                   href={{
                     pathname: "/salepage",
                     query: {
-                      id: sellerData.member_id,
+                      id: sellerData?.member_id,
                     },
                   }}
                   className='sellerFont'>{sellerData?.nickname || '로딩 중...'}</Link>
@@ -804,7 +833,7 @@ const saleDetail = () => {
                 href={{
                   pathname: "/salepage",
                   query: {
-                    id: sellerData.member_id,
+                    id: sellerData?.member_id,
                   },
                 }}
               >
