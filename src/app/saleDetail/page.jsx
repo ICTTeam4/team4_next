@@ -143,6 +143,8 @@ const saleDetail = () => {
   const [longitude, setLongitude] = useState(null); // 날씨용
   const [memberId, setMemberId] = useState(null); // 날씨용
   const [fileName,setFileName] = useState("");
+  const [reviewlist, setReviewList] = useState([]);
+  const [sellDoneCount, setSellDoneCount] = useState([]);
 
   // URL 파라미터 (id)
   const id = searchParams.get("id");
@@ -162,6 +164,9 @@ const saleDetail = () => {
         const data = response.data.data;
         console.log(data);
         setDetail(data);
+        const memberId = response.data.data.member_id;
+        setMemberId(memberId);
+        console.log("Member ID:", memberId);
       } catch (err) {
         console.error("Error fetching data:", err);
         setError(err.message);
@@ -209,8 +214,9 @@ const saleDetail = () => {
         const response = await axios.get(`http://localhost:8080/members/getpostmemberdetail?pwr_id=${id}`);
         console.log(response);
         setSellerData(response.data.data);
-        const memberId = response.data.data.member_id;
-        console.log("Member ID:", memberId);
+        // const memberId = response.data.data.member_id;
+        // setMemberId(memberId);
+        // console.log("Member ID:", memberId);
         console.log("주문고객 데이터 조회 완료:", response.data.data);
       } catch (error) {
         console.error("주문고객 데이터 조회 실패:", error);
@@ -459,7 +465,38 @@ const saleDetail = () => {
   }, [detail]);
   // 휘주 날씨 끝
 
-
+// 리뷰 데이터터 출력
+useEffect(() => {
+  console.log(">>> useEffect 실행됨");
+  const getReviewListData = async () => {
+    try {
+      console.log("id : ", memberId);
+      const reviewresponse = await axios.get(`http://localhost:8080/api/salepage/getreviewdata?id=${memberId}`); // API 호출
+      const data = reviewresponse.data.data;
+      console.log("가져온 리뷰데이터 내용 : ", data)
+      setReviewList(data);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    }
+  };
+  getReviewListData();
+}, [memberId]);
+// 성사 거래 수 출력력
+useEffect(() => {
+  console.log(">>> useEffect 실행됨");
+  const getSellDoneData = async () => {
+    try {
+      console.log("id : ", memberId);
+      const response = await axios.get(`http://localhost:8080/api/salepage/getselldonedata?id=${memberId}`); // API 호출
+      const data = response.data.data;
+      console.log("가져온 리뷰데이터 내용 : ", data)
+      setSellDoneCount(data);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    }
+  };
+  getSellDoneData();
+}, [memberId]);
 
 
   //북마크 누를 시 찜 이동 (영빈)
@@ -689,6 +726,10 @@ const saleDetail = () => {
     detail.status === '판매완료';
   console.log(detail.status);
 
+  
+  
+    
+
   return (
     <>
       <div className="container">
@@ -856,8 +897,9 @@ const saleDetail = () => {
               </Link>
             </div>
             <div className="sellerData">
-              <div>안전거래 수 <br /> <span className='tradeTitle'>2</span></div>
-              <div>거래 후기 수 <br /> <span className='tradeTitle'>10</span></div>
+              <div>거래 성사 수 <br /> <span className='tradeTitle'>{sellDoneCount.length}</span></div>
+              {/* <div>거래 후기 수 <br /> <span className='tradeTitle'>10</span></div> */}
+              <div>거래 후기 수 <br /> <span className='tradeTitle'>{reviewlist.length}</span></div>
             </div>
           </div>
         </div>

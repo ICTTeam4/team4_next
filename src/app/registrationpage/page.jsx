@@ -363,7 +363,7 @@ const getPosition = async (address) => {
             <li className="drop_list" onClick={() => selectCategory("패션잡화")}>패션잡화</li>
           </ul>
         </div>
-        <a style={{color:'white', width:'30px'}}>.....</a>
+        <a style={{color:'white', width:'30px'}}>__</a>
         {selectedCategory !== '카테고리' && (
           <div className="button-container">
             <button className="small_category_btn" onClick={toggleSmallCategoryDropdown}>

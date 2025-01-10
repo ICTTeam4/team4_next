@@ -8,6 +8,7 @@ function page({ id, review }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [list, setList] = useState([]);
 
+
   // 판매 리스트 출력
   useEffect(() => {
     console.log(">>> useEffect 실행됨");
@@ -15,6 +16,7 @@ function page({ id, review }) {
       try {
         const response = await axios.get(`http://localhost:8080/api/salepage/getreviewdata?id=${id}`); // API 호출
         const data = response.data.data;
+        console.log("reviewList Data : ", data)
         setList(data);
       } catch (err) {
         console.error("Error fetching data:", err);
@@ -71,14 +73,12 @@ function page({ id, review }) {
           className='reviewitemsContainer'
           style={{ transform: `translateX(-${currentIndex * 228}px)` }}
         >
-          {list.map((item) => (
-            <div key={item.member_id} className='reviewitem'>
-              {/* <img src={`http://localhost:8080/images/${item.fileList[0]?.profile_image}`} alt={item.title} className='reviewimage' /> */}
+          {list.map((item, index) => (
+            <div key={`${item.member_id}-${index}`} className='reviewitem'>
               <div className='reviewinfo'>
                 <h4>'{item.nickname}' 님이 남긴 후기</h4>
-                <p style={{color:'black'}}>{item.content}</p>
-                <p>{renderStars(item.rate)} <b style={{color:"#B0B0B0", marginLeft:"5px"}}>{calculateDaysAgo(item.created_at)}</b></p> {/* 동적으로 별점 표시 */}
-                
+                <p style={{ color: 'black' }}>{item.content}</p>
+                <p>{renderStars(item.rate)} <b style={{ color: "#B0B0B0", marginLeft: "5px" }}>{calculateDaysAgo(item.created_at)}</b></p>
               </div>
             </div>
           ))}
