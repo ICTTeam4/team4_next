@@ -43,11 +43,13 @@ function HeaderTop(props) {
               관심
             </Link>
           </li>
+          
           <li className="top_item">
             <button className="top_link go_noti_btn" onClick={toggleNotibar}>
               알림
             </button>
           </li>
+
           {/* isLoginChk 로 활성 비활성 설정해야함 */}
           {isAuthenticated ? (
       <>
