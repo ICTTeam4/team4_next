@@ -4,62 +4,73 @@ import styles from './notifications.module.css';
 import './notifications.module.css';
 import './notifications.css';
 import useAuthStore from '../../../store/authStore';
+import axios from 'axios';
 
-const Page = ({props}) => {
-  const {isNotibarActive, setIsNotibarActive} = useAuthStore();
-  const [number,setNumber] =useState(1);
+const Page = ({ props }) => {
+  const { isNotibarActive, setIsNotibarActive } = useAuthStore();
+  const [notifications, setNotifications] = useState([]);
+  const [number, setNumber] = useState(1);
   const handleToggleNotibar = () => {
     setIsNotibarActive(); // 상태 토글
   };
-  useEffect(()=>{
+  useEffect(() => {
     const sse = new EventSource("http://localhost:8080/api/connect/99");
     sse.addEventListener('connect', (e) => {
       const { data: receivedConnectData } = e;
-      console.log('connect알림 정보 받기: ',receivedConnectData);  // "connected!"
+      console.log('connect알림 정보 받기: ', receivedConnectData);  // "connected!"
     });
     sse.addEventListener('update', (e) => {
-      const { data: receivedConnectData } = e;
-      console.log('update알림 정보 받기: ',receivedConnectData);  // "connected!"
-    });
-    sse.onmessage = function(event) {
-      console.log("메세지 가져오는지 확인:"+event.data); // 서버로부터 받은 데이터 (SSE 이벤트)
-    };
-  },[])
+      const receivedConnectData = JSON.parse(e.data); // 데이터를 JSON 객체로 변환
+      console.log('update알림 정보 받기: ', receivedConnectData); // 변환된 객체 출력
 
-  useEffect(()=> {
+      const oneNoti = {
+        pwr_id: receivedConnectData.pwr_id,
+        member_id: receivedConnectData.member_id,
+        is_read: receivedConnectData.is_read,
+        type: receivedConnectData.type
+      };
+
+      setNotifications((prev) => [
+        ...prev, // 이전 알림들을 유지
+        oneNoti // 새 알림 추가z
+      ]);
+
+      
+    });
+    // sse.onmessage = function(event) {
+    //   console.log("메세지 가져오는지 확인:"+event.data); // 서버로부터 받은 데이터 (SSE 이벤트)
+    // };
+  }, [])
+
+  useEffect(()=>{
+    console.log("notifications"+ JSON.stringify(notifications)); // 업데이트된 알림 개수
+  },[notifications])
+  useEffect(() => {
     sendMessage();
-  },[]);
-  
+  }, []);
+
   const sendMessage = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/broadcast/99?message=${encodeURIComponent("클릭했음!-------------------")}`, {
+      const response = await axios(`http://localhost:8080/api/broadcast/99?message=${encodeURIComponent("클릭했음!-------------------")}`, {
         method: 'GET'
       });
-  
-      // 응답 처리
-      if (response.ok) {
-        const result = await response.json();
-        console.log(result.message);
-      } else {
-        console.log('Error sending message.if');
-      }
     } catch (error) {
       console.error('Error:', error);
       console.log('Error sending message.catch');
     }
   };
   const plus = () => {
-    setNumber(number+1);
+    setNumber(number + 1);
     console.log(number);
   }
 
   return (
-    
-      <div>
+
+    <div>
       {/* 레이어 배경 */}
-      <div 
-      onClick={handleToggleNotibar} 
-      className={`${isNotibarActive ? styles.notiLayerBackground : ''}`}></div>
+      <div
+        onClick={handleToggleNotibar}
+        className={`${isNotibarActive ? styles.notiLayerBackground : ''}`}></div>
 
       {/* 필터 섹션 */}
       <div className={`${styles.notiSections} ${isNotibarActive ? styles.active : ''}`} >
@@ -97,11 +108,13 @@ const Page = ({props}) => {
           {/* 알림 카드 시작 */}
           <div className="noti_section">
             <div className="noti_section_top">
+
+              { notifications ? notifications.map((item) => { return <div>
               <div className='noti_one_block'>
                 <table>
                   <tbody>
                     <tr><th></th><th></th><th></th></tr>
-                    <tr><td></td><td>제목이 들어갑니다</td><td></td></tr>
+                    <tr><td></td><td>pwr_id : {item.pwr_id} </td><td></td></tr>
                     <tr>
                       <td><img src='/images/HJ_notice_img.png' /></td>
                       <td style={{ width: '180px' }}>내용이 들어갑니다</td>
@@ -112,6 +125,10 @@ const Page = ({props}) => {
                 </table>
               </div>
               <hr style={{ border: '1px', height: '1px', backgroundColor: 'rgba(0,0,0,0.1)', margin: '0px' }} />
+              </div>
+              }): <div>ddd</div>  
+            }
+            
             </div>
           </div>
           {/* 알림 카드 끝 */}
