@@ -20,6 +20,7 @@ const Page = ({ room_id, host_id, messages: initialMessages, closeChat, closeDet
   const [hostnames, setHostnames] = useState({}); // room_id별 hostname 저장
   const [hostName, setHostName] = useState(directhostName || ""); // 동적 호스트 이름 상태 추가
   const [hostPhoto, setHostPhoto] = useState(null);
+  const [chatListPrice,setChatListPrice] = useState(null);
 
 
   // room_id 변경 시 메시지 가져오기
@@ -90,8 +91,10 @@ const Page = ({ room_id, host_id, messages: initialMessages, closeChat, closeDet
       if (response.data) {
         setHostName(response.data.hostname); // 동적으로 호스트 이름 업데이트
         setHostPhoto(response.data.profile_image); // 프로필 이미지 설정
+        setChatListPrice(response.data.price); // 프로필 이미지 설정
         console.log("이름바꾸기성공?"+response.data.hostname);
         console.log("사진바꾸기성공?"+response.data.profile_image);
+        console.log("가격바꾸기성공?"+response.data.price);
       } else {
         setHostName("Unknown Host"); // 기본값 설정
         setHostPhoto(null);
@@ -202,6 +205,7 @@ const Page = ({ room_id, host_id, messages: initialMessages, closeChat, closeDet
           directtitle={directtitle}
           hostName={directhostName}
           price={price}
+          chatListPrice={chatListPrice}
         />
       )}
       {activePage === 'chatBlock' && <ChatBlock room_id={room_id} host_id={host_id} />}

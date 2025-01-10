@@ -14,7 +14,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import useAuthStore from '../../../../store/authStore';
 import axios from 'axios';
-const Page = ({ room_id, host_id, messages: initialMessages, title, directtitle, hostName, price }) => {
+const Page = ({ room_id, host_id, messages: initialMessages, title, directtitle, hostName, price,chatListPrice }) => {
   const [message, setMessage] = useState(''); //입력창  처음엔 비어있음. 
   const [messages, setMessages] = useState(initialMessages || []);
   const [files, setFiles] = useState([]);   //미리보기..?  아직  실제업로드 구현 안됨 ( 12-21 기준)
@@ -29,6 +29,8 @@ const Page = ({ room_id, host_id, messages: initialMessages, title, directtitle,
   console.log("받은 title:", title);
   console.log("최종메세지들" + JSON.stringify(initialMessages));
   const [productPhoto, setProductPhoto] = useState(''); //게시물 사진 가져오기.(채팅마다달라서 여기서해야함)
+   // 유동적인 price 값 계산
+   const dynamicPrice = price || chatListPrice || null;
   useEffect(() => {
     if (!roomId) return;
     // WebSocket 연결 설정
@@ -155,7 +157,7 @@ const Page = ({ room_id, host_id, messages: initialMessages, title, directtitle,
         </div>
         <div className="product-details">
           <h3>{title}</h3>
-          <h4>{new Intl.NumberFormat().format(Number(price))} 원</h4>
+          <h4>{new Intl.NumberFormat().format(Number(dynamicPrice))} 원</h4>
 
         </div>
       </section>
