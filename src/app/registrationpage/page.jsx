@@ -55,7 +55,7 @@ function ProductPage() {
 
   
   const [formData, setFormData] = useState({
-    member_id: user.member_id,
+    member_id: user?.member_id,
     selling_area_id: '',
     title: '',
     sell_price: '',
@@ -136,7 +136,7 @@ function ProductPage() {
   const handleSubmit = async () => {
     const API_URL = `http://localhost:8080/api/salespost/salesinsert`;
     const data = new FormData();
-    data.append("member_id", formData.member_id);
+    data.append("member_id", user.member_id? user.member_id : "1");
     data.append("selling_area_id", formData.selling_area_id);
     data.append("title", formData.title);
     data.append("sell_price", formData.sell_price);
@@ -170,6 +170,7 @@ function ProductPage() {
       );
         if (response.data.success) {
           console.log("success 체크중");
+          sendMessage();
             alert(response.data.message);
             router.push("/");
         } else {
@@ -181,6 +182,31 @@ function ProductPage() {
       // console.error('스택 트레이스:', error.stack); // 스택 트레이스
     }
 }
+useEffect(()=> {
+  sendMessage();
+},[]);
+
+const sendMessage = async () => {
+  try {
+    const response = await fetch(`http://localhost:8080/api/broadcast/99?message=${encodeURIComponent("클릭했음!-------------------")}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    // 응답 처리
+    if (response.ok) {
+      const result = await response.json();
+      console.log(result.message);
+    } else {
+      console.log('Error sending message.');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    console.log('Error sending message.');
+  }
+};
 
 
 const sample4_execDaumPostcode = () => {
@@ -337,7 +363,7 @@ const getPosition = async (address) => {
             <li className="drop_list" onClick={() => selectCategory("패션잡화")}>패션잡화</li>
           </ul>
         </div>
-        <a style={{color:'white', width:'30px'}}>.....</a>
+        <a style={{color:'white', width:'30px'}}>__</a>
         {selectedCategory !== '카테고리' && (
           <div className="button-container">
             <button className="small_category_btn" onClick={toggleSmallCategoryDropdown}>

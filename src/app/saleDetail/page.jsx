@@ -70,7 +70,6 @@ function ReportModal({ isOpen, onClose, onSubmit }) {
 }
 
 
-
 const saleDetail = () => {
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
@@ -83,12 +82,42 @@ const saleDetail = () => {
     const closeReportModal = () => {
       setIsReportModalOpen(false);
     };
-  
+
+
+
     // 신고 제출
-    const handleReportSubmit = (reason) => {
+    const handleReportSubmit = async (reason) => {
+      console.log("user:", user);
+      console.log("detail:", id);
+      console.log("reson:", reason);
       alert(`신고 사유: ${reason}`);
-      // 여기에 신고 내용을 서버로 전송하는 API 로직을 추가하세요.
+      if (!user?.member_id) {
+        alert("로그인이 필요합니다.");
+        return;
+      }
+    
+      const reportData = {
+        member_id: user.member_id,  // 신고자 ID
+        pwr_id: id,               // 신고 대상 게시물 ID
+        report_reason: reason,       // 신고 사유
+       
+
+      };
+    
+      try {
+        const response = await axios.post('http://localhost:8080/api/report', reportData, {
+          headers: { 'Content-Type': 'application/json' }
+        });
+        if (response.status === 200) {
+          alert(response.data); // "신고가 성공적으로 접수되었습니다!" 메시지 출력
+        }
+        closeReportModal(); // 모달 닫기
+      } catch (error) {
+        console.error("신고 처리 중 오류:", error);
+        alert("신고 처리 중 문제가 발생했습니다.");
+      }
     };
+
 //신고 끝
 
   const {user} = useAuthStore()
@@ -113,6 +142,9 @@ const saleDetail = () => {
   const [latitude, setLatitude] = useState(null); // 날씨용
   const [longitude, setLongitude] = useState(null); // 날씨용
   const [memberId, setMemberId] = useState(null); // 날씨용
+  const [fileName,setFileName] = useState("");
+  const [reviewlist, setReviewList] = useState([]);
+  const [sellDoneCount, setSellDoneCount] = useState([]);
 
   // URL 파라미터 (id)
   const id = searchParams.get("id");
@@ -132,6 +164,9 @@ const saleDetail = () => {
         const data = response.data.data;
         console.log(data);
         setDetail(data);
+        const memberId = response.data.data.member_id;
+        setMemberId(memberId);
+        console.log("Member ID:", memberId);
       } catch (err) {
         console.error("Error fetching data:", err);
         setError(err.message);
@@ -179,8 +214,9 @@ const saleDetail = () => {
         const response = await axios.get(`http://localhost:8080/members/getpostmemberdetail?pwr_id=${id}`);
         console.log(response);
         setSellerData(response.data.data);
-        const memberId = response.data.data.member_id;
-        console.log("Member ID:", memberId);
+        // const memberId = response.data.data.member_id;
+        // setMemberId(memberId);
+        // console.log("Member ID:", memberId);
         console.log("주문고객 데이터 조회 완료:", response.data.data);
       } catch (error) {
         console.error("주문고객 데이터 조회 실패:", error);
@@ -429,7 +465,38 @@ const saleDetail = () => {
   }, [detail]);
   // 휘주 날씨 끝
 
-
+// 리뷰 데이터터 출력
+useEffect(() => {
+  console.log(">>> useEffect 실행됨");
+  const getReviewListData = async () => {
+    try {
+      console.log("id : ", memberId);
+      const reviewresponse = await axios.get(`http://localhost:8080/api/salepage/getreviewdata?id=${memberId}`); // API 호출
+      const data = reviewresponse.data.data;
+      console.log("가져온 리뷰데이터 내용 : ", data)
+      setReviewList(data);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    }
+  };
+  getReviewListData();
+}, [memberId]);
+// 성사 거래 수 출력력
+useEffect(() => {
+  console.log(">>> useEffect 실행됨");
+  const getSellDoneData = async () => {
+    try {
+      console.log("id : ", memberId);
+      const response = await axios.get(`http://localhost:8080/api/salepage/getselldonedata?id=${memberId}`); // API 호출
+      const data = response.data.data;
+      console.log("가져온 리뷰데이터 내용 : ", data)
+      setSellDoneCount(data);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    }
+  };
+  getSellDoneData();
+}, [memberId]);
 
 
   //북마크 누를 시 찜 이동 (영빈)
@@ -456,6 +523,8 @@ const saleDetail = () => {
 
 
   const handleBookmarkToggle = async () => {
+    console.log("-------------" +JSON.stringify(detail?.fileList[0].fileName));
+    setFileName(detail?.fileList[0].fileName);
     console.log("Handle bookmark toggle...");
     console.log("member_id:", user?.member_id); // 추가
     console.log("pwr_id:", detail?.pwr_id);        // 추가
@@ -488,6 +557,7 @@ const saleDetail = () => {
           headers: { "Content-Type": "application/json" },
         });
         alert("찜이 완료되었습니다.");
+        sendMessage();
         setLikeCount((prev) => prev + 1); // 찜수 증가
         console.log("찜하기 요청 완료");
       }
@@ -499,7 +569,18 @@ const saleDetail = () => {
       alert("찜 상태 변경 중 문제가 발생했습니다.");
     }
   };
-  
+    const sendMessage = async () => {
+      
+      // console.log("detail 확인 : " + detail.data);
+      try {
+        const response = await axios(`http://localhost:8080/api/broadcast/${user?.member_id}?sender_id=${encodeURIComponent(user?.member_id)}&pwr_id=${encodeURIComponent(detail?.pwr_id)}&nickname=${encodeURIComponent(detail?.nickname)}&title=${encodeURIComponent(detail?.title)}&file_name=${encodeURIComponent(detail?.fileList[0].fileName)}`, {
+          method: 'GET'
+        });
+      } catch (error) {
+        console.error('Error:', error);
+        console.log('Error sending message.catch');
+      }
+    };
 
 
 
@@ -647,6 +728,10 @@ const saleDetail = () => {
   const isBlurNeeded =
     detail.status === '판매완료';
   console.log(detail.status);
+
+  
+  
+    
 
   return (
     <>
@@ -815,8 +900,9 @@ const saleDetail = () => {
               </Link>
             </div>
             <div className="sellerData">
-              <div>안전거래 수 <br /> <span className='tradeTitle'>2</span></div>
-              <div>거래 후기 수 <br /> <span className='tradeTitle'>10</span></div>
+              <div>거래 성사 수 <br /> <span className='tradeTitle'>{sellDoneCount.length}</span></div>
+              {/* <div>거래 후기 수 <br /> <span className='tradeTitle'>10</span></div> */}
+              <div>거래 후기 수 <br /> <span className='tradeTitle'>{reviewlist.length}</span></div>
             </div>
           </div>
         </div>

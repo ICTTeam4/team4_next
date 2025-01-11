@@ -31,13 +31,14 @@ function Page() {
   };
 
   const fetchSearchResults = async (query) => {
+    console.log("query : "+ query);
     setLoading(true); // 로딩 시작
     try {
       const response = await axios.get(`http://localhost:8080/api/searchItems/itemSearchResult`, {
         params: { keyword: query },
       });
   
-      console.log("API 응답 데이터:", response.data.data);
+      console.log("API 응답 데이터:query", response.data.data);
   
       if (response.data.success) {
         const items = response.data.data || [];
