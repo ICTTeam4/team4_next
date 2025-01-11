@@ -124,29 +124,29 @@ const Page = () => {
         <div className="profile-info">
           <div className="name-1">
             {/* saleData.nickname */}
-            <h2>{saleData.nickname || "닉네임"}</h2>
+            <h2>{saleData?.nickname || "닉네임"}</h2>
             <p>응답률 | 5분 안에 응답</p>
           </div>
           <div className="rating-reviews-box">
             <div className="rating">
               <span>평점 </span>
-              <div className="score">{saleData.rate || "0.0"}</div>
+              <div className="score">{saleData?.rate || "0.0"}</div>
             </div>
             <div className="vertical-divider"></div>
             <div className="reviews">
               <span>거래후기</span>
-              <div className="score">{saleData.content || "0"}</div>
+              <div className="score">{saleData?.content || "0"}</div>
             </div>
           </div>
         </div>
         <div className="profile-image">
-          {saleData.profile_image == "" ? 
+          {saleData?.profile_image == "" ? 
           <img 
           src="/images/default_profile.png" 
           alt="프로필 이미지"
           style={{width:'150px', height:'150px'}}
           /> : 
-          <img src={saleData.profile_image} alt="프로필 이미지" />}
+          <img src={saleData?.profile_image} alt="프로필 이미지" />}
           <br/>
           
         </div>

@@ -22,6 +22,9 @@ import WeatherSection from '../components/WeatherSection';
 // 신고하기
 function ReportModal({ isOpen, onClose, onSubmit }) {
   const [selectedReason, setSelectedReason] = useState("");
+  const [additionalReason, setAdditionalReason] = useState(""); // 추가적인 이유 상태
+  const [report_detail, setReport_Detail] = useState("");
+
 
   const reasons = [
     "사기 의심",
@@ -36,7 +39,7 @@ function ReportModal({ isOpen, onClose, onSubmit }) {
       alert("신고 사유를 선택해주세요.");
       return;
     }
-    onSubmit(selectedReason);
+    onSubmit({ reason: selectedReason, additionalDetail: report_detail });
     onClose();
   };
 
@@ -62,6 +65,24 @@ function ReportModal({ isOpen, onClose, onSubmit }) {
             </li>
           ))}
         </ul>
+        <div style={{ marginTop: "10px" }}>
+      <label htmlFor="additionalReason">추가적인 이유:</label>
+      <textarea
+        id="additionalReason"
+        value={report_detail}
+        onChange={(e) => setReport_Detail(e.target.value)}
+        rows="3"
+        placeholder="추가로 입력하고 싶은 내용을 작성하세요."
+        style={{
+          width: "100%",
+          marginTop: "5px",
+          padding: "10px",
+          fontSize: "14px",
+          borderRadius: "5px",
+          border: "1px solid #ccc",
+        }}
+      ></textarea>
+    </div>
         <button onClick={handleSubmit}>제출</button>
         <button onClick={onClose}>취소</button>
       </div>
@@ -82,6 +103,7 @@ const saleDetail = () => {
   const closeReportModal = () => {
     setIsReportModalOpen(false);
   };
+
 
 
 
@@ -141,6 +163,7 @@ const saleDetail = () => {
   const [latitude, setLatitude] = useState(null); // 날씨용
   const [longitude, setLongitude] = useState(null); // 날씨용
   const [memberId, setMemberId] = useState(null); // 날씨용
+  const [fileName,setFileName] = useState("");
   const [reviewlist, setReviewList] = useState([]);
   const [sellDoneCount, setSellDoneCount] = useState([]);
 
@@ -550,6 +573,7 @@ useEffect(() => {
   //   getWishUpdate();
   // }, [handleBookmarkToggle]);
 
+
   //북마크 누를 시 찜 이동 (영빈)
   const [likeCount, setLikeCount] = useState(detail?.like_count || 0); // 초기 찜수 상태
   // useEffect(() => {
@@ -569,7 +593,11 @@ useEffect(() => {
   //   if (detail?.id) fetchBookmarkStatus();
   // }, [user?.member_id, detail?.id]);
 
+
   const handleBookmarkToggle = async () => {
+    console.log("-------------" +JSON.stringify(detail?.fileList[0].fileName));
+    console.log("-------------user nickname :" + user?.nickname);
+    setFileName(detail?.fileList[0].fileName);
     console.log("Handle bookmark toggle...");
     console.log("member_id:", user?.member_id); // 추가
     // console.log("pwr_id:", detail?.salesPost.pwr_id);        // 추가
@@ -605,6 +633,7 @@ useEffect(() => {
           headers: { "Content-Type": "application/json" },
         });
         alert("찜이 완료되었습니다.");
+        sendMessage();
         setLikeCount((prev) => prev + 1); // 찜수 증가
         console.log("찜하기 요청 완료");
       }
@@ -616,7 +645,33 @@ useEffect(() => {
       alert("찜 상태 변경 중 문제가 발생했습니다.");
     }
   };
-  //북마크 끝
+
+    const sendMessage = async () => {
+      
+      // console.log("detail 확인 : " + detail.data);
+      try {
+        const response = await axios(`http://localhost:8080/api/broadcast/${detail?.member_id}?sender_id=${encodeURIComponent(user?.member_id)}&pwr_id=${encodeURIComponent(detail?.pwr_id)}&title=${encodeURIComponent(detail?.title)}&file_name=${encodeURIComponent(detail?.fileList[0].fileName)}`, {
+          method: 'GET'
+        });
+      } catch (error) {
+        console.error('Error:', error);
+        console.log('Error sending message.catch');
+      }
+    };
+
+
+
+
+//북마크 끝
+
+
+
+
+// 신고하기
+
+
+
+//신고하기 끝끝
 
   // 로딩/에러 처리
   if (loading) return <div>로딩 중...</div>;
@@ -688,6 +743,9 @@ useEffect(() => {
           new CustomEvent("open-chat", {
             detail: {
               room_id: roomId,
+              title:detail.title,
+              price:detail.sell_price,
+              host_name:sellerData.nickname,
               guest_id: sellerData.member_id,
               host_id: user.member_id,
               messages: response.data.content
