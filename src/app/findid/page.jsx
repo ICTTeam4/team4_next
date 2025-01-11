@@ -3,9 +3,13 @@ import { Button, TextField, Typography } from "@mui/material";
 import React, { useState, useRef, useEffect } from "react";
 import "./findid.css"; // 외부 CSS 파일 임포트
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const FindEmailPage = () => {
+  const router = useRouter();
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(false);
   const [authCode, setAuthCode] = useState("");
   const [isBtnDisabled, setIsBtnDisabled] = useState(true);
   const [isAuthCodeBtnDisabled, setIsAuthCodeBtnDisabled] = useState(true);
@@ -30,9 +34,10 @@ const FindEmailPage = () => {
       value = value.slice(0, 3) + "-" + value.slice(3, 7) + "-" + value.slice(7, 11);
     }
     setPhone(value);
-
+    console.log("length"+value.length);
+    console.log("length"+ value.length < 13);
     // 버튼 활성화 조건 확인
-    setIsBtnDisabled(value.length < 13); // 13자리가 되어야 버튼 활성화
+    setIsAuthCodeBtnDisabled(value.length < 13); // 13자리가 되어야 버튼 활성화
   };
 
   const handleAuthCodeChange = (e) => {
@@ -78,6 +83,7 @@ const FindEmailPage = () => {
       });
 
       alert(`가입된 이메일: ${emailResponse.data.email}`); // 이메일 표시
+      router.push("/login");
     } catch (error) {
       alert("인증번호 검증에 실패했습니다. 다시 시도해주세요.");
     }
@@ -135,6 +141,7 @@ const FindEmailPage = () => {
             >
               인증번호 확인
             </Button>
+            
           </form>
         </div>
       </div>
