@@ -14,7 +14,7 @@ const Page = ({ room_id, host_id, messages: initialMessages, closeChat, closeDet
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfilePopupOpen, setIsProfilePopupOpen] = useState(false);
   const [activePage, setActivePage] = useState('chatRoom');
-  const [messages, setMessages] = useState(initialMessages || []); // 초기 메시지 상태
+  const [messages, setMessages] = useState(Array.isArray(initialMessages) ? initialMessages : []);
   const dropdownRef = useRef(null);
   const profileRef = useRef(null);
   const [hostnames, setHostnames] = useState({}); // room_id별 hostname 저장
@@ -49,7 +49,10 @@ const Page = ({ room_id, host_id, messages: initialMessages, closeChat, closeDet
       console.log("채팅방 목록 데이터:", response.data);
 
       // room_id에 해당하는 메시지로 필터링
-      const filteredMessages = response.data.filter((msg) => msg.room_id === room_id);
+      const dataArray = Array.isArray(response.data) ? response.data : [];
+
+      // 이제 안전하게 filter 사용
+      const filteredMessages = dataArray.filter((msg) => msg.room_id === room_id);
       console.log("필터링된 메시지:", filteredMessages);
 
       // 메시지 상태 업데이트
@@ -87,14 +90,11 @@ const Page = ({ room_id, host_id, messages: initialMessages, closeChat, closeDet
       const response = await axios.get(`http://localhost:8080/api/chat/getHostName`, {
         params: { room_id: roomId },
       });
-         console.log("이름바꾸기시도중");
       if (response.data) {
         setHostName(response.data.hostname); // 동적으로 호스트 이름 업데이트
         setHostPhoto(response.data.profile_image); // 프로필 이미지 설정
         setChatListPrice(response.data.price); // 프로필 이미지 설정
-        console.log("이름바꾸기성공?"+response.data.hostname);
-        console.log("사진바꾸기성공?"+response.data.profile_image);
-        console.log("가격바꾸기성공?"+response.data.price);
+   
       } else {
         setHostName("Unknown Host"); // 기본값 설정
         setHostPhoto(null);

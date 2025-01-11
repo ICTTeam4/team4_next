@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import styles from './Page.module.css'; // CSS 모듈 임포트
 
+
 const Page = ({ data }) => {
   console.log("ItemCard 데이터:", data);
 
@@ -29,19 +30,18 @@ const Page = ({ data }) => {
   }
 
   const isBlurNeeded =
-    data.status === '판매완료';
+    data.status === '판매완료';   
   console.log(data.status);
 
   return (
     <>
-      <Link
+    <Link
         prefetch={false}
         href={{
           pathname: "/saleDetail",
           query: {
             id: data.pwr_id,
-          },
-
+            },
         }}
       >
         <div className={styles.product_card_container}>
