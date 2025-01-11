@@ -18,7 +18,108 @@ import CustomOverlay from "../components/CustomOverlay";
 import WeatherSection from '../components/WeatherSection';
 
 
+
+// 신고하기
+function ReportModal({ isOpen, onClose, onSubmit }) {
+  const [selectedReason, setSelectedReason] = useState("");
+
+  const reasons = [
+    "사기 의심",
+    "가격 비정상",
+    "제품 상태 불량",
+    "부적절한 게시글",
+    
+  ];
+
+  const handleSubmit = () => {
+    if (!selectedReason) {
+      alert("신고 사유를 선택해주세요.");
+      return;
+    }
+    onSubmit(selectedReason);
+    onClose();
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-background">
+      <div className="modal-container">
+        <h3>신고 사유 선택</h3>
+        <ul>
+          {reasons.map((reason, index) => (
+            <li key={index}>
+              <label>
+                <input
+                  type="radio"
+                  name="reason"
+                  value={reason}
+                  checked={selectedReason === reason}
+                  onChange={() => setSelectedReason(reason)}
+                />
+                {reason}
+              </label>
+            </li>
+          ))}
+        </ul>
+        <button onClick={handleSubmit}>제출</button>
+        <button onClick={onClose}>취소</button>
+      </div>
+    </div>
+  );
+}
+
+
 const saleDetail = () => {
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+
+    // 신고 모달 열기
+    const openReportModal = () => {
+      setIsReportModalOpen(true);
+    };
+  
+    // 신고 모달 닫기
+    const closeReportModal = () => {
+      setIsReportModalOpen(false);
+    };
+
+
+
+    // 신고 제출
+    const handleReportSubmit = async (reason) => {
+      console.log("user:", user);
+      console.log("detail:", id);
+      console.log("reson:", reason);
+      alert(`신고 사유: ${reason}`);
+      if (!user?.member_id) {
+        alert("로그인이 필요합니다.");
+        return;
+      }
+    
+      const reportData = {
+        member_id: user.member_id,  // 신고자 ID
+        pwr_id: id,               // 신고 대상 게시물 ID
+        report_reason: reason,       // 신고 사유
+       
+
+      };
+    
+      try {
+        const response = await axios.post('http://localhost:8080/api/report', reportData, {
+          headers: { 'Content-Type': 'application/json' }
+        });
+        if (response.status === 200) {
+          alert(response.data); // "신고가 성공적으로 접수되었습니다!" 메시지 출력
+        }
+        closeReportModal(); // 모달 닫기
+      } catch (error) {
+        console.error("신고 처리 중 오류:", error);
+        alert("신고 처리 중 문제가 발생했습니다.");
+      }
+    };
+
+//신고 끝
+
   const {user} = useAuthStore()
   const searchParams = useSearchParams();
   // 상태 관리
@@ -41,6 +142,9 @@ const saleDetail = () => {
   const [latitude, setLatitude] = useState(null); // 날씨용
   const [longitude, setLongitude] = useState(null); // 날씨용
   const [memberId, setMemberId] = useState(null); // 날씨용
+  const [fileName,setFileName] = useState("");
+  const [reviewlist, setReviewList] = useState([]);
+  const [sellDoneCount, setSellDoneCount] = useState([]);
 
   // URL 파라미터 (id)
   const id = searchParams.get("id");
@@ -60,6 +164,9 @@ const saleDetail = () => {
         const data = response.data.data;
         console.log(data);
         setDetail(data);
+        const memberId = response.data.data.member_id;
+        setMemberId(memberId);
+        console.log("Member ID:", memberId);
       } catch (err) {
         console.error("Error fetching data:", err);
         setError(err.message);
@@ -107,8 +214,9 @@ const saleDetail = () => {
         const response = await axios.get(`http://localhost:8080/members/getpostmemberdetail?pwr_id=${id}`);
         console.log(response);
         setSellerData(response.data.data);
-        const memberId = response.data.data.member_id;
-        console.log("Member ID:", memberId);
+        // const memberId = response.data.data.member_id;
+        // setMemberId(memberId);
+        // console.log("Member ID:", memberId);
         console.log("주문고객 데이터 조회 완료:", response.data.data);
       } catch (error) {
         console.error("주문고객 데이터 조회 실패:", error);
@@ -357,10 +465,43 @@ const saleDetail = () => {
   }, [detail]);
   // 휘주 날씨 끝
 
-
+// 리뷰 데이터터 출력
+useEffect(() => {
+  console.log(">>> useEffect 실행됨");
+  const getReviewListData = async () => {
+    try {
+      console.log("id : ", memberId);
+      const reviewresponse = await axios.get(`http://localhost:8080/api/salepage/getreviewdata?id=${memberId}`); // API 호출
+      const data = reviewresponse.data.data;
+      console.log("가져온 리뷰데이터 내용 : ", data)
+      setReviewList(data);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    }
+  };
+  getReviewListData();
+}, [memberId]);
+// 성사 거래 수 출력력
+useEffect(() => {
+  console.log(">>> useEffect 실행됨");
+  const getSellDoneData = async () => {
+    try {
+      console.log("id : ", memberId);
+      const response = await axios.get(`http://localhost:8080/api/salepage/getselldonedata?id=${memberId}`); // API 호출
+      const data = response.data.data;
+      console.log("가져온 리뷰데이터 내용 : ", data)
+      setSellDoneCount(data);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    }
+  };
+  getSellDoneData();
+}, [memberId]);
 
 
   //북마크 누를 시 찜 이동 (영빈)
+
+  const [likeCount, setLikeCount] = useState(detail?.like_count || 0); // 초기 찜수 상태
 
   useEffect(() => {
     const fetchBookmarkStatus = async () => {
@@ -382,6 +523,8 @@ const saleDetail = () => {
 
 
   const handleBookmarkToggle = async () => {
+    console.log("-------------" +JSON.stringify(detail?.fileList[0].fileName));
+    setFileName(detail?.fileList[0].fileName);
     console.log("Handle bookmark toggle...");
     console.log("member_id:", user?.member_id); // 추가
     console.log("pwr_id:", detail?.pwr_id);        // 추가
@@ -403,6 +546,7 @@ const saleDetail = () => {
           headers: { "Content-Type": "application/json" },
         });
         alert("찜이 취소되었습니다.");
+        setLikeCount((prev) => Math.max(prev - 1, 0)); // 찜수 감소
       } else {
         // 찜하지 않은 상태 -> 찜하기 요청
         await axios.post(`http://localhost:8080/api/wishlist/add`, {
@@ -413,6 +557,8 @@ const saleDetail = () => {
           headers: { "Content-Type": "application/json" },
         });
         alert("찜이 완료되었습니다.");
+        sendMessage();
+        setLikeCount((prev) => prev + 1); // 찜수 증가
         console.log("찜하기 요청 완료");
       }
   
@@ -423,12 +569,32 @@ const saleDetail = () => {
       alert("찜 상태 변경 중 문제가 발생했습니다.");
     }
   };
-  
+    const sendMessage = async () => {
+      
+      // console.log("detail 확인 : " + detail.data);
+      try {
+        const response = await axios(`http://localhost:8080/api/broadcast/${user?.member_id}?sender_id=${encodeURIComponent(user?.member_id)}&pwr_id=${encodeURIComponent(detail?.pwr_id)}&nickname=${encodeURIComponent(detail?.nickname)}&title=${encodeURIComponent(detail?.title)}&file_name=${encodeURIComponent(detail?.fileList[0].fileName)}`, {
+          method: 'GET'
+        });
+      } catch (error) {
+        console.error('Error:', error);
+        console.log('Error sending message.catch');
+      }
+    };
 
 
 
 
 //북마크 끝
+
+
+
+
+// 신고하기
+
+
+
+//신고하기 끝끝
 
   // 로딩/에러 처리
   if (loading) return <div>로딩 중...</div>;
@@ -560,6 +726,10 @@ const saleDetail = () => {
     detail.status === '판매완료';
   console.log(detail.status);
 
+  
+  
+    
+
   return (
     <>
       <div className="container">
@@ -584,12 +754,38 @@ const saleDetail = () => {
             <div className="itemPrice"><span className='infoTitle priceInfo'>{Number(detail.sell_price).toLocaleString()}원</span></div>
             <div className="detailData"><div>{formatTimeAgo(detail.created_at)}</div>
               <div style={{ display: 'flex' }}>
+             {/* 신고하기기 */}
+              <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              openReportModal(); // 신고 모달 열기
+            }}
+          >
+            <img
+              style={{
+                width: "15px",
+                height: "15px",
+                margin: "0px 2px 0px 5px",
+                verticalAlign: "bottom",
+              }}
+              src="/images/YB_22.png"
+              alt="view"
+            />
+            <span>신고하기</span>
+          </a>
+          <ReportModal
+          isOpen={isReportModalOpen}
+          onClose={closeReportModal}
+          onSubmit={handleReportSubmit}
+        />
+        {/* 신고하기 끝끝 */}
                 <div><img style={{ width: "15px", height: "15px", margin: "0px 2px 0px 5px", verticalAlign: "bottom" }} src="/images/JH_saleDetail_view.png" alt="view">
                 </img>{detail.view_count}</div>
                 <div><img style={{ width: "16px", height: "16px", margin: "0px 2px 0px 5px", verticalAlign: "bottom" }} src="/images/JH_saleDetail_chat.png" alt="view">
                 </img>채팅수</div>
                 <div><img style={{ width: "16px", height: "16px", margin: "0px 2px 0px 5px", verticalAlign: "bottom" }} src="/images/JH_saleDetail_pick.png" alt="view">
-                </img>찜수</div>
+                </img>{likeCount}찜수</div>
               </div>
             </div>
           </div>
@@ -657,7 +853,7 @@ const saleDetail = () => {
                 href={{
                   pathname: "/salepage",
                   query: {
-                    id: sellerData.member_id,
+                    id: sellerData?.member_id,
                   },
                 }}
                 className='infoTitle'>판매자 정보</Link></span>
@@ -666,7 +862,7 @@ const saleDetail = () => {
               href={{
                 pathname: "/salepage",
                 query: {
-                  id: sellerData.member_id,
+                  id: sellerData?.member_id,
                 },
               }}
             >
@@ -682,7 +878,7 @@ const saleDetail = () => {
                   href={{
                     pathname: "/salepage",
                     query: {
-                      id: sellerData.member_id,
+                      id: sellerData?.member_id,
                     },
                   }}
                   className='sellerFont'>{sellerData?.nickname || '로딩 중...'}</Link>
@@ -693,7 +889,7 @@ const saleDetail = () => {
                 href={{
                   pathname: "/salepage",
                   query: {
-                    id: sellerData.member_id,
+                    id: sellerData?.member_id,
                   },
                 }}
               >
@@ -701,8 +897,9 @@ const saleDetail = () => {
               </Link>
             </div>
             <div className="sellerData">
-              <div>안전거래 수 <br /> <span className='tradeTitle'>2</span></div>
-              <div>거래 후기 수 <br /> <span className='tradeTitle'>10</span></div>
+              <div>거래 성사 수 <br /> <span className='tradeTitle'>{sellDoneCount.length}</span></div>
+              {/* <div>거래 후기 수 <br /> <span className='tradeTitle'>10</span></div> */}
+              <div>거래 후기 수 <br /> <span className='tradeTitle'>{reviewlist.length}</span></div>
             </div>
           </div>
         </div>

@@ -15,7 +15,6 @@
     "@mui/material": "^6.1.8",
     "@mui/utils": "^6.2.1",
     "@next/swc-win32-x64-msvc": "^15.1.2",
-
     "@stomp/stompjs": "^7.0.0",
     "axios": "^1.7.8",
     "next": "^15.1.2",
@@ -28,7 +27,7 @@
     "sockjs-client": "^1.6.1",
     "webpack": "^5.97.1",
     "webpack-cli": "^5.1.4",
-    "zustand": "^5.0.2"
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "eslint": "^8",

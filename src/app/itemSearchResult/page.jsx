@@ -31,13 +31,14 @@ function Page() {
   };
 
   const fetchSearchResults = async (query) => {
+    console.log("query : "+ query);
     setLoading(true); // 로딩 시작
     try {
       const response = await axios.get(`http://localhost:8080/api/searchItems/itemSearchResult`, {
         params: { keyword: query },
       });
   
-      console.log("API 응답 데이터:", response.data.data);
+      console.log("API 응답 데이터:query", response.data.data);
   
       if (response.data.success) {
         const items = response.data.data || [];
@@ -63,9 +64,9 @@ function Page() {
     <div>
       <FilterSidebar isActive={isSidebarActive} toggleSidebar={toggleSidebar} />
       <FilterButtonsSection toggleSidebar={toggleSidebar} />
-      <h3 style={{ textAlign: 'center', color: 'lightgray' }}>
+      {/* <h3 style={{ textAlign: 'center', color: 'lightgray' }}>
         검색 결과 : "{query}"
-      </h3>
+      </h3> */}
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '-10px' }}>
         <div className="main_list_container">
           {loading && <p>로딩 중입니다...</p>}

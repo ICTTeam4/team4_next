@@ -27,14 +27,6 @@ function page(props) {
 
   }, []);
 
-  // const items = [
-  //   { id: 1, title: '갤럭시 S20+ BTS 에디션', price: '150,000원', image: '/images/David_img_girl.jpg' },
-  //   { id: 2, title: '갤럭시 S20+ 256GB', price: '240,000원', image: '/images/David_img_girl.jpg' },
-  //   { id: 3, title: '대량 도매가 갤럭시 S20', price: '150,000원', image: '/images/David_img_girl.jpg' },
-  //   { id: 4, title: '갤럭시 S20 256 블루 판매', price: '230,000원', image: '/images/David_img_girl.jpg' },
-  //   { id: 5, title: '갤럭시 S20 상태 좋은 중고', price: '250,000원', image: '/images/David_img_girl.jpg' },
-  //   { id: 6, title: '갤럭시 S20 상태 좋은 중고', price: '250,000원', image: '/images/David_img_girl.jpg' }
-  // ];
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % list.length);
