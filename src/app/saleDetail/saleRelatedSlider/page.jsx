@@ -55,7 +55,7 @@ function page(props) {
               <img src={`http://localhost:8080/images/${item.fileList[0]?.fileName}`} alt={item.title} className='image' />
               <div className='info'>
                 <h3>{item.title}</h3>
-                <p>{item.sell_price}</p>
+                <p>{item.sell_price}원</p>
               </div>
             </Link>
           </div>

@@ -22,6 +22,9 @@ import WeatherSection from '../components/WeatherSection';
 // 신고하기
 function ReportModal({ isOpen, onClose, onSubmit }) {
   const [selectedReason, setSelectedReason] = useState("");
+  const [additionalReason, setAdditionalReason] = useState(""); // 추가적인 이유 상태
+  const [report_detail, setReport_Detail] = useState("");
+
 
   const reasons = [
     "사기 의심",
@@ -36,7 +39,7 @@ function ReportModal({ isOpen, onClose, onSubmit }) {
       alert("신고 사유를 선택해주세요.");
       return;
     }
-    onSubmit(selectedReason);
+    onSubmit({ reason: selectedReason, additionalDetail: report_detail });
     onClose();
   };
 
@@ -62,6 +65,24 @@ function ReportModal({ isOpen, onClose, onSubmit }) {
             </li>
           ))}
         </ul>
+        <div style={{ marginTop: "10px" }}>
+      <label htmlFor="additionalReason">추가적인 이유:</label>
+      <textarea
+        id="additionalReason"
+        value={report_detail}
+        onChange={(e) => setReport_Detail(e.target.value)}
+        rows="3"
+        placeholder="추가로 입력하고 싶은 내용을 작성하세요."
+        style={{
+          width: "100%",
+          marginTop: "5px",
+          padding: "10px",
+          fontSize: "14px",
+          borderRadius: "5px",
+          border: "1px solid #ccc",
+        }}
+      ></textarea>
+    </div>
         <button onClick={handleSubmit}>제출</button>
         <button onClick={onClose}>취소</button>
       </div>
@@ -86,10 +107,11 @@ const saleDetail = () => {
 
 
     // 신고 제출
-    const handleReportSubmit = async (reason) => {
+    const handleReportSubmit = async ({ reason, additionalDetail }) => {
       console.log("user:", user);
       console.log("detail:", id);
       console.log("reson:", reason);
+      console.log("detail", detail);
       alert(`신고 사유: ${reason}`);
       if (!user?.member_id) {
         alert("로그인이 필요합니다.");
@@ -98,9 +120,10 @@ const saleDetail = () => {
     
       const reportData = {
         member_id: user.member_id,  // 신고자 ID
-        pwr_id: id,               // 신고 대상 게시물 ID
+        board_id: id,               // 신고 대상 게시물 ID
         report_reason: reason,       // 신고 사유
-       
+        report_detail: additionalDetail,
+        // report_detail: report_deatil,
 
       };
     
@@ -520,7 +543,12 @@ useEffect(() => {
     if (detail?.id) fetchBookmarkStatus();
   }, [user?.member_id, detail?.id]);
 
-
+// useEffect( () => {
+//   const response = axios.get(`http://localhost:8080/api/wishlist/getcheck`, {
+//     params: { memberId: user.member_id, pwr_id: detail.id },
+//   });
+//   setIsBookMarkOpen(response.data);
+// },[]);
 
   const handleBookmarkToggle = async () => {
     console.log("-------------" +JSON.stringify(detail?.fileList[0].fileName));
