@@ -18,6 +18,7 @@ const Page = ({ props }) => {
     const sse = new EventSource(`http://localhost:8080/api/connect/${user?.member_id}`);
     sse.addEventListener('connect', (e) => {
       const { data: receivedConnectData } = e;
+      console.log("connected!");
       console.log('connect알림 정보 받기: ', JSON.parse(receivedConnectData).data);  // "connected!"
       setNotifications(JSON.parse(receivedConnectData).data);
     });
@@ -27,7 +28,7 @@ const Page = ({ props }) => {
       console.log('update알림 정보 받기: ', receivedConnectData); // 변환된 객체 출력
       setNotifications(receivedConnectData);
     });
-  }, [])
+  }, [user])
 
   useEffect(()=>{
     console.log("notifications"+ JSON.stringify(notifications)); // 업데이트된 알림 개수
@@ -120,7 +121,7 @@ const Page = ({ props }) => {
               <div className='noti_one_block'>
                 <table>
                   <tbody>
-                    <tr><td onClick={() => setIsDeleted(item.noti_id)} style={{ cursor: 'pointer' }}>x</td><td> {item.name}이 당신의 게시물을 북마크 했습니다.</td><td></td></tr>
+                    <tr><td onClick={() => setIsDeleted(item.noti_id)} style={{ cursor: 'pointer' }}>x</td><td> {item.nickname}이 당신의 게시물을 북마크 했습니다.</td><td></td></tr>
                     <tr>
                       <td><img src='/images/HJ_notice_img.png' /></td>
                       <td style={{ width: '180px' }}></td>

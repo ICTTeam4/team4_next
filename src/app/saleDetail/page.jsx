@@ -524,6 +524,7 @@ useEffect(() => {
 
   const handleBookmarkToggle = async () => {
     console.log("-------------" +JSON.stringify(detail?.fileList[0].fileName));
+    console.log("-------------user nickname :" + user?.nickname);
     setFileName(detail?.fileList[0].fileName);
     console.log("Handle bookmark toggle...");
     console.log("member_id:", user?.member_id); // 추가
@@ -573,7 +574,7 @@ useEffect(() => {
       
       // console.log("detail 확인 : " + detail.data);
       try {
-        const response = await axios(`http://localhost:8080/api/broadcast/${user?.member_id}?sender_id=${encodeURIComponent(user?.member_id)}&pwr_id=${encodeURIComponent(detail?.pwr_id)}&nickname=${encodeURIComponent(detail?.nickname)}&title=${encodeURIComponent(detail?.title)}&file_name=${encodeURIComponent(detail?.fileList[0].fileName)}`, {
+        const response = await axios(`http://localhost:8080/api/broadcast/${detail?.member_id}?sender_id=${encodeURIComponent(user?.member_id)}&pwr_id=${encodeURIComponent(detail?.pwr_id)}&title=${encodeURIComponent(detail?.title)}&file_name=${encodeURIComponent(detail?.fileList[0].fileName)}`, {
           method: 'GET'
         });
       } catch (error) {
