@@ -678,7 +678,7 @@ useEffect(() => {
         // LocalStorage에서 토큰 가져오기
         const token = localStorage.getItem("token");
       // API 요청
-    
+    console.log("세일디테일셀러데이터가격",detail.sell_price);
       const response = await axios.get(CHAT_API_URL, {
         params: {
           seller_id: sellerData.member_id,
@@ -702,6 +702,9 @@ useEffect(() => {
           new CustomEvent("open-chat", {
             detail: {
               room_id: roomId,
+              title:detail.title,
+              price:detail.sell_price,
+              host_name:sellerData.nickname,
               guest_id: sellerData.member_id,
               host_id: user.member_id,
               messages: response.data.content

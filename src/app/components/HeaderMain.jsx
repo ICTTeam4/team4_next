@@ -22,46 +22,49 @@ const HeaderMain = () => {
   const [initialguestId, setInitialGuestId] = useState(null); // 초기 판매자 아이디, 관리자, 판매자 공통 로직 (거꾸로되어잇음 ㅠ)
   const [messages, setMessages] = useState([]); // 초기값을 빈 배열로 설정
   const [chats,setChats]=useState(null);
+  const [chatTitle,setChatTitle]= useState(null);
+  const [hostname,setHostName]=useState(null);
+  const [chatPrice,setChatPrice]=useState(null);
   
-  useEffect(() => {
-    const handleOpenChat = async (event) => {
-      console.log("이벤트리스너 룸아이디(헤더메인)", event.detail.room_id);
-    
-      try {
-        // 최신 메시지 가져오기
-         await fetchChatRooms();
-    
-        // 최신 메시지 반영 후 상태 업데이트
-        setInitialRoomId(event.detail.room_id);
-        setInitialGuestId(event.detail.guest_id);  // 이거 판매자임... ㅠㅠ
-        setInitialHostId(event.detail.host_id);
-        setMessages(event.detail.messages);
-        setChatOpen(true);
-      } catch (error) {
-        console.error("채팅 열기 중 오류 발생:", error);
-      }
-    };
-    
-  
-    window.addEventListener('open-chat', handleOpenChat);
-  
-    // 이벤트 리스너 제거
-    return () => {
-      window.removeEventListener('open-chat', handleOpenChat);
-    };
-  }, []);
-  
+ // OpenChat 이벤트 리스너
+useEffect(() => {
+  const handleOpenChat = async (event) => {
+    try {
+      const { room_id, guest_id, host_id, messages, title, host_name, price } = event.detail;
 
+      // 데이터 설정
+      await fetchChatRooms(); // 목록 먼저 가져오기
+      setInitialRoomId(room_id);
+      setInitialGuestId(guest_id);
+      setInitialHostId(host_id);
+      setMessages(messages || []); // 메시지 데이터
+      setChatTitle(title || "제목 없음");
+      setHostName(host_name || "알 수 없음");
+      setChatPrice(price || null);
 
-  const closeChat = () => {
-    if (isChatOpen) {
-      setChatOpen(false);
-      setInitialRoomId(null); //roomid 초기화
-      setInitialGuestId(null); //hostid 초기화
-      setInitialHostId(null); //hostid 초기화
+      // 모든 데이터가 준비된 후 열기
+      setChatOpen(true);
+    } catch (error) {
+      console.error("채팅 열기 중 오류 발생:", error);
     }
   };
 
+  window.addEventListener("open-chat", handleOpenChat);
+  return () => window.removeEventListener("open-chat", handleOpenChat);
+}, []);
+
+
+// 사이드바 닫기
+const closeChat = () => {
+  setChatOpen(false);
+  setInitialRoomId(null);
+  setInitialGuestId(null);
+  setInitialHostId(null);
+  setMessages([]);
+  setChatTitle(null);
+  setHostName(null);
+  setChatPrice(null);
+};
   const toggleChat = () => {
     setChatOpen(true);
     fetchChatRooms();
@@ -248,7 +251,8 @@ const HeaderMain = () => {
         </div >
         {/* 채팅 사이드바 */}
         <div className={`chat_sidebar ${isChatOpen ? 'open' : ''}`} onClick={(e) => e.stopPropagation()}>
-          <Page isOpen={isChatOpen} closeChat={closeChat} initialRoomId={initialRoomId} initialhostId={initialhostId} initialguestId={initialguestId} messages={messages}/>
+          <Page isOpen={isChatOpen} closeChat={closeChat} initialRoomId={initialRoomId} initialhostId={initialhostId} initialguestId={initialguestId} 
+          messages={messages} directtitle={chatTitle} hostName={hostname} price={chatPrice}/>
         </div>
       </div>
     </div>
