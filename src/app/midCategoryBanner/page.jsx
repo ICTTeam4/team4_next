@@ -29,7 +29,7 @@ const images = {
     { src: '22subcategory_cottn.png', alt: '코튼', title: '코튼' },
     { src: '23subcategory_slacs.png', alt: '슬랙스', title: '슬랙스' },
     { src: '24subcategory_training.png', alt: '트레이닝', title: '트레이닝' },
-    { src: '25subcategory_shortpants.png', alt: '숏팬츠', title: '숏팬츠' }
+    { src: '25subcategory_shortpants.png', alt: '숏', title: '숏' }
   ],
   shoesList: [
     { src: '31subcategory_trainingshoes.png', alt: '운동화', title: '운동화' },

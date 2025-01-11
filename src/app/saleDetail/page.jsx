@@ -145,6 +145,7 @@ const saleDetail = () => {
   const [fileName,setFileName] = useState("");
   const [reviewlist, setReviewList] = useState([]);
   const [sellDoneCount, setSellDoneCount] = useState([]);
+  const [chatCount, setChatCount] = useState(null);
 
   // URL 파라미터 (id)
   const id = searchParams.get("id");
@@ -465,7 +466,7 @@ const saleDetail = () => {
   }, [detail]);
   // 휘주 날씨 끝
 
-// 리뷰 데이터터 출력
+// 리뷰 데이터 출력
 useEffect(() => {
   console.log(">>> useEffect 실행됨");
   const getReviewListData = async () => {
@@ -481,7 +482,8 @@ useEffect(() => {
   };
   getReviewListData();
 }, [memberId]);
-// 성사 거래 수 출력력
+
+// 성사 거래 수 출력
 useEffect(() => {
   console.log(">>> useEffect 실행됨");
   const getSellDoneData = async () => {
@@ -497,6 +499,31 @@ useEffect(() => {
   };
   getSellDoneData();
 }, [memberId]);
+
+// 채팅 수 출력
+useEffect(() => {
+  console.log(">>> 채팅 수 useEffect 실행됨");
+  const getRoomIdsByPwrId = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      console.log("채팅 수를 찾을 pwr_id : ", id);
+      const response = await axios.get(`http://localhost:8080/api/chat/getroomidsbypwrid`, {
+        params: { pwr_id: id
+         },
+        headers: {
+          Authorization: `Bearer ${token}`, // 인증 헤더 추가
+          'Cache-Control': 'no-cache', // 캐싱 방지
+        },
+      });
+      const data = response.data.data;
+      console.log("가져온 채팅 수 데이터 : ", data)
+      setChatCount(data);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    }
+  };
+  getRoomIdsByPwrId();
+}, [id]);
 
 
   //북마크 누를 시 찜 이동 (영빈)
@@ -783,9 +810,9 @@ useEffect(() => {
                 <div><img style={{ width: "15px", height: "15px", margin: "0px 2px 0px 5px", verticalAlign: "bottom" }} src="/images/JH_saleDetail_view.png" alt="view">
                 </img>{detail.view_count}</div>
                 <div><img style={{ width: "16px", height: "16px", margin: "0px 2px 0px 5px", verticalAlign: "bottom" }} src="/images/JH_saleDetail_chat.png" alt="view">
-                </img>채팅수</div>
+                </img>{chatCount}</div>
                 <div><img style={{ width: "16px", height: "16px", margin: "0px 2px 0px 5px", verticalAlign: "bottom" }} src="/images/JH_saleDetail_pick.png" alt="view">
-                </img>{likeCount}찜수</div>
+                </img>{likeCount}</div>
               </div>
             </div>
           </div>
@@ -897,9 +924,9 @@ useEffect(() => {
               </Link>
             </div>
             <div className="sellerData">
-              <div>거래 성사 수 <br /> <span className='tradeTitle'>{sellDoneCount.length}</span></div>
+              <div>거래 성사 수 <br /> <span className='tradeTitle'>{sellDoneCount?.length}</span></div>
               {/* <div>거래 후기 수 <br /> <span className='tradeTitle'>10</span></div> */}
-              <div>거래 후기 수 <br /> <span className='tradeTitle'>{reviewlist.length}</span></div>
+              <div>거래 후기 수 <br /> <span className='tradeTitle'>{reviewlist?.length}</span></div>
             </div>
           </div>
         </div>

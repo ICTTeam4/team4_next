@@ -154,7 +154,7 @@ const OrderDetail = () => {
       </div>
 
       {/* 결제 섹션 */}
-      <h2 style={{ fontSize: 20 }}>결제 완료</h2>
+      <h2 style={{ fontSize: 20 }}>판매 완료</h2>
       <section className="payment-section">
         <div className="order-selection2">
           <p>배송 준비 중이에요.</p>
