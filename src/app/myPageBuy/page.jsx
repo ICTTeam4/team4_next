@@ -5,6 +5,7 @@ import './myPageBuy.css';
 import { useEffect, useState } from 'react';
 import useAuthStore from "../../../store/authStore";
 import axios from 'axios';
+import Link from 'next/link';
 
 function Page(props) {
     const [showSideNav, setShowSideNav] = useState(true); // 사이드바 보이기 여부 상태
@@ -217,8 +218,8 @@ function Page(props) {
         }
     };
 
-       // 초기 데이터 로드
-       useEffect(() => {
+    // 초기 데이터 로드
+    useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             await Promise.all([fetchReviewedPwrIds()]);
@@ -290,7 +291,19 @@ function Page(props) {
                                             .sort((a, b) => b.idx - a.idx) // idx를 기준으로 최신순 정렬
                                             .map(item => (
                                                 <div key={item.idx} className='purchase_list_display_item' style={{ backgroundColor: "rgb(255, 255, 255)" }}>
-                                                    <a href="#">
+                                                    <Link
+                                                        href={{
+                                                            pathname: '/orderdetail',
+                                                            query: {
+                                                                productId: item.pwr_id,
+                                                                productPrice: item.trans_price,
+                                                                productImg: item.file_name,
+                                                                productName: item.title,
+                                                                sellerId: item.seller_id,
+                                                            },
+                                                        }}
+
+                                                    >
                                                         <div className='purchase_list_product'>
                                                             <div className='list_item_img_wrap'>
                                                                 {item.file_name !== "0" ? (
@@ -312,7 +325,7 @@ function Page(props) {
                                                                 </p>
                                                             </div>
                                                         </div>
-                                                    </a>
+                                                    </Link>
                                                     <div className='list_item_status'>
                                                         <div className='list_item_column column_secondary'>
                                                             <p className='text-lookup secondary_title display_paragraph' style={{ color: "rgba(34, 34, 34, 0.5)" }}>

@@ -5,6 +5,7 @@ import './myPageSell.css';
 import { useEffect, useState } from 'react';
 import useAuthStore from "../../../store/authStore";
 import axios from 'axios';
+import Link from 'next/link';
 
 function Page(props) {
     const searchParams = useSearchParams();
@@ -109,7 +110,7 @@ function Page(props) {
                     Authorization: `Bearer ${token}`, // 인증 헤더 추가
                 },
             });
-    
+
             if (response.status === 200 && response.data.success) {
                 alert('삭제가 완료되었습니다.');
                 // 삭제된 항목을 상태에서 제거
@@ -275,31 +276,84 @@ function Page(props) {
                                     .sort((a, b) => b.pwr_id - a.pwr_id) // idx를 기준으로 최신순 정렬
                                     .map(item => (
                                         <div key={item.pwr_id} className='purchase_list_display_item'>
-                                            <div className='purchase_list_product'>
-                                                <div className='list_item_img_wrap'>
-                                                    {item.fileList !== "0" ? (
-                                                        <img
-                                                            alt="product_img"
-                                                            src={`http://localhost:8080/images/${item.fileList[0]?.fileName}`}
-                                                            className='list_item_img'
-                                                            style={{ backgroundColor: "rgb(244, 244, 244)" }}
-                                                        />
-                                                    ) : (
-                                                        <p style={{ textAlign: "center", color: "gray" }}>이미지 없음</p>
-                                                    )}
-                                                </div>
-                                                <div className='list_item_title_wrap'>
-                                                    <p className='list_item_price'>{Number(item.sell_price).toLocaleString()} 원</p>
-                                                    <p className='list_item_title'>{item.title}</p>
-                                                    <p className='list_item_description'>{item.is_direct === "1" && item.is_delivery === "1"
-                                                        ? "직거래 / 택배거래"
-                                                        : item.is_direct === "1"
-                                                            ? "직거래"
-                                                            : item.is_delivery === "1"
-                                                                ? "택배거래"
-                                                                : ""}</p>
-                                                </div>
-                                            </div>
+                                            {item.status === '판매완료' ? (
+                                                /* 판매완료된 게시물 리스트 링크 */
+                                                <Link
+                                                    href={{
+                                                        pathname: '/orderdetailpreparing',
+                                                        query: {
+                                                            productName: item.title,
+                                                            productPrice: item.sell_price,
+                                                            productId: item.pwr_id,
+                                                            productImg: item.fileList[0].fileName,
+                                                        },
+                                                    }}
+
+                                                >
+                                                    <div className='purchase_list_product'>
+                                                        <div className='list_item_img_wrap'>
+                                                            {item.fileList !== "0" ? (
+                                                                <img
+                                                                    alt="product_img"
+                                                                    src={`http://localhost:8080/images/${item.fileList[0]?.fileName}`}
+                                                                    className='list_item_img'
+                                                                    style={{ backgroundColor: "rgb(244, 244, 244)" }}
+                                                                />
+                                                            ) : (
+                                                                <p style={{ textAlign: "center", color: "gray" }}>이미지 없음</p>
+                                                            )}
+                                                        </div>
+                                                        <div className='list_item_title_wrap'>
+                                                            <p className='list_item_price'>{Number(item.sell_price).toLocaleString()} 원</p>
+                                                            <p className='list_item_title'>{item.title}</p>
+                                                            <p className='list_item_description'>{item.is_direct === "1" && item.is_delivery === "1"
+                                                                ? "직거래 / 택배거래"
+                                                                : item.is_direct === "1"
+                                                                    ? "직거래"
+                                                                    : item.is_delivery === "1"
+                                                                        ? "택배거래"
+                                                                        : ""}</p>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                            ) : (
+                                                /* 판매중인 게시물 리스트 링크 */
+                                                <Link
+                                                    href={{
+                                                        pathname: '/saleDetail',
+                                                        query: {
+                                                            id: item.pwr_id,
+                                                        },
+                                                    }}
+
+                                                >
+                                                    <div className='purchase_list_product'>
+                                                        <div className='list_item_img_wrap'>
+                                                            {item.fileList !== "0" ? (
+                                                                <img
+                                                                    alt="product_img"
+                                                                    src={`http://localhost:8080/images/${item.fileList[0]?.fileName}`}
+                                                                    className='list_item_img'
+                                                                    style={{ backgroundColor: "rgb(244, 244, 244)" }}
+                                                                />
+                                                            ) : (
+                                                                <p style={{ textAlign: "center", color: "gray" }}>이미지 없음</p>
+                                                            )}
+                                                        </div>
+                                                        <div className='list_item_title_wrap'>
+                                                            <p className='list_item_price'>{Number(item.sell_price).toLocaleString()} 원</p>
+                                                            <p className='list_item_title'>{item.title}</p>
+                                                            <p className='list_item_description'>{item.is_direct === "1" && item.is_delivery === "1"
+                                                                ? "직거래 / 택배거래"
+                                                                : item.is_direct === "1"
+                                                                    ? "직거래"
+                                                                    : item.is_delivery === "1"
+                                                                        ? "택배거래"
+                                                                        : ""}</p>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                            )}
                                             <div className='list_item_status'>
                                                 <div className='list_item_column column_secondary'>
                                                     <p className='text-lookup secondary_title display_paragraph' style={{ color: "rgba(34, 34, 34, 0.5)" }}>

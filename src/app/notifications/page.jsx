@@ -7,7 +7,8 @@ import useAuthStore from '../../../store/authStore';
 import axios from 'axios';
 
 const Page = ({ props }) => {
-  const { user,isNotibarActive, setIsNotibarActive } = useAuthStore();
+  const { isNotibarActive, setIsNotibarActive } = useAuthStore();
+  const { user } = useAuthStore();
   const [notifications, setNotifications] = useState(null);
   const [number, setNumber] = useState(1);
   const handleToggleNotibar = () => {
