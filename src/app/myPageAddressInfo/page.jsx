@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Script from 'next/script';
 import axios from 'axios';
+import useAuthStore from '../../../store/authStore';
 
 const API_BASE_URL = `${process.env.NEXT_PUBLIC_LOCAL_API_BASE_URL}/api/address`;
 
@@ -22,6 +23,8 @@ function Page(props) {
     const [address, setAddressInput] = useState("");
     const [detailAddress, setDetailAddress] = useState("");
     const [isChecked, setIsChecked] = useState(false);
+    const { user } = useAuthStore();
+    const member_id = user.member_id;
 
     // 기본 배송지 상태 (ID로 구분)
     const [addresses, setAddresses] = useState([
@@ -52,12 +55,12 @@ function Page(props) {
         }
         setPhone(value);
     };
-    
+
 
     const fetchAddresses = async () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/list`, {
-                params: { member_id: '44' },
+                params: { member_id: member_id },
             });
             setAddresses(Array.isArray(response.data) ? response.data : []);
         } catch (error) {
@@ -65,7 +68,7 @@ function Page(props) {
             setAddresses([]); // 오류 발생 시 빈 배열로 초기화
         }
     };
-    
+
 
     useEffect(() => {
         fetchAddresses();
@@ -81,7 +84,7 @@ function Page(props) {
             address,
             detailAddress,
             isDefault: isChecked,
-            memberId: '44', // Replace '1' with dynamic user ID
+            memberId: member_id, // Replace '1' with dynamic user ID
         };
 
         try {
@@ -116,7 +119,7 @@ function Page(props) {
     const handleSetDefault = async (id) => {
         try {
             await axios.put(`${API_BASE_URL}/set-default/${id}`, null, {
-                params: { member_id: '44' }, // Replace '1' with dynamic user ID
+                params: { member_id: member_id }, // Replace '1' with dynamic user ID
             });
             alert('기본 배송지 설정되었습니다.'); // 알림 추가
             fetchAddresses();
@@ -351,15 +354,14 @@ function Page(props) {
                                                         <button
                                                             type="button"
                                                             disabled={!name || !phone || !zipcode || !address || !detailAddress}
-                                                            className={`btn_input btn_save solid medium ${
-                                                                name &&
-                                                                phone &&
-                                                                zipcode &&
-                                                                address &&
-                                                                detailAddress
+                                                            className={`btn_input btn_save solid medium ${name &&
+                                                                    phone &&
+                                                                    zipcode &&
+                                                                    address &&
+                                                                    detailAddress
                                                                     ? ""
                                                                     : "disabled"
-                                                            }`}
+                                                                }`}
                                                             onClick={handleSave}
                                                         >
                                                             저장하기
@@ -397,10 +399,10 @@ function Page(props) {
                                                         </p>
                                                         <div className="address_box">
                                                             <span className="zipcode">
-                                                                {item.zipcode}
+                                                                ({item.zipcode})&nbsp;
                                                             </span>
                                                             <span className="address">
-                                                                {item.address}
+                                                                {item.address}&nbsp;
                                                             </span>
                                                             {item.detailAddress && (
                                                                 <span className="detail-address">
@@ -460,10 +462,10 @@ function Page(props) {
                                                             </p>
                                                             <div className="address_box">
                                                                 <span className="zipcode">
-                                                                    {item.zipcode}
+                                                                    ({item.zipcode})&nbsp;
                                                                 </span>
                                                                 <span className="address">
-                                                                    {item.address}
+                                                                    {item.address}&nbsp;
                                                                 </span>
                                                                 {item.detailAddress && (
                                                                     <span className="detail-address">
