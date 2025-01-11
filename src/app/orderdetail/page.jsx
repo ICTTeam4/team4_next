@@ -11,7 +11,8 @@ const OrderDetail = () => {
   const [isDataSent, setIsDataSent] = useState(false);
   const [isDataFetched, setIsDataFetched] = useState(false);
   const [orderData, setOrderData] = useState(null); // 서버에서 받은 주문 데이터
-  const [buyerData, setBuyerData] = useState(null); // 서버에서 받은 주문고객 데이터
+  const [buyerData, setBuyerData] = useState(null); // 서버에서 받은 구매고객 데이터
+  const [sellerData, setSellerData] = useState(null); // 서버에서 받은 판매고객 데이터
   const [loading, setLoading] = useState(false); // 로딩 상태
   const [error, setError] = useState(null); // 에러 상태
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,6 +26,7 @@ const OrderDetail = () => {
   const img = searchParams.get('productImg');
   const method = searchParams.get('method');
   const seller_id = searchParams.get('sellerId');
+  console.log("셀러아이디서치파람", seller_id);
 
   const user = useAuthStore((state) => state.user);
   const member_id = user.member_id;
@@ -104,16 +106,29 @@ const OrderDetail = () => {
     }
   };
 
-  // 주문고객 조회
+  // 구매고객 조회
   const fetchBuyerData = async () => {
     try {
       console.log(member_id);
       const response = await axios.get(`http://localhost:8080/members/getmemberdetail?member_id=${member_id}`);
       setBuyerData(response.data.data);
-      console.log("주문고객 데이터 조회 완료:", response);
+      console.log("구매고객 데이터 조회 완료:", response.data.data);
     } catch (error) {
-      console.error("주문고객 데이터 조회 실패:", error);
-      setError("주문고객 데이터 조회에 실패했습니다.");
+      console.error("구매고객 데이터 조회 실패:", error);
+      setError("구매고객 데이터 조회에 실패했습니다.");
+    }
+  };
+
+  // 판매고객 조회
+  const fetchSellerData = async () => {
+    try {
+      console.log("판매고객 아이디", seller_id);
+      const response = await axios.get(`http://localhost:8080/members/getmemberdetail?member_id=${seller_id}`);
+      setSellerData(response.data.data);
+      console.log("판매고객 데이터 조회 완료:", response);
+    } catch (error) {
+      console.error("판매고객 데이터 조회 실패:", error);
+      setError("판매고객 데이터 조회에 실패했습니다.");
     }
   };
 
@@ -133,12 +148,29 @@ const OrderDetail = () => {
 
   };
 
+  // useEffect(() => {
+  //   // 페이지 로드 시 데이터 전송 및 조회
+  //   sendData();
+  //   fetchOrderData();
+  //   fetchBuyerData();
+  //   fetchSellerData();
+  //   postUpdate();
+  // }, []);
+
   useEffect(() => {
-    // 페이지 로드 시 데이터 전송 및 조회
-    sendData();
-    fetchOrderData();
-    fetchBuyerData();
-    postUpdate();
+    const fetchDataSequentially = async () => {
+      try {
+        await sendData(); // 데이터 전송
+        await fetchOrderData(); // 주문 데이터 조회
+        await fetchBuyerData(); // 구매자 데이터 조회
+        await fetchSellerData(); // 판매자 데이터 조회
+        await postUpdate(); // 업데이트 작업
+      } catch (error) {
+        console.error("데이터 처리 중 오류 발생:", error);
+      }
+    };
+
+    fetchDataSequentially(); // 비동기 함수 호출
   }, []);
 
   function formatDate(dateString) {
@@ -169,7 +201,7 @@ const OrderDetail = () => {
       // 새로고침이 아직 수행되지 않았다면
       localStorage.setItem("hasRefreshed", "true"); // 새로고침 플래그 설정
       window.location.reload(); // 새로고침
-    }else{
+    } else {
       // 새로고침 후 플래그 초기화
       localStorage.removeItem("hasRefreshed");
     }
@@ -188,41 +220,46 @@ const OrderDetail = () => {
       </div>
 
       {/* 결제 섹션 */}
+      <h2 style={{ fontSize: 20 }}>결제 완료</h2>
       <section className="payment-section">
         <div className="order-selection2">
-          <h2 style={{ fontSize: 20 }}>결제 완료</h2>
           <p>{buyerData?.nickname || '로딩 중'}님 결제를 완료했어요.</p>
         </div>
         <div className="product-info">
           <div className="product-img"><img src={`http://localhost:8080/images/${img}`} /></div>
           <div className="product-details">
             <p className="product-name">{title}</p>
-            <p className="product-price">{Number(sell_price).toLocaleString()}원</p>
           </div>
           <button className="cancel-btn" onClick={openModal2}>거래 취소하기</button>
         </div>
       </section>
 
 
-      <h2 style={{ fontSize: 20 }}>판매정보</h2>
+      <h2 style={{ fontSize: 20 }}>구매정보</h2>
       <section className="sale-info">
+        <div className='seller_name'><span className="bold" style={{ marginRight: "10px" }}>판매자</span><span>{sellerData?.nickname}</span></div>
         <div className="sale-row">
           <div className="sale-item">
-            <span2>상품 금액</span2>
-            <span2 className="bold">{Number(sell_price).toLocaleString()}원</span2>
+            <span2></span2>
+            <span2 className="bold" style={{ marginRight: "10px" }}>상품명</span2>
+            <span>{title}</span>
+            {/* <span2>정산 계좌</span2>
+            <span2 className="bold">카카오뱅크 33330000000000 홍길동</span2> */}
           </div>
-          <div className="vertical-bar"></div> {/* 수직 바 추가 */}
-          <div className="sale-item">
-            <span2>정산 계좌</span2>
-            <span2 className="bold">카카오뱅크 33330000000000 홍길동</span2>
+          <div>
+            <span2 className="bold">금액</span2>
+            <span>{Number(sell_price).toLocaleString()}원</span>
+          </div>
+          <div className="sale-item" style={{ width: "80px", height: "80px" }}>
+            <div className="product-img"><img style={{ width: "80px", height: "80px" }} src={`http://localhost:8080/images/${img}`} /></div>
           </div>
         </div>
-        <div className="sale-row">
+        {/* <div className="sale-row">
           <div className="sale-item">
             <span2>정산예정금액</span2>
             <span2 className="bold">{Number(sell_price).toLocaleString()}원</span2>
           </div>
-        </div>
+        </div> */}
       </section>
 
 
@@ -240,14 +277,21 @@ const OrderDetail = () => {
             <strong>구매자</strong>{buyerData?.nickname || '로딩 중'}
           </p>
           <p>
-            <strong>거래방법</strong>일반택배(선불)
+            <strong>거래방법</strong>{orderData?.trans_method || '로딩 중'}
           </p>
-          <p>
-            <strong>운송장</strong>
-            <button className="register-btn" onClick={openModal}>
+
+          {/* 택배거래일 경우에만 운송장 관련 정보 표시 */}
+          {orderData?.trans_method === "택배거래" ? (
+            <p>
+              <strong>운송장</strong>
+              <span>운송장 번호 없음</span>
+              {/* <button className="register-btn" onClick={openModal}>
               운송장 등록하기
-            </button>
-          </p>
+            </button> */}
+            </p>
+          ) : (
+            <p><strong>운송장</strong> 운송장이 필요하지 않은 거래 방식입니다.</p>
+          )}
         </div>
       </section>
 
@@ -317,9 +361,9 @@ const OrderDetail = () => {
 
       <div className="action-buttons">
         <button className="chat-btn" onClick={handleContactClick}>채팅하기</button>
-        <button className="register-btn2" onClick={openModal}>
+        {/* <button className="register-btn2" onClick={openModal}>
           운송장 등록
-        </button>
+        </button> */}
       </div>
     </div>
 

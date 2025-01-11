@@ -5,64 +5,36 @@ import './myPageAccountInfo.css';
 import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { noOptionsMessageCSS } from 'react-select';
+import useAuthStore from '../../../store/authStore';
 
 
 
 function Page(props) {
 
-    
+
     const pathname = usePathname();
     const [defaultId, setDefaultId] = useState(1); // 기본 정산 계좌 아이디디
     const [accounts, setAccounts] = useState([]); // 서버 데이터 상태
     const [isModalOpen, setIsModalOpen] = useState(false);
-    
+    const { user } = useAuthStore();
 
-    
+    console.log("auth.user.member_id", user.member_id);
+
+    const member_id = user.member_id;
+
     const API_URL = `${process.env.NEXT_PUBLIC_LOCAL_API_BASE_URL}/api/accounts`;
-console.log('API URL:', API_URL); // 확인용 로그
+    console.log('API URL:', API_URL); // 확인용 로그
 
-// 로컬 스토리지에 데이터 저장
-const saveToLocalStorage = (key, value) => {
-    localStorage.setItem(key, JSON.stringify(value));
-};
+    // 로컬 스토리지에 데이터 저장
+    const saveToLocalStorage = (key, value) => {
+        localStorage.setItem(key, JSON.stringify(value));
+    };
 
-//로컬 데이터 불러오기
-const loadFromLocalStorage = (key, defaultValue = []) => {
-    const storedData = localStorage.getItem(key);
-    return storedData ? JSON.parse(storedData) : defaultValue;
-};
-
-
-
-
-// const handleSetDefaultAccount = async (id) => {
-//     try {
-//       const response = await fetch(`${API_URL}/${id}/set-default?memberId=44`, {
-//         method: "PUT",
-//       });
-  
-//       if (!response.ok) {
-//         throw new Error("기본 정산 계좌 설정 실패");
-//       }
-  
-//       // 서버에서 최신 계좌 목록 가져오기
-//       const updatedAccounts = await fetchAccounts();
-  
-//       // 상태 업데이트
-//       setAccounts(updatedAccounts); // Zustand 상태 업데이트
-//       saveToLocalStorage("accounts", updatedAccounts); // 로컬 스토리지 업데이트
-  
-//       const newDefaultAccount = updatedAccounts.find((account) => account.id === id);
-//       setDefaultAccount(newDefaultAccount); // Zustand 상태에 기본 계좌 반영
-//       alert("기본 정산 계좌가 설정되었습니다.");
-//     } catch (error) {
-//       console.error("기본 정산 계좌 설정 중 오류 발생:", error);
-//       alert("기본 정산 계좌 설정에 실패했습니다.");
-//     }
-//   };
-
-
-
+    //로컬 데이터 불러오기
+    const loadFromLocalStorage = (key, defaultValue = []) => {
+        const storedData = localStorage.getItem(key);
+        return storedData ? JSON.parse(storedData) : defaultValue;
+    };
 
 
 
@@ -103,7 +75,7 @@ const loadFromLocalStorage = (key, defaultValue = []) => {
     ];
 
 
-    
+
 
 
     const noArrowComponents = {
@@ -192,26 +164,28 @@ const loadFromLocalStorage = (key, defaultValue = []) => {
     //계좌 목록 가져오기
     const fetchAccounts = async () => {
         try {
-            const response = await fetch(`${API_URL}?memberId=44`);
+            const response = await fetch(`${API_URL}?memberId=${member_id}`);
             if (!response.ok) {
                 throw new Error("계좌 목록 조회 실패");
             }
             const data = await response.json();
-    
+
+            console.log("계좌목록가져오기데이터", data);
+
             // 서버에서 데이터가 올바른 배열인지 확인
             if (!Array.isArray(data)) {
                 console.error("API에서 배열이 반환되지 않았습니다.", data);
                 return [];
             }
-    
+
             // 기본 계좌를 맨 위로 정렬
             const sortedData = data.sort((a, b) => b.isDefault - a.isDefault);
-    
+
             // 상태를 갱신
             setAccounts(sortedData);
 
-              // 로컬 스토리지에 계좌 정보 저장
-        saveToLocalStorage("accounts", sortedData);
+            // 로컬 스토리지에 계좌 정보 저장
+            // saveToLocalStorage("accounts", sortedData);
 
             return sortedData;
         } catch (error) {
@@ -220,83 +194,82 @@ const loadFromLocalStorage = (key, defaultValue = []) => {
             return [];
         }
     };
-    
-    
-    
-    
-    
-    
-    
-    // 컴포넌트 마운트 시 계좌 목록 불러오기
-    // useEffect(() => {
-    //     const loadAccounts = async () => {
-    //         await fetchAccounts();
-    //     };
-    //     loadAccounts();
-    // }, [pathname]); // pathname이 변경될 때마다 실행
+
+
+
+
+
+
 
     useEffect(() => {
-        const loadAccounts = async () => {
-            // 로컬 스토리지에서 계좌 목록 로드
-            const savedAccounts = loadFromLocalStorage("accounts");
-    
-            if (savedAccounts.length > 0) {
-                setAccounts(savedAccounts);
-            } else {
-                // 로컬 스토리지에 데이터가 없으면 API 호출
-                const fetchedAccounts = await fetchAccounts();
-                saveToLocalStorage("accounts", fetchedAccounts); // API 데이터 저장
-            }
-        };
-    
-        loadAccounts();
-    }, [pathname]);
-    
+        fetchAccounts();
+    }, [pathname]); // pathname이 변경될 때마다 실행
+
+    // useEffect(() => {
+    //     const loadAccounts = async () => {
+    //         // 로컬 스토리지에서 계좌 목록 로드
+    //         const savedAccounts = loadFromLocalStorage("accounts");
+
+    //         if (savedAccounts.length > 0) {
+    //             setAccounts(savedAccounts);
+    //         } else {
+    //             // 로컬 스토리지에 데이터가 없으면 API 호출
+    //             const fetchedAccounts = await fetchAccounts();
+    //             saveToLocalStorage("accounts", fetchedAccounts); // API 데이터 저장
+    //         }
+    //     };
+
+    //     loadAccounts();
+    // }, [pathname]);
+
 
 
     // 계좌 목록 불러오기 끝
 
 
     // 기본 계좌 설정
-const setDefaultAccount = async (id) => {
-    const response = await fetch(`${API_URL}/${id}/set-default?memberId=44`, {
-        method: 'PUT',
-    });
-
-    if (!response.ok) {
-        throw new Error('기본 계좌 설정 실패');
-    }
-    return response.json();
-};
-
-const handleSetDefaultAccount = async (id) => {
-    try {
-        const response = await fetch(`${API_URL}/${id}/set-default?memberId=44`, {
-            method: "PUT",
+    const setDefaultAccount = async (id) => {
+        const response = await fetch(`${API_URL}/${id}/set-default?memberId=${member_id}`, {
+            method: 'PUT',
         });
 
         if (!response.ok) {
-            throw new Error("기본 정산 계좌 설정 실패");
+            throw new Error('기본 계좌 설정 실패');
         }
+        return response.json();
+    };
 
-        // 서버에서 최신 계좌 목록 가져오기
-        const updatedAccounts = await fetchAccounts();
+    const handleSetDefaultAccount = async (id) => {
+        try {
+            // 기본 계좌 설정 API 호출
+            const response = await fetch(`${API_URL}/${id}/set-default?memberId=${member_id}`, {
+                method: "PUT",
+            });
 
-        // 기본 계좌를 상단으로 이동
-        const sortedAccounts = updatedAccounts.map((account) =>
-            account.id === id
-                ? { ...account, isDefault: 1 }
-                : { ...account, isDefault: 0 }
-        ).sort((a, b) => b.isDefault - a.isDefault);
+            if (!response.ok) {
+                throw new Error("기본 정산 계좌 설정 실패");
+            }
 
-        saveToLocalStorage("accounts", sortedAccounts); // 로컬 스토리지에 저장
-        setAccounts(sortedAccounts); // 상태 업데이트
-        alert("기본 정산 계좌가 설정되었습니다.");
-    } catch (error) {
-        console.error("기본 정산 계좌 설정 중 오류 발생:", error);
-        alert("기본 정산 계좌 설정에 실패했습니다.");
-    }
-};
+            // 서버에서 최신 계좌 목록 불러오기
+            // const updatedAccounts = await fetchAccounts();
+            const updatedAccounts = await fetchAccounts(); // 서버에서 최신 계좌 목록 불러오기
+
+
+            // 상태를 정렬하여 기본 계좌를 맨 위로 올림
+            const sortedAccounts = updatedAccounts.map((account) =>
+                account.id === id
+                    ? { ...account, isDefault: 1 }
+                    : { ...account, isDefault: 0 }
+            ).sort((a, b) => b.isDefault - a.isDefault);
+
+            // saveToLocalStorage("accounts", updatedAccounts); // 로컬 스토리지에 저장
+            setAccounts(sortedAccounts); // 상태 갱신
+            alert("기본 정산 계좌가 설정되었습니다.");
+        } catch (error) {
+            console.error("기본 정산 계좌 설정 중 오류 발생:", error);
+            alert("기본 정산 계좌 설정에 실패했습니다.");
+        }
+    };
 
 
 
@@ -318,7 +291,7 @@ const handleSetDefaultAccount = async (id) => {
 
 
 
-    
+
 
     // 새 계좌 저장 로직
     const addAccount = async (account) => {
@@ -327,68 +300,68 @@ const handleSetDefaultAccount = async (id) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(account),
         });
-    
+
         if (!response.ok) {
             throw new Error('계좌 추가 실패');
         }
         return response.json();
     };
-    
+
     const handleSave = async () => {
         if (!isFormValid) return;
-    
+
         const newAccount = {
             bankName,
             accountNumber,
             accountHolderName,
             isDefault: isChecked ? 1 : 0, // 기본 계좌 여부
-            member_id: 44, // 실제 로그인 사용자 ID 사용
+            member_id: member_id, // 실제 로그인 사용자 ID 사용
         };
-    
+
         try {
             await addAccount(newAccount); // 계좌 추가 요청
             alert('계좌가 성공적으로 추가되었습니다.');
             handleModalClose();
-    
+
             // 새로고침
             // await fetchAccounts(); // 목록 새로고침
-            const updatedAccounts = await fetchAccounts(); // 목록 새로고침
-            saveToLocalStorage("accounts", updatedAccounts); // 로컬 스토리지에 저장
+            fetchAccounts(); // 목록 새로고침
+            // saveToLocalStorage("accounts", updatedAccounts); // 로컬 스토리지에 저장
         } catch (error) {
             console.error('계좌 추가 중 오류 발생:', error);
             alert('계좌 추가에 실패했습니다.');
         }
     };
-    
+
 
     // 계좌 삭제
-const deleteAccount = async (id) => {
-    const response = await fetch(`${API_URL}/${id}`, {
-        method: 'DELETE',
-    });
+    const deleteAccount = async (id) => {
+        const response = await fetch(`${API_URL}/${id}`, {
+            method: 'DELETE',
+        });
 
-    if (!response.ok) {
-        throw new Error('계좌 삭제 실패');
-    }
-    return response.json();
-};
-
-const handleDelete = async (id) => {
-    if (confirm('정말 이 계좌를 삭제하시겠습니까?')) {
-        try {
-            await deleteAccount(id);
-            alert('계좌가 삭제되었습니다.');
-            // await fetchAccounts(); // 계좌 목록 새로고침
-            const updatedAccounts = await fetchAccounts(); // 계좌 목록 새로고침
-            saveToLocalStorage("accounts", updatedAccounts); // 로컬 스토리지에 저장
-
-        } catch (error) {
-            console.error('계좌 삭제 중 오류 발생:', error);
-            alert('계좌 삭제에 실패했습니다.');
+        if (!response.ok) {
+            throw new Error('계좌 삭제 실패');
         }
-    }
-};
- 
+        return response.json();
+    };
+
+    const handleDelete = async (id) => {
+        if (confirm('정말 이 계좌를 삭제하시겠습니까?')) {
+            try {
+                await deleteAccount(id);
+                alert('계좌가 삭제되었습니다.');
+                // await fetchAccounts(); // 계좌 목록 새로고침
+                const updatedAccounts = await fetchAccounts(); // 계좌 목록 새로고침
+                /* saveToLocalStorage("accounts", updatedAccounts); */ // 로컬 스토리지에 저장
+
+            } catch (error) {
+                console.error('계좌 삭제 중 오류 발생:', error);
+                alert('계좌 삭제에 실패했습니다.');
+            }
+        }
+    };
+
 
 
 
@@ -412,7 +385,7 @@ const handleDelete = async (id) => {
 
                                 {isModalOpen && (
                                     <div className="layer_delivery layer lg">
-                                        {/* 모달 배경경 */}
+                                        {/* 모달 배경 */}
                                         <div className="layer-background" onClick={handleModalClose}></div>
 
                                         <div className="layer_container">
@@ -552,14 +525,14 @@ const handleDelete = async (id) => {
                                 {accounts.slice(0, 1).map((item) => (
                                     <div
                                         key={item.id}
-                                        className={`my_item ${item.isDefault ?  "is_active" : ""}`}
+                                        className={`my_item ${item.isDefault ? "is_active" : ""}`}
                                         default-mark="기본 정산 계좌"
                                     >
                                         <div className="info_bind">
                                             <div className="address_info">
                                                 <div className="name_box">
                                                     <span className="name">{item.bankName}</span>
-                                                     <span className="mark">기본 정산 계좌</span>
+                                                    <span className="mark">기본 정산 계좌</span>
                                                     {/* <span className="mark">기본 정산 계좌</span> */}
                                                 </div>
                                                 {/* <p className="phone">
@@ -578,16 +551,16 @@ const handleDelete = async (id) => {
                                             </div>
                                         </div>
                                         <div className="btn_bind">
-                                        <a
-                                            href="#"
-                                            className="btn outlinegrey small"
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                handleDelete(item.id); // 삭제 함수 호출
-                                            }}
-                                        >
-                                            삭제
-                                        </a>
+                                            <a
+                                                href="#"
+                                                className="btn outlinegrey small"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    handleDelete(item.id); // 삭제 함수 호출
+                                                }}
+                                            >
+                                                삭제
+                                            </a>
                                         </div>
                                     </div>
                                 ))}
