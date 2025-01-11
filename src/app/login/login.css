@@ -1,7 +1,7 @@
 .background_container {
   display: flex;
   justify-content: center; /* 수평 중앙 정렬 */
-
+  height: 1100px; /* 화면 전체 높이를 차지하게 설정 */
   text-align: center;
 }
 
@@ -10,7 +10,6 @@
   flex-direction: column; /* 세로 방향 정렬 */
   align-items: center; /* 내부 요소를 수평 중앙 정렬 */
   padding: 80px 20px;
-  width: 1280px;
 }
 
 .paper_card {
