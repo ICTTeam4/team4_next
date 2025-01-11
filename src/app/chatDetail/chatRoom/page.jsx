@@ -369,7 +369,7 @@ const Page = ({ room_id, host_id, messages: initialMessages, title, directtitle,
        className="chat-messages"
        style={{
          // 헤더와 입력창 높이를 합산해서 적절히 뺀다 가정
-         maxHeight: 'calc(100vh - 300px)', 
+         maxHeight: 'calc(100vh - 320px)', 
          // 예: 헤더 60px + 입력창 100px + 여백 40px 등
          overflowY: 'auto',
          padding: '0 1rem',
