@@ -13,11 +13,18 @@ const Chat = ({ isOpen, closeChat, initialRoomId, initialguestId, initialhostId,
   const [isChatDetailOpen, setChatDetailOpen] = useState(false); // 채팅디테일 사이드바 상태관리 
   const { user } = useAuthStore();
   const [selectedChat, setSelectedChat] = useState(null);
-  const [chats, setChats] = useState(messages); // messages를 chats로 초기화
+  const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const LOCAL_API_BASE_URL = "http://localhost:8080";
   const [productPhotos, setProductPhotos] = useState({}); // 채팅방별 이미지 관리
   const [isFromOpenChatEvent, setIsFromOpenChatEvent] = useState(false); // open-chat 이벤트로 열렸는지 여부
+  
+  useEffect(() => {
+    if (isOpen) { // 부모 페이지가 열릴 때마다 목록 갱신
+      fetchChatRooms();
+    }
+  }, [isOpen]);
+  
 
   const fetchChatRooms = async () => {
     try {
@@ -31,19 +38,19 @@ const Chat = ({ isOpen, closeChat, initialRoomId, initialguestId, initialhostId,
         },
       });
 
-      if (response.data && response.data.success) {
+      if (response.data) {
         console.log("채팅방 목록 불러오기 성공:", response.data);
-        setChats(response.data.data); // chats에 데이터 설정
-        setLoading(false); // 로딩 완료
-      } else {
-        console.error("채팅방 목록 불러오기 실패:", response.data);
-
-      }
+        setChats(response.data.data || []);
+      } 
     } catch (error) {
       console.error("채팅방 목록 불러오기 중 오류:", error);
+      setChats([]); // 실패 시 빈 배열로 설정
+    }finally{
+      setLoading(false);
     }
   };
 
+  
 
   console.log("지금부턴챗목록입니다", messages);
   // 중복 room_id 제거: 최신 항목만 유지
@@ -91,7 +98,7 @@ const Chat = ({ isOpen, closeChat, initialRoomId, initialguestId, initialhostId,
       setChatDetailOpen(true);
     }
 
-  }, [initialRoomId, initialhostId]);
+  }, [initialRoomId]);
 
 
   // 채팅 디테일 열기
@@ -125,24 +132,23 @@ const closeChatDetail = () => {
   } else {
     // 그렇지 않으면 목록으로 돌아가기
     fetchChatRooms();
+    closeChat();  // 걍 닫자.... 
   }
   setIsFromOpenChatEvent(false); // 상태 초기화
 };
 
   // 선택된 room_id에 해당하는 메시지 필터링
-  const filteredMessages = selectedChat
-    ? chats.filter((chat) => chat.room_id === selectedChat.room_id)
-    : [];
+// after (옵셔널 체이닝 + 널 병합 연산자)
+const filteredMessages = selectedChat?.room_id
+  ? (chats?.filter((chat) => chat.room_id === selectedChat.room_id) ?? [])
+  : [];
 
+  //한번만?
   useEffect(() => {
     fetchChatRooms();
 
-    // chats가 없으면 서버에서 데이터를 가져옵니다.
-    if (chats.length === 0) {
-      fetchChatRooms();
-    }
 
-  }, [initialRoomId]);
+  }, []);
 
   // room_id로 title 가져오기 함수 추가
   const fetchRoomTitle = async (roomId) => {
@@ -173,23 +179,21 @@ const closeChatDetail = () => {
   // Chat 컴포넌트 내 추가
   useEffect(() => {
     const updateChatTitles = async () => {
-      if (Array.isArray(uniqueChats)) {
-        const updatedChats = await Promise.all(
-          uniqueChats.map(async (chat) => {
-            const title = await fetchRoomTitle(chat.room_id);
-            return { ...chat, title }; // 기존 chat 객체에 title 추가
-          })
-        );
-
-        // chats가 실제로 변경될 때만 상태 업데이트
-        if (JSON.stringify(updatedChats) !== JSON.stringify(chats)) {
-          setChats(updatedChats);
+        if (Array.isArray(uniqueChats)) {
+            const updatedChats = await Promise.all(
+                uniqueChats.map(async (chat) => {
+                    const title = await fetchRoomTitle(chat.room_id);
+                    return { ...chat, title };
+                })
+            );
+            if (!updatedChats.every((chat, index) => chat.title === chats[index]?.title)) {
+                setChats(updatedChats);
+            }
         }
-      }
     };
-
     updateChatTitles();
-  }, [uniqueChats]); // uniqueChats는 useMemo를 통해 안정적으로 관리
+}, [uniqueChats]);
+
 
   const fetchProductPhoto = async (roomId) => {
     try {
@@ -220,21 +224,18 @@ const closeChatDetail = () => {
     // if (room_id) {
     //   fetchProductPhoto();
     // }
-  }, [initialRoomId], [productPhotos], []);
+  }, [initialRoomId]);
 
   useEffect(() => {
     const loadImagesForChats = async () => {
-      const roomIds = uniqueChats.map((chat) => chat.room_id);
-
-      for (const roomId of roomIds) {
-        if (!productPhotos[roomId]) {
-          await fetchProductPhoto(roomId); // room_id별로 이미지 로드
+        const roomIds = uniqueChats.map((chat) => chat.room_id).filter((roomId) => !productPhotos[roomId]);
+        for (const roomId of roomIds) {
+            await fetchProductPhoto(roomId);
         }
-      }
     };
-
     loadImagesForChats();
-  }, [uniqueChats]);
+}, [uniqueChats]);
+
 
 // open-chat 이벤트 리스너 추가
 useEffect(() => {

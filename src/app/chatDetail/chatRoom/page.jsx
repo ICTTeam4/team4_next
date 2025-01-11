@@ -93,10 +93,10 @@ const Page = ({ room_id, host_id, messages: initialMessages, title, directtitle,
         // 파일 메시지인지 확인
         if (
           typeof receivedMessage.content === 'string' &&
-          receivedMessage.content.startsWith('/images')
+          receivedMessage.content.startsWith('/chatimages')
         ) {
           receivedMessage.has_file = "1";
-          receivedMessage.content = `http://localhost:8080${receivedMessage.content}?v=${Date.now()}`;
+          receivedMessage.content = `http://localhost:8080${receivedMessage.content}`;
           console.log("마지막사진경로제발제발", receivedMessage.content);
 
           // 여기서 파일이 있는 메시지면 DB 다시 가져오기
@@ -407,7 +407,7 @@ const Page = ({ room_id, host_id, messages: initialMessages, title, directtitle,
                   <>
                     {!loaded && <p>이미지 로딩 중...</p>}
                     <img
-                      src={`http://localhost:8080${msg.content}?v=${Date.now()}&retry=${retryCount}`}
+                      src={`http://localhost:8080${msg.content}?retry=${retryCount}`}
                       alt="Uploaded"
                       onError={handleImageError}
                       onLoad={() => setLoaded(true)} // Set loaded to true when the image is loaded
