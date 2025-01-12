@@ -10,7 +10,6 @@
 }
 .main_list_container p {
   grid-column: 1 / -1; /* 그리드에서 전체 열 차지 */
-  text-align: center; /* 텍스트 중앙 정렬 */
   margin: 0 auto; /* 수평 중앙 정렬 */
   color: gray; /* 선택 사항: 텍스트 색상 설정 */
 }

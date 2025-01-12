@@ -35,12 +35,12 @@
 .item_title {
   margin-top: 9px;
   margin-bottom: 2px;
-  font-style: italic;
-  color: black;
+  font-style: italic !important;
+  color: black !important;
 }
 
 .price_font {
-  color: gray;
+  color: gray !important;
 }
 
 .date_font {
@@ -48,9 +48,9 @@
   margin-top: 6px;
   margin-left: 3px;
   font-size: 14px;
-  font-style: oblique;
-  color: lightgray;
-  font-weight: bold;
+  font-style: oblique !important;
+  color: lightgray !important;
+  font-weight: bold !important;
 }
 
 /* 상태 문구 오버레이 */
