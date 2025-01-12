@@ -22,13 +22,16 @@ import WeatherSection from '../components/WeatherSection';
 // 신고하기
 function ReportModal({ isOpen, onClose, onSubmit }) {
   const [selectedReason, setSelectedReason] = useState("");
+  const [additionalReason, setAdditionalReason] = useState(""); // 추가적인 이유 상태
+  const [report_detail, setReport_Detail] = useState("");
+
 
   const reasons = [
     "사기 의심",
     "가격 비정상",
     "제품 상태 불량",
     "부적절한 게시글",
-    
+
   ];
 
   const handleSubmit = () => {
@@ -36,7 +39,7 @@ function ReportModal({ isOpen, onClose, onSubmit }) {
       alert("신고 사유를 선택해주세요.");
       return;
     }
-    onSubmit(selectedReason);
+    onSubmit({ reason: selectedReason, additionalDetail: report_detail });
     onClose();
   };
 
@@ -62,6 +65,24 @@ function ReportModal({ isOpen, onClose, onSubmit }) {
             </li>
           ))}
         </ul>
+        <div style={{ marginTop: "10px" }}>
+      <label htmlFor="additionalReason">추가적인 이유:</label>
+      <textarea
+        id="additionalReason"
+        value={report_detail}
+        onChange={(e) => setReport_Detail(e.target.value)}
+        rows="3"
+        placeholder="추가로 입력하고 싶은 내용을 작성하세요."
+        style={{
+          width: "100%",
+          marginTop: "5px",
+          padding: "10px",
+          fontSize: "14px",
+          borderRadius: "5px",
+          border: "1px solid #ccc",
+        }}
+      ></textarea>
+    </div>
         <button onClick={handleSubmit}>제출</button>
         <button onClick={onClose}>취소</button>
       </div>
@@ -73,54 +94,53 @@ function ReportModal({ isOpen, onClose, onSubmit }) {
 const saleDetail = () => {
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
-    // 신고 모달 열기
-    const openReportModal = () => {
-      setIsReportModalOpen(true);
+  // 신고 모달 열기
+  const openReportModal = () => {
+    setIsReportModalOpen(true);
+  };
+
+  // 신고 모달 닫기
+  const closeReportModal = () => {
+    setIsReportModalOpen(false);
+  };
+
+
+
+
+  // 신고 제출
+  const handleReportSubmit = async (reason) => {
+    console.log("user:", user);
+    console.log("detail:", id);
+    console.log("reson:", reason);
+    alert(`신고 사유: ${reason}`);
+    if (!user?.member_id) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
+    const reportData = {
+      member_id: user.member_id,  // 신고자 ID
+      pwr_id: id,               // 신고 대상 게시물 ID
+      report_reason: reason,       // 신고 사유
     };
-  
-    // 신고 모달 닫기
-    const closeReportModal = () => {
-      setIsReportModalOpen(false);
-    };
 
-
-
-    // 신고 제출
-    const handleReportSubmit = async (reason) => {
-      console.log("user:", user);
-      console.log("detail:", id);
-      console.log("reson:", reason);
-      alert(`신고 사유: ${reason}`);
-      if (!user?.member_id) {
-        alert("로그인이 필요합니다.");
-        return;
+    try {
+      const response = await axios.post('http://localhost:8080/api/report', reportData, {
+        headers: { 'Content-Type': 'application/json' }
+      });
+      if (response.status === 200) {
+        alert(response.data); // "신고가 성공적으로 접수되었습니다!" 메시지 출력
       }
-    
-      const reportData = {
-        member_id: user.member_id,  // 신고자 ID
-        pwr_id: id,               // 신고 대상 게시물 ID
-        report_reason: reason,       // 신고 사유
-       
+      closeReportModal(); // 모달 닫기
+    } catch (error) {
+      console.error("신고 처리 중 오류:", error);
+      alert("신고 처리 중 문제가 발생했습니다.");
+    }
+  };
 
-      };
-    
-      try {
-        const response = await axios.post('http://localhost:8080/api/report', reportData, {
-          headers: { 'Content-Type': 'application/json' }
-        });
-        if (response.status === 200) {
-          alert(response.data); // "신고가 성공적으로 접수되었습니다!" 메시지 출력
-        }
-        closeReportModal(); // 모달 닫기
-      } catch (error) {
-        console.error("신고 처리 중 오류:", error);
-        alert("신고 처리 중 문제가 발생했습니다.");
-      }
-    };
+  //신고 끝
 
-//신고 끝
-
-  const {user} = useAuthStore()
+  const { user } = useAuthStore()
   const searchParams = useSearchParams();
   // 상태 관리
   const [data, setData] = useState(null);
@@ -131,13 +151,14 @@ const saleDetail = () => {
   // 모달, 슬라이드 패널 등
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isBookMarkOpen, setIsBookMarkOpen] = useState(false);
+  // const [isBookMarkOpen, setIsBookMarkOpen] = useState(detail?.bookmark?.status || false);
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [isPayOpen, setIsPayOpen] = useState(false);
   const [isMapOpen, setIsMapOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [payButtonLevel, setPayButtonLevel] = useState(0);  // 결제 단계 관리
   const [chatMessages, setChatMessages] = useState([]);
-  const [chatLoading,setChatLoading] = useState(true);
+  const [chatLoading, setChatLoading] = useState(true);
   const [member_id, setMember_id] = useState(null);
   const [latitude, setLatitude] = useState(null); // 날씨용
   const [longitude, setLongitude] = useState(null); // 날씨용
@@ -152,34 +173,74 @@ const saleDetail = () => {
   // API 경로
   const API_URL = `http://localhost:8080/api/salespost/upviewcount`;
 
+// 최초 접근시 페이지에 뿌려지는 데이터
+useEffect(() => {
+  console.log(">>> useEffect 실행됨");
+  if (!id) return;
+  const getData = async () => {
+    try {
+      setLoading(true); // 로딩 상태 시작
+      // (1) 서버에서 데이터 가져오기
+      const response = await axios.get(`http://localhost:8080/api/salespost/itemone?id=${id}`);
+      console.log(response);
+      const data = response.data.data;
+      console.log(data);
+      setDetail(data);
+      const memberId = response.data.data.member_id;
+      setMemberId(memberId);
+      console.log("Member ID:", memberId);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+      setError(err.message);
+    } finally {
+      setLoading(false); // 로딩 상태 종료
+    }
+  };
 
-  useEffect(() => {
-    console.log(">>> useEffect 실행됨");
-    if (!id) return;
-    const getData = async () => {
-      try {
-        setLoading(true); // 로딩 상태 시작
-        // (1) 서버에서 데이터 가져오기
-        const response = await axios.get(`http://localhost:8080/api/salespost/itemone?id=${id}`);
-        console.log(response);
-        const data = response.data.data;
-        console.log(data);
-        setDetail(data);
-        const memberId = response.data.data.member_id;
-        setMemberId(memberId);
-        console.log("Member ID:", memberId);
-      } catch (err) {
-        console.error("Error fetching data:", err);
-        setError(err.message);
-      } finally {
-        setLoading(false); // 로딩 상태 종료
-      }
-    };
-
-    getData();
+  getData();
 
 
-  }, [id]);
+}, [id]);
+
+  // useEffect(() => {
+  //   console.log(">>> useEffect 실행됨");
+  //   if (!id || !user.member_id) {
+  //     console.error("pwr_id 또는 member_id가 없습니다.");
+  //     return;
+  //   }
+  //   const getData = async () => {
+  //     try {
+  //       console.log("데이터 가져오겠습니다!!!");
+  //       setLoading(true); // 로딩 상태 시작
+  //       // (1) 서버에서 데이터 가져오기
+  //       const response = await axios.get("http://localhost:8080/api/salespost/itemone",{
+  //         params: { id, member_id: user.member_id }, // pwr_id와 member_id를 서버로 보냄
+  //       });
+  //       console.log("다녀왔습니다!!!");
+  //       const data = response.data.data;
+  //       console.log(data);
+  //       console.log("id : ", data.salesPost.pwr_id);
+  //       console.log("member_id : ", data.salesPost.member_id);
+  //       setDetail(data);
+  //       setIsBookMarkOpen(data.bookmark.status); // 서버 데이터로 북마크 상태 초기화
+  //       console.log("BookMarkOpen 상태 : ", isBookMarkOpen);
+  //       const memberId = data.salesPost.member_id;
+  //       setMemberId(memberId);
+  //       console.log("Member ID:", memberId);
+  //       console.log("최종 확인!! detail.salesPost.pwr_id : ", data.salesPost.pwr_id);
+
+  //     } catch (err) {
+  //       console.error("Error fetching data:", err);
+  //       setError(err.message);
+  //     } finally {
+  //       setLoading(false); // 로딩 상태 종료
+  //     }
+  //   };
+  //   getData();
+  // }, [id, !user.member_id]);
+
+
+
 
   // 2. 뷰 카운트 요청
   useEffect(() => {
@@ -264,7 +325,6 @@ const saleDetail = () => {
       fetchLocationAndRenderMap();
     }
   }, [isMapOpen]);
-
   // 카카오맵 렌더링 함수
   const renderKakaoMap = (latitude, longitude, ddrLocations = [], laundryLocations = []) => {
     const script = document.createElement("script");
@@ -454,10 +514,9 @@ const saleDetail = () => {
     };
     document.head.appendChild(script);
   };
-
   // 휘주 지도 끝
-  // 휘주 날씨 시작
 
+  // 휘주 날씨 시작
   useEffect(() => {
     if (detail) {
       setLatitude(detail.latitude); // 판매자의 위도 정보
@@ -525,43 +584,58 @@ useEffect(() => {
   getRoomIdsByPwrId();
 }, [id]);
 
+  // useEffect(() => {
+  //   console.log(">>> useEffect 실행됨");
+  //   const getWishUpdate = async () => {
+  //     try {
+  //       console.log("id : ", memberId);
+  //       const response = await axios.get(`http://localhost:8080/api/salepage/getwishupdate?id=${memberId}`); // API 호출
+  //       const data = response.data.data;
+  //       console.log("가져온 리뷰데이터 내용 : ", data)
+  //       setSellDoneCount(data);
+  //     } catch (err) {
+  //       console.error("Error fetching data:", err);
+  //     }
+  //   };
+  //   getWishUpdate();
+  // }, [handleBookmarkToggle]);
+
 
   //북마크 누를 시 찜 이동 (영빈)
-
   const [likeCount, setLikeCount] = useState(detail?.like_count || 0); // 초기 찜수 상태
+  // useEffect(() => {
+  //   const fetchBookmarkStatus = async () => {
+  //     if (!user?.member_id || !detail?.id) return;
 
-  useEffect(() => {
-    const fetchBookmarkStatus = async () => {
-      if (!user?.member_id || !detail?.id) return;
+  //     try {
+  //       const response = await axios.get(`http://localhost:8080/api/wishlist/check`, {
+  //         params: { memberId: user.member_id, pwr_id: detail.id },
+  //       });
+  //       setIsBookMarkOpen(response.data);
+  //     } catch (error) {
+  //       console.error("찜 상태 확인 중 오류:", error);
+  //     }
+  //   };
 
-      try {
-        const response = await axios.get(`http://localhost:8080/api/wishlist/check`, {
-          params: { memberId: user.member_id, pwr_id: detail.id },
-        });
-        setIsBookMarkOpen(response.data);
-      } catch (error) {
-        console.error("찜 상태 확인 중 오류:", error);
-      }
-    };
-
-    if (detail?.id) fetchBookmarkStatus();
-  }, [user?.member_id, detail?.id]);
-
+  //   if (detail?.id) fetchBookmarkStatus();
+  // }, [user?.member_id, detail?.id]);
 
 
   const handleBookmarkToggle = async () => {
     console.log("-------------" +JSON.stringify(detail?.fileList[0].fileName));
+    console.log("-------------user nickname :" + user?.nickname);
     setFileName(detail?.fileList[0].fileName);
     console.log("Handle bookmark toggle...");
     console.log("member_id:", user?.member_id); // 추가
+    // console.log("pwr_id:", detail?.salesPost.pwr_id);        // 추가
     console.log("pwr_id:", detail?.pwr_id);        // 추가
     console.log("찜하기 요청 시작");
-  
+
     if (!user?.member_id) {
       alert("로그인이 필요합니다.");
       return;
     }
-  
+
     try {
       if (isBookMarkOpen) {
         // 이미 찜한 상태 -> 찜 취소 요청
@@ -569,6 +643,7 @@ useEffect(() => {
           data: {
             member_id: user.member_id,
             pwr_id: detail.pwr_id,
+            // pwr_id: detail.salesPost.pwr_id,
           },
           headers: { "Content-Type": "application/json" },
         });
@@ -577,9 +652,10 @@ useEffect(() => {
       } else {
         // 찜하지 않은 상태 -> 찜하기 요청
         await axios.post(`http://localhost:8080/api/wishlist/add`, {
-           member_id: user.member_id,
-           pwr_id: detail.pwr_id,
-           
+          member_id: user.member_id,
+          pwr_id: detail.pwr_id,
+          // pwr_id: detail.salesPost.pwr_id,
+
         }, {
           headers: { "Content-Type": "application/json" },
         });
@@ -588,7 +664,7 @@ useEffect(() => {
         setLikeCount((prev) => prev + 1); // 찜수 증가
         console.log("찜하기 요청 완료");
       }
-  
+
       // 상태 토글
       setIsBookMarkOpen(!isBookMarkOpen);
     } catch (error) {
@@ -596,11 +672,12 @@ useEffect(() => {
       alert("찜 상태 변경 중 문제가 발생했습니다.");
     }
   };
+
     const sendMessage = async () => {
       
       // console.log("detail 확인 : " + detail.data);
       try {
-        const response = await axios(`http://localhost:8080/api/broadcast/${user?.member_id}?sender_id=${encodeURIComponent(user?.member_id)}&pwr_id=${encodeURIComponent(detail?.pwr_id)}&nickname=${encodeURIComponent(detail?.nickname)}&title=${encodeURIComponent(detail?.title)}&file_name=${encodeURIComponent(detail?.fileList[0].fileName)}`, {
+        const response = await axios(`http://localhost:8080/api/broadcast/${detail?.member_id}?sender_id=${encodeURIComponent(user?.member_id)}&pwr_id=${encodeURIComponent(detail?.pwr_id)}&title=${encodeURIComponent(detail?.title)}&file_name=${encodeURIComponent(detail?.fileList[0].fileName)}`, {
           method: 'GET'
         });
       } catch (error) {
@@ -625,7 +702,6 @@ useEffect(() => {
 
   // 로딩/에러 처리
   if (loading) return <div>로딩 중...</div>;
-  
   if (error) return <div>오류 발생: {error}</div>;
   if (!detail) return <div>데이터가 없습니다.</div>;
 
@@ -648,7 +724,6 @@ useEffect(() => {
       return `${days}일 전`;
     }
   }
-
   const openBookMark = () => {
     setIsBookMarkOpen(true);
   }
@@ -665,18 +740,15 @@ useEffect(() => {
   const openChatPanel = async () => {
     // API URL
     const CHAT_API_URL = "http://localhost:8080/api/chat/room";
-
     if (!user || !detail) {
       console.error("유저 정보 또는 상세 정보가 없습니다.");
       return;
     }
-  
     try {
-      console.log("하윤서치채팅준비용",user.member_id,detail.pwr_id,sellerData.member_id)
-        // LocalStorage에서 토큰 가져오기
-        const token = localStorage.getItem("token");
+      console.log("하윤서치채팅준비용", user.member_id, detail.pwr_id, sellerData.member_id)
+      // LocalStorage에서 토큰 가져오기
+      const token = localStorage.getItem("token");
       // API 요청
-    
       const response = await axios.get(CHAT_API_URL, {
         params: {
           seller_id: sellerData.member_id,
@@ -688,25 +760,25 @@ useEffect(() => {
           "Authorization": `Bearer ${token}`,
         },
       });
-  
       // 요청 성공 시 room_id 받아오기 (새로 생성되는경우에도 받아옴.  이유는 채팅목록과, 바로 채팅하기 구분하기 위해서 여기서 roomid유무 따짐)
       //잘 받아옴. 메세지들. 
       if (response.data && response.data.success) {
-        console.log("saildetail에서 받은것"+JSON.stringify(response.data))
+        console.log("saildetail에서 받은것" + JSON.stringify(response.data))
         const roomId = response.data.message;
-    
         // 이벤트 발생 //지금은 host guest 바뀐상태입니다.. 추후 변경하도록하겠습니다... (변수명이 너무많이쓰여서... )
         window.dispatchEvent(
           new CustomEvent("open-chat", {
             detail: {
               room_id: roomId,
+              title:detail.title,
+              price:detail.sell_price,
+              host_name:sellerData.nickname,
               guest_id: sellerData.member_id,
               host_id: user.member_id,
               messages: response.data.content
             },
           })
         );
-  
         console.log("채팅방 열림:", roomId);
       } else {
         console.error("채팅방 생성 실패:", response.data);
@@ -715,7 +787,6 @@ useEffect(() => {
       console.error("채팅방 요청 오류:", error);
     }
   };
-  
 
   const closeChatPanel = () => {
     setIsChatOpen(false);
@@ -748,14 +819,9 @@ useEffect(() => {
     closeAlert();
     openChatPanel();
   }
-
   const isBlurNeeded =
-    detail.status === '판매완료';
+  detail.status === '판매완료';
   console.log(detail.status);
-
-  
-  
-    
 
   return (
     <>
@@ -781,32 +847,32 @@ useEffect(() => {
             <div className="itemPrice"><span className='infoTitle priceInfo'>{Number(detail.sell_price).toLocaleString()}원</span></div>
             <div className="detailData"><div>{formatTimeAgo(detail.created_at)}</div>
               <div style={{ display: 'flex' }}>
-             {/* 신고하기기 */}
-              <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              openReportModal(); // 신고 모달 열기
-            }}
-          >
-            <img
-              style={{
-                width: "15px",
-                height: "15px",
-                margin: "0px 2px 0px 5px",
-                verticalAlign: "bottom",
-              }}
-              src="/images/YB_22.png"
-              alt="view"
-            />
-            <span>신고하기</span>
-          </a>
-          <ReportModal
-          isOpen={isReportModalOpen}
-          onClose={closeReportModal}
-          onSubmit={handleReportSubmit}
-        />
-        {/* 신고하기 끝끝 */}
+                {/* 신고하기기 */}
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    openReportModal(); // 신고 모달 열기
+                  }}
+                >
+                  <img
+                    style={{
+                      width: "15px",
+                      height: "15px",
+                      margin: "0px 2px 0px 5px",
+                      verticalAlign: "bottom",
+                    }}
+                    src="/images/YB_22.png"
+                    alt="view"
+                  />
+                  <span>신고하기</span>
+                </a>
+                <ReportModal
+                  isOpen={isReportModalOpen}
+                  onClose={closeReportModal}
+                  onSubmit={handleReportSubmit}
+                />
+                {/* 신고하기 끝끝 */}
                 <div><img style={{ width: "15px", height: "15px", margin: "0px 2px 0px 5px", verticalAlign: "bottom" }} src="/images/JH_saleDetail_view.png" alt="view">
                 </img>{detail.view_count}</div>
                 <div><img style={{ width: "16px", height: "16px", margin: "0px 2px 0px 5px", verticalAlign: "bottom" }} src="/images/JH_saleDetail_chat.png" alt="view">
@@ -835,26 +901,49 @@ useEffect(() => {
 
             >포함</span></div>
           </div>
+          {/* 휘주 북마크 수정부분분 */}
           <div id="interaction-area">
-          {isBookMarkOpen ? (
-                  <Image
-                  src="/images/David_bookmark-black.png"
-                  onClick={handleBookmarkToggle}
-                  width={30}
-                  height={30}
-                  className="bookmark"
-                  alt="찜됨"
-                />
-                  ) : (
-                    <Image
-              src="/images/David_bookmark-white.png"
-              onClick={handleBookmarkToggle}
-              width={30}
-              height={30}
-              className="bookmark"
-              alt="찜 안됨"
-            />
-                  )}
+            {isBookMarkOpen ? (
+              <Image
+                src="/images/David_bookmark-black.png"
+                onClick={handleBookmarkToggle}
+                width={30}
+                height={30}
+                className="bookmark"
+                alt="찜됨"
+              />
+            ) : (
+              <Image
+                src="/images/David_bookmark-white.png"
+                onClick={handleBookmarkToggle}
+                width={30}
+                height={30}
+                className="bookmark"
+                alt="찜 안됨"
+              />
+            )}
+          
+            {/* {wishCheck.status == 1 ? (
+              <Image
+                src="/images/David_bookmark-black.png"
+                onClick={handleBookmarkToggle}
+                width={30}
+                height={30}
+                className="bookmark"
+                alt="찜됨"
+              />
+            ) : (
+              <Image
+                src="/images/David_bookmark-white.png"
+                onClick={handleBookmarkToggle}
+                width={30}
+                height={30}
+                className="bookmark"
+                alt="찜 안됨"
+              />
+            )} */}
+
+             {/* 휘주 북마크 수정부분분 끝끝*/}
             <div className="purchase" onClick={openAlert}>구매하기</div>
 
             <div className="chatting" onClick={openChatPanel}>채팅하기</div>
@@ -910,7 +999,7 @@ useEffect(() => {
                   }}
                   className='sellerFont'>{sellerData?.nickname || '로딩 중...'}</Link>
               </div>
-              
+
               <Link
                 prefetch={false}
                 href={{
@@ -920,7 +1009,7 @@ useEffect(() => {
                   },
                 }}
               >
-                <img src="/images/default_profile.png" width="60" height="60" className='user_profile_pic'/>
+                <img src="/images/default_profile.png" width="60" height="60" className='user_profile_pic' />
               </Link>
             </div>
             <div className="sellerData">
