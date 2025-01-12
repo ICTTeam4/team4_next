@@ -149,8 +149,8 @@ const theme = createTheme({
   },
 });
   return (
-    <div className="background_container">
-      <div className="all_container">
+    <div className="loginbackground_container">
+      <div className="loginall_container">
         <div className="paper_card">
           <div className={styles.container}>
             <div className={styles.maxwidth_contain}>
