@@ -91,7 +91,7 @@ function Page() {
       }
     } catch (err) {
       console.error("검색 오류:", err.response?.status, err.response?.data || err.message);
-      setError("카테고리리 결과를 가져오는 중 문제가 발생했습니다.");
+      setError("카테고리 결과를 가져오는 중 문제가 발생했습니다.");
     } finally {
       setLoading(false);
     }
@@ -201,11 +201,6 @@ function Page() {
           )}
         </div>
       </div>
-
-
-
-
-
     </>
   );
 }
