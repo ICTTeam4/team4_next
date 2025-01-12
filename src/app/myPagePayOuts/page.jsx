@@ -75,7 +75,7 @@ function Page(props) {
                         <Account />
                        
                         {/* 판매내역 구매완료된거만만 */}
-                        <div className="saved-product" style={{marginTop:"-200px"}}>
+                        <div className="saved-product">
                         <SellHistory />
                         </div>
                     </div>

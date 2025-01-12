@@ -541,7 +541,7 @@ function Page(props) {
                                             <div className="address_info">
                                                 <div className="name_box">
                                                     <span className="name">{item.bankName}</span>
-                                                    <span className="mark">기본 정산 계좌</span>
+                                                    <span className="mark" >기본 정산 계좌 </span>
                                                     {/* <span className="mark">기본 정산 계좌</span> */}
                                                 </div>
                                                 {/* <p className="phone">
