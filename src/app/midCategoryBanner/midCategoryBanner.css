@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: lightgray;
+  background-color: #ebebeb;
   height: 180px;
 }
 
@@ -61,7 +61,7 @@
 }
 
 .prev-btn:disabled, .next-btn:disabled {
-  background-color: lightgray;
+  background-color: #ebebeb;
   cursor: not-allowed;
 }
 

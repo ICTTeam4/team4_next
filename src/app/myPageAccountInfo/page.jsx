@@ -18,7 +18,7 @@ function Page(props) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { user } = useAuthStore();
 
-    // console.log("auth.user.member_id", user.member_id);
+    console.log("auth.user.member_id", user.member_id);
 
     const member_id = user.member_id;
 

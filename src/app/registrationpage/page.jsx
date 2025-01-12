@@ -182,31 +182,31 @@ function ProductPage() {
       // console.error('스택 트레이스:', error.stack); // 스택 트레이스
     }
 }
-// useEffect(()=> {
-//   sendMessage();
-// },[]);
+useEffect(()=> {
+  sendMessage();
+},[]);
 
-// const sendMessage = async () => {
-//   try {
-//     const response = await fetch(`http://localhost:8080/api/broadcast/99?message=${encodeURIComponent("클릭했음!-------------------")}`, {
-//       method: 'GET',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//     });
+const sendMessage = async () => {
+  try {
+    const response = await fetch(`http://localhost:8080/api/broadcast/99?message=${encodeURIComponent("클릭했음!-------------------")}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-//     // 응답 처리
-//     if (response.ok) {
-//       const result = await response.json();
-//       console.log(result.message);
-//     } else {
-//       console.log('Error sending message.');
-//     }
-//   } catch (error) {
-//     console.error('Error:', error);
-//     console.log('Error sending message.');
-//   }
-// };
+    // 응답 처리
+    if (response.ok) {
+      const result = await response.json();
+      console.log(result.message);
+    } else {
+      console.log('Error sending message.');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    console.log('Error sending message.');
+  }
+};
 
 
 const sample4_execDaumPostcode = () => {
