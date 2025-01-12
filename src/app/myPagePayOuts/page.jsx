@@ -4,7 +4,8 @@ import MyPageSideNav from '../components/MyPageSideNav';
 import './myPagePayOuts.css';
 import { useState } from 'react';
 import Link from 'next/link';
-
+import SellHistory from '../myPageSell/page'; // 판매 내역 컴포넌트
+import Account from '../myPageAccountInfo/page'; // 판매 내역 컴포넌트
 function Page(props) {
     const pathname = usePathname();
 
@@ -32,7 +33,7 @@ function Page(props) {
                                 <h3>정산 내역</h3>
                             </div>
                         </div>
-                        {/* 기본 정산 계좌 */}
+                        {/* 기본 정산 계좌
                         <div className='my_list'>
                             <div className='basic'>
                                 {addresses.slice(0, 1).map((item) => (
@@ -68,73 +69,14 @@ function Page(props) {
                                     </div>
                                 ))}
                             </div>
-                        </div>
+                        </div> */}
+                        {/* 정산계좌 */}
+                        
+                        <Account />
+                       
+                        {/* 판매내역 구매완료된거만만 */}
                         <div className="saved-product">
-                            <div>
-                                <div>
-                                    <div>
-                                        <div className="my_interest">
-                                            <div className="content-header">
-                                                <h4 className="group_title">2024년 12월</h4>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div>
-                                                <div>
-                                                    <div>
-                                                        <a href="#" className="purchase_list_display_item" style={{ backgroundColor: "rgb(255, 255, 255)" }}>
-                                                            <div className="purchase_list_product">
-                                                                <div className="list_item_img_wrap">
-                                                                    <img alt="product_img" className="list_item_img" src="/images/JH_itemImg.png" style={{ backgroundColor: "rgb(244, 244, 244)" }} />
-                                                                </div>
-                                                                <div className="list_item_title_wrap">
-                                                                    <p className="list_item_price">상품 이름</p>
-                                                                    <p className="list_item_description">
-                                                                        <span>카카오뱅크 3333000000000</span>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <div className="list_item_status">
-                                                                <div className="list_item_column column_secondary">
-                                                                </div>
-                                                                <div className="list_item_column column_last">
-                                                                    <p className="text-lookup last_title display_paragraph" style={{ color: "rgb(34, 34, 34)" }}>80,000원</p>
-                                                                    <p className="before_purchase_confirmation">12.18 입금 완료</p>
-                                                                </div>
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <div>
-                                                        <a href="#" className="purchase_list_display_item" style={{ backgroundColor: "rgb(255, 255, 255)" }}>
-                                                            <div className="purchase_list_product">
-                                                                <div className="list_item_img_wrap">
-                                                                    <img alt="product_img" className="list_item_img" src="/images/JH_itemImg2.png" style={{ backgroundColor: "rgb(244, 244, 244)" }} />
-                                                                </div>
-                                                                <div className="list_item_title_wrap">
-                                                                    <p className="list_item_price">상품 이름</p>
-                                                                    <p className="list_item_description">
-                                                                        <span>카카오뱅크 3333000000000</span>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <div className="list_item_status">
-                                                                <div className="list_item_column column_secondary">
-                                                                </div>
-                                                                <div className="list_item_column column_last">
-                                                                    <p className="text-lookup last_title display_paragraph" style={{ color: "rgb(34, 34, 34)" }}>600,000원</p>
-                                                                    <p className="before_purchase_confirmation">12.18 입금 완료</p>
-                                                                </div>
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <SellHistory />
                         </div>
                     </div>
                 </div>

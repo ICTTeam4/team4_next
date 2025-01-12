@@ -17,14 +17,23 @@ function Page(props) {
     const [accounts, setAccounts] = useState([]); // 서버 데이터 상태
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { user } = useAuthStore();
-
+    const [showSideNav, setShowSideNav] = useState(true); // 사이드바 보이기 여부 상태
     console.log("auth.user.member_id", user.member_id);
 
     const member_id = user.member_id;
 
     const API_URL = `${process.env.NEXT_PUBLIC_LOCAL_API_BASE_URL}/api/accounts`;
     console.log('API URL:', API_URL); // 확인용 로그
+    useEffect(() => {
+        // 특정 조건에 따라 사이드바를 숨기거나 표시
+        if (pathname.includes("/myPageAccountInfo")) {
+            setShowSideNav(true); // 구매 내역, 판매 내역 페이지에서는 숨기기
+        } else {
+            setShowSideNav(false); // 그 외 페이지에서는 표시
+        }
+    }, [pathname]);
 
+    
     // 로컬 스토리지에 데이터 저장
     const saveToLocalStorage = (key, value) => {
         localStorage.setItem(key, JSON.stringify(value));
@@ -369,7 +378,7 @@ function Page(props) {
 
         <div className='myPageAccountInfo'>
             <div className='container my lg'>
-                <MyPageSideNav currentPath={pathname} />
+            {showSideNav && <MyPageSideNav currentPath={pathname} />}
                 <div className='content_area my-page-content'>
                     <div className='my_addressbook'>
                         <div className='content_title'>
@@ -532,7 +541,7 @@ function Page(props) {
                                             <div className="address_info">
                                                 <div className="name_box">
                                                     <span className="name">{item.bankName}</span>
-                                                    <span className="mark">기본 정산 계좌</span>
+                                                    <span className="mark" >기본 정산 계좌 </span>
                                                     {/* <span className="mark">기본 정산 계좌</span> */}
                                                 </div>
                                                 {/* <p className="phone">
