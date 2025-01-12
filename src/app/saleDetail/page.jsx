@@ -106,23 +106,25 @@ const saleDetail = () => {
 
 
 
-
-  // 신고 제출
-  const handleReportSubmit = async (reason) => {
-    console.log("user:", user);
-    console.log("detail:", id);
-    console.log("reson:", reason);
-    alert(`신고 사유: ${reason}`);
-    if (!user?.member_id) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
-
-    const reportData = {
-      member_id: user.member_id,  // 신고자 ID
-      pwr_id: id,               // 신고 대상 게시물 ID
-      report_reason: reason,       // 신고 사유
-    };
+    // 신고 제출
+    const handleReportSubmit = async ({ reason, additionalDetail }) => {
+      console.log("user:", user);
+      console.log("detail:", id);
+      console.log("reson:", reason);
+      console.log("detail", detail);
+      alert(`신고 사유: ${reason}`);
+      if (!user?.member_id) {
+        alert("로그인이 필요합니다.");
+        return;
+      }
+    
+      const reportData = {
+        member_id: user.member_id,  // 신고자 ID
+        board_id: id,               // 신고 대상 게시물 ID
+        report_reason: reason,       // 신고 사유
+        report_detail: additionalDetail,
+        // report_detail: report_deatil,
+      }
 
     try {
       const response = await axios.post('http://localhost:8080/api/report', reportData, {
@@ -137,6 +139,9 @@ const saleDetail = () => {
       alert("신고 처리 중 문제가 발생했습니다.");
     }
   };
+
+
+
 
   //신고 끝
 
@@ -573,7 +578,6 @@ useEffect(() => {
   //   getWishUpdate();
   // }, [handleBookmarkToggle]);
 
-
   //북마크 누를 시 찜 이동 (영빈)
   const [likeCount, setLikeCount] = useState(detail?.like_count || 0); // 초기 찜수 상태
   // useEffect(() => {
@@ -592,7 +596,6 @@ useEffect(() => {
 
   //   if (detail?.id) fetchBookmarkStatus();
   // }, [user?.member_id, detail?.id]);
-
 
   const handleBookmarkToggle = async () => {
     console.log("-------------" +JSON.stringify(detail?.fileList[0].fileName));
@@ -645,7 +648,6 @@ useEffect(() => {
       alert("찜 상태 변경 중 문제가 발생했습니다.");
     }
   };
-
     const sendMessage = async () => {
       
       // console.log("detail 확인 : " + detail.data);
@@ -722,6 +724,7 @@ useEffect(() => {
       // LocalStorage에서 토큰 가져오기
       const token = localStorage.getItem("token");
       // API 요청
+    console.log("세일디테일셀러데이터가격",detail.sell_price);
       const response = await axios.get(CHAT_API_URL, {
         params: {
           seller_id: sellerData.member_id,
