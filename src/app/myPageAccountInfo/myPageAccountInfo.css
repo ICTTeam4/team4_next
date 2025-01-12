@@ -1089,6 +1089,7 @@
 
 .myPageAccountInfo .address_info .mark{
     background-color: #f4f4f4;
+    width: 80px;
     border-radius: 10px;
     box-sizing: border-box;
     display: inline-block;
