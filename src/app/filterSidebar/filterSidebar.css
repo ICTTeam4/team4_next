@@ -57,7 +57,7 @@ h2 p {
   background-color: #fff;
   color: gray;
   font-size: 14px;
-  font-family: Arial, sans-serif;
+  font-family: Pretendard Variable;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -73,7 +73,7 @@ h2 p {
     background-color: #fff;
     color: gray;
     font-size: 14px;
-    font-family: Arial, sans-serif;
+    font-family: Pretendard Variable;
     cursor: pointer;
     transition: all 0.2s ease;
   }
@@ -100,7 +100,7 @@ h2 p {
   background-color: #fff;
   color: gray;
   font-size: 13px;
-  font-family: Arial, sans-serif;
+  font-family: Pretendard Variable;
   cursor: pointer;
   transition: all 0.1s ease;
 }

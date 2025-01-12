@@ -54,8 +54,8 @@ function page(props) {
             >
               <img src={`http://localhost:8080/images/${item.fileList[0]?.fileName}`} alt={item.title} className='image' />
               <div className='info'>
-                <h3>{item.title}</h3>
-                <p>{item.sell_price}원</p>
+                <p style={{margin: "0px 5px 5px 5px", fontSize: "14px"}}>{item.title}</p>
+                <p style={{margin: "0px 5px", fontSize: "14px"}}>{Number(item.sell_price).toLocaleString()}원</p>
               </div>
             </Link>
           </div>
