@@ -108,7 +108,7 @@ const saleDetail = () => {
 
 
   // 신고 제출
-  const handleReportSubmit = async (reason) => {
+  const handleReportSubmit = async ({ reason, additionalDetail }) => {
     console.log("user:", user);
     console.log("detail:", id);
     console.log("reson:", reason);
@@ -120,8 +120,9 @@ const saleDetail = () => {
 
     const reportData = {
       member_id: user.member_id,  // 신고자 ID
-      pwr_id: id,               // 신고 대상 게시물 ID
+      board_id: id,               // 신고 대상 게시물 ID
       report_reason: reason,       // 신고 사유
+      report_detail: additionalDetail,
     };
 
     try {
