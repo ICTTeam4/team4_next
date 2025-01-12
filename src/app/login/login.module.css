@@ -1,11 +1,11 @@
-.background_container {
+.loginbackground_container {
   display: flex;
   justify-content: center; /* 수평 중앙 정렬 */
   align-items: center; /* 수직 중앙 정렬 */
-  height: 700px; /* 화면 전체 높이를 차지하게 설정 */
+  height: 1280px; /* 화면 전체 높이를 차지하게 설정 */
   text-align: center;
 }
-.all_container {
+.loginall_container {
   padding: 50px 20px;
   width: 1280px;
 }
