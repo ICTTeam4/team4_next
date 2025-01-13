@@ -137,7 +137,7 @@ const Page = ({ room_id, host_id, messages: initialMessages, closeChat, closeDet
           <div className="chat-detail-user">{hostName}</div>
         </div>
         <div className="chat-detail-actions">
-          <Button
+          {/* <Button
             className="profile-button"
             sx={{ color: 'gray', ":hover": { background: '#f5f5f5' } }}
             onClick={() => setIsProfilePopupOpen(!isProfilePopupOpen)}
@@ -154,7 +154,7 @@ const Page = ({ room_id, host_id, messages: initialMessages, closeChat, closeDet
               <circle cx="12" cy="12" r="2" />
               <circle cx="12" cy="21" r="2" />
             </svg>
-          </Button>
+          </Button> */}
 
           {isDropdownOpen && (
             <div ref={dropdownRef} className="dropdown-menu" style={{ marginBottom: '20px' }}>

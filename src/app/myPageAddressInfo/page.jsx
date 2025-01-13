@@ -192,7 +192,7 @@ function Page(props) {
                                     <div className="btn btn_add">
                                         <span
                                             className="btn_txt"
-                                            onClick={handleModalOpen}
+                                            onClick={() =>handleModalOpen()}
                                         >
                                             + 새 배송지 추가
                                         </span>

@@ -20,7 +20,7 @@ const OrderDetail = () => {
 
   const searchParams = useSearchParams();
 
-  const title = searchParams.get('productName');
+  const title = sessionStorage.getItem("productName"); // 저장된 이름 복원
   const sell_price = searchParams.get('productPrice');
   const pwr_id = searchParams.get('productId');
   const img = searchParams.get('productImg');

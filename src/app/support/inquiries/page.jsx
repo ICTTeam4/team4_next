@@ -5,10 +5,10 @@ import {  Typography, Button, List, ListItem, } from '@mui/material';
 
 const ContactPage = () => {
 
-  const handleContactClick = () => {
-    // open-chat 이벤트 발생 시킴 -> room_id: 999 . 임시번호이고, 실제 roomid 나 관리자 id가 파라미터로 가야함.
-    window.dispatchEvent(new CustomEvent('open-chat', { detail: { room_id: 999, host_id: 998 } }));
-  };
+  // const handleContactClick = () => {
+  //   // open-chat 이벤트 발생 시킴 -> room_id: 999 . 임시번호이고, 실제 roomid 나 관리자 id가 파라미터로 가야함.
+  //   window.dispatchEvent(new CustomEvent('open-chat', { detail: { room_id: 999, host_id: 998 } }));
+  // };
 
   return (
     <div style={{ margin: '20px' }}>
@@ -21,14 +21,18 @@ const ContactPage = () => {
               SAINT KREAM을 사용하시면서, 궁금한 점을 문의하세요.
             </Typography>
             <Typography sx={{ mb: 2 }}>
-              1:1 문의 채팅 운영시간: 평일 9:00-18:00
+              1:1 문의  운영시간: 평일 9:00-18:00   
+              <Typography sx={{textAlign:'center'}}>
+                <br/>
+              02-1234-5678
+              </Typography>
             </Typography>
           </ListItem>
         
           <ListItem sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 2 }}>
-          <Button
+          {/* <Button
   variant="outlined"
-  onClick={handleContactClick}
+ 
   sx={{
     mt: 1,
     mb: 2,
@@ -47,7 +51,7 @@ const ContactPage = () => {
   }}
 >
   1:1 문의하기
-</Button>
+</Button> */}
 
           </ListItem>
         </List>

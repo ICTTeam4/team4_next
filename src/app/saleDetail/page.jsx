@@ -1076,7 +1076,6 @@ useEffect(() => {
             <PayDealPanel nextButton={payButtonLevel} setNextButton={setPayButtonLevel} data={detail} />
           ) : null
           }
-          현재상태 :  {payButtonLevel}
         </div>
       </div>
     </>

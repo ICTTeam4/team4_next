@@ -10,8 +10,9 @@ function CustomPage({ nextButton, setNextButton, data }) {
   const handlePaymentSelect = (payment) => {
     setSelectedPayment(payment);
   };
+  sessionStorage.setItem("productName", data.title); // 긴 이름 저장
   const queryParams = new URLSearchParams({
-    productName: data.title,
+    // productName: data.title,
     productPrice: data.sell_price,
     productId: data.pwr_id, // 추가로 전달하고 싶은 데이터
     productImg: data.fileList[0]?.fileName, // 추가로 전달하고 싶은 데이터

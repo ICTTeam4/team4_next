@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useCallback  } from 'react';
 import './itemList.css';
 import ItemCard from '../itemCard/page';
 import FilterButtonsSection from '../filterButtonsSection/page';
@@ -7,7 +7,7 @@ import FilterSidebar from '../filterSidebar/page';
 import VideoBanner from "../videoBanner/page";
 import axios from 'axios';
 import useAuthStore from "../../../store/authStore";
-
+import { motion } from 'framer-motion'; // framer-motion 추가
 function Page(props) {
   const { user } = useAuthStore();
   const [loading, setLoading] = useState(true);
@@ -19,28 +19,59 @@ function Page(props) {
   const [selectedSmallCategories, setSelectedSmallCategories] = useState(null); // 선택된 카테고리
   const API_URL = `http://localhost:8080/api/salespost/itemlist`;
   const [isSidebarActive, setIsSidebarActive] = useState(false);
-
+  const [displayedList, setDisplayedList] = useState([]); // 화면에 보여줄 데이터
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
+  const [isFetching, setIsFetching] = useState(false); // 추가 데이터 로딩 중 여부
+  const ITEMS_PER_PAGE = 20; // 한 번에 불러올 데이터 개수
+  
   const toggleSidebar = () => {
     setIsSidebarActive(!isSidebarActive);
   };
 
-  
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+  };
 
-  const getData = async () => {
+  const getData = useCallback(async () => {
     try {
-      setLoading(true); // 로딩 상태 시작
-      const response = await axios.get(API_URL); // axios를 활용한 API 호출
-      console.log("최근 본 !!!!API 응답 데이터:", response.data); // API 응답 전체 확인
-      console.log("최근 본 !!!! API 응답 리스트 데이터:", response.data.data); // list 데이터 확인
-  
-      console.log(response);
+      setLoading(true);
+      const response = await axios.get(API_URL);
       const data = response.data.data;
-      setList(data); // 원본 데이터 저장
-      setFilteredList(data); // 초기 필터링 데이터 설정
+      setList(data); // 전체 데이터 저장
+      setFilteredList(data); // 초기에는 전체 데이터를 필터링된 리스트로 설정
+      setDisplayedList(data.slice(0, ITEMS_PER_PAGE)); // 처음에는 일부 데이터만 렌더링
     } catch (err) {
       console.error("Error fetching data:", err);
     } finally {
-      setLoading(false); // 로딩 상태 종료
+      setLoading(false);
+    }
+  }, [API_URL, ITEMS_PER_PAGE]);
+  
+  // 데이터 로드 (최초 실행)
+  useEffect(() => {
+    getData();
+  }, [getData]);
+   // 스크롤 로직
+   const loadMoreItems = useCallback(() => {
+    if (isFetching || displayedList.length >= sortedList.length) return;
+
+    setIsFetching(true);
+    setTimeout(() => {
+      const nextPage = currentPage + 1;
+      const newItems = sortedList.slice(0, ITEMS_PER_PAGE * nextPage);
+      setDisplayedList(newItems);
+      setCurrentPage(nextPage);
+      setIsFetching(false);
+    }, 500); // 데이터 로드 지연 시간
+  }, [isFetching, displayedList, filteredList, currentPage]);
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop >=
+      document.documentElement.offsetHeight - 500
+    ) {
+      loadMoreItems();
     }
   };
 
@@ -58,7 +89,7 @@ function Page(props) {
       console.log("로그인 정보가 로드되지 않았습니다. 기다리는 중...");
       return;
     }
-  
+
     console.log("로그인된 사용자:", user); // user가 올바르게 설정되었는지 확인
   }, [user]);
 
@@ -77,7 +108,7 @@ function Page(props) {
         }
       }
     };
-  
+
     fetchUserData();
   }, []);
 
@@ -96,16 +127,16 @@ function Page(props) {
 
       // 로컬스토리지에서 기존 최근 본 상품 가져오기
       const existingRecentViews = JSON.parse(localStorage.getItem("recentViews")) || [];
-  
+
       // 중복 제거 후 새로운 상품 추가
       const updatedRecentViews = [
         item,
         ...existingRecentViews.filter((v) => v.pwr_id !== item.pwr_id),
       ].slice(0, 10);
-  
+
       // 로컬스토리지 업데이트
       localStorage.setItem("recentViews", JSON.stringify(updatedRecentViews));
-  
+
       // 백엔드에 API 호출
       // if (user?.member_id) {
       //   const response = await axios.post("http://localhost:8080/api/recent-view", {
@@ -115,7 +146,7 @@ function Page(props) {
       const response = await axios.post("http://localhost:8080/api/recent-view", {
         member_id: user.member_id,
         pwr_id: item.pwr_id,
-  
+
       });
       console.log("최근 본 상품 저장 성공:", response.data);
     } catch (error) {
@@ -128,7 +159,12 @@ function Page(props) {
   // 데이터 로드 (최초 실행)
   useEffect(() => {
     getData();
-  }, []);
+  }, [getData]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
 
   useEffect(() => {
     // 초기 값은 원본 데이터
@@ -157,12 +193,11 @@ function Page(props) {
       );
     }
 
-    // 필터링된 결과를 상태로 설정
-    setFilteredList(filteredVOs);
-
-    // 디버깅 로그
-    console.log("Filtered List:", filteredVOs);
-  }, [selectedCategories, selectedSmallCategories, list, priceRange]);
+   // 필터링된 결과 업데이트
+   setFilteredList(filteredVOs);
+   setDisplayedList(filteredVOs.slice(0, ITEMS_PER_PAGE)); // 필터링 결과로 첫 페이지 업데이트
+   setCurrentPage(1); // 페이지 초기화
+ }, [list, selectedCategories, selectedSmallCategories, priceRange]);
 
   const [sortedList, setSortedList] = useState([]);
 
@@ -182,6 +217,8 @@ function Page(props) {
       }
     });
     setSortedList(sorted);
+    setDisplayedList(sorted.slice(0, ITEMS_PER_PAGE)); // 첫 페이지 데이터만 렌더링
+    setCurrentPage(1); // 페이지 초기화
     console.log("SortedList", sortedList);
   }, [filteredList, sortOption]);
 
@@ -189,6 +226,8 @@ function Page(props) {
   if (loading) {
     return <div style={{ textAlign: "center", padding: "20px" }}>Loading...</div>;
   }
+
+
   return (
     <>
       <VideoBanner />
@@ -199,21 +238,21 @@ function Page(props) {
         getSelectedSmallCategories={getSmallCategoriesFromFilter}
         getPriceRange={setPriceRange}
       />
-      <FilterButtonsSection toggleSidebar={toggleSidebar} setSortOption={setSortOption} />
+     <FilterButtonsSection toggleSidebar={toggleSidebar} setSortOption={setSortOption} />
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '-10px' }}>
-        <div className='main_list_container'>
-          {sortedList.length === 0 ? (
-            <div style={{ textAlign: "center" }}>등록된 게시물이 없습니다.</div>
-          ) : (
-          //   sortedList.map((item) => <ItemCard key={item.pwr_id} data={item} />)
-          // )}
-          sortedList.map((item) => (
-            
-            <div key={item.pwr_id} onClick={() => handleProductClick(item)}>
+        <div className="main_list_container">
+          {displayedList.map((item) => (
+            <motion.div
+              key={item.pwr_id}
+              variants={itemVariants}
+              initial="hidden"
+              animate="visible"
+              onClick={handleProductClick}
+            >
               <ItemCard data={item} />
-            </div>
-          ))
-        )}
+            </motion.div>
+          ))}
+          {isFetching && <div style={{ textAlign: "center" }}></div>}
         </div>
       </div>
     </>
