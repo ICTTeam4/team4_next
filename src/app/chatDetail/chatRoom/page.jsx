@@ -442,8 +442,8 @@ const Page = ({ room_id, host_id, messages: initialMessages, title, directtitle,
                     marginTop: '8px',
                   }}
                 >
-                  {msg.timestamp || ''}
-                  {msg.read && msg.member_id === user.member_id ? (
+                  {msg.created_at || ''}
+                  {msg.is_read==="1" && msg.member_id === user.member_id ? (
                     <Check style={{ fontSize: 'small' }} />
                   ) : (
                     ''

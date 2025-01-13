@@ -10,7 +10,7 @@ const KakaoPay = () => {
   //카카오 결제 요청 함수(임시)
   const handlePayment = async () => {
     try {
-      const quantity = 2; // 수량
+      const quantity = 1; // 수량
     const pricePerItem = 2200; // 상품 단가
     const totalAmount = quantity * pricePerItem; // 총 금액
 
