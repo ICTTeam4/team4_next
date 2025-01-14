@@ -52,7 +52,7 @@ const SupportLayout = ({ children }) => {
             color: '#000',
             textAlign: 'left',
             alignItems: 'flex-start',
-            fontSize: '16px',
+            fontSize: '15px',
           },
           '.Mui-selected': {
             color: 'black !important', // !important로 스타일 우선순위 높이기
@@ -65,14 +65,14 @@ const SupportLayout = ({ children }) => {
           },
         }}
       >
-       <Typography variant="h4" style={{marginBottom:"10px"}}>고객센터</Typography>
+       <Typography variant="h6" style={{marginBottom:"25px", marginTop:"20px", fontWeight:'bold'}}>고객센터</Typography>
         <Tab label="공지사항" />
         <Tab label="자주 묻는 질문" />
         <Tab label="1:1 문의하기" />
       </Tabs>
 
       {/* 콘텐츠 영역 */}
-      <Box sx={{ padding: '20px', flexGrow: 1 }}>
+      <Box sx={{ padding: '20px', flexGrow: 1 , height:'700px'}}>
         {children}
       </Box>
     </Box>

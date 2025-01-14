@@ -45,9 +45,9 @@ const Page = ({ resetFilter, isActive, toggleSidebar }) => {
             <p style={{marginLeft:'10px'}}>의류</p>
             <a onClick={toggleCollapse}>
               <img
-                src={isCollapsed ? '/images/HJ_minus.png' : '/images/HJ_plus.png'}
-                className={isCollapsed ? 'minus_button' : 'plus_button'}
-                alt={isCollapsed ? '접기' : '펼치기'}
+                src={isCollapsed ? '/images/HJ_plus.png' : '/images/HJ_minus.png'}
+                className={isCollapsed ? 'plus_button' : 'minus_button'}
+                alt={isCollapsed ?  '펼치기' : '접기'}
               />
             </a>
           </div>

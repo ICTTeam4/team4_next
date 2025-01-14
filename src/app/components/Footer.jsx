@@ -17,16 +17,16 @@ const Footer = () => {
               <ul className="menu_list">
                 <li className="menu_item" style={{ padding: '10px' }}></li>
                 <li className="menu_item">
-                  <a href="#" className="menu_link">검수기준</a>
+                  <a href="/support" className="menu_link">Kream 가이드라인</a>
                 </li>
                 <li className="menu_item">
-                  <a href="#" className="menu_link">이용정책</a>
+                  <a href="/support" className="menu_link">고객센터 이용안내</a>
                 </li>
                 <li className="menu_item">
-                  <a href="#" className="menu_link">페널티 정책</a>
+                  <a href="/support" className="menu_link">이벤트 참여 안내</a>
                 </li>
                 <li className="menu_item">
-                  <a href="#" className="menu_link">커뮤니티 가이드라인</a>
+                  <a href="/support" className="menu_link">서비스 운영 정책 안내</a>
                 </li>
               </ul>
             </div>
@@ -36,16 +36,16 @@ const Footer = () => {
               <ul className="menu_list">
                 <li className="menu_item" style={{ padding: '10px' }}></li>
                 <li className="menu_item">
-                  <a href="/notice" className="menu_link">공지사항</a>
+                  <a href="/support/faqs" className="menu_link">안전결제 안내</a>
                 </li>
                 <li className="menu_item">
-                  <a href="/about" target="_blank" className="menu_link">서비스 소개</a>
+                  <a href="/support/faqs" target="_blank" className="menu_link">반품/교환 정책 안내</a>
                 </li>
                 <li className="menu_item">
-                  <a href="/showroom" target="_blank" className="menu_link">스토어 안내</a>
+                  <a href="/support/faqs" target="_blank" className="menu_link">구매자 보호 안내</a>
                 </li>
                 <li className="menu_item">
-                  <a href="/about/seller_reception" target="_blank" className="menu_link">판매자 방문접수</a>
+                  <a href="/support/faqs" target="_blank" className="menu_link">개인정보 보호 안내</a>
                 </li>
               </ul>
             </div>
@@ -72,12 +72,12 @@ const Footer = () => {
               </div>
               
               <div className="service_btn_box">
-              <a href="#"className="btn_solid_small">
+              <a href="/support/inquiries"className="btn_solid_small">
                 1:1 문의하기
               </a>
               </div>
               <div className="service_btn_box">
-                <a href="#" className="btn_solid_small">
+                <a href="/support/faqs" className="btn_solid_small">
                   자주 묻는 질문
                 </a>
               </div>
